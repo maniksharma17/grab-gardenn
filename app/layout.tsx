@@ -11,8 +11,8 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: 'Organic Haven - Natural & Organic Products',
-  description: 'Your one-stop shop for premium organic products',
+  title: 'Grab Gardenn - Natural & Organic Products',
+  description: 'Your one-stop shop for natural organic products',
 };
 
 export default function RootLayout({

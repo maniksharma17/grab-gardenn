@@ -105,7 +105,7 @@ export const products: Product[] = [
     cutoffPrice: [480, 800],
     rating: 4.9,
     category: "Seeds",
-    image: "/product/IMG_6291.JPG",
+    image: "/product/IMG_6291.jpg",
     variants: ["250g", "500g"],
     benefits: [
       "Rich in omega-3 fatty acids",
