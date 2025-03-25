@@ -223,23 +223,8 @@ export default function ProductsPage() {
           })}
         </div>
 
-        {/* Newsletter Section */}
-        <div className="bg-secondary/30 rounded-lg p-8 text-center mt-16">
-          <h3 className="text-2xl font-bold mb-4">Stay Updated</h3>
-          <p className="text-muted-foreground mb-6">
-            Subscribe to our newsletter for the latest organic products and
-            exclusive offers
-          </p>
-          <div className="flex gap-4 max-w-md mx-auto">
-            <input
-              type="email"
-              placeholder="Enter your email"
-              className="flex-1 rounded-md border border-input px-4"
-            />
-            <Button>Subscribe</Button>
-          </div>
+        
         </div>
       </div>
-    </div>
   );
 }

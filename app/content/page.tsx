@@ -25,7 +25,7 @@ export default function NewsAndBlogsPage() {
 
       {/* News Section */}
       <div className="container mx-auto py-12 px-6">
-        <h2 className="text-3xl font-normal text-gray-700 mb-4">Latest News</h2>
+        <h2 className="text-3xl max-md:text-xl font-normal text-gray-700 mb-4">Latest News</h2>
         <div className="overflow-x-auto scrollbar-hide pb-2">
           <div className="flex gap-6">
             {news.map((item) => (
@@ -62,7 +62,7 @@ export default function NewsAndBlogsPage() {
 
       {/* Blog Section (Vertical Layout) */}
       <div className="container mx-auto pt-4 pb-12 px-6">
-        <h2 className="text-3xl font-normal text-gray-700 mb-4">Latest Blogs</h2>
+        <h2 className="text-3xl max-md:text-xl font-normal text-gray-700 mb-4">Latest Blogs</h2>
         <div className="flex flex-col gap-8">
           {blogs.map((blog) => (
             <Link key={blog.id} href={`content/blog/${blog.id}`}>
