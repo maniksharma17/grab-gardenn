@@ -106,7 +106,7 @@ export default function AboutPage() {
         {/* Key Features */}
         
         <div className="max-md:border-t p-4 grid grid-cols-1 md:grid-cols-3 gap-2 md:gap-12 mb-4 md:mb-16">
-          <h3 className="md:text-4xl text-2xl hidden font-medium text-primary mb-4">Our Fundamentals</h3>
+          <h3 className="md:text-4xl text-2xl md:hidden font-medium text-primary mb-4">Our Fundamentals</h3>
           {[
             {
               icon: Leaf,
