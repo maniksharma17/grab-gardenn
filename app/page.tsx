@@ -27,9 +27,9 @@ export default function Home() {
   const features = [
     {
       icon: <Leaf className="w-12 h-12 text-green-800" strokeWidth={1} />,
-      title: "100% Organic",
+      title: "100% Natural",
       description:
-        "All our products are certified organic and naturally grown.",
+        "All our products are certified healthy and naturally grown.",
     },
     {
       icon: <Truck className="w-12 h-12 text-green-800" strokeWidth={1} />,
@@ -94,10 +94,10 @@ export default function Home() {
         {/* Hero Content */}
         <div className="relative z-10 text-white max-w-3xl px-6">
           <h1 className="text-3xl md:text-5xl text-white font-bold mb-6 leading-tight">
-            Elevate Your Lifestyle with Pure Organic Goodness
+            Elevate Your Lifestyle with Pure Natural Goodness
           </h1>
           <p className="text-lg md:text-xl text-secondary mb-8 leading-relaxed">
-            Experience the richness of nature with our carefully sourced organic
+            Experience the richness of nature with our carefully sourced natural and fresh
             products. Sustainably grown, ethically produced, and delivered fresh
             to your doorstep.
           </p>
@@ -121,7 +121,7 @@ export default function Home() {
               What makes us different?
             </h2>
             <p className="text-gray-700 text-lg">
-              At Grab Gardenn, we are committed to delivering pure, organic, and
+              At Grab Gardenn, we are committed to delivering pure, healthy, and
               ethically sourced products straight from nature.
             </p>
           </div>
@@ -156,7 +156,7 @@ export default function Home() {
               Diverse Collection
             </h2>
             <p className="text-light text-left text-gray-700">
-              Discover our diverse range of organic products, carefully
+              Discover our diverse range of natural products, carefully
               categorized for your convenience.
             </p>
           </div>
@@ -522,7 +522,7 @@ const customerReviews = [
   {
     name: "Amit Kumar",
     review:
-      "Exceptional quality! The freshness of these organic products is unmatched. You can truly taste the difference compared to store-bought options.",
+      "Exceptional quality! The freshness of these natural products is unmatched. You can truly taste the difference compared to store-bought options.",
     rating: 5,
   },
   {
@@ -546,7 +546,7 @@ const customerReviews = [
   {
     name: "Vikram Joshi",
     review:
-      "Finally found truly organic products that are both healthy and delicious! The flavors are rich, and I feel great knowing I’m eating clean ingredients.",
+      "Finally found truly natural and fresh products that are both healthy and delicious! The flavors are rich, and I feel great knowing I’m eating clean ingredients.",
     rating: 4.7,
   },
   {
@@ -570,7 +570,7 @@ const customerReviews = [
   {
     name: "Kunal Singh",
     review:
-      "Hands down the best organic store online! The quality, taste, and freshness exceeded my expectations, and the variety of products is fantastic.",
+      "Hands down the best natural food products store online! The quality, taste, and freshness exceeded my expectations, and the variety of products is fantastic.",
     rating: 4.9,
   },
   {
