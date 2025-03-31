@@ -130,6 +130,7 @@ export default function ProductsPage() {
         </div>
 
         {/* Products Grid */}
+        <h3 className="px-4 text-xl md:text-2xl font-medium mb-4">{selectedCategory}</h3>
         <div className="grid grid-cols-1 max-md:px-6 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {filteredProducts.map((product) => {
             const variantIndex = selectedVariants[product.id] ?? 0;
@@ -137,7 +138,7 @@ export default function ProductsPage() {
             return (
               <div
                 key={product.id}
-                className="bg-card rounded-lg overflow-hidden shadow-sm hover:shadow-md border transition-shadow flex flex-col h-full"
+                className="bg-card rounded-lg overflow-hidden shadow-sm hover:shadow-md border transition-shadow flex md:flex-col flex-row h-full"
               >
                 {/* Product Image */}
                 <Link href={`/products/${product.id}`}>
@@ -164,10 +165,10 @@ export default function ProductsPage() {
                 </Link>
 
                 {/* Product Details */}
-                <div className="p-4 flex flex-col flex-grow">
+                <div className="p-4 flex flex-col max-md:justify-between flex-grow">
                   {/* Title */}
-                  <div className="flex flex-col justify-center min-h-[24px] text-center">
-                    <h3 className="font-semibold text-lg">{product.name}</h3>
+                  <div className="flex flex-col justify-center md:min-h-[24px] text-center">
+                    <h3 className="font-medium max-md:text-md max-md:text-left text-lg">{product.name}</h3>
                   </div>
 
                   {/* Price & Variants */}
