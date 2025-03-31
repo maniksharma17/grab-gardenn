@@ -3,9 +3,9 @@
 import { useEffect, useState } from "react";
 
 const messages = [
-  "🔥 Limited-time organic discounts – Shop Now! 🔥",
-  "🚛 Free Shipping on Orders Above $50 🚛",
-  "🌿 100% Fresh & Organic – Quality Guaranteed 🌿",
+  "🔥 Limited-time Fresh discounts – Shop Now! 🔥",
+  "🚛 Free Shipping on Orders Above ₹1000 🚛",
+  "🌿 100% Fresh & Natural – Quality Guaranteed 🌿",
 ];
 
 export function ScrollingBanner() {

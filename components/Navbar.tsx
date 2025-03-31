@@ -17,7 +17,6 @@ import {
 const items = [
   { name: "Home", href: "/" },
   { name: "Products", href: "products" },
-  { name: "Gifting", href: "gifting" },
   { name: "About", href: "about" },
   { name: "News & Blog", href: "content" },
   { name: "Your Choice", href: "choice" },
