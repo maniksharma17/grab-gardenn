@@ -52,8 +52,8 @@ export function Navbar() {
       <div className="z-50 container max-w-full flex h-20 items-center justify-between px-6 md:px-12">
         {/* Logo */}
         <div className="flex items-center">
-          <Link href="/" className="flex items-center space-x-2 text-base font-semibold">
-            <Image src="/grab-gardenn-logo.png" alt="Grab Gardenn" width={30} height={30} className="h-10 w-10" />
+          <Link href="/">
+            <Image src="/grab-gardenn-logo.png" alt="Grab Gardenn" width={80} height={80} />
           </Link>
         </div>
 

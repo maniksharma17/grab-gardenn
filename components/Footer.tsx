@@ -17,8 +17,8 @@ export function Footer() {
             <Image
               src="/grab-gardenn-logo.png"
               alt="Organic Haven Logo"
-              width={50}
-              height={50}
+              width={100}
+              height={100}
               className="mb-4"
             />
             <p className="mt-2 text-sm">
