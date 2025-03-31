@@ -15,13 +15,12 @@ export function Footer() {
           {/* Brand Info */}
           <div>
             <Image
-              src="/logo.jpeg"
+              src="/grab-gardenn-logo.png"
               alt="Organic Haven Logo"
               width={50}
               height={50}
               className="mb-4"
             />
-            <h3 className="text-xl font-bold text-green-700">Grab Gardenn</h3>
             <p className="mt-2 text-sm">
               Fresh, organic, and eco-friendly products delivered with love.  
             </p>

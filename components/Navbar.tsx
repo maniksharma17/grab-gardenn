@@ -53,8 +53,7 @@ export function Navbar() {
         {/* Logo */}
         <div className="flex items-center">
           <Link href="/" className="flex items-center space-x-2 text-base font-semibold">
-            <Image src="/logo.jpeg" alt="Grab Gardenn" width={30} height={30} className="h-10 w-10" />
-            <span className="hidden md:inline-block text-lg text-primary">Grab Gardenn</span>
+            <Image src="/grab-gardenn-logo.png" alt="Grab Gardenn" width={30} height={30} className="h-10 w-10" />
           </Link>
         </div>
 
