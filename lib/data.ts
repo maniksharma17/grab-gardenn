@@ -261,7 +261,7 @@ Red rice is considered a healthy choice due to its high fiber content and richne
     cutoffPrice: [380, 700],
     rating: 4.8,
     category: "Sweeteners",
-    image: "/product/IMG_6291.jpg",
+    image: "/product/sweeteners/jaggery-powder.jpeg",
     variants: ["500g", "1kg"],
     benefits: [
       "Aids digestion",
