@@ -9,12 +9,12 @@ export const products: Product[] = [
 
       Carefully milled to retain its natural goodness, finger millet atta offers the perfect blend of nutrition and convenience. It serves as a nutrient-dense alternative to regular flours, supporting overall well-being and an active lifestyle. Ideal for various culinary creations, it enhances both taste and health in every meal. Plus, it seamlessly fits into vegetarian and vegan diets, making it a versatile staple for health-conscious individuals.
       `,
-    cutoffPrice: [300, 600, 1000],
+    cutoffPrice: [300, 200],
     rating: 4.8,
-    category: "Flour",
-    image: "/product/IMG_6281.jpg",
-    variants: ["500g", "1kg", "2kg"],
-    price: [250, 500, 900],
+    category: "Millets",
+    image: "/product/millets/finger-millet-1.jpeg",
+    variants: ["900g", "450g"],
+    price: [220, 144],
     benefits: [
       "Improves digestion",
       "Prevents heart disease",
@@ -33,12 +33,12 @@ export const products: Product[] = [
     description: `
     Our Jhangora (Barnyard Millet) is a nutritional powerhouse that brings wholesome goodness to your table. This ancient grain is gluten-free, rich in fiber, and packed with essential nutrients. Whether you're looking to diversify your diet or cater to specific health needs, our Jhangora stands as a versatile and nutritious choice. Elevate your culinary experience with this ancient grain, promoting both taste and well-being in every bite. It complements to both vegetarian and vegan diets. It is also known ‘Vrat Ke Chawal’ (shymaka).
     `,
-    price: [190, 270],
-    cutoffPrice: [230, 340],
+    price: [306, 181],
+    cutoffPrice: [350, 210],
     rating: 4.6,
-    category: "Grains",
-    image: "/product/IMG_6286.jpg",
-    variants: ["500g", "1kg"],
+    category: "Millets",
+    image: "/product/millets/barnyard-millet-1.jpeg",
+    variants: ["900", "450g"],
     benefits: [
       "Rich in fiber",
       "Great rice alternative for diabetics",
@@ -79,12 +79,12 @@ export const products: Product[] = [
     Pahadi white Soybean also known as Bhatmaas cultivated in the mountainous regions of India, this is a nutritional powerhouse revered for its unique taste and health benefits. Their nutty flavor and versatile nature make them ideal for various culinary creations, from soups and stews to salads and spreads. Soybeans, with their robust nutritional profile and distinct taste, offer a wholesome addition to meals, embodying the essence of mountain-grown goodness in every bite, while contributing to a well-rounded and flavorful diet.
     A very popular preparation made from it is a soup which is prepared by boiling it with other pulses like Gahat and Chickpeas and the soup is cooked with rice flour in an iron ‘kadai’ to make an almost oil less iron rich soup.
     `,
-    price: [250, 500, 900],
-    cutoffPrice: [300, 600, 1000],
+    price: [259, 160],
+    cutoffPrice: [300, 210],
     rating: 4.7,
     category: "Pulses",
-    image: "/product/IMG_6278.jpg",
-    variants: ["500g", "1kg", "2kg"],
+    image: "/product/pulses/pahadi-white-soyabean.jpeg",
+    variants: ["900g", "450g"],
     benefits: [
       "Rich in Vitamin A & B",
       "Supports heart health",
@@ -121,12 +121,12 @@ export const products: Product[] = [
     name: "Naurangi Dal",
     description: `Naurangi Dal, originating from the mountainous terrains of India, is a vibrant blend of nine assorted lentils, each contributing a unique flavour and nutritional profile. This colourful medley includes lentils like red and green gram, chickpeas, and more, offering a diverse range of textures and tastes. Brimming with protein, fibre, and essential minerals, this dal the goodness of multiple legumes in one hearty dish. Its versatility shines in various regional cuisines, from soups to Savory stews. Pahadi Naurangi Dal not only tantalizes taste buds but also delivers a wholesome and nourishing dining experience, reflecting the rich tapestry of flavours from the mountains in every delighted spoonful.
 `,
-    price: [320, 510],
-    cutoffPrice: [390, 600],
+    price: [306, 178],
+    cutoffPrice: [350, 230],
     rating: 4.6,
     category: "Pulses",
-    image: "/product/IMG_6273.jpg",
-    variants: ["500g", "1kg"],
+    image: "/product/pulses/naurangi-dal.jpeg",
+    variants: ["900g", "450g"],
     benefits: [
       "Supports muscle repair and growth",
       "Aids digestion",
@@ -141,12 +141,12 @@ export const products: Product[] = [
     description: `
     Pahadi Toor Dal, derived from mountainous Indian regions, embodies robust flavor and rich nutrition. A cherished legume, it's a protein powerhouse ideal for vegetarian diets. Its earthy profile and adeptness in absorbing flavors make it a versatile culinary staple. From traditional stews to inventive salads, this dal's versatility shines. Cultivated in pristine mountain terrains, it not only delights taste buds but also offers essential nutrients, embodying the essence of hearty, wholesome meals. Embrace Pahadi Toor Dal in your cooking for a taste of the mountains' authenticity, encapsulating a world of flavor and nutrition in every spoonful.
 `,
-    price: [300, 500],
-    cutoffPrice: [360, 600],
+    price: [493, 265],
+    cutoffPrice: [560, 300],
     rating: 4.7,
     category: "Pulses",
-    image: "/product/IMG_6273.jpg",
-    variants: ["500g", "1kg"],
+    image: "/product/pulses/naurangi-dal.jpeg",
+    variants: ["900g", "450g"],
     benefits: ["Antioxidant properties", "Low Glycemic Index"],
     ingredients: ["Pigeon Pea"],
     storage: "Store in an airtight container in a cool and dry place.",
@@ -172,16 +172,16 @@ export const products: Product[] = [
   },
   {
     id: 9,
-    name: "Rlli Milli Dal (Mix Dal)",
+    name: "Rali Milli Dal (Mix Dal)",
     description: `Our Rlli Milli dal is a combination of three pulses (Dhuli Urad Dal + Chana Dal+ Dhuli Masoor Dal). This combination of dal was cooked by our Great Grandmothers and now we are packing the same ratio and delivering it to you. 
 Traditionally, this dal was cooked in villages on clay stove (Chulla) in earthen pot (Handi) which enhances its taste as well as its nutritional values.
 `,
-    price: [350, 650],
-    cutoffPrice: [420, 750],
+    price: [293, 181],
+    cutoffPrice: [340, 210],
     rating: 4.7,
     category: "Pulses",
-    image: "/product/IMG_6291.jpg",
-    variants: ["500g", "1kg"],
+    image: "/product/pulses/rali-mili-dal.jpeg",
+    variants: ["900g", "450g"],
     benefits: ["Rich in protein and fiber", "Boosts immunity"],
     ingredients: [
       "Split and Dehusked Black Gram Lentils (Dhuli Urad Dal)",
@@ -197,12 +197,12 @@ Traditionally, this dal was cooked in villages on clay stove (Chulla) in earthen
     description: `Red rice is a type of rice that's red in color due to its anthocyanin content. It's a whole grain rice that's high in fiber, vitamins, and minerals. It helps with digestion, energy levels, and overall well-being. Traditionally, the starch extracted from the boiled rice was given to pregnant ladies and lactating mothers due to its caloric value.
 Red rice is considered a healthy choice due to its high fiber content and richness in antioxidants.
 `,
-    price: [250, 450],
-    cutoffPrice: [320, 550],
+    price: [324, 182],
+    cutoffPrice: [380, 210],
     rating: 4.7,
-    category: "Grains",
-    image: "/product/IMG_6294.jpg",
-    variants: ["500g", "1kg"],
+    category: "Rice",
+    image: "/product/rice/red-rice.png",
+    variants: ["900g", "450g"],
     benefits: [
       "Supports heart health",
       "Helps in weight management",
@@ -216,12 +216,12 @@ Red rice is considered a healthy choice due to its high fiber content and richne
     name: "Black Rice",
     description: `Black rice also known as forbidden rice. It has a dark purple-black color and a chewy texture. It gets this black-purple color from a pigment called anthocyanin, which has potent antioxidant properties. Having the highest antioxidant content amongst all rice varieties, it is a powerhouse of antioxidants, protein, carbohydrates, vitamins, and minerals. 
 `,
-    price: [350, 650],
-    cutoffPrice: [420, 750],
+    price: [441, 259],
+    cutoffPrice: [510, 340],
     rating: 4.8,
-    category: "Grains",
-    image: "/product/IMG_6291.jpg",
-    variants: ["500g", "1kg"],
+    category: "Rice",
+    image: "/product/rice/black-rice.png",
+    variants: ["900g", "450g"],
     benefits: [
       "Aids digestion",
       "Rich in dietary fiber",
@@ -240,7 +240,7 @@ Red rice is considered a healthy choice due to its high fiber content and richne
     price: [140, 270],
     cutoffPrice: [200, 350],
     rating: 4.5,
-    category: "Spices",
+    category: "Seeds",
     image: "/product/IMG_6264.jpg",
     variants: ["100g", "200g"],
     benefits: [
@@ -279,12 +279,12 @@ Red rice is considered a healthy choice due to its high fiber content and richne
     description: `
     Desi Khand, also known as unrefined sugar or raw sugar, is derived from sugarcane juice. Unlike refined white sugar, khand retains its natural molasses content, giving it a distinct brown color and a rich, caramel-like flavor. Khand retains more minerals than refined white sugar.
 `,
-    price: [280, 550],
-    cutoffPrice: [350, 700],
+    price: [256],
+    cutoffPrice: [320],
     rating: 4.7,
     category: "Sweeteners",
-    image: "/product/IMG_6273.jpg",
-    variants: ["500g", "1kg"],
+    image: "/product/sweeteners/raw-sugar.jpeg",
+    variants: ["900g"],
     benefits: [
       "Aids digestion",
       "Powerhouse of minerals and antioxidants",
@@ -327,17 +327,17 @@ Ideal for enhancing various dishes, from grilled meats to soups or vegetables, t
   },
   {
     id: 16,
-    name: "Rhododendron Tea",
+    name: "Bauransh Tea",
     hindiName: "Buransh Chai",
     description: `
     Rhododendron is derived from Greek word ‘rhodo’ means rose and dendron means ‘tree’ in combination of rose-tree, locally known as Buransh in Uttarakhand. It  is renowned for its flowers, these brightly colored flowers from deep red to pink, bloom from late winter till early summer. Buransh Tea is a light herbal drink made from buransh flower petals.
 `,
-    price: [300, 450],
-    cutoffPrice: [360, 500],
+    price: [449],
+    cutoffPrice: [540],
     rating: 4.7,
     category: "Tea",
     image: "/product/IMG_6278.jpg",
-    variants: ["250g", "500g"],
+    variants: ["100g"],
     benefits: [
       "Boosts immune system",
       "Helps in skin nourishment",
@@ -406,7 +406,7 @@ export const cart: CartItem[] = [
       "Finger millet flour is rich in fiber, protein, calcium, and iron. It supports digestion, heart health, and diabetes management.",
     cutoffPrice: 620,
     rating: 4.8,
-    category: "Flour",
+    category: "Millets",
     image: "/productImage.JPG",
     variants: "500g",
     price: 650,
@@ -421,7 +421,7 @@ export const cart: CartItem[] = [
     price: 270,
     cutoffPrice: 350,
     rating: 4.5,
-    category: "Spices",
+    category: "Seeds",
     image: "/productImage.JPG",
     variants: "200g",
     quantity: 1,
@@ -606,40 +606,40 @@ export const blogs = [
 
 export const categories = [
   {
-    name: "Flour",
+    name: "Millets",
     description:
       "Freshly milled, nutrient-rich flours for all your baking needs.",
     image:
       "https://images.unsplash.com/photo-1627735483792-233bf632619b?q=80&w=2970&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   },
   {
-    name: "Grains",
+    name: "Rice",
     description: "Wholesome, unprocessed grains packed with natural goodness.",
     image:
       "https://images.unsplash.com/photo-1705475388190-775066fd69a5?q=80&w=2942&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   },
   {
-    name: "Pulses",
+    name: "Sweeteners",
     description:
       "High-protein, organic pulses for a healthy and balanced diet.",
     image:
       "https://images.unsplash.com/photo-1694679671688-3d9bb5e77f37?q=80&w=3132&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   },
   {
-    name: "Seeds",
+    name: "Pulses",
     description: "Nutrient-dense seeds for snacking, cooking, and wellness.",
     image:
       "https://images.unsplash.com/photo-1633633688057-9bd3ed288d52?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   },
   {
-    name: "Spices",
+    name: "Seeds",
     description:
       "Aromatic, farm-fresh spices to enhance your culinary creations.",
     image:
       "https://images.unsplash.com/photo-1566824099147-bef027d3a333?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   },
   {
-    name: "Sweeteners",
+    name: "Beverages",
     description:
       "Natural sweeteners like jaggery and raw sugar for guilt-free indulgence.",
     image:
@@ -653,7 +653,7 @@ export const categories = [
       "https://images.unsplash.com/photo-1571934811356-5cc061b6821f?q=80&w=2967&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   },
   {
-    name: "Beverages",
+    name: "Salt",
     description: "Healthy, natural drinks to keep you energized and hydrated.",
     image:
       "https://images.unsplash.com/photo-1580775174971-149b403a7e0b?q=80&w=2942&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
