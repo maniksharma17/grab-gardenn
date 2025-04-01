@@ -81,7 +81,7 @@ export default function ProductsPage() {
       <Navbar />
 
       {/* Carousal */}
-      <div className="mt-20 relative md:px-16 hidden">
+      <div className="mt-20 relative md:px-16 max-md:hidden">
       <Carousel
       opts={{
         loop: true,
