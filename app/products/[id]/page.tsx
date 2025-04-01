@@ -41,7 +41,7 @@ export default function ProductPage() {
             <Image
               src={product.image}
               alt={product.name}
-              className="w-full max-h-[450px] object-contain"
+              className="w-full h-full object-cover"
               width={600}
               height={450}
               unoptimized
@@ -52,7 +52,7 @@ export default function ProductPage() {
           <div className="space-y-6">
             <h1 className="text-3xl font-bold">{product.name}</h1>
             {product.hindiName && <p className="text-lg text-gray-600">{product.hindiName}</p>}
-
+            <p>{product.description}</p>
             {/* Price & Variants */}
             <div className="flex flex-col gap-3">
               <div className="flex items-center gap-2 text-xl font-bold text-primary">
