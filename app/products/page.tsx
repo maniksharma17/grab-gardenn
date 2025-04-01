@@ -81,7 +81,7 @@ export default function ProductsPage() {
       <Navbar />
 
       {/* Carousal */}
-      <div className="mt-20 relative px-16">
+      <div className="mt-20 relative md:px-16 hidden">
       <Carousel
       opts={{
         loop: true,
@@ -105,13 +105,13 @@ export default function ProductsPage() {
       </div>
       
 
-      <div className="md:flex md:flex-row md:gap-12 max-md:mt-12 px-16 pt-4 pb-12">
+      <div className="md:flex md:flex-row md:gap-12 max-md:mt-12 md:px-16 pt-4 pb-12">
         
 
         {/* Categories Filter */}
-        <div className="border-r flex md:flex-col justify-center md:justify-start md:items-flex-start overflow-x-auto pl-4 pr-10 py-3 mb-6 md:mb-12">
+        <div className="border-r md:w-[500px] flex md:flex-col justify-center md:justify-start md:items-flex-start overflow-x-auto pl-4 py-3 mb-6 md:mb-12">
           {/* "All" Category */}
-          <div className="cursor-pointer flex flex-col md:flex-row items-center gap-1"
+          <div className="w-full cursor-pointer flex flex-col md:flex-row items-center gap-1"
           onClick={() => setSelectedCategory("All")}>
             <div
               className={`cursor-pointer flex items-center justify-center w-14 h-14 md:w-16 md:h-16 rounded-full shadow-xs transition-all ${
@@ -133,7 +133,7 @@ export default function ProductsPage() {
           {categories.map((category) => (
             <div
               key={category.name}
-              className="cursor-pointer flex flex-col items-center justify-start md:flex-row"
+              className="w-full cursor-pointer flex flex-col items-center justify-start md:flex-row"
               onClick={() => setSelectedCategory(category.name)}
             >
               <div
