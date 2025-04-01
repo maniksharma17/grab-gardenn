@@ -38,7 +38,7 @@ export const products: Product[] = [
     rating: 4.6,
     category: "Millets",
     image: "/product/millets/barnyard-millet-1.jpeg",
-    variants: ["900", "450g"],
+    variants: ["900g", "450g"],
     benefits: [
       "Rich in fiber",
       "Great rice alternative for diabetics",
@@ -359,12 +359,12 @@ Ideal for enhancing various dishes, from grilled meats to soups or vegetables, t
     description: `Our Buransh squash is extracted from the flowers of Buransh tree. Buransh is native to the Himalayas which fills it with many medicinal properties. It is antioxidant, anti-inflammatory, and anti-diabetic in nature. It also aids to healthy heart, liver, and skin.
 Drink juice of Buransh flowers from the foothills of Himalayas as it is enriched with nutrients and good for health in summers.
 `,
-    price: [250, 500],
-    cutoffPrice: [300, 600],
+    price: [293],
+    cutoffPrice: [340],
     rating: 4.8,
     category: "Beverages",
-    image: "/product/IMG_6286.jpg",
-    variants: ["500ml", "1L"],
+    image: "/product/beverages/buransh-squash.jpeg",
+    variants: ["750ml"],
     benefits: [
       "Antioxidant and anti-inflammatory properties",
       "Supports heart, liver, and skin health",
@@ -380,12 +380,12 @@ Drink juice of Buransh flowers from the foothills of Himalayas as it is enriched
     Malta, a citrus fruit cultivated in Uttarakhand, India, is known for its sweet and tangy flavor. Malta juice, made from the locally grown Malta oranges of Uttarakhand, and is packed with essential nutrients and antioxidants, making it a highly beneficial addition to your diet rich source of vitamin C. 
 Drink juice of Malta from the foothills of Himalayas as it is enriched with nutrients and good for health in summers.
 `,
-    price: [250, 500],
-    cutoffPrice: [300, 600],
+    price: [324],
+    cutoffPrice: [410],
     rating: 4.8,
     category: "Beverages",
-    image: "/product/IMG_6260.jpg",
-    variants: ["500ml", "1L"],
+    image: "/product/beverages/malta-squash.jpeg",
+    variants: ["750ml"],
     benefits: [
       "Boosts the immune system and promotes healthy skin",
       "Aids in digestion and prevents constipation",
