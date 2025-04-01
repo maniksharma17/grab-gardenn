@@ -300,12 +300,12 @@ Red rice is considered a healthy choice due to its high fiber content and richne
     description: `This seasoned hand-grounded salt blend combines salt with coriander leaves, garlic, green chili, turmeric, herbs, asafoetida, ajwain (carom seeds), and jeera (cumin). The fusion of these diverse ingredients creates a versatile seasoning mix.
 Ideal for enhancing various dishes, from grilled meats to soups or vegetables, this crafted blend promises a harmonious blend of flavors, elevating culinary creations with its well-balanced taste profile. Furthermore, this salt also pairs perfectly with fruits and salads, adding a delicious twist to these dishes. 
 `,
-    price: [180, 320],
+    price: [194, 207],
     cutoffPrice: [250, 400],
     rating: 4.8,
     category: "Salt",
     image: "/product/IMG_6260.jpg",
-    variants: ["250g", "500g"],
+    variants: ["200g", "250g"],
     benefits: [
       "Perfect fusion of herbs, spices, and flavor",
       "Enhances taste naturally",
