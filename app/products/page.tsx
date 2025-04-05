@@ -1,18 +1,11 @@
 "use client";
+
 import { Navbar } from "@/components/Navbar";
-import { products, categories } from "@/lib/data";
+import { products } from "@/lib/data";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel"
-import {
-  Filter,
-  Leaf,
-  Package,
-  ShoppingBag,
-  Star,
-  Utensils,
-} from "lucide-react";
+
 import {
   Select,
   SelectContent,
@@ -23,46 +16,46 @@ import {
 import Image from "next/image";
 import { useToast } from "@/hooks/use-toast";
 import { Product } from "@/lib/types";
-
-const categoryIcons: Record<string, any> = {
-  Millets: <Leaf className="w-6 h-6 text-black" />,
-  Rice: <Package className="w-6 h-6 text-black" />,
-  Sweetners: <Utensils className="w-6 h-6 text-black" />,
-  Pulses: <ShoppingBag className="w-6 h-6 text-black" />,
-  Seeds: <Leaf className="w-6 h-6 text-black" />,
-  Beverages: <Package className="w-6 h-6 text-black" />,
-  Tea: <Utensils className="w-6 h-6 text-black" />,
-  Salt: <ShoppingBag className="w-6 h-6 text-black" />,
-};
-
-const images = [
-  '/products-banners/products-banner-1.jpeg',
-  '/products-banners/products-banner-2.jpeg',
-  '/products-banners/products-banner-3.jpg',
-  '/products-banners/products-banner-4.jpg',
-];
+import { useRouter } from "next/navigation";
+import { ChevronRight } from "lucide-react";
 
 export default function ProductsPage() {
-  const [selectedCategory, setSelectedCategory] = useState("All");
-  const [filteredProducts, setFilteredProducts] = useState<Product[]>(products);
   const [selectedVariants, setSelectedVariants] = useState<{
-    [key: number]: string;
+    [key: string]: string;
   }>({});
   const { toast } = useToast();
+  const [categories, setCategories] = useState<any[]>([]);
+  const [products, setProducts] = useState<Product[]>([]);
+  const router = useRouter();
 
-  const handleVariantChange = (productId: number, variant: string) => {
+  useEffect(() => {
+    const fetchCategories = async () => {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/categories`
+      );
+      const data = await res.json();
+      setCategories(data);
+    };
+    fetchCategories();
+  }, []);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/products`
+      );
+      const data = await res.json();
+      setProducts(data.products);
+    };
+    fetchProducts();
+  }, []);
+
+  const handleVariantChange = (productId: string, variant: string) => {
     setSelectedVariants((prev) => ({ ...prev, [productId]: variant }));
   };
 
-  useEffect(() => {
-    const productsList = products.filter((product) =>
-      selectedCategory === "All" ? true : product.category === selectedCategory
-    );
-    setFilteredProducts(productsList);
-  }, [selectedCategory]);
-
-  const handleAddToCart = (productId: number) => {
-    const product = products.find((p) => p.id === productId);
+  const handleAddToCart = (productId: string) => {
+    const product = products.find((p) => p._id === productId);
     if (!product) return;
 
     const variantIndex = selectedVariants[productId] ?? 0;
@@ -75,188 +68,117 @@ export default function ProductsPage() {
     });
   };
 
-
   return (
-    <div className="min-h-screen flex flex-col bg-white">
+    <div className="min-h-screen bg-white">
       <Navbar />
 
-      {/* Carousal */}
-      <div className="mt-20 relative md:px-16 max-md:hidden">
-      <Carousel
-      opts={{
-        loop: true,
-      }}>
-        <CarouselContent>
-        {images.map((src, index) => (
-          <CarouselItem key={index}>
-            <Image
-              src={src}
-              alt={`Hero Banner ${index + 1}`}
-              className="w-full h-full object-cover rounded-lg"
-              width={1000}
-              height={200}
-            />
-          </CarouselItem>
-        ))}
-        </CarouselContent>
-        <CarouselPrevious />
-        <CarouselNext />
-      </Carousel>
-      </div>
-      
-
-      <div className="md:flex md:flex-row md:gap-12 max-md:mt-12 md:px-16 pt-4 pb-12">
-        
-
-        {/* Categories Filter */}
-        <div className="border-r md:w-[500px] flex md:flex-col justify-center md:justify-start md:items-flex-start overflow-x-auto pl-4 py-3 mb-6 md:mb-12">
-          {/* "All" Category */}
-          <div className="w-full cursor-pointer flex flex-col md:flex-row items-center gap-1"
-          onClick={() => setSelectedCategory("All")}>
-            <div
-              className={`cursor-pointer flex items-center justify-center w-14 h-14 md:w-16 md:h-16 rounded-full shadow-xs transition-all ${
-                selectedCategory === "All" ? "text-primary" : "text-black"
-              }`}
-            >
-              <Filter className="w-6 h-6" />
-            </div>
-            <span
-              className={`mt-1 text-xs md:text-sm font-medium ${
-                selectedCategory === "All" ? "text-primary" : "text-gray-700"
-              }`}
-            >
-              All
-            </span>
-          </div>
-
-          {/* Other Categories */}
+      {/* Category Bar */}
+      <div className="mt-20 z-10 px-4 max-md:py-2 py-6">
+        <div className="flex md:justify-center py-2 gap-6 max-md:gap-1 overflow-x-scroll relative">
           {categories.map((category) => (
-            <div
+            <Link
+              href={`products/collection/${category.name.toLowerCase()}`}
               key={category.name}
-              className="w-full cursor-pointer flex flex-col items-center justify-start md:flex-row"
-              onClick={() => setSelectedCategory(category.name)}
+              className="flex flex-col items-center group px-2"
             >
-              <div
-                className={`flex items-center justify-center w-14 h-14 md:w-16 md:h-16 rounded-full shadow-xs transition-all ${
-                  selectedCategory === category.name
-                    ? "text-primary"
-                    : "text-black"
-                }`}
-              >
-                {categoryIcons[category.name] || <Leaf className="w-6 h-6" />}
+              <div className="w-20 h-20 flex items-center justify-center rounded-full bg-muted hover:bg-gray-100 transition-all duration-200 overflow-hidden">
+                <Image
+                  src={category.image}
+                  alt={category.name}
+                  className="w-full h-full rounded-full object-cover"
+                  width={80}
+                  height={80}
+                />
               </div>
-              <span
-                className={`cursor-pointer text-xs md:text-sm font-medium ${
-                  selectedCategory === category.name
-                    ? "text-primary"
-                    : "text-gray-700"
-                }`}
-              >
+              <span className="text-xs mt-2 font-medium text-center text-muted-foreground group-hover:text-primary transition-colors">
                 {category.name}
               </span>
-            </div>
+            </Link>
           ))}
+          
         </div>
+      </div>
 
-        {/* Products Grid */}
-        <div className="flex flex-col overflow-scroll max-h-screen gap-4">
-          <h3 className="px-4 text-xl md:text-2xl font-medium mb-4">
-            {selectedCategory}
-          </h3>
-          <div className="grid grid-cols-1 max-md:px-6 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {filteredProducts.map((product) => {
-              const variantIndex = selectedVariants[product.id] ?? 0;
+      {/* Products Grid */}
+      <div className="px-4 md:px-8 py-8 max-md:py-2">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2">
+          {products.map((product) => {
+            const variantIndex = Number.isNaN(Number(selectedVariants[product._id]))
+            ? 0
+            : Number(selectedVariants[product._id]);
+            const price = product.price[variantIndex];
+            const cutoffPrice = product.cutoffPrice[variantIndex];
+            const discount = Math.round(
+              ((cutoffPrice - price) / cutoffPrice) * 100
+            );
 
-              return (
-                <div
-                  key={product.id}
-                  className="bg-card rounded-lg overflow-hidden shadow-sm hover:shadow-md border transition-shadow flex md:flex-col flex-row h-full"
-                >
-                  {/* Product Image */}
-                  <Link href={`/products/${product.id}`}>
-                    <div className="relative cursor-pointer">
-                      <Image
-                        src={product.image}
-                        alt={product.name}
-                        className="w-full h-56 object-cover"
-                        width={300}
-                        height={200}
-                      />
-                      <div className="absolute top-2 right-2">
-                        <span className="flex flex-row items-center gap-1 bg-secondary text-secondary-foreground px-2 py-1 rounded-full text-sm">
-                          <p className="font-semibold text-gray-600">
-                            {product.rating}
-                          </p>
-                          <Star
-                            className="w-4 h-4 text-yellow-500"
-                            fill="currentColor"
-                          />
-                        </span>
-                      </div>
-                    </div>
-                  </Link>
+            return (
+              <div
+                key={product._id}
+                className="max-md:flex max-md:flex-row max-md:justify-between bg-white border md:overflow-hidden hover:shadow-md transition"
+              >
 
-                  {/* Product Details */}
-                  <div className="p-4 flex flex-col max-md:justify-between flex-grow">
-                    {/* Title */}
-                    <div className="flex flex-col justify-center md:min-h-[24px] text-center">
-                      <h3 className="font-medium max-md:text-md max-md:text-left text-lg">
-                        {product.name}
-                      </h3>
-                    </div>
-
-                    {/* Price & Variants */}
-                    <div className="flex justify-between items-center px-2 mt-4">
-                      <div className="flex items-center gap-2 text-lg font-medium">
-                        <p className="text-primary">
-                          ₹{product.price[Number(variantIndex)]}
-                        </p>
-                        <p className="text-gray-500 text-sm line-through">
-                          ₹{product.cutoffPrice[Number(variantIndex)]}
-                        </p>
-                      </div>
-                      {/* Variant Selector */}
-                      <div className="w-1/2">
-                        <Select
-                          onValueChange={(value) =>
-                            handleVariantChange(product.id, value)
-                          }
-                          defaultValue="0"
-                        >
-                          <SelectTrigger className="w-full">
-                            <SelectValue placeholder="Select Variant" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            {product.variants.map((variant, index) => (
-                              <SelectItem key={index} value={index.toString()}>
-                                {variant}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                      </div>
-                    </div>
-
-                    {/* Buttons */}
-                    <div className="mt-4 flex gap-2">
-                      <Link href={`/products/${product.id}`} className="flex-1">
-                        <Button variant="outline" className="w-full">
-                          View
-                        </Button>
-                      </Link>
-                      <Button
-                        variant="secondary"
-                        className="flex-1 bg-primary hover:bg-primary/90 text-primary-foreground"
-                        onClick={() => handleAddToCart(product.id)}
-                      >
-                        Add to Cart
-                      </Button>
-                    </div>
-                  </div>
+                <div 
+                onClick={()=>{router.push(`/products/${product._id}`)}}
+                className="flex-1 relative w-full aspect-square">
+                  <Image
+                    src={product.images[0]}
+                    alt={product.name}
+                    fill
+                    className="object-cover"
+                    unoptimized
+                  />
                 </div>
-              );
-            })}
-          </div>
+                
+
+                <div className="max-md:w-1/2 p-4 flex flex-col gap-2">
+                  <h3 className="text-lg font-medium flex-wrap">{product.name}</h3>
+
+                  {/* Variant Info Box */}
+                  <div className="text-md text-gray-700">
+                    <div className="font-semibold text-primary">
+                      ₹{price}
+                      <span className="text-gray-400 line-through text-xs ml-1">
+                        ₹{cutoffPrice}
+                      </span>
+                      <span className="text-green-600 text-xs ml-2">
+                        ({discount}% OFF)
+                      </span>
+                    </div>
+                    
+                  </div>
+
+                  <div className="flex flex-row items-center gap-2 mt-2">
+                  {/* Variant Select */}
+                  <Select
+                    defaultValue="0"
+                    onValueChange={(value) =>
+                      handleVariantChange(product._id, value)
+                    }
+                  >
+                    <SelectTrigger className="w-full h-10 text-sm">
+                      <SelectValue placeholder="Select" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {product.variants.map((variant, index) => (
+                        <SelectItem key={index} value={index.toString()}>
+                          {variant.display}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <Button
+                    className="w-full text-sm"
+                    onClick={() => handleAddToCart(product._id)}
+                  >
+                    Add
+                  </Button>
+                </div>
+                  
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>

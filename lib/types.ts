@@ -1,33 +1,48 @@
 export interface Product {
-  id: number;
+  _id: string;
   name: string;
   hindiName?: string;
   description: string;
   price: number[];
-  category: string;
-  image: string;
+  cutoffPrice: number[];
+  variants: {
+    display: string;
+    value: number;
+  }[];
+  images: string[];
+  category: string; // or Category type if populated
   benefits: string[];
   ingredients: string[];
   storage: string;
-  cutoffPrice: number[];
-  rating: number;
-  variants: string[];
-  instructions?: string[];
+  rating?: number;
+  instructions: string[];
+  stock: number;
+  dimensions: {
+    length: number;
+    breadth: number;
+    height: number;
+  }[];
+  createdAt: string;
+  updatedAt: string;
+  __v?: number;
 }
 
 export interface CartItem {
-  id: number;
-  name: string;
-  hindiName?: string;
-  description: string;
-  price: number;
-  category: string;
-  image: string;
-  cutoffPrice: number;
-  rating: number;
-  variants: string;
+  _id: string;
+  product: Product;
   quantity: number;
+  price: number;
+  variant: {
+    display: string;
+    value: number;
+  };
+  dimensions: {
+    length: number;
+    breadth: number;
+    height: number;
+  };
 }
+
 
 export interface User {
   id: string;

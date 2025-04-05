@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Navbar } from "@/components/Navbar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -8,29 +8,85 @@ import { ShieldCheck, RefreshCw } from "lucide-react";
 import { Trash2, ShoppingBag, Truck, CreditCard } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { CartItem } from "@/lib/types";
-import { cart } from "@/lib/data";
 import Image from "next/image";
+import axios from "axios";
+import { useRecoilValue } from "recoil";
+import { userState } from "@/store/atoms/user";
 
 export default function CartPage() {
   const { toast } = useToast();
-  const [cartItems, setCartItems] = useState<CartItem[]>(cart);
+  const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const user = useRecoilValue(userState);
 
-  const removeItem = (id: number) => {
-    setCartItems(cartItems.filter(item => item.id !== Number(id)));
+  useEffect(() => {
+    const fetchCart = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        if (!token) return;
+  
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/cart/${user._id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+  
+        setCartItems(response.data.cart.items); 
+      } catch (error) {
+        console.error("Error fetching cart:", error);
+        toast({
+          title: "Error",
+          description: "Failed to load cart items.",
+          variant: "destructive",
+        });
+      }
+    };
+  
+    fetchCart();
+  }, []);
+
+  const removeItem = (id: string) => {
+    setCartItems(cartItems?.filter(item => item._id !== (id)));
     toast({
       title: "Item removed",
       description: "The item has been removed from your cart",
     });
   };
 
-  const updateQuantity = (id: number, newQuantity: number) => {
+  const updateQuantity = async (id: string, newQuantity: number) => {
     if (newQuantity < 1) return;
-    setCartItems(cartItems.map(item => 
-      item.id === Number(id) ? { ...item, quantity: newQuantity } : item
-    ));
+  
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) return;
+  
+      const response = await axios.put(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/cart/update`,
+        {
+          itemId: id,
+          quantity: newQuantity,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+  
+      setCartItems(prev =>
+        prev.map(item => item._id === id ? { ...item, quantity: newQuantity } : item)
+      );
+    } catch (error) {
+      console.error("Error updating cart item:", error);
+      toast({
+        title: "Error",
+        description: "Could not update quantity.",
+        variant: "destructive",
+      });
+    }
   };
+  
 
-  const subtotal = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+  const subtotal = cartItems?.reduce((sum, item) => sum + (item.price * item.quantity), 0);
   const shipping = subtotal > 50 ? 0 : 5.99;
   const total = subtotal + shipping;
 
@@ -41,6 +97,8 @@ export default function CartPage() {
     });
     setCartItems([]);
   };
+
+  console.log(cartItems);
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -69,23 +127,23 @@ export default function CartPage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="md:col-span-2 space-y-4">
               {cartItems.map((item) => (
-                <div key={item.id} className="flex max-md:px-4 gap-4 bg-card p-6 rounded-lg">
+                <div key={item._id} className="flex max-md:px-4 gap-4 bg-card p-6 rounded-lg">
                   <Image
-                    src={item.image}
-                    alt={item.name}
+                    src={item.product.images[0]}
+                    alt={item.product.name}
                     height={96}
                     width={96}
                     className="w-24 h-24 object-cover rounded"
                   />
                   <div className="flex-1">
-                    <h3 className="font-semibold text-lg max-md:text-md">{item.name}</h3>
-                    <h3 className="font-normal text-primary text-sm max-md:hidden">{item.description}</h3>
+                    <h3 className="font-semibold text-lg max-md:text-md">{item.product.name}</h3>
+                    <p className="text-md text-muted-foreground">₹{(item.variant.display)}</p>
                     <div className="mt-4 flex items-center gap-4">
                       <div className="flex items-center gap-2">
                         <Button
                           variant="outline"
                           size="sm"
-                          onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                          onClick={() => updateQuantity(item._id, item.quantity - 1)}
                         >
                           -
                         </Button>
@@ -93,7 +151,7 @@ export default function CartPage() {
                         <Button
                           variant="outline"
                           size="sm"
-                          onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                          onClick={() => updateQuantity(item._id, item.quantity + 1)}
                         >
                           +
                         </Button>
@@ -101,7 +159,7 @@ export default function CartPage() {
                       <Button
                         variant="ghost"
                         size="sm"
-                        onClick={() => removeItem(item.id)}
+                        onClick={() => removeItem(item._id)}
                       >
                         <Trash2 className="h-4 w-4" />
                       </Button>
@@ -121,7 +179,7 @@ export default function CartPage() {
                   <h3 className="font-semibold">Shipping Information</h3>
                 </div>
                 <p className="text-muted-foreground mb-4">
-                  Free shipping on orders over $50. Standard delivery 3-5 business days.
+                  Free shipping on orders over Rs. 1000. Standard delivery 3-5 business days.
                 </p>
                 <div className="space-y-4">
                   <div className="grid grid-cols-2 gap-4">
@@ -144,7 +202,7 @@ export default function CartPage() {
                 <div className="space-y-3">
                   <div className="flex justify-between">
                     <span>Subtotal</span>
-                    <span>${subtotal.toFixed(2)}</span>
+                    <span>₹{subtotal.toFixed(2)}</span>
                   </div>
                   <div className="flex justify-between">
                     <span>Shipping</span>
@@ -153,10 +211,10 @@ export default function CartPage() {
                   <div className="border-t pt-3 mt-3">
                     <div className="flex justify-between font-semibold text-lg">
                       <span>Total</span>
-                      <span>${total.toFixed(2)}</span>
+                      <span>₹{total.toFixed(2)}</span>
                     </div>
                     <p className="text-sm text-muted-foreground mt-1">
-                      Including VAT
+                      Including all applicable taxes
                     </p>
                   </div>
                 </div>
