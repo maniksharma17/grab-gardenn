@@ -23,14 +23,17 @@ export default function CartPage() {
       try {
         const token = localStorage.getItem("token");
         if (!token) return;
-  
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/cart/${user._id}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-  
-        setCartItems(response.data.cart.items); 
+
+        const response = await axios.get(
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/cart/${user._id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        setCartItems(response.data.cart.items);
       } catch (error) {
         console.error("Error fetching cart:", error);
         toast({
@@ -40,12 +43,12 @@ export default function CartPage() {
         });
       }
     };
-  
+
     fetchCart();
   }, []);
 
   const removeItem = (id: string) => {
-    setCartItems(cartItems?.filter(item => item._id !== (id)));
+    setCartItems(cartItems?.filter((item) => item._id !== id));
     toast({
       title: "Item removed",
       description: "The item has been removed from your cart",
@@ -54,11 +57,11 @@ export default function CartPage() {
 
   const updateQuantity = async (id: string, newQuantity: number) => {
     if (newQuantity < 1) return;
-  
+
     try {
       const token = localStorage.getItem("token");
       if (!token) return;
-  
+
       const response = await axios.put(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/cart/update`,
         {
@@ -71,9 +74,11 @@ export default function CartPage() {
           },
         }
       );
-  
-      setCartItems(prev =>
-        prev.map(item => item._id === id ? { ...item, quantity: newQuantity } : item)
+
+      setCartItems((prev) =>
+        prev.map((item) =>
+          item._id === id ? { ...item, quantity: newQuantity } : item
+        )
       );
     } catch (error) {
       console.error("Error updating cart item:", error);
@@ -84,16 +89,19 @@ export default function CartPage() {
       });
     }
   };
-  
 
-  const subtotal = cartItems?.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+  const subtotal = cartItems?.reduce(
+    (sum, item) => sum + item.price * item.quantity,
+    0
+  );
   const shipping = subtotal > 50 ? 0 : 5.99;
   const total = subtotal + shipping;
 
   const checkout = () => {
     toast({
       title: "Order placed",
-      description: "Thank you for your order! We'll send you a confirmation email shortly.",
+      description:
+        "Thank you for your order! We'll send you a confirmation email shortly.",
     });
     setCartItems([]);
   };
@@ -103,15 +111,15 @@ export default function CartPage() {
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
-      
+
       <div className="mt-16 container mx-auto py-12">
         <div className="flex px-6 items-center justify-between mb-8 max-md:mb-4">
           <h2 className="text-2xl font-bold max-md:text-xl">Shopping Cart</h2>
           <div className="text-muted-foreground">
-            {cartItems.length} {cartItems.length === 1 ? 'item' : 'items'}
+            {cartItems.length} {cartItems.length === 1 ? "item" : "items"}
           </div>
         </div>
-        
+
         {cartItems.length === 0 ? (
           <div className="text-center py-16 bg-card rounded-lg">
             <ShoppingBag className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
@@ -127,7 +135,10 @@ export default function CartPage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="md:col-span-2 space-y-4">
               {cartItems.map((item) => (
-                <div key={item._id} className="flex max-md:px-4 gap-4 bg-card p-6 rounded-lg">
+                <div
+                  key={item._id}
+                  className="flex max-md:px-4 gap-4 bg-card p-6 rounded-lg"
+                >
                   <Image
                     src={item.product.images[0]}
                     alt={item.product.name}
@@ -136,14 +147,20 @@ export default function CartPage() {
                     className="w-24 h-24 object-cover rounded"
                   />
                   <div className="flex-1">
-                    <h3 className="font-semibold text-lg max-md:text-md">{item.product.name}</h3>
-                    <p className="text-md text-muted-foreground">₹{(item.variant.display)}</p>
+                    <h3 className="font-semibold text-lg max-md:text-md">
+                      {item.product.name}
+                    </h3>
+                    <p className="text-md text-muted-foreground">
+                      ₹{item.variant.display}
+                    </p>
                     <div className="mt-4 flex items-center gap-4">
                       <div className="flex items-center gap-2">
                         <Button
                           variant="outline"
                           size="sm"
-                          onClick={() => updateQuantity(item._id, item.quantity - 1)}
+                          onClick={() =>
+                            updateQuantity(item._id, item.quantity - 1)
+                          }
                         >
                           -
                         </Button>
@@ -151,7 +168,9 @@ export default function CartPage() {
                         <Button
                           variant="outline"
                           size="sm"
-                          onClick={() => updateQuantity(item._id, item.quantity + 1)}
+                          onClick={() =>
+                            updateQuantity(item._id, item.quantity + 1)
+                          }
                         >
                           +
                         </Button>
@@ -166,36 +185,62 @@ export default function CartPage() {
                     </div>
                   </div>
                   <div className="text-right">
-                    <p className="font-semibold text-lg">₹{(item.price * item.quantity).toFixed(2)}</p>
-                    <p className="text-sm text-muted-foreground">₹{item.price} each</p>
+                    <p className="font-semibold text-lg">
+                      ₹{(item.price * item.quantity).toFixed(2)}
+                    </p>
+                    <p className="text-sm text-muted-foreground">
+                      ₹{item.price} each
+                    </p>
                   </div>
                 </div>
               ))}
 
               {/* Shipping Information */}
-              <div className="bg-card p-6 rounded-lg">
-                <div className="flex items-center gap-2 mb-4">
-                  <Truck className="h-5 w-5 text-primary" />
-                  <h3 className="font-semibold">Shipping Information</h3>
+              <div className="bg-card p-4 rounded-lg space-y-4">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <Truck className="h-5 w-5 text-primary" />
+                    <h3 className="font-semibold text-base">
+                      Shipping Address
+                    </h3>
+                  </div>
+                  <select
+                    className="border p-2 rounded-md text-sm"
+                    onChange={(e) =>
+                      console.log("Selected address:", e.target.value)
+                    }
+                  >
+                    <option disabled selected>
+                      Select saved address
+                    </option>
+                    {user.address?.map((addr: any, i: number) => (
+                      <option key={i} value={addr._id}>
+                        {addr.line1}, {addr.city}
+                      </option>
+                    ))}
+                  </select>
                 </div>
-                <p className="text-muted-foreground mb-4">
-                  Free shipping on orders over Rs. 1000. Standard delivery 3-5 business days.
+
+                <p className="text-muted-foreground text-sm">
+                  Or enter a new address:
                 </p>
-                <div className="space-y-4">
-                  <div className="grid grid-cols-2 gap-4">
-                    <Input placeholder="First Name" />
-                    <Input placeholder="Last Name" />
-                  </div>
-                  <Input placeholder="Address Line 1" />
-                  <Input placeholder="Address Line 2 (Optional)" />
-                  <div className="grid grid-cols-2 gap-4">
-                    <Input placeholder="City" />
-                    <Input placeholder="Postal Code" />
-                  </div>
+
+                <div className="grid grid-cols-2 gap-3">
+                  <Input placeholder="First Name" />
+                  <Input placeholder="Last Name" />
                 </div>
+                <Input placeholder="Address Line 1" />
+                <Input placeholder="Address Line 2 (Optional)" />
+                <div className="grid grid-cols-2 gap-3">
+                  <Input placeholder="City" />
+                  <Input placeholder="Postal Code" />
+                </div>
+                <Button size="sm" className="w-full mt-2">
+                  Save New Address
+                </Button>
               </div>
             </div>
-            
+
             <div className="space-y-6">
               <div className="bg-card p-6 rounded-lg">
                 <h3 className="text-xl font-semibold mb-4">Order Summary</h3>
@@ -206,7 +251,9 @@ export default function CartPage() {
                   </div>
                   <div className="flex justify-between">
                     <span>Shipping</span>
-                    <span>{shipping === 0 ? "Free" : `$${shipping.toFixed(2)}`}</span>
+                    <span>
+                      {shipping === 0 ? "Free" : `$${shipping.toFixed(2)}`}
+                    </span>
                   </div>
                   <div className="border-t pt-3 mt-3">
                     <div className="flex justify-between font-semibold text-lg">
@@ -220,37 +267,28 @@ export default function CartPage() {
                 </div>
               </div>
 
-              {/* Payment Section */}
+              {/* Razorpay Payment */}
               <div className="bg-card p-4 rounded-lg">
-                <div className="flex items-center gap-2 mb-4">
+                <div className="flex items-center gap-2 mb-3">
                   <CreditCard className="h-5 w-5 text-primary" />
-                  <h3 className="font-semibold">Payment Method</h3>
+                  <h3 className="font-semibold text-base">Payment</h3>
                 </div>
-                <div className="space-y-4">
-                  <Input placeholder="Card Number" />
-                  <div className="grid grid-cols-2 gap-4">
-                    <Input placeholder="MM/YY" />
-                    <Input placeholder="CVC" />
-                  </div>
-                  <Input placeholder="Name on Card" />
-                </div>
-              </div>
-
-              <div className="px-4">
                 <Button
                   className="w-full"
-                  size="lg"
-                  onClick={checkout}
+                  onClick={() => {
+                    // trigger Razorpay here
+                    console.log("Pay with Razorpay");
+                  }}
                 >
-                  Complete Order
+                  Pay with Razorpay
                 </Button>
               </div>
 
-              
-              
               <p className="px-4 text-sm text-muted-foreground text-center">
                 By completing your order, you agree to our{" "}
-                <a href="#" className="text-primary hover:underline">Terms of Service</a>
+                <a href="#" className="text-primary hover:underline">
+                  Terms of Service
+                </a>
               </p>
             </div>
           </div>
@@ -266,12 +304,16 @@ export default function CartPage() {
           <div className="text-center">
             <ShieldCheck className="h-8 w-8 text-primary mx-auto mb-3" />
             <h4 className="font-semibold mb-2">Secure Payment</h4>
-            <p className="text-sm text-muted-foreground">100% secure checkout</p>
+            <p className="text-sm text-muted-foreground">
+              100% secure checkout
+            </p>
           </div>
           <div className="text-center">
             <RefreshCw className="h-8 w-8 text-primary mx-auto mb-3" />
             <h4 className="font-semibold mb-2">Easy Returns</h4>
-            <p className="text-sm text-muted-foreground">30-day return policy</p>
+            <p className="text-sm text-muted-foreground">
+              30-day return policy
+            </p>
           </div>
         </div>
       </div>
