@@ -1,6 +1,6 @@
 import { CartItem, Product } from "./types";
 
-export const products: Product[] = [
+export const products = [
   {
     id: 1,
     name: "Finger Millet Flour",
@@ -397,7 +397,7 @@ Drink juice of Malta from the foothills of Himalayas as it is enriched with nutr
   },
 ];
 
-export const cart: CartItem[] = [
+export const cart = [
   {
     id: 1,
     name: "Finger Millet Flour",

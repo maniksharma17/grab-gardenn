@@ -1,3 +1,4 @@
+"use client"
 import './globals.css';
 import type { Metadata } from 'next';
 import { Poppins } from 'next/font/google';
@@ -11,10 +12,6 @@ const poppins = Poppins({
   variable: '--font-poppins',
 });
 
-export const metadata: Metadata = {
-  title: 'Grab Gardenn - Natural & Organic Products',
-  description: 'Your one-stop shop for natural organic products',
-};
 
 export default function RootLayout({
   children,
@@ -22,6 +19,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
+    <RecoilRoot>
     <html lang="en">
       <body className={`${poppins.variable} font-poppins`}>
         {children}
@@ -29,5 +27,6 @@ export default function RootLayout({
         <Footer />
       </body>
     </html>
+    </RecoilRoot>
   );
 }

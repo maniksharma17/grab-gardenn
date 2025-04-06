@@ -18,6 +18,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Product } from "@/lib/types";
 import { useRouter } from "next/navigation";
 import { ChevronRight } from "lucide-react";
+import { CartHandle } from "@/components/CartHandle";
 
 export default function ProductsPage() {
   const [selectedVariants, setSelectedVariants] = useState<{
@@ -71,6 +72,7 @@ export default function ProductsPage() {
   return (
     <div className="min-h-screen bg-white">
       <Navbar />
+      <CartHandle />
 
       {/* Category Bar */}
       <div className="mt-20 z-10 px-4 max-md:py-2 py-6">
@@ -95,7 +97,6 @@ export default function ProductsPage() {
               </span>
             </Link>
           ))}
-          
         </div>
       </div>
 
@@ -103,9 +104,11 @@ export default function ProductsPage() {
       <div className="px-4 md:px-8 py-8 max-md:py-2">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2">
           {products.map((product) => {
-            const variantIndex = Number.isNaN(Number(selectedVariants[product._id]))
-            ? 0
-            : Number(selectedVariants[product._id]);
+            const variantIndex = Number.isNaN(
+              Number(selectedVariants[product._id])
+            )
+              ? 0
+              : Number(selectedVariants[product._id]);
             const price = product.price[variantIndex];
             const cutoffPrice = product.cutoffPrice[variantIndex];
             const discount = Math.round(
@@ -117,22 +120,35 @@ export default function ProductsPage() {
                 key={product._id}
                 className="max-md:flex max-md:flex-row max-md:justify-between bg-white border md:overflow-hidden hover:shadow-md transition"
               >
-
-                <div 
-                onClick={()=>{router.push(`/products/${product._id}`)}}
-                className="flex-1 relative w-full aspect-square">
+                <div
+                  onClick={() => router.push(`/products/${product._id}`)}
+                  className="flex-1 relative w-full aspect-square cursor-pointer"
+                >
+                  {/* Default Image */}
                   <Image
                     src={product.images[0]}
                     alt={product.name}
                     fill
-                    className="object-cover"
+                    className="object-cover transition-opacity duration-300 hover:opacity-0"
                     unoptimized
                   />
+
+                  {/* Hover Image */}
+                  {product.images[1] && (
+                    <Image
+                      src={product.images[1]}
+                      alt={`${product.name} Hover`}
+                      fill
+                      className="object-cover transition-opacity duration-300 opacity-0 hover:opacity-100"
+                      unoptimized
+                    />
+                  )}
                 </div>
-                
 
                 <div className="max-md:w-1/2 p-4 flex flex-col gap-2">
-                  <h3 className="text-lg font-medium flex-wrap">{product.name}</h3>
+                  <h3 className="text-lg font-medium flex-wrap">
+                    {product.name}
+                  </h3>
 
                   {/* Variant Info Box */}
                   <div className="text-md text-gray-700">
@@ -145,36 +161,34 @@ export default function ProductsPage() {
                         ({discount}% OFF)
                       </span>
                     </div>
-                    
                   </div>
 
                   <div className="flex flex-row items-center gap-2 mt-2">
-                  {/* Variant Select */}
-                  <Select
-                    defaultValue="0"
-                    onValueChange={(value) =>
-                      handleVariantChange(product._id, value)
-                    }
-                  >
-                    <SelectTrigger className="w-full h-10 text-sm">
-                      <SelectValue placeholder="Select" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {product.variants.map((variant, index) => (
-                        <SelectItem key={index} value={index.toString()}>
-                          {variant.display}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <Button
-                    className="w-full text-sm"
-                    onClick={() => handleAddToCart(product._id)}
-                  >
-                    Add
-                  </Button>
-                </div>
-                  
+                    {/* Variant Select */}
+                    <Select
+                      defaultValue="0"
+                      onValueChange={(value) =>
+                        handleVariantChange(product._id, value)
+                      }
+                    >
+                      <SelectTrigger className="w-full h-10 text-sm">
+                        <SelectValue placeholder="Select" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {product.variants.map((variant, index) => (
+                          <SelectItem key={index} value={index.toString()}>
+                            {variant.display}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <Button
+                      className="w-full text-sm"
+                      onClick={() => handleAddToCart(product._id)}
+                    >
+                      Add
+                    </Button>
+                  </div>
                 </div>
               </div>
             );

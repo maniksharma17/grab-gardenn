@@ -1,13 +1,13 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Navbar } from "@/components/Navbar";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { products } from "@/lib/data";
-import { Send, HeartHandshake } from "lucide-react";
+import { Send } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -15,9 +15,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import axios from "axios";
+import { Product } from "@/lib/types";
 
 export default function YourChoicePage() {
   const { toast } = useToast();
+  const [products, setProducts] = useState<Product[]>([]);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -26,6 +29,22 @@ export default function YourChoicePage() {
     product: "",
     details: "",
   });
+
+  useEffect(() => {
+      const fetchProducts = async () => {
+        try {
+          
+          const response = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/products`, {
+            withCredentials: true
+          });
+    
+          setProducts(response.data.products); 
+        } catch (error) {
+          console.log("Error fetching cart:", error);
+        }
+      }
+      fetchProducts();
+    }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -111,7 +130,7 @@ export default function YourChoicePage() {
                 </SelectTrigger>
                 <SelectContent>
                   {products.map((product) => (
-                    <SelectItem key={product.id} value={product.name}>
+                    <SelectItem key={product._id} value={product.name}>
                       {product.name}
                     </SelectItem>
                   ))}

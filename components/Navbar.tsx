@@ -1,18 +1,21 @@
 "use client";
 
 import Link from "next/link";
-import { ShoppingCart, User, Leaf, Menu, Search } from "lucide-react";
-import { Button } from "./ui/button";
+import { ShoppingCart, User, Menu, Search } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { Input } from "./ui/input";
 import Image from "next/image";
-import { products } from "@/lib/data";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import axios from "axios";
+import { useRecoilValue } from "recoil";
+import { userState } from "@/store/atoms/user";
+import { Product } from "@/lib/types";
 
 const items = [
   { name: "Home", href: "/" },
@@ -30,6 +33,45 @@ export function Navbar() {
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const searchRef = useRef<HTMLDivElement>(null);
+  const [cartItems, setCartItems] = useState<number>(0);
+  const [products, setProducts] = useState<Product[]>([]);
+  const user = useRecoilValue(userState);
+
+  useEffect(() => {
+    const fetchCart = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        if (!token) return;
+  
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/cart/${user._id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+  
+        setCartItems(response.data.cart.items.length); 
+      } catch (error) {
+        console.log("Error fetching cart:", error);
+      }
+    }
+    fetchCart();
+  }, []);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/products`, {
+          withCredentials: true
+        });
+  
+        setProducts(response.data.products); 
+      } catch (error) {
+        console.log("Error fetching cart:", error);
+      }
+    }
+    fetchProducts();
+  }, []);
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -94,16 +136,16 @@ export function Navbar() {
               {filteredProducts.length > 0 ? (
                 filteredProducts.map((product) => (
                   <div
-                    key={product.id}
+                    key={product._id}
                     onClick={() => {
                       setSearchOpen(false);
                       setSearchQuery("");
-                      router.push(`/products/${product.id}`);
+                      router.push(`/products/${product._id}`);
                     }}
                     className="cursor-pointer hover:bg-primary/10 p-2 rounded-md transition-all flex gap-4 items-center"
                   >
                     {/* Product Image */}
-                    <Image src={product.image} alt={product.name} width={50} height={50} className="w-12 h-12 object-cover rounded-md" />
+                    <Image src={product.images[0]} alt={product.name} width={50} height={50} className="w-12 h-12 object-cover rounded-md" />
 
                     {/* Product Info */}
                     <div>
@@ -128,6 +170,7 @@ export function Navbar() {
             <Button variant="ghost" size="icon">
               <ShoppingCart className="h-5 w-5" />
             </Button>
+            {cartItems>0 && <div className="flex justify-center items-center absolute top-0 right-1 text-xs bg-primary text-white h-2 w-2 p-2 rounded-full">{cartItems}</div>}
           </Link>
         </div>
 

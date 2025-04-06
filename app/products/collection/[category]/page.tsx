@@ -65,12 +65,12 @@ export default function ProductsPage() {
       <Navbar />
 
       {/* Category Header */}
-      <div className="bg-secondary py-12 mt-20 text-center px-4 md:px-8 rounded-lg shadow-sm">
+      <div className="bg-secondary py-6 mt-20 text-center px-4 md:px-8 rounded-lg shadow-sm">
         {categoryData && (
           <div className="max-w-3xl mx-auto">
             <p className="text-sm text-gray-800 mb-2">
-              <Link href="/" className="hover:underline text-gray-800">
-                Home
+              <Link href="/products" className="hover:underline text-gray-800">
+                All Products
               </Link>{" "}
               &gt;{" "}
               <span className="capitalize text-gray-800">
