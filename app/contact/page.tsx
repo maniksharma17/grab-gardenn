@@ -61,7 +61,6 @@ export default function ContactPage() {
               <Send className="h-4 w-4" />
               Send Message
             </Button>
-            <p className="w-full">Send a message to get our contact number!</p>
           </form>
         </div>
 

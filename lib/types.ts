@@ -10,7 +10,10 @@ export interface Product {
     value: number;
   }[];
   images: string[];
-  category: string; // or Category type if populated
+  category: {
+    name: string,
+    _id: string
+  }; // or Category type if populated
   benefits: string[];
   ingredients: string[];
   storage: string;

@@ -11,17 +11,48 @@ import { useRecoilValue, useSetRecoilState } from "recoil";
 import { userState } from "@/store/atoms/user";
 import { useRouter } from "next/navigation";
 
+
+interface RegisterDataTypes {
+  name: string,
+  email: string,
+  password: string,
+  phone: string,
+  address: Address[]
+}
+
+type Address = {
+  street: string;
+  streetOptional: string;
+  city: string;
+  state: string;
+  country: string;
+  zipCode: string;
+  phone: string,
+  name: string,
+};
+
 export default function AuthPage() {
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [loginData, setLoginData] = useState({ email: "", password: "" });
-  const [registerData, setRegisterData] = useState({
+  const [registerData, setRegisterData] = useState<RegisterDataTypes>({
     name: "",
     email: "",
     phone: "",
     password: "",
+    address: []
   });
+  const [address, setAddress] = useState<Address>({
+    street: "",
+    streetOptional: "",
+    city: "",
+    state: "",
+    country: "India",
+    zipCode: "",
+    name: "",
+    phone: ""
+  })
   const setUser = useSetRecoilState(userState);
   const user = useRecoilValue(userState)
   const router = useRouter();
@@ -40,7 +71,9 @@ export default function AuthPage() {
     setIsLoading(true);
 
     const endpoint = type === "login" ? "/api/users/login" : "/api/users/register";
+    
     const body = type === "login" ? loginData : registerData;
+    
 
     try {
       const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}${endpoint}`, {
@@ -54,6 +87,14 @@ export default function AuthPage() {
 
       if (!res.ok) {
         throw new Error(data.message || "Something went wrong");
+      }
+
+      if(data.error){
+        toast({
+          title: "Error",
+          description: data.message
+      });
+      return;
       }
 
       setUser({
@@ -220,6 +261,7 @@ export default function AuthPage() {
             <TabsContent value="register">
               <div className="bg-card p-8 rounded-lg shadow-sm">
                 <h2 className="text-2xl font-bold mb-6">Create Account</h2>
+
                 <form
                   onSubmit={(e) => handleSubmit(e, "register")}
                   className="space-y-4"
@@ -244,7 +286,9 @@ export default function AuthPage() {
                     <div className="w-full border-t"></div>
                   </div>
 
-                  <div className="space-y-2">
+                  <h4 className="border-t pt-4 mt-8 text-gray-600 text-sm font-medium">PERSONAL INFORMATION</h4>
+
+                  <div className="">
                     <label className="text-sm font-medium">Full Name</label>
                     <div className="relative">
                       <User className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
@@ -263,7 +307,7 @@ export default function AuthPage() {
                       />
                     </div>
                   </div>
-                  <div className="space-y-2">
+                  <div className="">
                     <label className="text-sm font-medium">Email</label>
                     <div className="relative">
                       <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
@@ -282,7 +326,7 @@ export default function AuthPage() {
                       />
                     </div>
                   </div>
-                  <div className="space-y-2">
+                  <div className="">
                     <label className="text-sm font-medium">Phone</label>
                     <div className="relative">
                       <Phone className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
@@ -301,7 +345,7 @@ export default function AuthPage() {
                       />
                     </div>
                   </div>
-                  <div className="space-y-2">
+                  <div className="">
                     <label className="text-sm font-medium">Password</label>
                     <div className="relative">
                       <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
@@ -330,6 +374,147 @@ export default function AuthPage() {
                         )}
                       </button>
                     </div>
+                  </div>
+                    <h4 className="border-t pt-4 mt-8 text-gray-600 text-sm font-medium">SHIPPING INFO</h4>
+                    <div className="space-y-2">
+                    <div className="">
+                      <label className="text-xs font-medium ml-1">Delivery Name</label>
+                      <div className="relative">
+                        <Input
+                          type="text"
+                          value={address.name}
+                          onChange={(e) => {
+                            setAddress({...address, name: e.target.value})
+                            setRegisterData({
+                              ...registerData,
+                              address: [address]
+                          });
+                        }}
+                          placeholder=""
+                          className=""
+                          required
+                        />
+                      </div>
+                    </div>
+
+                    <div className="">
+                      <label className="text-xs font-medium ml-1">Delivery Phone</label>
+                      <div className="relative">
+                        <Input
+                          type="text"
+                          value={address.phone}
+                          onChange={(e) => {
+                            setAddress({...address, phone: e.target.value})
+                            setRegisterData({
+                              ...registerData,
+                              address: [address]
+                          });
+                        }}
+                          placeholder=""
+                          className=""
+                          required
+                        />
+                      </div>
+                    </div>
+
+                    <div className="">
+                      <label className="text-xs font-medium ml-1">Street 1</label>
+                      <div className="relative">
+                        <Input
+                          type="text"
+                          value={address.street}
+                          onChange={(e) => {
+                            setAddress({...address, street: e.target.value})
+                            setRegisterData({
+                              ...registerData,
+                              address: [address]
+                          });
+                        }}
+                          placeholder=""
+                          className=""
+                          required
+                        />
+                      </div>
+                    </div>
+
+                    <div className="">
+                      <label className="text-xs font-medium ml-1">Street 2 <span className="text-xs">(Optional)</span></label>
+                      <div className="relative">
+                        <Input
+                          type="text"
+                          value={address.streetOptional}
+                          onChange={(e) => {
+                            setAddress({...address, streetOptional: e.target.value})
+                            setRegisterData({
+                              ...registerData,
+                              address: [address]
+                          });
+                          }}
+                          placeholder=""
+                          className=""
+                        />
+                    </div>
+                  </div>
+
+                  <div className="flex flex-row gap-2">
+                    <div className="">
+                      <label className="text-xs font-medium ml-1">City</label>
+                      <div className="relative">
+                        <Input
+                          type="text"
+                          value={address.city}
+                          onChange={(e) => {
+                            setAddress({...address, city: e.target.value})
+                            setRegisterData({
+                              ...registerData,
+                              address: [address]
+                          });
+                          }}
+                          placeholder=""
+                          className=""
+                        />
+                    </div>
+                  </div>
+                    <div className="">
+                      <label className="text-xs font-medium ml-1">State</label>
+                      <div className="relative">
+                        <Input
+                          type="text"
+                          value={address.state}
+                          onChange={(e) => {
+                            setAddress({...address, state: e.target.value})
+                            setRegisterData({
+                              ...registerData,
+                              address: [address]
+                          });
+                          }}
+                          placeholder=""
+                          className=""
+                        />
+                    </div>
+
+                  
+                  </div>
+                  </div>
+                  <div className="">
+                      <label className="text-xs font-medium ml-1">Pin Code</label>
+                      <div className="relative">
+                        <Input
+                          type="text"
+                          value={address.zipCode}
+                          onChange={(e) => {
+                            setAddress({...address, zipCode: e.target.value})
+                            setRegisterData({
+                              ...registerData,
+                              address: [address]
+                          });
+                          }}
+                          placeholder=""
+                          className=""
+                        />
+                    </div>
+                    </div>
+                    
                   </div>
                   <p className="text-sm text-muted-foreground">
                     By creating an account, you agree to our{" "}

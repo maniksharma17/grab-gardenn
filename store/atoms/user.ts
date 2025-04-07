@@ -11,12 +11,14 @@ export const userState = atom({
     address: [
       {
         street: "",
+        streetOptional: "",
         city: "",
         state: "",
         zipCode: "",
         country: "",
       },
     ],
+    primaryAddress: 0,
     token: null,
     isLoggedIn: false,
     createdAt: "",
@@ -25,3 +27,8 @@ export const userState = atom({
   effects: [localStorageEffect("user")],
 }, 
 );
+
+export const cartRefreshState = atom({
+  key: "cartRefreshState",
+  default: 0,
+})

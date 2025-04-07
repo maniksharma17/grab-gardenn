@@ -1,64 +1,78 @@
 "use client";
-
-import Link from "next/link";
-import { ShoppingCart, User, Menu, Search } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
-import { Input } from "./ui/input";
-import Image from "next/image";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { useRecoilValue } from "recoil";
-import { userState } from "@/store/atoms/user";
-import { CartItem, Product } from "@/lib/types";
+import { cartRefreshState, userState } from "@/store/atoms/user";
+import { CartItem } from "@/lib/types";
+import { CartSheet } from "./CartSheet";
 
+const FREE_SHIPPING_THRESHOLD = 1000;
 
 export function CartHandle() {
-
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const user = useRecoilValue(userState);
+  const cartRefresh = useRecoilValue(cartRefreshState);
 
   useEffect(() => {
     const fetchCart = async () => {
       try {
         const token = localStorage.getItem("token");
-        if (!token) return;
-  
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/cart/${user._id}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-  
-        setCartItems(response.data.cart.items); 
-      } catch (error) {
-        console.log("Error fetching cart:", error);
-      }
-    }
-    fetchCart();
-  }, []);
+        if (!token || !user?._id) return;
 
-  if(cartItems.length === 0) {
-    return null;
-  }
+        const response = await axios.get(
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/cart/${user._id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        setCartItems(response.data.cart.items);
+      } catch (error) {
+        console.error("Error fetching cart:", error);
+      }
+    };
+
+    fetchCart();
+  }, [user, cartRefresh]);
+
+  if (cartItems.length === 0) return null;
+
+  const subtotal = cartItems.reduce(
+    (sum, item) => sum + item.price * item.quantity,
+    0
+  );
+  const progress = Math.min((subtotal / FREE_SHIPPING_THRESHOLD) * 100, 100);
 
   return (
-    <div className="w-1/3 z-50 animate-bounce bg-slate-50 border shadow-xl rounded-lg px-8 py-4 fixed bottom-2 right-10 flex flex-row items-center justify-between">
-      <div className="flex flex-row items-center gap-2">
-        <div className="text-black">{cartItems.length} Items are waiting in your cart</div>
+    <>
+      {/* Main floating cart handle */}
+      <div className="w-[500px] z-50 bg-white border text-black shadow-2xl rounded-xl px-6 py-3 fixed bottom-2 right-24 flex flex-row gap-2 items-center justify-between">
+        <div className="text-sm font-medium">
+          🛒 {cartItems.length} item{cartItems.length > 1 ? "s" : ""} in your cart
+        </div>
+
+        <div className="flex flex-col gap-1 items-center">
+        <div className="w-[200px] bg-gray-700 rounded-full h-1 relative overflow-hidden">
+          <div
+            className="bg-green-400 h-full transition-all duration-300"
+            style={{ width: `${progress}%` }}
+          />
+          
+        </div>
+        <div className="text-xs text-gray-800">
+          {subtotal >= FREE_SHIPPING_THRESHOLD
+            ? "🎉 You're eligible for free shipping!"
+            : `₹${FREE_SHIPPING_THRESHOLD - subtotal} away from free shipping`}
+        </div>
+        </div>
+        
+
+        <CartSheet />
       </div>
+
       
-      <div>
-        <Link href="/cart">
-          <Button className=" border-primary border hover:text-white text-primary bg-transparent">View Cart</Button>
-        </Link>
-      </div>
-    </div>
-    
+    </>
   );
 }

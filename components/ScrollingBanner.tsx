@@ -3,9 +3,9 @@
 import { useEffect, useState } from "react";
 
 const messages = [
-  "🔥 Limited-time Fresh discounts – Shop Now! 🔥",
-  "🚛 Free Shipping on Orders Above ₹1000 🚛",
-  "🌿 100% Fresh & Natural – Quality Guaranteed 🌿",
+  "Limited-time Fresh discounts – Shop Now!",
+  "Free Shipping on Orders Above ₹1000!",
+  "100% Fresh & Natural – Quality Guaranteed",
 ];
 
 export function ScrollingBanner() {
@@ -30,11 +30,11 @@ export function ScrollingBanner() {
 
   return (
     <div
-      className={`w-full mt-20 h-8 bg-primary text-primary-foreground flex items-center justify-center overflow-hidden transition-all duration-300 ${
+      className={`w-full h-8 bg-primary text-primary-foreground flex items-center justify-center overflow-hidden transition-all duration-300 ${
         isVisible ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-full"
       }`}
     >
-      <div key={currentIndex} className="font-semibold text-xs uppercase whitespace-nowrap">
+      <div key={currentIndex} className="font-bold text-xs uppercase whitespace-nowrap">
         {messages[currentIndex]}
       </div>
     </div>

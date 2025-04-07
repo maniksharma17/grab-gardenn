@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+
 import Link from "next/link";
 import { Navbar } from "@/components/Navbar";
 import { Button } from "@/components/ui/button";
@@ -7,10 +7,8 @@ import { Button } from "@/components/ui/button";
 const CancellationAndRefund = () => {
   return (
     <>
-      {/* Navbar */}
       <Navbar />
 
-      {/* Cancellation and Refund Section */}
       <section className="py-8 mt-20">
         <div className="container mx-auto px-6">
           {/* Header */}
@@ -22,41 +20,28 @@ const CancellationAndRefund = () => {
           </div>
 
           {/* Content */}
-          <div className="max-w-4xl mx-auto bg-white shadow-md rounded-lg p-6 border border-gray-200">
-            <p className="text-gray-700 mb-6 text-md">
-              <strong>GRAB GARDENN HEALTHY FOODS</strong> believes in helping its customers as far as possible and has a liberal cancellation policy.
+          <div className="max-w-4xl mx-auto bg-white shadow-md rounded-lg p-6 border border-gray-200 space-y-6 text-gray-700 text-md">
+            <p>
+              If the item is found damaged or defective after receipt, the customer shall be entitled to an exchange subject to the specified claim process.
             </p>
 
-            {/* Order Cancellations */}
-            <h2 className="text-xl font-semibold text-gray-900 mb-4">1. Order Cancellations</h2>
-            <p className="text-gray-700 mb-6 text-sm">
-              Cancellations will be considered only if requested within <strong>7 days</strong> of placing the order. However, cancellations may not be accepted if the order has already been shipped.
-            </p>
-            <p className="text-gray-700 mb-6 text-sm">
-              Orders for perishable items like flowers and eatables are not eligible for cancellation. However, if the delivered product is of poor quality, a refund or replacement may be provided upon verification.
+            <p>
+              Only those customers will be eligible for replacement who submit an <strong>unboxing video</strong> and <strong>clear photo evidence</strong> showing the damage or defects <strong>within 24 hours</strong> of delivery.
             </p>
 
-            {/* Damaged or Defective Items */}
-            <h2 className="text-xl font-semibold text-gray-900 mb-4">2. Damaged or Defective Products</h2>
-            <p className="text-gray-700 mb-6 text-sm">
-              If you receive a damaged or defective item, please report it to our Customer Service within <strong>7 days</strong> of receiving the product. The request will be processed after verification.
+            <p>
+              This proof must be sent to <a href="mailto:grabgardenn@gmail.com" className="text-primary underline">grabgardenn@gmail.com</a> within the specified time frame.
             </p>
 
-            {/* Product Not as Expected */}
-            <h2 className="text-xl font-semibold text-gray-900 mb-4">3. Product Not as Expected</h2>
-            <p className="text-gray-700 mb-6 text-sm">
-              If you believe the received product does not match its description or your expectations, contact our Customer Service within <strong>7 days</strong> of receiving it. Our team will review your complaint and take appropriate action.
+            <p>
+              Claims not filed as per the defined procedure or within the specified time period will be classified as invalid, and the customer will not be entitled to an exchange.
             </p>
 
-            {/* Warranty-Related Complaints */}
-            <h2 className="text-xl font-semibold text-gray-900 mb-4">4. Warranty-Related Complaints</h2>
-            <p className="text-gray-700 mb-6 text-sm">
-              For products that come with a manufacturer warranty, please refer the issue directly to the manufacturer for resolution.
+            <p>
+              <strong>Grab Gardenn</strong> reserves the right to examine and confirm the claim before determining whether a replacement is warranted.
             </p>
 
-            {/* Refund Policy */}
-            <h2 className="text-xl font-semibold text-gray-900 mb-4">5. Refund Policy</h2>
-            <p className="text-gray-700 mb-6 text-sm">
+            <p>
               If a refund is approved by <strong>GRAB GARDENN HEALTHY FOODS</strong>, it will be processed within <strong>6-8 business days</strong> and credited to the original payment method.
             </p>
           </div>

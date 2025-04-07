@@ -17,6 +17,8 @@ import { useRecoilValue } from "recoil";
 import { userState } from "@/store/atoms/user";
 import { Product } from "@/lib/types";
 import {CartSheet} from "@/components/CartSheet";
+import { UserProfileSheet } from "./UserProfileSheet";
+import Loading from "./Loading";
 
 const items = [
   { name: "Home", href: "/" },
@@ -31,13 +33,19 @@ export function Navbar() {
   const pathname = usePathname();
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
-  const [openCartSheet, setOpenCartSheet] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const searchRef = useRef<HTMLDivElement>(null);
   const [cartItems, setCartItems] = useState<number>(0);
   const [products, setProducts] = useState<Product[]>([]);
   const user = useRecoilValue(userState);
+
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
 
   useEffect(() => {
     const fetchCart = async () => {
@@ -99,9 +107,11 @@ export function Navbar() {
     product.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
+  if (!isMounted) return <Loading/>;
+
   return (
-    <nav className="w-full fixed top-0 left-0 z-50 bg-background border-b">
-      <div className="z-50 container max-w-full flex h-20 items-center justify-between px-6 md:px-12">
+    <nav className="sticky top-2 mx-16 z-50 shadow-sm rounded-xl bg-white border border-gray-300">
+      <div className="z-50 px-2 max-w-full flex h-[70px] items-center justify-between md:px-4">
         {/* Logo */}
         <div className="flex items-center">
           <Link href="/">
@@ -110,6 +120,7 @@ export function Navbar() {
               alt="Grab Gardenn"
               width={80}
               height={80}
+              className="w-20 h-20"
             />
           </Link>
         </div>
@@ -123,7 +134,7 @@ export function Navbar() {
               className={
                 pathname === `/${item.href.toLowerCase()}`
                   ? "text-primary"
-                  : "text-foreground/60"
+                  : "text-foreground/70"
               }
             >
               {item.name}
@@ -139,7 +150,7 @@ export function Navbar() {
                 <Input
                   type="text"
                   placeholder="Search..."
-                  className="border rounded-md px-3 py-1 w-full text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+                  className="border bg-white rounded-md px-3 py-1 w-full text-sm focus:outline-none focus:ring-2 focus:ring-primary"
                   onFocus={() => setSearchOpen(true)}
                   onFocusCapture={() => setSearchOpen(true)}
                   onChange={(e) => setSearchQuery(e.target.value)}
@@ -153,7 +164,7 @@ export function Navbar() {
             <PopoverContent
               ref={searchRef}
               align="start"
-              className="w-[300px] md:w-[400px] max-h-[300px] overflow-y-auto p-2 mx-2 my-2"
+              className="bg-white w-[300px] md:w-[300px] max-h-[300px] overflow-y-auto p-2 mx-2 my-2"
             >
               <h3 className="text-gray-600 font-semibold text-sm mb-2">
                 Products
@@ -180,12 +191,10 @@ export function Navbar() {
 
                     {/* Product Info */}
                     <div>
-                      <h4 className="text-sm font-semibold text-gray-800">
+                      <h4 className="text-sm font-medium text-gray-800">
                         {product.name}
                       </h4>
-                      <p className="text-xs text-gray-600 line-clamp-2">
-                        {product.description}
-                      </p>
+                      
                     </div>
                   </div>
                 ))
@@ -198,12 +207,15 @@ export function Navbar() {
           </Popover>
 
           {/* User and Cart Icons */}
+          {!user.isLoggedIn ? 
           <Link href="/auth">
-            <Button variant="ghost" size="icon">
-              <User className="h-5 w-5" />
-            </Button>
-          </Link>
-            <CartSheet />
+          <Button variant="ghost" size="icon">
+            <User className="h-5 w-5" />
+          </Button>
+        </Link>
+        : <UserProfileSheet />}
+          
+          <CartSheet />
           </div>
 
         {/* Mobile Menu Button */}

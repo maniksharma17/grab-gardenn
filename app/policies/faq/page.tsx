@@ -31,7 +31,7 @@ export default function Faq() {
           <AccordionItem value="q3">
             <AccordionTrigger>Can I cancel my order after placing it?</AccordionTrigger>
             <AccordionContent>
-              Yes, orders can be canceled within **7 days of purchase**, provided they haven&apos;t been shipped. Check our 
+              Yes, you can cancel your order before it is dispatched for shipping within **3 days of purchase**. You&apos;ll have to follow our Cancellation & Refund policy. View our 
               <a href="/cancellation-and-refund" className="text-green-600 underline"> Cancellation & Refund Policy</a>.
             </AccordionContent>
           </AccordionItem>
@@ -67,7 +67,7 @@ export default function Faq() {
           <AccordionItem value="q8">
             <AccordionTrigger>How do I contact customer support?</AccordionTrigger>
             <AccordionContent>
-              You can reach us via email at **support@grabgardenn.com** or call us at **+91-XXXXXXXXXX** (9 AM - 6 PM IST).
+              You can reach us via email at **grabgardenn@gmail.com** or call us at **+91-9286686912** (10 AM - 5 PM IST).
             </AccordionContent>
           </AccordionItem>
         </Accordion>

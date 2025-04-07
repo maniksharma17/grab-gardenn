@@ -1,10 +1,10 @@
 "use client"
 import './globals.css';
-import type { Metadata } from 'next';
 import { Poppins } from 'next/font/google';
 import { Toaster } from "@/components/ui/toaster";
 import { Footer } from '@/components/Footer';
 import { RecoilRoot } from 'recoil';
+import { WhatsAppFloatingButton } from '@/components/FloatingWhatsappIcon';
 
 const poppins = Poppins({ 
   subsets: ['latin'],
@@ -25,6 +25,7 @@ export default function RootLayout({
         {children}
         <Toaster />
         <Footer />
+        <WhatsAppFloatingButton />
       </body>
     </html>
     </RecoilRoot>
