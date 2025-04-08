@@ -110,7 +110,7 @@ export function Navbar() {
   if (!isMounted) return <Loading/>;
 
   return (
-    <nav className="sticky top-2 mx-16 z-50 shadow-sm rounded-xl bg-white border border-gray-300">
+    <nav className="fixed left-20 right-20 top-2 mx-16 z-50 shadow-sm rounded-xl bg-white border border-gray-300">
       <div className="z-50 px-2 max-w-full flex h-[70px] items-center justify-between md:px-4">
         {/* Logo */}
         <div className="flex items-center">

@@ -17,6 +17,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { cartRefreshState, userState } from "@/store/atoms/user";
 import Link from "next/link";
+import { CheckoutSheet } from "./CheckoutSheet";
 const FREE_SHIPPING_THRESHOLD = 1000;
 
 export const CartSheet = () => {
@@ -25,6 +26,7 @@ export const CartSheet = () => {
   const { toast } = useToast();
   const user = useRecoilValue(userState);
   const [cartRefresh, setCartRefresh] = useRecoilState(cartRefreshState);
+  const [open, setOpen] = useState(false);
 
   const token =
     typeof window !== "undefined" ? localStorage.getItem("token") : null;
@@ -99,7 +101,6 @@ export const CartSheet = () => {
         }
       );
 
-      toast({ title: "Added to cart", description: product.name });
     } catch (err) {
       console.log("Add to cart failed:", err);
       toast({ title: "Failed to add", variant: "destructive" });
@@ -110,7 +111,6 @@ export const CartSheet = () => {
 
   const removeItem = async (id: string) => {
     setCartItems((prev) => prev.filter((item) => item._id !== id));
-    toast({ title: "Removed", description: "Item removed from cart" });
 
     try {
       if (!token) return;
@@ -161,7 +161,7 @@ export const CartSheet = () => {
   const progress = Math.min((subtotal / FREE_SHIPPING_THRESHOLD) * 100, 100);
 
   return (
-    <Sheet>
+    <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
         <Button variant="ghost" className="relative">
           <ShoppingCart className="h-5 w-5" />
@@ -189,7 +189,7 @@ export const CartSheet = () => {
             <p className="text-muted-foreground text-sm">Your cart is empty</p>
           </div>
         ) : (
-          <div className={`grid gap-6 lg:grid-cols-[2fr_1.5fr] h-full py-4 transition-all duration-300 ${suggestions.length > 0
+          <div className={`grid gap-6 h-full py-4 transition-all duration-300 ${suggestions.length > 0
             ? "lg:grid-cols-[2fr_1.5fr]"
             : "lg:grid-cols-1"}`}>
             {/* Cart Items */}
@@ -289,9 +289,11 @@ export const CartSheet = () => {
                   <span className="text-muted-foreground">Subtotal</span>
                   <span className="font-medium">₹{subtotal.toFixed(2)}</span>
                 </div>
-                <Link href="/cart">
-                  <Button className="w-full mt-2">Go to Checkout</Button>
-                </Link>
+                <div>
+                <CheckoutSheet setCart={setOpen}/>
+
+
+                </div>
               </div>
             </div>
 

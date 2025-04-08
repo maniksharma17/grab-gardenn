@@ -10,6 +10,8 @@ export const userState = atom({
     phone: "",
     address: [
       {
+        name: "",
+        phone: "",
         street: "",
         streetOptional: "",
         city: "",

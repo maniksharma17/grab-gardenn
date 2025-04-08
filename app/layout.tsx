@@ -5,6 +5,8 @@ import { Toaster } from "@/components/ui/toaster";
 import { Footer } from '@/components/Footer';
 import { RecoilRoot } from 'recoil';
 import { WhatsAppFloatingButton } from '@/components/FloatingWhatsappIcon';
+import Head from 'next/head';
+import Script from 'next/script';
 
 const poppins = Poppins({ 
   subsets: ['latin'],
@@ -21,6 +23,7 @@ export default function RootLayout({
   return (
     <RecoilRoot>
     <html lang="en">
+      <Script src="https://checkout.razorpay.com/v1/checkout.js"></Script>
       <body className={`${poppins.variable} font-poppins`}>
         {children}
         <Toaster />

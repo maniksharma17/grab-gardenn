@@ -116,6 +116,17 @@ export default function ProductsPage() {
       <Navbar />
       <CartHandle />
 
+      <div className="w-full h-full">
+        <Image 
+        src={'banner2.png'}
+        alt="banner"
+        height={100}
+        width={100}
+        className=" h-1/2 w-full"
+        
+        />
+      </div>
+
       {/* Category Bar */}
       <div className="z-10 px-4 max-md:py-2 py-6">
         <div className="flex md:justify-center py-2 gap-6 max-md:gap-1 overflow-x-scroll relative">
