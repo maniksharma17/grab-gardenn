@@ -167,7 +167,7 @@ const setCartRefresh = useSetRecoilState(cartRefreshState);
 
             // SHIPROCKET CONFIG
             if(res.data.success){
-              const shiprocketResponse = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/checkout/place-shiprocket-order`, {
+              const shiprocketResponse = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/checkout/place-shiprocket-prepaid-order`, {
                 orderId: res.data.order._id,
                 paymentMethod: "Prepaid"
               }, {
