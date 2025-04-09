@@ -22,28 +22,12 @@ const CancellationAndRefund = () => {
           {/* Content */}
           <div className="max-w-4xl mx-auto bg-white shadow-md rounded-lg p-6 border border-gray-200 space-y-6 text-gray-700 text-md">
             <p>
-              If the item is found damaged or defective after receipt, the customer shall be entitled to an exchange subject to the specified claim process.
-            </p>
+            If the item is found damaged or defective after receipt, the customer shall be entitled to the exchange subject to the specified claim process. Only those can be eligible for replacement who submit an unboxing video and clear photo evidence showing damage or defects within 24 hrs of delivery. This proof must be sent to grabgardenn@gmail.com within the specified time frame. Claims not filed as per the defined procedure or within the specified time period will be classified as invalid and the customer will not be entitled for exchange. Grab Gardenn reserves the right to examine and confirm the claim before determining whether a replacement is warranted.            </p>
 
             <p>
-              Only those customers will be eligible for replacement who submit an <strong>unboxing video</strong> and <strong>clear photo evidence</strong> showing the damage or defects <strong>within 24 hours</strong> of delivery.
-            </p>
+            If a refund is approved by GRAB GARDENN HEALTHY FOODS, it will be processed within 6-8 business days and credited to the original payment method.            </p>
 
-            <p>
-              This proof must be sent to <a href="mailto:grabgardenn@gmail.com" className="text-primary underline">grabgardenn@gmail.com</a> within the specified time frame.
-            </p>
-
-            <p>
-              Claims not filed as per the defined procedure or within the specified time period will be classified as invalid, and the customer will not be entitled to an exchange.
-            </p>
-
-            <p>
-              <strong>Grab Gardenn</strong> reserves the right to examine and confirm the claim before determining whether a replacement is warranted.
-            </p>
-
-            <p>
-              If a refund is approved by <strong>GRAB GARDENN HEALTHY FOODS</strong>, it will be processed within <strong>6-8 business days</strong> and credited to the original payment method.
-            </p>
+            
           </div>
 
           {/* Back to Home Button */}

@@ -22,24 +22,16 @@ const ShippingAndDelivery = () => {
           {/* Content */}
           <div className="max-w-4xl mx-auto bg-white shadow-md rounded-lg p-6 border border-gray-200 space-y-6 text-gray-700 text-md">
             <p>
-              <strong>Grab Gardenn</strong> commits to dispatching orders within <strong>5 business days</strong> of order confirmation. However, delivery timelines may vary based on your location and the prevailing logistical circumstances.
-            </p>
+            Grab Gardenn commits to dispatching orders within 5 business days of order confirmation.
+            The estimated delivery period may extend up to 30 business days, depending on the logistical circumstances and the location of delivery.            </p>
 
             <p>
-              The estimated delivery window is up to <strong>30 business days</strong> from the date of dispatch. Once the order is handed over to our logistics partner, any delays in transit are beyond our control and shall not be attributed to Grab Gardenn.
-            </p>
+            Once the Goods are dispatched, Grab Gardenn shall no longer bear responsibility for any delay in delivery, as such delays shall be attributable to the logistics partner. In the event of multiple unsuccessful delivery attempts, whereby the Goods are returned to our warehouse, Grab Gardenn will arrange for One reshipment without additional cost to the customer.            </p>
 
             <p>
-              In case of multiple unsuccessful delivery attempts where the order is returned to our warehouse, we will arrange for <strong>one-time free reshipment</strong> to the customer’s address.
-            </p>
+            If products are lost or damaged during shipment, Grab Gardenn will offer a replacement or refund, as per the refund policy. Claims for damaged or lost shipments must be made in accordance with the procedure set forth in our Refund Policy, which includes submitting an unboxing video and photographic evidence.            </p>
 
-            <p>
-              If your products are <strong>lost or damaged during shipment</strong>, we will either replace the product or offer a refund as per our refund policy.
-            </p>
-
-            <p>
-              To claim a refund or replacement for damaged/lost goods, customers must follow the procedure detailed in our Refund Policy, which includes submitting an <strong>unboxing video</strong> and relevant <strong>photographic evidence</strong>.
-            </p>
+           
           </div>
 
           {/* Back to Home Button */}

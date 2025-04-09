@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { Facebook, Instagram, Twitter } from "lucide-react";
+import { Facebook, Instagram, Twitter, Youtube } from "lucide-react";
 
 export function Footer() {
   return (
@@ -74,11 +74,11 @@ export function Footer() {
               <Link href="https://facebook.com" target="_blank">
                 <Facebook className="h-5 w-5 text-gray-600 hover:text-green-600 transition" />
               </Link>
-              <Link href="https://instagram.com" target="_blank">
+              <Link href="https://www.instagram.com/grabgardenn/" target="_blank">
                 <Instagram className="h-5 w-5 text-gray-600 hover:text-green-600 transition" />
               </Link>
-              <Link href="https://twitter.com" target="_blank">
-                <Twitter className="h-5 w-5 text-gray-600 hover:text-green-600 transition" />
+              <Link href="https://youtube.com/@grabgardenn?si=QBKa8gfdN5ZtHf5f" target="_blank">
+                <Youtube className="h-5 w-5 text-gray-600 hover:text-green-600 transition" />
               </Link>
             </div>
             <h4 className="text-lg font-semibold text-gray-800 mt-6">Subscribe</h4>
