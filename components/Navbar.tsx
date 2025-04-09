@@ -105,9 +105,9 @@ export function Navbar() {
           <Image
             src="/grab-gardenn-logo.png"
             alt="Grab Gardenn"
-            width={80}
-            height={80}
-            className="md:w-20 md:h-20 w-16 h-16"
+            width={95}
+            height={95}
+            className="md:w-24 md:h-24 w-16 h-16"
           />
         </Link>
 
