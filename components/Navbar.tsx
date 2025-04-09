@@ -16,7 +16,7 @@ import axios from "axios";
 import { useRecoilValue } from "recoil";
 import { userState } from "@/store/atoms/user";
 import { Product } from "@/lib/types";
-import {CartSheet} from "@/components/CartSheet";
+import { CartSheet } from "@/components/CartSheet";
 import { UserProfileSheet } from "./UserProfileSheet";
 import Loading from "./Loading";
 
@@ -39,13 +39,9 @@ export function Navbar() {
   const [cartItems, setCartItems] = useState<number>(0);
   const [products, setProducts] = useState<Product[]>([]);
   const user = useRecoilValue(userState);
-
   const [isMounted, setIsMounted] = useState(false);
 
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
-
+  useEffect(() => setIsMounted(true), []);
 
   useEffect(() => {
     const fetchCart = async () => {
@@ -56,39 +52,32 @@ export function Navbar() {
         const response = await axios.get(
           `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/cart/${user._id}`,
           {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
+            headers: { Authorization: `Bearer ${token}` },
           }
         );
-
         setCartItems(response.data.cart.items.length);
       } catch (error) {
         console.log("Error fetching cart:", error);
       }
     };
     fetchCart();
-  }, []);
+  }, [user]);
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
         const response = await axios.get(
           `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/products`,
-          {
-            withCredentials: true,
-          }
+          { withCredentials: true }
         );
-
         setProducts(response.data.products);
       } catch (error) {
-        console.log("Error fetching cart:", error);
+        console.log("Error fetching products:", error);
       }
     };
     fetchProducts();
   }, []);
 
-  // Close dropdown when clicking outside
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (
@@ -102,28 +91,25 @@ export function Navbar() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // Filter products based on search query
   const filteredProducts = products.filter((product) =>
     product.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  if (!isMounted) return <Loading/>;
+  if (!isMounted) return <Loading />;
 
   return (
-    <nav className="fixed left-20 right-20 top-2 mx-16 z-50 shadow-sm rounded-xl bg-white border border-gray-300">
-      <div className="z-50 px-2 max-w-full flex h-[70px] items-center justify-between md:px-4">
+    <nav className="fixed md:left-10 md:right-20 left-2 right-2 md:top-2 top-1 mx-auto z-50 md:shadow-md rounded-xl bg-white border border-gray-300 max-w-full">
+      <div className="px-4 flex h-[70px] items-center justify-between">
         {/* Logo */}
-        <div className="flex items-center">
-          <Link href="/">
-            <Image
-              src="/grab-gardenn-logo.png"
-              alt="Grab Gardenn"
-              width={80}
-              height={80}
-              className="w-20 h-20"
-            />
-          </Link>
-        </div>
+        <Link href="/">
+          <Image
+            src="/grab-gardenn-logo.png"
+            alt="Grab Gardenn"
+            width={80}
+            height={80}
+            className="md:w-20 md:h-20 w-16 h-16"
+          />
+        </Link>
 
         {/* Desktop Navigation */}
         <div className="hidden md:flex items-center space-x-6 text-sm font-medium">
@@ -142,7 +128,7 @@ export function Navbar() {
           ))}
         </div>
 
-        {/* Search, User and Cart Icons */}
+        {/* Desktop Search + Icons */}
         <div className="hidden md:flex items-center space-x-3 relative">
           <Popover open={searchOpen}>
             <PopoverTrigger asChild>
@@ -152,23 +138,18 @@ export function Navbar() {
                   placeholder="Search..."
                   className="border bg-white rounded-md px-3 py-1 w-full text-sm focus:outline-none focus:ring-2 focus:ring-primary"
                   onFocus={() => setSearchOpen(true)}
-                  onFocusCapture={() => setSearchOpen(true)}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   value={searchQuery}
                 />
                 <Search className="absolute right-2 top-2.5 h-4 w-4 text-muted-foreground" />
               </div>
             </PopoverTrigger>
-
-            {/* Search Results */}
             <PopoverContent
               ref={searchRef}
               align="start"
-              className="bg-white w-[300px] md:w-[300px] max-h-[300px] overflow-y-auto p-2 mx-2 my-2"
+              className="bg-white w-[300px] max-h-[300px] overflow-y-auto p-2 mx-2 my-2"
             >
-              <h3 className="text-gray-600 font-semibold text-sm mb-2">
-                Products
-              </h3>
+              <h3 className="text-gray-600 font-semibold text-sm mb-2">Products</h3>
               {filteredProducts.length > 0 ? (
                 filteredProducts.map((product) => (
                   <div
@@ -180,7 +161,6 @@ export function Navbar() {
                     }}
                     className="cursor-pointer hover:bg-primary/10 p-2 rounded-md transition-all flex gap-4 items-center"
                   >
-                    {/* Product Image */}
                     <Image
                       src={product.images[0]}
                       alt={product.name}
@@ -188,13 +168,10 @@ export function Navbar() {
                       height={50}
                       className="w-12 h-12 object-cover rounded-md"
                     />
-
-                    {/* Product Info */}
                     <div>
                       <h4 className="text-sm font-medium text-gray-800">
                         {product.name}
                       </h4>
-                      
                     </div>
                   </div>
                 ))
@@ -206,25 +183,22 @@ export function Navbar() {
             </PopoverContent>
           </Popover>
 
-          {/* User and Cart Icons */}
-          {!user.isLoggedIn ? 
-          <Link href="/auth">
-          <Button variant="ghost" size="icon">
-            <User className="h-5 w-5" />
-          </Button>
-        </Link>
-        : <UserProfileSheet />}
-          
-          <CartSheet />
-          </div>
+          {!user.isLoggedIn ? (
+            <Link href="/auth">
+              <Button variant="ghost" size="icon">
+                <User className="h-5 w-5" />
+              </Button>
+            </Link>
+          ) : (
+            <UserProfileSheet />
+          )}
 
-        {/* Mobile Menu Button */}
+          <CartSheet />
+        </div>
+
+        {/* Mobile Menu Toggle */}
         <div className="md:hidden flex items-center">
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => setIsOpen(!isOpen)}
-          >
+          <Button variant="ghost" size="icon" onClick={() => setIsOpen(!isOpen)}>
             <Menu className="h-6 w-6" />
           </Button>
         </div>
@@ -232,7 +206,50 @@ export function Navbar() {
 
       {/* Mobile Navigation */}
       {isOpen && (
-        <div className="md:hidden bg-background p-4 space-y-3 border-t w-full">
+        <div className="md:hidden bg-slate-50 p-4 space-y-3 border rounded-b">
+          {/* Mobile Search */}
+          <div className="relative">
+            <Input
+              type="text"
+              placeholder="Search products..."
+              className="pl-3 pr-8 py-2 text-sm border rounded-md w-full"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+            <Search className="absolute right-3 top-2.5 h-4 w-4 text-muted-foreground" />
+            {searchQuery.length > 0 && (
+              <div className="absolute top-12 left-0 right-0 bg-white border rounded-md max-h-60 overflow-y-auto z-50 shadow-md">
+                {filteredProducts.length > 0 ? (
+                  filteredProducts.map((product) => (
+                    <div
+                      key={product._id}
+                      onClick={() => {
+                        router.push(`/products/${product._id}`);
+                        setIsOpen(false);
+                        setSearchQuery("");
+                      }}
+                      className="flex items-center gap-3 p-2 hover:bg-primary/10 cursor-pointer"
+                    >
+                      <Image
+                        src={product.images[0]}
+                        alt={product.name}
+                        width={40}
+                        height={40}
+                        className="rounded-md object-cover w-10 h-10"
+                      />
+                      <span className="text-sm">{product.name}</span>
+                    </div>
+                  ))
+                ) : (
+                  <p className="text-sm p-2 text-muted-foreground">
+                    No results found
+                  </p>
+                )}
+              </div>
+            )}
+          </div>
+
+          {/* Mobile Nav Links */}
           {items.map((item) => (
             <Link
               key={item.name}
@@ -243,22 +260,22 @@ export function Navbar() {
               {item.name}
             </Link>
           ))}
-          <div className="flex space-x-3 mt-3">
-            <Link href="/auth" onClick={() => setIsOpen(false)}>
-              <Button variant="ghost" size="icon">
-                <User className="h-5 w-5" />
-              </Button>
-            </Link>
-            <Link href="/cart" onClick={() => setIsOpen(false)}>
-              <Button variant="ghost" size="icon">
-                <ShoppingCart className="h-5 w-5" />
-              </Button>
-            </Link>
+
+          {/* Mobile Icons */}
+          <div className="flex space-x-1 mt-3">
+            {!user.isLoggedIn ? (
+              <Link href="/auth" onClick={() => setIsOpen(false)}>
+                <Button variant="ghost" size="icon">
+                  <User className="h-5 w-5" />
+                </Button>
+              </Link>
+            ) : (
+              <UserProfileSheet />
+            )}
+            <CartSheet />
           </div>
         </div>
       )}
-
     </nav>
-
   );
 }

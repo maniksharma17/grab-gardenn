@@ -107,6 +107,7 @@ export default function AuthPage() {
         isLoggedIn: true,
         createdAt: data.user.createdAt,
         updatedAt: data.user.updatedAt,
+        primaryAddress: 0,
       });
 
       localStorage.setItem("user", JSON.stringify({

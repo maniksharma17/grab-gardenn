@@ -111,24 +111,75 @@ export default function ProductsPage() {
     setSelectedVariants((prev) => ({ ...prev, [productId]: variant }));
   };
 
+  const carouselImages = [
+    {
+      src: "https://grabgardenn-storage.s3.ap-south-1.amazonaws.com/banners/millets-banner.png",
+      href: "/millets",
+    },
+    {
+      src: "https://grabgardenn-storage.s3.ap-south-1.amazonaws.com/banners/pulses-banner.png",
+      href: "/pulses",
+    },
+    {
+      src: "https://grabgardenn-storage.s3.ap-south-1.amazonaws.com/banners/sweeteners-banner.png",
+      href: "/sweeteners",
+    },
+    {
+      src: "https://grabgardenn-storage.s3.ap-south-1.amazonaws.com/banners/seeds-banner.jpeg",
+      href: "/seeds",
+    },
+  ];
+
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % carouselImages.length);
+    }, 3000); // Change slide every 3 seconds
+
+    return () => clearInterval(interval); // Cleanup
+  }, [carouselImages.length]);
+
   return (
-    <div className="min-h-screen bg-white">
+    <div className="max-md:mt-12 min-h-screen bg-white">
       <Navbar />
       <CartHandle />
 
-      <div className="w-full h-full">
-        <Image 
-        src={'banner2.png'}
-        alt="banner"
-        height={100}
-        width={100}
-        className=" h-1/2 w-full"
-        
-        />
+      <div className="mt-16 max-md:mt-20 w-full h-[140px] sm:h-[500px] relative overflow-hidden">
+        {carouselImages.map((image, index) =>
+          index === currentSlide ? (
+            <Link
+              key={image.src}
+              href={`products/collection/${image.href}`}
+              className="absolute inset-0 w-full h-full"
+            >
+              <Image
+                src={image.src}
+                alt={`Banner ${index + 1}`}
+                fill
+                className="object-cover transition-opacity duration-1000 opacity-100"
+              />
+            </Link>
+          ) : null
+        )}
+
+        <div className="absolute bottom-4 w-full flex justify-center gap-2 z-10">
+          {carouselImages.map((_, index) => (
+            <div
+              key={index}
+              className={`h-2 w-2 rounded-full transition-all duration-300 ${
+                index === currentSlide ? "bg-white" : "bg-white/50"
+              }`}
+            />
+          ))}
+        </div>
       </div>
 
       {/* Category Bar */}
       <div className="z-10 px-4 max-md:py-2 py-6">
+        <h3 className="text-center text-gray-700 max-md:text-sm font-semibold my-2">
+          EXPLORE OUR NATURAL CATEGORIES
+        </h3>
         <div className="flex md:justify-center py-2 gap-6 max-md:gap-1 overflow-x-scroll relative">
           {categories.map((category) => (
             <Link
@@ -181,7 +232,7 @@ export default function ProductsPage() {
           className={
             isHorizontal
               ? "flex flex-col justify-center gap-6"
-              : "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-4 gap-y-12"
+              : "grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-x-2 gap-y-6 md:gap-x-4 md:gap-y-12"
           }
         >
           {" "}
@@ -201,12 +252,14 @@ export default function ProductsPage() {
               <div
                 key={product._id}
                 className={`rounded-lg bg-white border overflow-hidden hover:shadow-md transition ${
-                  isHorizontal ? "flex flex-row" : ""
+                  isHorizontal ? "flex md:flex-row flex-col" : ""
                 }`}
               >
                 <div
                   className={`relative ${
-                    isHorizontal ? "w-1/4 aspect-square" : "aspect-square"
+                    isHorizontal
+                      ? "w-1/4 max-md:w-full aspect-square"
+                      : "aspect-square"
                   } cursor-pointer`}
                   onClick={() => {
                     router.push(`/products/${product._id}`);
@@ -216,7 +269,7 @@ export default function ProductsPage() {
                     src={product.images[0]}
                     alt={product.name}
                     fill
-                    className="object-cover hover:opacity-0 transition-all duration-300"
+                    className={`object-cover ${product.images.length>1 && "hover:opacity-0"} transition-all duration-300`}
                   />
 
                   {product.images.length > 1 && (
@@ -229,7 +282,11 @@ export default function ProductsPage() {
                   )}
                 </div>
 
-                <div className={`${isHorizontal?"w-3/4":""} p-4 flex flex-col gap-2`}>
+                <div
+                  className={`${
+                    isHorizontal ? "md:w-3/4" : ""
+                  } p-4 max-md:p-2 flex flex-col gap-2`}
+                >
                   <h3
                     className={`text-gray-800 font-semibold ${
                       isHorizontal ? "text-xl" : "text-md"
@@ -269,7 +326,9 @@ export default function ProductsPage() {
 
                   <div
                     className={`flex items-center gap-2 mt-2 ${
-                      isHorizontal ? "w-1/2 flex-col justify-start" : "flex-row"
+                      isHorizontal
+                        ? "md:w-1/2 flex-col justify-start"
+                        : "flex-row"
                     }`}
                   >
                     <Select

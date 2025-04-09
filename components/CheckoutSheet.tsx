@@ -177,8 +177,10 @@ const setCartRefresh = useSetRecoilState(cartRefreshState);
               if (shiprocketResponse.data.success) {
                 console.log(shiprocketResponse);
               
-                setOrderId(res.data.shiprocketOrderId); 
-                setOrderDialogOpen(true);       
+                toast({
+                  title: "Order has been placed successfully. 🎉",
+                  description: "Order ID: " + shiprocketResponse.data.orderId
+                })  
                 setCartRefresh(prev => prev + 1);
               }
               
@@ -225,16 +227,23 @@ const setCartRefresh = useSetRecoilState(cartRefreshState);
             headers: { Authorization: `Bearer ${token}` },
           }
         );
-        setOpen(false)
-        setCart(false)
+
+        if(response.data.success){
+          toast({
+            title: "Order has been placed successfully. 🎉",
+            description: "OrderID: " + response.data.orderId
+          })
+        }
+        
         setOrderId(response.data.shiprocketOrderId); 
-        setOrderDialogOpen(true);
         setCartRefresh(prev => prev + 1);
 
       } catch (err) {
         console.log("COD error", err);
         toast({ title: "Order failed", variant: "destructive" });
       } finally {
+        setOpen(false)
+        setCart(false)
         setLoading(false)
       }
     }

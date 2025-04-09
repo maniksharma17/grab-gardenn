@@ -112,11 +112,11 @@ export default function ProductsPage() {
       <CartHandle />
 
       {/* Category Header */}
-      <div className="-mt-6 relative bg-green-700 shadow-sm overflow-hidden h-[250px]">
+      <div className="mt-12 relative bg-green-700 shadow-sm overflow-hidden h-[200px]">
 
         {/* Overlay with Text */}
         {categoryData && (
-          <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4">
+          <div className="absolute mt-6 inset-0 flex flex-col items-center justify-center text-center px-4">
             <p className="text-sm text-white mb-2">
               <Link href="/products" className="hover:underline text-white">
                 All Products
@@ -124,10 +124,10 @@ export default function ProductsPage() {
               &gt;{" "}
               <span className="capitalize text-white">{categoryData.name}</span>
             </p>
-            <h1 className="text-4xl font-bold capitalize text-white">
+            <h1 className="text-4xl max-md:text-2xl font-bold capitalize text-white">
               {categoryData.name}
             </h1>
-            <p className="text-md text-white mt-3 max-w-2xl">
+            <p className="text-md max-md:text-sm text-white mt-3 max-w-2xl">
               {categoryData.description}
             </p>
           </div>
@@ -154,8 +154,8 @@ export default function ProductsPage() {
         <div
           className={
             isHorizontal
-              ? "flex flex-col justify-center gap-6"
-              : "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-4 gap-y-8"
+              ? "max-md:px-2 flex flex-col justify-center gap-6"
+              : "max-md:px-2 grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 md:gap-x-4 gap-x-2 gap-y-6 md:gap-y-8"
           }
         >
           {categoryData?.products?.map((product: any) => {
@@ -173,12 +173,12 @@ export default function ProductsPage() {
               <div
                 key={product._id}
                 className={`rounded-lg bg-white border overflow-hidden hover:shadow-md transition ${
-                  isHorizontal ? "flex flex-row" : ""
+                  isHorizontal ? "flex flex-col md:flex-row" : ""
                 }`}
               >
                 <div
                   className={`relative aspect-square ${
-                    isHorizontal ? "w-1/4" : ""
+                    isHorizontal ? "md:w-1/4" : ""
                   } cursor-pointer`}
                   onClick={() => {
                     router.push(`/products/${product._id}`);
@@ -201,7 +201,7 @@ export default function ProductsPage() {
                   )}
                 </div>
 
-                <div className={`${isHorizontal?"w-3/4":""} p-4 flex flex-col gap-2`}>
+                <div className={`${isHorizontal?"md:w-3/4 p-4":""} md:p-4 p-2 flex flex-col gap-2`}>
                   <h3
                     className={`text-gray-800 font-semibold ${
                       isHorizontal ? "text-xl" : "text-md"
@@ -239,7 +239,7 @@ export default function ProductsPage() {
                     </div>
                   </div>
 
-                  <div className={`flex items-center gap-2 mt-2 ${isHorizontal?"w-1/2 flex-col justify-start":"flex-row"}`}>
+                  <div className={`flex items-center gap-2 mt-2 ${isHorizontal?"md:w-1/2 flex-col justify-start":"flex-row"}`}>
                     <Select
                       defaultValue="0"
                       onValueChange={(value) =>

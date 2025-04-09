@@ -431,33 +431,33 @@ export const cart = [
 export const news = [
   {
     id: 1,
-    title: "India Introduces Stricter Organic Food Regulations",
+    title: "India Introduces Stricter natural Food Regulations",
     summary:
-      "New government policies aim to ensure higher quality standards in organic produce.",
+      "New government policies aim to ensure higher quality standards in natural produce.",
     content: `
-      The Indian government has recently introduced new stringent regulations for organic food certification. 
-      These policies focus on maintaining purity in organic farming by reducing the use of artificial pesticides 
+      The Indian government has recently introduced new stringent regulations for natural food certification. 
+      These policies focus on maintaining purity in natural farming by reducing the use of artificial pesticides 
       and ensuring transparency in labeling. Farmers across the country are adapting to these regulations to 
-      meet the growing demand for authentic organic products.
+      meet the growing demand for authentic natural products.
       
       Consumers can now expect better transparency with labeling, making it easier to distinguish genuine 
-      organic products from falsely marketed ones.
+      natural products from falsely marketed ones.
     `,
     image: "https://images.unsplash.com/photo-1504674900247-0877df9cc836",
     date: "March 25, 2025",
   },
   {
     id: 2,
-    title: "Organic Food Market in India Expected to Reach $2 Billion",
+    title: "Natural Food Market in India Expected to Reach $2 Billion",
     summary:
-      "The Indian organic food industry is growing rapidly, fueled by increased consumer awareness.",
+      "The Indian natural food industry is growing rapidly, fueled by increased consumer awareness.",
     content: `
-      With more Indians shifting towards healthier eating habits, the organic food industry in the country 
+      With more Indians shifting towards healthier eating habits, the natural food industry in the country 
       is projected to reach a valuation of $2 billion by 2027. Experts cite rising awareness, health concerns, 
       and increased affordability as key reasons for this surge.
       
       Farmers and companies are investing in sustainable agricultural practices to meet the demand. Many 
-      online grocery stores are now offering certified organic food to cater to health-conscious consumers.
+      online grocery stores are now offering certified natural food to cater to health-conscious consumers.
     `,
     image:
       "https://images.unsplash.com/photo-1607349913338-fca6f7fc42d0?q=80&w=3174&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
@@ -465,15 +465,15 @@ export const news = [
   },
   {
     id: 3,
-    title: "Uttarakhand Farmers Lead India's Organic Revolution",
+    title: "Uttarakhand Farmers Lead India's natural Revolution",
     summary:
-      "Himalayan farmers are setting an example for sustainable organic farming.",
+      "Himalayan farmers are setting an example for sustainable natural farming.",
     content: `
-      Uttarakhand's farmers are becoming pioneers in India's organic revolution. With fertile soil and 
-      a favorable climate, many farmers are switching from conventional farming to organic methods.
+      Uttarakhand's farmers are becoming pioneers in India's natural revolution. With fertile soil and 
+      a favorable climate, many farmers are switching from conventional farming to natural methods.
       
-      The state government has launched various initiatives to support organic farming, including training 
-      programs and subsidies for farmers. The region is now home to some of India's most sought-after organic 
+      The state government has launched various initiatives to support natural farming, including training 
+      programs and subsidies for farmers. The region is now home to some of India's most sought-after natural 
       produce, including millets, lentils, and herbal teas.
     `,
     image:
@@ -500,15 +500,15 @@ export const news = [
 
   {
     id: 6,
-    title: "Organic Farming Reduces Carbon Footprint, Says Study",
+    title: "natural Farming Reduces Carbon Footprint, Says Study",
     summary:
-      "New research highlights the environmental benefits of organic farming.",
+      "New research highlights the environmental benefits of natural farming.",
     content: `
-      A recent study has revealed that organic farming significantly reduces greenhouse gas emissions compared 
+      A recent study has revealed that natural farming significantly reduces greenhouse gas emissions compared 
       to conventional farming methods. The research indicates that the elimination of synthetic fertilizers and 
       pesticides plays a crucial role in lowering carbon footprints.
       
-      The study suggests that if more farmers adopt organic practices, it could contribute to global climate 
+      The study suggests that if more farmers adopt natural practices, it could contribute to global climate 
       change mitigation efforts.
     `,
     image:
@@ -517,13 +517,13 @@ export const news = [
   },
   {
     id: 7,
-    title: "Demand for Organic Grains Rises in India",
-    summary: "Indian households are increasingly switching to organic grains.",
+    title: "Demand for natural Grains Rises in India",
+    summary: "Indian households are increasingly switching to natural grains.",
     content: `
-      Indian consumers are making the switch to organic grains due to their health benefits and lack of chemical 
-      residues. Organic wheat, rice, and pulses have seen a steady rise in demand over the past few years.
+      Indian consumers are making the switch to natural grains due to their health benefits and lack of chemical 
+      residues. natural wheat, rice, and pulses have seen a steady rise in demand over the past few years.
       
-      Many e-commerce platforms now provide home delivery of certified organic grains, making them more accessible 
+      Many e-commerce platforms now provide home delivery of certified natural grains, making them more accessible 
       to urban populations.
     `,
     image:
@@ -535,17 +535,17 @@ export const news = [
 export const blogs = [
   {
     id: 1,
-    title: "5 Benefits of Organic Food You Should Know",
-    summary: "Discover how organic food can improve your health and lifestyle.",
+    title: "5 Benefits of Natural Food You Should Know",
+    summary: "Discover how natural food can improve your health and lifestyle.",
     content: `
-      Organic food is free from harmful chemicals and pesticides, making it a healthier choice for you and your family. 
+      natural food is free from harmful chemicals and pesticides, making it a healthier choice for you and your family. 
       Here are five key benefits:
       
-      1. **Better Nutrition**: Organic foods retain more essential vitamins and minerals.
+      1. **Better Nutrition**: natural foods retain more essential vitamins and minerals.
       2. **Free from Chemicals**: No harmful pesticides or synthetic fertilizers.
       3. **Environmentally Friendly**: Sustainable farming practices help protect nature.
-      4. **Tastes Better**: Many consumers find organic food to have a richer taste.
-      5. **Supports Local Farmers**: Buying organic helps small-scale farmers thrive.
+      4. **Tastes Better**: Many consumers find natural food to have a richer taste.
+      5. **Supports Local Farmers**: Buying natural helps small-scale farmers thrive.
     `,
     image:
       "https://images.unsplash.com/photo-1562437243-4117943e59b8?q=80&w=3111&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
@@ -553,11 +553,11 @@ export const blogs = [
   },
   {
     id: 2,
-    title: "Why You Should Switch to Organic Grains",
+    title: "Why You Should Switch to Natural Grains",
     summary:
-      "Organic grains are packed with nutrients and free from harmful chemicals.",
+      "Natural grains are packed with nutrients and free from harmful chemicals.",
     content: `
-      Many households are switching to organic grains due to their high nutritional value and lack of chemical residues.
+      Many households are switching to natural grains due to their high nutritional value and lack of chemical residues.
       Whole grains such as brown rice, quinoa, and millet provide fiber, protein, and essential minerals.
     `,
     image:
@@ -566,11 +566,11 @@ export const blogs = [
   },
   {
     id: 3,
-    title: "How to Grow Your Own Organic Vegetables at Home",
+    title: "How to Grow Your Own natural Vegetables at Home",
     summary:
-      "A beginner’s guide to starting your own organic vegetable garden.",
+      "A beginner’s guide to starting your own natural vegetable garden.",
     content: `
-      Growing organic vegetables at home is easier than you think! Start with small herbs like basil and coriander, 
+      Growing natural vegetables at home is easier than you think! Start with small herbs like basil and coriander, 
       and gradually move to tomatoes and spinach. Use compost and natural fertilizers for the best results.
     `,
     image:
@@ -579,12 +579,12 @@ export const blogs = [
   },
   {
     id: 4,
-    title: "Are Organic Fruits Really Healthier?",
+    title: "Are natural Fruits Really Healthier?",
     summary:
-      "Unveiling the truth about organic fruits and their health benefits.",
+      "Unveiling the truth about natural fruits and their health benefits.",
     content: `
-      Studies show that organic fruits contain higher levels of antioxidants and fewer pesticide residues than 
-      conventionally grown fruits. Choosing organic can lead to better overall health.
+      Studies show that natural fruits contain higher levels of antioxidants and fewer pesticide residues than 
+      conventionally grown fruits. Choosing natural can lead to better overall health.
     `,
     image:
       "https://images.unsplash.com/photo-1551888762-164944b399d8?q=80&w=3134&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
@@ -609,53 +609,45 @@ export const categories = [
     name: "Millets",
     description:
       "Freshly milled, nutrient-rich flours for all your baking needs.",
-    image:
-      "https://images.unsplash.com/photo-1627735483792-233bf632619b?q=80&w=2970&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    image: "https://grabgardenn-storage.s3.ap-south-1.amazonaws.com/categories/millets.jpg"  
   },
   {
     name: "Rice",
     description: "Wholesome, unprocessed grains packed with natural goodness.",
-    image:
-      "https://images.unsplash.com/photo-1705475388190-775066fd69a5?q=80&w=2942&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    image: "https://grabgardenn-storage.s3.ap-south-1.amazonaws.com/categories/rice.jpg"  
   },
   {
     name: "Sweeteners",
     description:
-      "High-protein, organic pulses for a healthy and balanced diet.",
-    image:
-      "https://images.unsplash.com/photo-1694679671688-3d9bb5e77f37?q=80&w=3132&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "High-protein, natural pulses for a healthy and balanced diet.",
+    image: "https://grabgardenn-storage.s3.ap-south-1.amazonaws.com/categories/sweeteners.png"  
   },
   {
     name: "Pulses",
     description: "Nutrient-dense seeds for snacking, cooking, and wellness.",
-    image:
-      "https://images.unsplash.com/photo-1633633688057-9bd3ed288d52?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    image: "https://grabgardenn-storage.s3.ap-south-1.amazonaws.com/categories/pulses.jpg"  
   },
   {
     name: "Seeds",
     description:
       "Aromatic, farm-fresh spices to enhance your culinary creations.",
-    image:
-      "https://images.unsplash.com/photo-1566824099147-bef027d3a333?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    image: "https://grabgardenn-storage.s3.ap-south-1.amazonaws.com/categories/seeds.jpg"  
   },
   {
     name: "Beverages",
     description:
       "Natural sweeteners like jaggery and raw sugar for guilt-free indulgence.",
-    image:
-      "https://img.freepik.com/free-photo/healthy-jaggery-still-life-arrangement_23-2149161556.jpg?t=st=1742920082~exp=1742923682~hmac=a259a9f32ea3bc93b00a052e2409ce3742c8de8461fb6600470262cea2913a43&w=2000",
-  },
+      image: "https://grabgardenn-storage.s3.ap-south-1.amazonaws.com/categories/beverages.jpg"  
+    },
   {
     name: "Tea",
     description:
-      "Handpicked organic teas for a refreshing and calming experience.",
-    image:
-      "https://images.unsplash.com/photo-1571934811356-5cc061b6821f?q=80&w=2967&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  },
+      "Handpicked natural teas for a refreshing and calming experience.",
+      image: "https://grabgardenn-storage.s3.ap-south-1.amazonaws.com/categories/tea.jpg"  
+    },
   {
     name: "Salt",
     description: "Healthy, natural drinks to keep you energized and hydrated.",
-    image:
-      "https://images.unsplash.com/photo-1580775174971-149b403a7e0b?q=80&w=2942&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    image: "https://grabgardenn-storage.s3.ap-south-1.amazonaws.com/categories/salt.jpg"  
   },
 ];

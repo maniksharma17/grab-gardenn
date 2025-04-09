@@ -20,6 +20,7 @@ import {
 import { CartHandle } from "@/components/CartHandle";
 import Link from "next/link";
 import Loading from "@/components/Loading";
+import { Input } from "@/components/ui/input";
 
 export default function ProductPage() {
   const [quantity, setQuantity] = useState(1);
@@ -104,14 +105,14 @@ export default function ProductPage() {
     <div className="min-h-screen bg-primary/5">
       <Navbar />
       <CartHandle />
-
+  
       {/* Product Section */}
-      <div className="container mx-auto px-4 py-10">
+      <div className="container mt-20 max-md:mt-12 mx-auto px-4 py-10">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
           {/* Image Gallery */}
-          <div className="max-h-[70vh] sticky top-32 flex gap-4 overflow-hidden">
+          <div className="md:sticky md:top-32 max-h-[70vh] flex md:flex-row flex-col-reverse gap-4 overflow-hidden">
             {product.images.length > 1 && (
-              <div className="flex flex-col gap-2 min-w-[100px] overflow-y-auto">
+              <div className="flex md:flex-col flex-row gap-2 md:min-w-[100px] md:max-h-[500px] overflow-auto">
                 {product.images.map((img, idx) => (
                   <button
                     key={idx}
@@ -127,14 +128,14 @@ export default function ProductPage() {
                       alt={`thumb-${idx}`}
                       width={80}
                       height={80}
-                      className="rounded-lg object-cover"
+                      className="rounded-lg object-cover aspect-square"
                       unoptimized
                     />
                   </button>
                 ))}
               </div>
             )}
-
+  
             <div className="w-full max-h-[500px] shadow-sm aspect-square overflow-hidden rounded-xl">
               <Image
                 src={product.images[selectedImage]}
@@ -146,51 +147,57 @@ export default function ProductPage() {
               />
             </div>
           </div>
-
+  
           {/* Product Info */}
-          <div className="space-y-12 relative overflow-y-scroll">
-            
-
-
+          <div className="overflow-y-scroll top-2 space-y-12">
             <h1 className="text-4xl font-medium capitalize leading-tight">
-              {/** Breadcrumbs */}
-              <div className="text-sm flex flex-row gap-2">
-                <Link className="hover:underline" href={'/products'}><p>All Products</p></Link>
+              {/* Breadcrumbs */}
+              <div className="text-sm flex flex-wrap gap-2">
+                <Link className="hover:underline" href={"/products"}>
+                  <p>All Products</p>
+                </Link>
                 {">"}
-                <Link className="hover:underline" href={`/products/collection/${product.category?.name.toLowerCase()}`}><p>{product.category?.name}</p></Link>
+                <Link
+                  className="hover:underline"
+                  href={`/products/collection/${product.category?.name.toLowerCase()}`}
+                >
+                  <p>{product.category?.name}</p>
+                </Link>
                 {">"}
                 <p>{product.name}</p>
               </div>
-              {product.name} {" "}
+              {product.name}{" "}
               {product.hindiName && (
-              <p className="text-lg text-gray-600">({product.hindiName})</p>
-            )}
+                <p className="text-lg text-gray-600">
+                  ({product.hindiName})
+                </p>
+              )}
             </h1>
-            
-
+  
             <div className="space-y-2">
-              <div className="text-3xl font-normal text-primary flex items-center">
+              <div className="text-3xl font-normal text-primary flex items-center flex-wrap gap-2">
                 ₹{discounted}
                 <span className="text-gray-500 line-through ml-2 text-lg">
                   ₹{original}
                 </span>
-                <span className="ml-3 bg-gray-700 rounded-full text-sm text-white font-normal px-2 py-1">
+                <span className="bg-gray-700 rounded-full text-sm text-white font-normal px-2 py-1">
                   {discountPercent}% OFF
                 </span>
-                <p className="text-sm ml-2 text-gray-700">
+                <p className="text-sm text-gray-700">
                   MRP (Inclusive of all taxes)
                 </p>
               </div>
-
-              <div className="flex flex-row gap-2">
+  
+              <div className="flex flex-wrap gap-2">
                 {product.variants.map((variant, idx) => {
-                  const variantPrice = product.price[idx];
                   return (
                     <button
                       key={idx}
                       onClick={() => setSelectedVariant(idx)}
                       className={`w-fit text-left px-8 py-2 rounded-full shadow-sm transition duration-200 ${
-                        selectedVariant === idx ? "bg-primary text-white" : "bg-white"
+                        selectedVariant === idx
+                          ? "bg-primary text-white"
+                          : "bg-white"
                       }`}
                     >
                       <div className="font-medium">{variant.display}</div>
@@ -200,8 +207,13 @@ export default function ProductPage() {
               </div>
             </div>
 
-            <div className="flex flex-col items-center gap-2 w-full">
-              <div className="flex flex-row items-center w-full gap-2">
+            <div className="flex flex-row gap-4 w-fit px-1">
+              <Input placeholder="City Pincode"/>
+              <Button variant={"outline"}>Check Delivery</Button>
+            </div>
+  
+            <div className="flex flex-col items-center gap-4 w-full">
+              <div className="flex flex-row items-center w-full gap-4">
                 <div className="flex items-center space-x-4">
                   <Button
                     variant="outline"
@@ -234,7 +246,7 @@ export default function ProductPage() {
                 BUY IT NOW
               </Button>
             </div>
-
+  
             <ProductDetails
               product={product}
               selectedVariant={selectedVariant}
@@ -244,9 +256,10 @@ export default function ProductPage() {
       </div>
     </div>
   );
+  
 }
 
-export const ProductDetails = ({
+const ProductDetails = ({
   product,
   selectedVariant,
 }: {

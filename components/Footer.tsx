@@ -22,7 +22,7 @@ export function Footer() {
               className="mb-4"
             />
             <p className="mt-2 text-sm">
-              Fresh, organic, and eco-friendly products delivered with love.  
+              Fresh, natural, and eco-friendly products delivered with love.  
             </p>
           </div>
 
@@ -98,7 +98,7 @@ export function Footer() {
 
         {/* Bottom Footer */}
         <div className="text-center text-sm text-gray-500 mt-12 border-t pt-4 pb-4">
-          © {new Date().getFullYear()} Organic Haven. All rights reserved.
+          © {new Date().getFullYear()} GRAB GARDENN HEALTHY FOODS. All rights reserved.
         </div>
       </div>
     </footer>

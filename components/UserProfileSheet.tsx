@@ -84,7 +84,7 @@ export const UserProfileSheet = () => {
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <Button variant="ghost" className="flex items-center gap-2">
+        <Button variant="ghost" className="max-md:px-0 flex items-center gap-2">
           <UserCircle className="h-5 w-5" strokeWidth={1.5} />
           <span className="text-sm font-medium">{user.name.split(" ")[0]}</span>
         </Button>
