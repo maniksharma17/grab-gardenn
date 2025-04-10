@@ -170,6 +170,7 @@ export const CheckoutSheet = ({
           description: "Order Payment",
           order_id: orderId,
           handler: async function (response: any) {
+            console.log("✅ Payment Handler Called", response);
             toast({ title: "Payment Successful" });
             const res = await axios.post(
               `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/checkout/verify-payment/${user._id}`,
