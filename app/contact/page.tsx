@@ -34,10 +34,10 @@ export default function ContactPage() {
     }
   
     try {
-      const res = await fetch("https://script.google.com/macros/s/AKfycbwcBM5aOoJH84vlOipR-8gdRitGg2Fx_41tCxbvtZu1Sigqh358-hhFaDR00VA1F-nr/exec", {
+      const res = await fetch("https://script.google.com/macros/s/AKfycbwNAmTaYBy-0LbNtZPujnPhI4qCVuFgYNUpIEgj7lspbcwJnOZTLPNFLFA5MYvZXmT4/exec", {
         method: "POST",
-        body: JSON.stringify(formData),
-        headers: { "Content-Type": "application/json" },
+        body: (`Name=${formData.name}&Email=${formData.email}&Phone=${formData.phone}&Subject=${formData.subject}&Message=${formData.message}`),
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
       });
   
       if (res.ok) {
@@ -48,8 +48,7 @@ export default function ContactPage() {
         throw new Error("Failed to submit");
       }
     } catch (err) {
-      toast({ title: "Error", description: "Failed to send message", variant: "destructive" });
-      console.error(err);
+      console.log(err);
     }
   };
   
