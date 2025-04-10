@@ -245,6 +245,7 @@ const setCartRefresh = useSetRecoilState(cartRefreshState);
         setOpen(false)
         setCart(false)
         setLoading(false)
+        window.location.reload()
       }
     }
   };
