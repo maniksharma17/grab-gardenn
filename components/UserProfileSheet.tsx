@@ -23,6 +23,8 @@ import Link from "next/link";
 import axios from "axios";
 import { useState } from "react";
 import { Input } from "./ui/input";
+import { validateAddress } from "@/lib/utils";
+import { useToast } from "@/hooks/use-toast";
 
 export const UserProfileSheet = () => {
   const [user, setUser] = useRecoilState(userState);
@@ -30,6 +32,8 @@ export const UserProfileSheet = () => {
   const [showAddressForm, setShowAddressForm] = useState(false);
   const [loading, setLoading] = useState(false);
   const [address, setAddress] = useState({
+    name: "",
+    phone: "",
     street: "",
     streetOptional: "",
     city: "",
@@ -45,7 +49,14 @@ export const UserProfileSheet = () => {
     location.reload();
   };
 
+  const {toast} = useToast();
   const handleAddressSubmit = async () => {
+    const result = validateAddress(address);
+    if(!result.isValid){
+      toast({title: result.message, variant: "destructive"})
+      return;
+    }
+
     try {
       setLoading(true);
       const res = await axios.put(
@@ -70,6 +81,8 @@ export const UserProfileSheet = () => {
         state: "",
         zipCode: "",
         country: "",
+        name: "",
+        phone: ""
       });
       setShowAddressForm(false);
     } catch (error) {
@@ -135,6 +148,20 @@ export const UserProfileSheet = () => {
             {showAddressForm && (
               <div className="space-y-2">
                 <Input
+                  placeholder="Name"
+                  value={address.name}
+                  onChange={(e) =>
+                    setAddress({ ...address, name: e.target.value })
+                  }
+                />
+                <Input
+                  placeholder="Phone"
+                  value={address.phone}
+                  onChange={(e) =>
+                    setAddress({ ...address, phone: e.target.value })
+                  }
+                />
+                <Input
                   placeholder="Street"
                   value={address.street}
                   onChange={(e) =>
@@ -187,6 +214,9 @@ export const UserProfileSheet = () => {
             )}
 
             {/* Orders Button */}
+            <Link href={'/orders'}>
+            View Orders
+            </Link>
           </div>
         </div>
 
