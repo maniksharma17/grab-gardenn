@@ -90,7 +90,7 @@ export default function YourChoicePage() {
       <Navbar />
 
       {/* Hero Section */}
-      <section className="mt-20 relative flex flex-col items-center w-full text-center pt-12 px-6">
+      <section className="mt-28 relative flex flex-col items-center w-full text-center pt-12 px-6">
         <h1 className="text-2xl md:text-3xl font-medium mb-4 text-black">
           Your Choice Matters!
         </h1>
