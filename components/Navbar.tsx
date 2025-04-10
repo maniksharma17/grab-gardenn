@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ShoppingCart, User, Menu, Search } from "lucide-react";
+import { ShoppingCart, User, Menu, Search, PackageSearch } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
@@ -194,6 +194,9 @@ export function Navbar() {
           )}
 
           <CartSheet />
+          <Link href={'/orders'}>
+          <PackageSearch className="w-4 h-4" strokeWidth={1.2}/>
+          </Link>
         </div>
 
         {/* Mobile Menu Toggle */}
@@ -273,6 +276,9 @@ export function Navbar() {
               <UserProfileSheet />
             )}
             <CartSheet />
+            <Link href={'/orders'}>
+          <PackageSearch className="w-4 h-4" strokeWidth={1.2}/>
+          </Link>
           </div>
         </div>
       )}
