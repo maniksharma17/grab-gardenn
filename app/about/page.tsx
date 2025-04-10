@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 
 import { Navbar } from "@/components/Navbar";
 import { Button } from "@/components/ui/button";
@@ -8,12 +7,6 @@ import {
   Leaf,
   Heart,
   Globe,
-  Users,
-  CheckCircle,
-  Circle,
-  Dot,
-  Check,
-  Handshake,
   HandHeart,
   CircleCheck,
 } from "lucide-react";

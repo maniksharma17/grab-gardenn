@@ -27,6 +27,9 @@ export default function Home() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  count = 0;
+  useEffect(()=>{if(count==0) window.location.reload(); count+=1;}, [])
+
   const carouselImages = [
     {
       src: "https://grabgardenn-storage.s3.ap-south-1.amazonaws.com/banners/home-banner-1.jpg",

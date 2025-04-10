@@ -7,7 +7,7 @@ const LaunchWrapper = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     // Create launch time as UTC timestamp (12 PM IST = 6:30 AM UTC)
-    const launchTime = new Date(Date.UTC(2025, 3, 10, 5, 18)); // April = 3 (0-indexed)
+    const launchTime = new Date(Date.UTC(2025, 3, 10, 5, 34)); // April = 3 (0-indexed)
 
     const updateCountdown = () => {
       const now = new Date();
@@ -40,7 +40,7 @@ const LaunchWrapper = ({ children }: { children: React.ReactNode }) => {
   if (showCountdown) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center bg-black text-white font-mono text-center px-4">
-        <p className="mb-4 text-xl">Launching on 10th April, 12 PM IST</p>
+        <p className="mb-4 text-xl">Launching on 10th April, 1 PM IST</p>
         <p className="text-5xl tracking-widest min-h-[3rem]">{timeLeft}</p>
       </div>
     );
