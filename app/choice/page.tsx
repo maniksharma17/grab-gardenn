@@ -25,7 +25,7 @@ export default function YourChoicePage() {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
-    type: "suggestion", // "suggestion" or "modification"
+    type: "suggestion", 
     product: "",
     details: "",
   });
@@ -63,12 +63,13 @@ export default function YourChoicePage() {
     }
   
     try {
-      await fetch("https://script.google.com/macros/s/AKfycbxjBo8JtEH2wRLAJ8cbPfKqqNo-nykyUbuXipEtmHbziNvyDLAweKtE8pXpJqeIEXVM/exec", {
+      const url = "https://script.google.com/macros/s/AKfycbzE-hFYruTIpXryCIvewvPeI65BQo0HycIhc86AMSNWhaIjIY_MD42fL6YSN1pl48-r/exec"
+      await fetch(url, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
         },
-        body: JSON.stringify(formData),
+        body: (`Name=${formData.name}&Email=${formData.email}&Type=${formData.type}&Product=${formData.product}&Details=${formData.details}`),
       });
   
       toast({
