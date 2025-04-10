@@ -34,7 +34,7 @@ export default function ContactPage() {
     }
   
     try {
-      const res = await fetch("https://script.google.com/macros/s/AKfycbzJ_oxk3qVD_q1Jy4i7AFb7VsP9bFeyn3wXdBJfzY7eCGmQkoERX-VDC8lFrVchGL04/exec", {
+      const res = await fetch("https://script.google.com/macros/s/AKfycbxfSMgjJEjsodX9TsPcojf8Dmg6HvKES6YvT_6KW1-RzlO9PQBEc6PABrR6tb7rneb7/exec", {
         method: "POST",
         body: JSON.stringify(formData),
         headers: { "Content-Type": "application/json" },
