@@ -151,7 +151,7 @@ export default function AuthPage() {
           <div className="text-center mb-8">
             <Image
               src="/logo.jpeg"
-              alt="Grab Gardenn"
+              alt="Grab Garden"
               width={40}
               height={40}
               className="mx-auto mb-4"
