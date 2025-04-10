@@ -99,7 +99,7 @@ export function Navbar() {
 
   return (
     <nav className="fixed md:left-10 md:right-20 left-2 right-2 md:top-2 top-1 mx-auto z-50 md:shadow-md rounded-xl bg-white border border-gray-300 max-w-full">
-      <div className="px-4 flex h-[70px] items-center justify-between">
+      <div className="px-4 flex h-20 items-center justify-between">
         {/* Logo */}
         <Link href="/">
           <Image

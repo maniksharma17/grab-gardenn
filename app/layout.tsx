@@ -1,4 +1,3 @@
-"use client"
 import './globals.css';
 import { Poppins } from 'next/font/google';
 import { Toaster } from "@/components/ui/toaster";
@@ -7,6 +6,7 @@ import { RecoilRoot } from 'recoil';
 import { WhatsAppFloatingButton } from '@/components/FloatingWhatsappIcon';
 import Head from 'next/head';
 import Script from 'next/script';
+import { Metadata } from 'next';
 
 const poppins = Poppins({ 
   subsets: ['latin'],
@@ -14,6 +14,13 @@ const poppins = Poppins({
   variable: '--font-poppins',
 });
 
+export const metadata: Metadata = {
+  title: 'GrabGardenn - Live Now!',
+  description: 'Healthy & Natural Foods',
+  icons: {
+    icon: '/grab-gardenn-logo.png', // <-- make sure this exists in /public
+  },
+};
 
 export default function RootLayout({
   children,
@@ -21,7 +28,6 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <RecoilRoot>
     <html lang="en">
       <Script src="https://checkout.razorpay.com/v1/checkout.js"></Script>
       <body className={`${poppins.variable} font-poppins`}>
@@ -31,6 +37,5 @@ export default function RootLayout({
         <WhatsAppFloatingButton />
       </body>
     </html>
-    </RecoilRoot>
   );
 }

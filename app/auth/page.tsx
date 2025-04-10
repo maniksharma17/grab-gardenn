@@ -171,7 +171,7 @@ export default function AuthPage() {
             <TabsContent value="login">
               <div className="bg-card p-8 rounded-lg shadow-sm">
                 <h2 className="text-2xl font-bold mb-6">Welcome Back</h2>
-                <Button
+                {/* <Button
                   variant="outline"
                   className="w-full flex items-center justify-center gap-2 mb-4"
                   onClick={() => console.log("Handle Google Auth here")}
@@ -183,13 +183,13 @@ export default function AuthPage() {
                     height={20}
                   />
                   Continue with Google
-                </Button>
+                </Button> */}
 
-                <div className="flex flex-row items-center justify-center gap-2 px-8">
+                {/* <div className="flex flex-row items-center justify-center gap-2 px-8">
                   <div className="border-t w-full"></div>
                   <p className="text-gray-400 text-sm">OR</p>
                   <div className="w-full border-t"></div>
-                </div>
+                </div> */}
 
                 <form
                   onSubmit={(e) => handleSubmit(e, "login")}
@@ -267,27 +267,9 @@ export default function AuthPage() {
                   onSubmit={(e) => handleSubmit(e, "register")}
                   className="space-y-4"
                 >
-                  <Button
-                    variant="outline"
-                    className="w-full flex items-center justify-center gap-2 mb-4"
-                    onClick={() => console.log("Handle Google Auth here")}
-                  >
-                    <Image
-                      src="/google-icon.svg"
-                      alt="Google"
-                      width={20}
-                      height={20}
-                    />
-                    Continue with Google
-                  </Button>
+                  
 
-                  <div className="flex flex-row items-center justify-center gap-2 px-8">
-                    <div className="border-t w-full"></div>
-                    <p className="text-gray-400 text-sm">OR</p>
-                    <div className="w-full border-t"></div>
-                  </div>
-
-                  <h4 className="border-t pt-4 mt-8 text-gray-600 text-sm font-medium">PERSONAL INFORMATION</h4>
+                  <h4 className=" text-gray-600 text-sm font-medium">PERSONAL INFORMATION</h4>
 
                   <div className="">
                     <label className="text-sm font-medium">Full Name</label>

@@ -68,7 +68,7 @@ export default function AboutPage() {
           {/* Right Side - Image */}
           <div className="px-4 md:w-1/2 relative">
             <Image
-              src="OurStoryImage.JPG"
+              src="https://grabgardenn-storage.s3.ap-south-1.amazonaws.com/images/IMG_5884.JPG"
               alt="Natural Farming"
               width={500}
               height={500}

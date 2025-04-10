@@ -179,7 +179,7 @@ const setCartRefresh = useSetRecoilState(cartRefreshState);
               
                 toast({
                   title: "Order has been placed successfully. 🎉",
-                  description: "Order ID: " + shiprocketResponse.data.orderId
+                  description: "Order ID: " + shiprocketResponse.data.shiprocketOrderId
                 })  
                 setCartRefresh(prev => prev + 1);
               }
@@ -231,7 +231,7 @@ const setCartRefresh = useSetRecoilState(cartRefreshState);
         if(response.data.success){
           toast({
             title: "Order has been placed successfully. 🎉",
-            description: "OrderID: " + response.data.orderId
+            description: "OrderID: " + response.data.shiprocketOrderId
           })
         }
         

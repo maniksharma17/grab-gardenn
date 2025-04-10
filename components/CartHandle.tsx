@@ -48,8 +48,8 @@ export function CartHandle() {
   return (
     <>
       {/* Main floating cart handle */}
-      <div className="w-[500px] z-50 bg-white border text-black shadow-2xl rounded-xl px-6 py-3 fixed bottom-2 right-24 flex flex-row gap-2 items-center justify-between">
-        <div className="text-sm font-medium">
+      <div className="w-[500px] max-md:w-[300px] z-50 bg-white border text-black shadow-2xl rounded-xl px-6 py-3 fixed bottom-2 right-24 flex flex-row gap-2 items-center justify-between">
+        <div className="max-md:hidden text-sm font-medium">
           🛒 {cartItems.length} item{cartItems.length > 1 ? "s" : ""} in your cart
         </div>
 

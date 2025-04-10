@@ -4,9 +4,9 @@ import { useEffect, useState } from "react";
 import { Navbar } from "@/components/Navbar";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
-import { Minus, Plus, ShoppingBagIcon } from "lucide-react";
+import { Minus, Plus, ShoppingBagIcon, Weight } from "lucide-react";
 import Image from "next/image";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import axios from "axios";
 import { Product } from "@/lib/types";
 import { useRecoilValue, useSetRecoilState } from "recoil";
@@ -21,9 +21,11 @@ import { CartHandle } from "@/components/CartHandle";
 import Link from "next/link";
 import Loading from "@/components/Loading";
 import { Input } from "@/components/ui/input";
+import { BuyNowSheet } from "@/components/BuyNowSheet";
 
 export default function ProductPage() {
   const [quantity, setQuantity] = useState(1);
+  const [buyNowOpen, setBuyNowOpen] = useState(false);
   const [selectedVariant, setSelectedVariant] = useState(0);
   const [selectedImage, setSelectedImage] = useState(0);
   const [product, setProduct] = useState<Product | null>(null);
@@ -32,6 +34,35 @@ export default function ProductPage() {
   const id = params.id;
   const user = useRecoilValue(userState);
   const setCartRefresh = useSetRecoilState(cartRefreshState);
+  const [zipCode, setZipCode] = useState("")
+  const [deliveryRate, setDeliveryRate] = useState(0)
+  const [deliveryMessage, setDeliveryMessage] = useState("")
+  const [estDelivery, setEstDelivery] = useState("")
+console.log(zipCode)
+  const fetchDeliveryRate = async () => {
+      if (!zipCode) return;
+      try {
+        const res = await axios.post(
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/checkout/direct-delivery-rate`, {
+            userId: user._id,
+            destinationPincode: zipCode,
+            weight: product?.variants[selectedVariant].value
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${user.token}`,
+            },
+          }
+        );
+  
+        setDeliveryRate(res.data.deliveryCharge); 
+        setEstDelivery(res.data.estimatedDeliveryDays)
+        setDeliveryMessage("")
+      } catch (err) {
+        console.log("Delivery rate fetch error:", err);
+        setDeliveryMessage("Incorrect city pincode")
+      }
+    };
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -100,6 +131,7 @@ export default function ProductPage() {
   const discountPercent = Math.round(
     ((original - discounted) / original) * 100
   );
+  const router = useRouter();
 
   return (
     <div className="min-h-screen bg-primary/5">
@@ -206,10 +238,20 @@ export default function ProductPage() {
                 })}
               </div>
             </div>
+              
+            <div>
+              <div className="flex flex-row gap-4 w-fit px-1">
+                <Input onChange={(e)=>{
+                  setZipCode(e.target.value)
+                }} placeholder="City Pincode"/>
+                <Button onClick={()=>{fetchDeliveryRate()}} variant={"outline"}>Check Delivery</Button>
+              </div>
+              <div className="mt-1">
+              {(deliveryMessage.length==0 && deliveryRate>0) && <p className="w-fit font-normal text-gray-900 rounded-md">Est. Shipping Cost: ₹{deliveryRate}</p>}
+              {(deliveryMessage.length==0 && estDelivery.length>0) && <p className="w-fit font-normal text-gray-900 rounded-md">Est. Delivery by {estDelivery}</p>}
+              {deliveryMessage.length>0 && <p className="text-red-600">{deliveryMessage}</p>}
+            </div>
 
-            <div className="flex flex-row gap-4 w-fit px-1">
-              <Input placeholder="City Pincode"/>
-              <Button variant={"outline"}>Check Delivery</Button>
             </div>
   
             <div className="flex flex-col items-center gap-4 w-full">
@@ -233,18 +275,27 @@ export default function ProductPage() {
                 </div>
                 <Button
                   className="w-full cursor-pointer border border-primary bg-transparent hover:bg-primary/90 hover:text-white text-primary text-md py-5"
-                  onClick={addToCart}
+                  onClick={() => {
+                    if(user.isLoggedIn){
+                      addToCart()
+                    } else {
+                      router.push('/auth')
+                    }
+                  }}
                 >
                   <ShoppingBagIcon className="mr-4" strokeWidth={1.2} /> ADD TO
                   CART
                 </Button>
               </div>
-              <Button
-                className="w-full cursor-pointer shadow-sm bg-primary hover:bg-primary/90 text-white text-lg py-8"
-                onClick={addToCart}
-              >
-                BUY IT NOW
-              </Button>
+              <BuyNowSheet
+                open={buyNowOpen}
+                setOpen={setBuyNowOpen}
+                product={product}
+                selectedVariant={product.variants[selectedVariant]}
+                dimensions={product.dimensions[selectedVariant]}
+                quantity={quantity}
+                price={product.price[selectedVariant]}
+              />
             </div>
   
             <ProductDetails

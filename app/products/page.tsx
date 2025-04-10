@@ -117,16 +117,24 @@ export default function ProductsPage() {
       href: "/millets",
     },
     {
-      src: "https://grabgardenn-storage.s3.ap-south-1.amazonaws.com/banners/pulses-banner.png",
+      src: "https://grabgardenn-storage.s3.ap-south-1.amazonaws.com/banners/pulses-banner-2.png",
       href: "/pulses",
     },
     {
-      src: "https://grabgardenn-storage.s3.ap-south-1.amazonaws.com/banners/sweeteners-banner.png",
+      src: "https://grabgardenn-storage.s3.ap-south-1.amazonaws.com/banners/sweeteners-banner-2.png",
       href: "/sweeteners",
     },
     {
       src: "https://grabgardenn-storage.s3.ap-south-1.amazonaws.com/banners/seeds-banner.jpeg",
       href: "/seeds",
+    },
+    {
+      src: "https://grabgardenn-storage.s3.ap-south-1.amazonaws.com/banners/rice-banner-2.png",
+      href: "/rice",
+    },
+    {
+      src: "https://grabgardenn-storage.s3.ap-south-1.amazonaws.com/banners/tea-banner-2.png",
+      href: "/tea",
     },
   ];
 
@@ -145,7 +153,7 @@ export default function ProductsPage() {
       <Navbar />
       <CartHandle />
 
-      <div className="mt-16 max-md:mt-20 w-full h-[140px] sm:h-[500px] relative overflow-hidden">
+      <div className="mt-16 max-md:mt-24 w-full h-[130px] sm:h-[500px] relative overflow-hidden">
         {carouselImages.map((image, index) =>
           index === currentSlide ? (
             <Link
@@ -354,7 +362,13 @@ export default function ProductsPage() {
                     </Select>
                     <Button
                       className={`w-full text-sm`}
-                      onClick={() => addToCart(product._id)}
+                      onClick={() => {
+                        if(user.isLoggedIn){
+                          addToCart(product._id)
+                        } else {
+                          router.push('/auth')
+                        }
+                      }}
                     >
                       Add <PlusCircle className="h-4 w-4 ml-2" />
                     </Button>
