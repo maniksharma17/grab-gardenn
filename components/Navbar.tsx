@@ -194,9 +194,7 @@ export function Navbar() {
           )}
 
           <CartSheet />
-          <Link href={'/orders'}>
-          <PackageSearch className="w-4 h-4" strokeWidth={1.2}/>
-          </Link>
+          
         </div>
 
         {/* Mobile Menu Toggle */}
@@ -276,9 +274,7 @@ export function Navbar() {
               <UserProfileSheet />
             )}
             <CartSheet />
-            <Link href={'/orders'}>
-          <PackageSearch className="w-4 h-4" strokeWidth={1.2}/>
-          </Link>
+            
           </div>
         </div>
       )}
