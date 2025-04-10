@@ -36,6 +36,7 @@ export default function NewsAndBlogsPage() {
                     alt={item.title}
                     width={400}
                     height={250}
+                    unoptimized
                     className="w-full h-48 object-cover"
                   />
                   <div className="p-4">

@@ -165,6 +165,7 @@ export default function ProductsPage() {
                 src={image.src}
                 alt={`Banner ${index + 1}`}
                 fill
+                unoptimized
                 className="object-cover transition-opacity duration-1000 opacity-100"
               />
             </Link>
@@ -201,6 +202,7 @@ export default function ProductsPage() {
                   alt={category.name}
                   className="w-full h-full rounded-full object-cover"
                   width={80}
+                  unoptimized
                   height={80}
                 />
               </div>
@@ -277,6 +279,7 @@ export default function ProductsPage() {
                     src={product.images[0]}
                     alt={product.name}
                     fill
+                    unoptimized
                     className={`object-cover ${product.images.length>1 && "hover:opacity-0"} transition-all duration-300`}
                   />
 
@@ -285,6 +288,7 @@ export default function ProductsPage() {
                       src={product.images[1]}
                       alt={product.name}
                       fill
+                      unoptimized
                       className="object-cover opacity-0 hover:opacity-100 transition-all duration-300"
                     />
                   )}

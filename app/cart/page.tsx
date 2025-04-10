@@ -143,6 +143,7 @@ export default function CartPage() {
                     src={item.product.images[0]}
                     alt={item.product.name}
                     height={96}
+                    unoptimized
                     width={96}
                     className="w-24 h-24 object-cover rounded"
                   />

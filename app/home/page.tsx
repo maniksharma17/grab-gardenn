@@ -19,15 +19,8 @@ import Loading from "@/components/Loading";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 
 export default function Home() {
-  const [screenWidth, setScreenWidth] = useState<number | null>(null);
-  const [open, setOpen] = useState(true)
-
-  useEffect(() => {
-    const handleResize = () => setScreenWidth(window.innerWidth);
-    setScreenWidth(window.innerWidth);
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
+  const screenWidth = useWindowWidth();
+  const [open, setOpen] = useState(true);
 
   const carouselImages = [
     {
@@ -57,7 +50,6 @@ export default function Home() {
       href: "/products",
       heading: "The Taste of Culture, The Purity of Nature",
       text: "Experience Himalayan ingredients passed down through generations—pure, local, and full of natural nourishment.",
-
     },
 
     {
@@ -65,36 +57,30 @@ export default function Home() {
       href: "/products",
       heading: "Nature’s Finest, Packed with Care",
       text: "Every product is a promise of purity, nutrition, and the rich heritage of the mountains.",
-
     },
     {
       src: "https://grabgardenn-storage.s3.ap-south-1.amazonaws.com/banners/home-banner-6.jpeg",
       href: "/products",
       heading: "The Taste of Culture, The Purity of Nature",
       text: "Experience Himalayan ingredients passed down through generations—pure, local, and full of natural nourishment.",
-
     },
   ];
 
   const [currentSlide, setCurrentSlide] = useState(0);
 
+  const currentCarousel =
+    screenWidth > 800 ? carouselImages : carouselImagesMobile;
+
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % carouselImages.length);
-    }, 4000); // Change slide every 3 seconds
+      setCurrentSlide((prev) => (prev + 1) % currentCarousel.length);
+    }, 4000);
 
-    return () => clearInterval(interval); // Cleanup
-  }, [carouselImages.length]);
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % carouselImagesMobile.length);
-    }, 4000); // Change slide every 3 seconds
-
-    return () => clearInterval(interval); // Cleanup
-  }, [carouselImagesMobile.length]);
+    return () => clearInterval(interval);
+  }, [currentCarousel.length]);
 
   const router = useRouter();
-  if (screenWidth === null) return <Loading/>;
+  if (screenWidth === null) return <Loading />;
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -104,7 +90,7 @@ export default function Home() {
       <section className="relative w-full h-screen flex items-center justify-center text-center overflow-hidden">
         {/* Background Image or Carousel */}
         <div className="top-0 left-0 right-0 bottom-0 mt-16 max-md:mt-20 w-full h-[140px] sm:h-[600px] overflow-hidden">
-          {(screenWidth > 800 ? carouselImages : carouselImagesMobile).map(
+          {currentCarousel.map(
             (image, index) =>
               index === currentSlide ? (
                 <Link
@@ -116,6 +102,7 @@ export default function Home() {
                     src={image.src}
                     alt={`Banner ${index + 1}`}
                     fill
+                    unoptimized
                     className="object-cover transition-opacity duration-1000 opacity-100"
                   />
                 </Link>
@@ -150,12 +137,13 @@ export default function Home() {
                 alt="LOGO"
                 height={100}
                 width={100}
+                unoptimized
                 className="fill md:w-32 md:h-32 mx-auto object-contain"
               />
             </div>
 
             {/* Only render current slide heading and text */}
-            {carouselImages.map((item, index) =>
+            {currentCarousel.map((item, index) =>
               index === currentSlide ? (
                 <div key={index}>
                   <h1 className="text-3xl md:w-1/2 mx-auto md:text-4xl font-extrabold leading-tight bg-gradient-to-r from-green-500 via-lime-400 to-white max-md:from-gray-200 max-md:to-white max-md:mb-4 bg-clip-text text-transparent drop-shadow-lg">
@@ -420,7 +408,7 @@ export default function Home() {
 
       <Certifications />
 
-      <DiscountBox open={open} setOpen={setOpen}/>
+      <DiscountBox open={open} setOpen={setOpen} />
     </div>
   );
 }
@@ -546,6 +534,7 @@ const FeaturedProducts1 = () => {
                       alt={product.name}
                       className="object-cover opacity-100 hover:opacity-0 transition-all duration-300 hover:scale-105"
                       fill
+                      unoptimized
                       sizes="100%"
                     />
 
@@ -556,6 +545,7 @@ const FeaturedProducts1 = () => {
                         className="object-cover opacity-0 hover:opacity-100 transition-all duration-300 hover:scale-105"
                         fill
                         sizes="100%"
+                        unoptimized
                       />
                     )}
                   </div>
@@ -721,8 +711,6 @@ const FeaturedProducts2 = () => {
 
     fetchProducts();
   }, []);
-
-  
 
   useEffect(() => {
     // Set slidesPerView based on screen width
@@ -1041,11 +1029,18 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
+} from "@/components/ui/dialog";
+import { useWindowWidth } from "@/lib/utils";
 
-const DiscountBox = ({open, setOpen}: {open: boolean; setOpen: (x: boolean)=>void}) => {
-   return (<Dialog open={open} onOpenChange={setOpen}>
-      
+const DiscountBox = ({
+  open,
+  setOpen,
+}: {
+  open: boolean;
+  setOpen: (x: boolean) => void;
+}) => {
+  return (
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>CONGRATULATIONS 🎉</DialogTitle>
@@ -1053,8 +1048,15 @@ const DiscountBox = ({open, setOpen}: {open: boolean; setOpen: (x: boolean)=>voi
             We are offering 30% OFF for first 100 Orders. ORDER NOW.
           </DialogDescription>
         </DialogHeader>
-        <Button variant={"outline"} onClick={()=>{setOpen(false)}}>Close</Button>
+        <Button
+          variant={"outline"}
+          onClick={() => {
+            setOpen(false);
+          }}
+        >
+          Close
+        </Button>
       </DialogContent>
     </Dialog>
-  )
-}
+  );
+};
