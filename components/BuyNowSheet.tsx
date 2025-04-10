@@ -226,7 +226,7 @@ export const BuyNowSheet = ({
           `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/checkout/place-direct-shiprocket-cod-order/${user._id}`,
           {
             shippingAddress: selectedAddress,
-            deliveryRate: (total>1000) ? 0 : deliveryRate,
+            deliveryRate: deliveryRate,
             price: total,
             variant: selectedVariant,
             product: product._id,
