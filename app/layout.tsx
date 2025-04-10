@@ -5,7 +5,6 @@ import { Footer } from '@/components/Footer';
 import { WhatsAppFloatingButton } from '@/components/FloatingWhatsappIcon';
 import Script from 'next/script';
 import { Metadata } from 'next';
-import LaunchWrapper from '@/components/LaunchWrapper';
 
 const poppins = Poppins({ 
   subsets: ['latin'],
