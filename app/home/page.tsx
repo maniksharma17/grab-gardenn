@@ -59,14 +59,14 @@ export default function Home() {
     },
 
     {
-      src: "https://grabgardenn-storage.s3.ap-south-1.amazonaws.com/banners/home-banner-5.jpeg",
+      src: "https://grabgardenn-storage.s3.ap-south-1.amazonaws.com/banners/home-banner-8.png",
       href: "/products",
       heading: "Nature’s Finest, Packed with Care",
       text: "Every product is a promise of purity, nutrition, and the rich heritage of the mountains.",
 
     },
     {
-      src: "https://grabgardenn-storage.s3.ap-south-1.amazonaws.com/banners/home-banner-8.jpeg",
+      src: "https://grabgardenn-storage.s3.ap-south-1.amazonaws.com/banners/home-banner-6.jpeg",
       href: "/products",
       heading: "The Taste of Culture, The Purity of Nature",
       text: "Experience Himalayan ingredients passed down through generations—pure, local, and full of natural nourishment.",
