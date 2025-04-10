@@ -213,10 +213,7 @@ export const UserProfileSheet = () => {
               </div>
             )}
 
-            {/* Orders Button */}
-            <Link href={'/orders'}>
-            View Orders
-            </Link>
+            
           </div>
         </div>
 

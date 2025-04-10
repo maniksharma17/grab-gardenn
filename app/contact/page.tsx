@@ -25,16 +25,34 @@ export default function ContactPage() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+  
     if (!formData.name || !formData.email || !formData.phone || !formData.subject || !formData.message) {
       toast({ title: "Error", description: "All fields are required!", variant: "destructive" });
       return;
     }
-    toast({ title: "Message Sent", description: "We will get back to you soon!" });
-    setShowDialog(true);
-    setFormData({ name: "", email: "", phone: "", subject: "", message: "" });
+  
+    try {
+      const res = await fetch("https://script.google.com/macros/s/AKfycbzJ_oxk3qVD_q1Jy4i7AFb7VsP9bFeyn3wXdBJfzY7eCGmQkoERX-VDC8lFrVchGL04/exec", {
+        method: "POST",
+        body: JSON.stringify(formData),
+        headers: { "Content-Type": "application/json" },
+      });
+  
+      if (res.ok) {
+        toast({ title: "Message Sent", description: "We will get back to you soon!" });
+        setShowDialog(true);
+        setFormData({ name: "", email: "", phone: "", subject: "", message: "" });
+      } else {
+        throw new Error("Failed to submit");
+      }
+    } catch (err) {
+      toast({ title: "Error", description: "Failed to send message", variant: "destructive" });
+      console.error(err);
+    }
   };
+  
 
   return (
     <div className="min-h-screen flex flex-col items-center">

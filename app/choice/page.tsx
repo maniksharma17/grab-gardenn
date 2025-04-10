@@ -50,15 +50,43 @@ export default function YourChoicePage() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+  
     if (!formData.name || !formData.email || !formData.details) {
-      toast({ title: "Error", description: "All fields are required!", variant: "destructive" });
+      toast({
+        title: "Error",
+        description: "All fields are required!",
+        variant: "destructive",
+      });
       return;
     }
-    toast({ title: "Suggestion Sent", description: "Thank you! We value your input." });
-    setFormData({ name: "", email: "", type: "suggestion", product: "", details: "" });
+  
+    try {
+      await fetch("https://script.google.com/macros/s/AKfycbwpUV090obYzChM2uj_fUXpuiHbEvS7pOdpDvOXVGxOO4jepR8ZEbwzpsoTX8155D_5/exec", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+  
+      toast({
+        title: "Suggestion Sent",
+        description: "Thank you! We value your input.",
+      });
+  
+      setFormData({ name: "", email: "", type: "suggestion", product: "", details: "" });
+    } catch (error) {
+      console.error("Submission failed:", error);
+      toast({
+        title: "Error",
+        description: "Something went wrong. Please try again.",
+        variant: "destructive",
+      });
+    }
   };
+  
 
   return (
     <div className="min-h-screen flex flex-col">
