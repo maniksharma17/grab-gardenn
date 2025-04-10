@@ -63,7 +63,7 @@ export default function YourChoicePage() {
     }
   
     try {
-      const url = "https://script.google.com/macros/s/AKfycbzE-hFYruTIpXryCIvewvPeI65BQo0HycIhc86AMSNWhaIjIY_MD42fL6YSN1pl48-r/exec"
+      const url = "https://script.google.com/macros/s/AKfycbzNQXQN6UlZwVo_BYTBGgDcoXLFC_0jJnCX-qQUPa-wi_I6bXJrRCSylBOM9J_c77RU/exec"
       await fetch(url, {
         method: "POST",
         headers: {
@@ -79,12 +79,8 @@ export default function YourChoicePage() {
   
       setFormData({ name: "", email: "", type: "suggestion", product: "", details: "" });
     } catch (error) {
-      console.error("Submission failed:", error);
-      toast({
-        title: "Error",
-        description: "Something went wrong. Please try again.",
-        variant: "destructive",
-      });
+      console.log("Submission failed:", error);
+      
     }
   };
   
