@@ -29,14 +29,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <Script src="https://checkout.razorpay.com/v1/checkout.js"></Script>
-      <LaunchWrapper>
       <div className={`${poppins.variable} font-poppins`}>
         {children}
         <Toaster />
         <Footer />
         <WhatsAppFloatingButton />
       </div>
-      </LaunchWrapper>
       
     </html>
   );
