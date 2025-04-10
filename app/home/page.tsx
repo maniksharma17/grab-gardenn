@@ -1051,6 +1051,7 @@ const DiscountBox = ({open, setOpen}: {open: boolean; setOpen: (x: boolean)=>voi
             We are offering 30% OFF for first 100 Orders. ORDER NOW.
           </DialogDescription>
         </DialogHeader>
+        <Button variant={"outline"} onClick={()=>{setOpen(false)}}>Close</Button>
       </DialogContent>
     </Dialog>
   )
