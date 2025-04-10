@@ -20,6 +20,7 @@ import { Dialog, DialogContent } from "@/components/ui/dialog";
 
 export default function Home() {
   const [screenWidth, setScreenWidth] = useState<number | null>(null);
+  const [open, setOpen] = useState(true)
 
   useEffect(() => {
     const handleResize = () => setScreenWidth(window.innerWidth);
@@ -419,7 +420,7 @@ export default function Home() {
 
       <Certifications />
 
-      <DiscountBox open={true} />
+      <DiscountBox open={true} setOpen={setOpen}/>
     </div>
   );
 }
@@ -1040,8 +1041,8 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 
-const DiscountBox = ({open}: {open: boolean}) => {
-   return (<Dialog open={open}>
+const DiscountBox = ({open, setOpen}: {open: boolean; setOpen: ()=>void}) => {
+   return (<Dialog open={open} onOpenChange={setOpen}>
       
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
