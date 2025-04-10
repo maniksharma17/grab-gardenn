@@ -375,7 +375,7 @@ export default function Home() {
       </section>
 
       {/* Instagram Section */}
-      <section className="relative border-t py-8 bg-white">
+      <section className="z-30 relative border-t py-8 bg-white">
         <div className="container flex flex-col justify-center items-center mx-auto px-6 text-center">
           <div className="z-0 absolute bottom-0 left-0 w-full h-full bg-secondary clip-bottom-left"></div>
           <div className="mb-6 text-center z-40">
