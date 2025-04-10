@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   title: 'GrabGardenn - Live Now!',
   description: 'Healthy & Natural Foods',
   icons: {
-    icon: '/grab-gardenn-logo.png', // <-- make sure this exists in /public
+    icon: '/grab-gardenn-logo.png', 
   },
 };
 
