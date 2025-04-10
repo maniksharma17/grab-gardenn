@@ -92,7 +92,7 @@ export default function AuthPage() {
       if(data.error){
         toast({
           title: "Error",
-          description: data.message
+          description: "Incorrect credentials"
       });
       return;
       }
@@ -136,7 +136,7 @@ export default function AuthPage() {
     } catch (err: any) {
       toast({
         title: "Error",
-        description: err.message,
+        description: "Some error occured",
         variant: "destructive",
       });
     } finally {
@@ -361,7 +361,7 @@ export default function AuthPage() {
                     <h4 className="border-t pt-4 mt-8 text-gray-600 text-sm font-medium">SHIPPING INFO</h4>
                     <div className="space-y-2">
                     <div className="">
-                      <label className="text-xs font-medium ml-1">Delivery Name</label>
+                      <label className="text-xs font-medium ml-1">Name</label>
                       <div className="relative">
                         <Input
                           type="text"
@@ -381,7 +381,7 @@ export default function AuthPage() {
                     </div>
 
                     <div className="">
-                      <label className="text-xs font-medium ml-1">Delivery Phone</label>
+                      <label className="text-xs font-medium ml-1">Phone</label>
                       <div className="relative">
                         <Input
                           type="text"
