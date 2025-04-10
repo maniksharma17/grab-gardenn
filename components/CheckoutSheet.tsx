@@ -95,7 +95,7 @@ export const CheckoutSheet = ({
     city: "",
     state: "",
     zipCode: "",
-    country: "India",
+    country: "",
   });
 
   const token =
