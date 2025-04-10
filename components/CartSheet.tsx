@@ -164,7 +164,7 @@ export const CartSheet = () => {
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
-      <SheetTrigger asChild>
+      <SheetTrigger asChild onClick={()=>{setCartRefresh((prev) => prev + 1);}}>
         <Button variant="ghost" className="relative">
           <ShoppingCart className="h-5 w-5" />
           {cartItems.length > 0 && (
