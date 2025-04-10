@@ -266,18 +266,24 @@ export const BuyNowSheet = ({
   });
   const handleAddNewAddress = () => {
     const { name, phone, city, state, country, zipCode, street } = newAddress;
-
+  
     if (!name || !phone || !city || !state || !country || !zipCode || !street) {
-      toast({ title: "Please fill in all required fields." });
+      toast({ title: "Please fill in all required fields.", variant: "destructive" });
+      return;
     }
-
+  
     if (!/^[6-9]\d{9}$/.test(phone)) {
       toast({ title: "Invalid Phone Number", variant: "destructive" });
+      return;
     }
-
+  
+    // Everything is valid, so now set the address
     setSelectedAddress(newAddress);
-    toast({ title: "New Address Selected" });
+    toast({ title: "New Address Selected", variant: "default" });
+
+    setShowNewAddressForm(false); // Optional: hide the form after adding
   };
+  
 
   const [showNewAddressForm, setShowNewAddressForm] = useState(false);
 
