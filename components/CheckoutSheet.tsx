@@ -43,7 +43,7 @@ export const CheckoutSheet = ({
   const user = useRecoilValue(userState);
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [selectedAddress, setSelectedAddress] = useState<any>(null);
-  const [paymentMethod, setPaymentMethod] = useState("razorpay");
+  const [paymentMethod, setPaymentMethod] = useState("cod");
   const [showForm, setShowForm] = useState(false);
   const { toast } = useToast();
   const [open, setOpen] = useState(false);
@@ -439,10 +439,10 @@ export const CheckoutSheet = ({
               className="space-y-2"
             >
               <div className="flex items-center space-x-2">
-                <RadioGroupItem value="razorpay" id="razorpay" />
+                <RadioGroupItem disabled value="razorpay" id="razorpay" />
                 <Label htmlFor="razorpay" className="flex items-center gap-2">
                   <CreditCard className="w-4 h-4" />
-                  Pay with Razorpay
+                  Pay with Razorpay (NOT AVAILABLE FOR NOW)
                 </Label>
               </div>
               <div className="flex items-center space-x-2">

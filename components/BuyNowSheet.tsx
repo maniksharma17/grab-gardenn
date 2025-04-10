@@ -20,12 +20,12 @@ import { Label } from "@/components/ui/label";
 import { useRecoilValue } from "recoil";
 import { userState } from "@/store/atoms/user";
 import { useEffect, useState } from "react";
-import { toast } from "sonner";
 import axios from "axios";
 import { Product } from "@/lib/types";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
 import { CircleAlert } from "lucide-react";
+import Image from "next/image";
 
 interface Variant {
   display: string;
@@ -77,7 +77,6 @@ export const BuyNowSheet = ({
     (v) => v.value === selectedVariant.value
   );
 
-  
   const total = price * quantity;
   const cutoffPrice = product.cutoffPrice?.[selectedIndex];
 
@@ -93,6 +92,7 @@ export const BuyNowSheet = ({
       fetchDeliveryRate();
     }
   }, [selectedAddress]);
+  
   const [deliveryMessage, setDeliveryMessage] = useState("");
 
   const fetchDeliveryRate = async () => {
@@ -301,10 +301,12 @@ export const BuyNowSheet = ({
 
         <div className="py-4 space-y-4">
           <div className="flex items-center gap-4">
-            <img
+            <Image
               src={product.images[0]}
               alt={product.name}
               className="w-20 h-20 object-cover rounded"
+              width={100}
+              height={100}
             />
             <div>
               <p className="font-medium">{product.name}</p>
@@ -437,7 +439,7 @@ export const BuyNowSheet = ({
                 <Label htmlFor="cod">Cash on Delivery</Label>
               </div>
               <div className="flex items-center space-x-2">
-                <RadioGroupItem value="Prepaid" id="prepaid" />
+                <RadioGroupItem disabled value="Prepaid" id="prepaid" />
                 <Label htmlFor="prepaid">Pay with Razorpay</Label>
               </div>
             </RadioGroup>
