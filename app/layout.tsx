@@ -7,6 +7,7 @@ import { WhatsAppFloatingButton } from '@/components/FloatingWhatsappIcon';
 import Head from 'next/head';
 import Script from 'next/script';
 import { Metadata } from 'next';
+import LaunchWrapper from '@/components/LaunchWrapper';
 
 const poppins = Poppins({ 
   subsets: ['latin'],
@@ -30,12 +31,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <Script src="https://checkout.razorpay.com/v1/checkout.js"></Script>
+      <LaunchWrapper>
       <body className={`${poppins.variable} font-poppins`}>
         {children}
         <Toaster />
         <Footer />
         <WhatsAppFloatingButton />
       </body>
+      </LaunchWrapper>
+      
     </html>
   );
 }
