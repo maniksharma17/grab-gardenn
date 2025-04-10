@@ -67,7 +67,7 @@ export default function ProductsPage() {
     const payload = {
       productId,
       quantity: 1,
-      price,
+      priceIndex: variantIndex,
       variant,
       dimensions,
     };

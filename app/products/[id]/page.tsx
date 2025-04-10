@@ -38,7 +38,8 @@ export default function ProductPage() {
   const [deliveryRate, setDeliveryRate] = useState(0)
   const [deliveryMessage, setDeliveryMessage] = useState("")
   const [estDelivery, setEstDelivery] = useState("")
-console.log(zipCode)
+  const router = useRouter();
+
   const fetchDeliveryRate = async () => {
       if (!zipCode) return;
       try {
@@ -95,7 +96,7 @@ console.log(zipCode)
       const payload = {
         productId: product._id,
         quantity,
-        price: product.price[selectedVariant],
+        price: selectedVariant,
         variant: product.variants[selectedVariant],
         dimensions: product.dimensions[selectedVariant],
       };
@@ -131,7 +132,6 @@ console.log(zipCode)
   const discountPercent = Math.round(
     ((original - discounted) / original) * 100
   );
-  const router = useRouter();
 
   return (
     <div className="min-h-screen bg-primary/5">
