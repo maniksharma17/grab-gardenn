@@ -420,7 +420,7 @@ export default function Home() {
 
       <Certifications />
 
-      <DiscountBox open={true} setOpen={setOpen}/>
+      <DiscountBox open={open} setOpen={setOpen}/>
     </div>
   );
 }
@@ -721,6 +721,8 @@ const FeaturedProducts2 = () => {
 
     fetchProducts();
   }, []);
+
+  
 
   useEffect(() => {
     // Set slidesPerView based on screen width
