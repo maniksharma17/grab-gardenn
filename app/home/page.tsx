@@ -815,7 +815,7 @@ const Features = () => {
     {
       icon: <Truck className="w-12 h-12 text-green-800" strokeWidth={1} />,
       title: "Free Delivery",
-      description: "Free shipping on orders above Rs. 500.",
+      description: "Free shipping on orders above Rs. 1000.",
     },
     {
       icon: (
