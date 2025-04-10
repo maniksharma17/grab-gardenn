@@ -77,8 +77,16 @@ export const BuyNowSheet = ({
     (v) => v.value === selectedVariant.value
   );
 
+  
   const total = price * quantity;
   const cutoffPrice = product.cutoffPrice?.[selectedIndex];
+
+  let finalAmount = 0;
+  if(total > 1000) {
+    finalAmount = total;
+  } else {
+    finalAmount = total + deliveryRate
+  }
 
   useEffect(() => {
     if (selectedAddress) {
@@ -140,7 +148,7 @@ export const BuyNowSheet = ({
 
         const options = {
           keyId,
-          amount: total * 100,
+          amount: finalAmount * 100,
           currency: "INR",
           name: "Grab Gardenn",
           description: "Order Payment",
@@ -218,7 +226,7 @@ export const BuyNowSheet = ({
           `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/checkout/place-direct-shiprocket-cod-order/${user._id}`,
           {
             shippingAddress: selectedAddress,
-            deliveryRate,
+            deliveryRate: (total>1000) ? 0 : deliveryRate,
             price: total,
             variant: selectedVariant,
             product: product._id,
@@ -448,6 +456,7 @@ export const BuyNowSheet = ({
             </div>
             <div className="flex justify-between text-sm font-medium">
               <span>Total:</span>
+              <span>{(total>1000) ? `₹${total.toFixed(2)}` : `₹${(total + deliveryRate).toFixed(2)}`}</span>
               <span>₹{(total + deliveryRate).toFixed(2)}</span>
             </div>
             {deliveryMessage.length > 0 && (

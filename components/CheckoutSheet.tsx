@@ -35,7 +35,11 @@ import {
 import { CircleAlert, CreditCard, Truck } from "lucide-react";
 import { Input } from "@/components/ui/input";
 
-export const CheckoutSheet = ({setCart}: {setCart: (x: boolean)=>void}) => {
+export const CheckoutSheet = ({
+  setCart,
+}: {
+  setCart: (x: boolean) => void;
+}) => {
   const user = useRecoilValue(userState);
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [selectedAddress, setSelectedAddress] = useState<any>(null);
@@ -47,40 +51,39 @@ export const CheckoutSheet = ({setCart}: {setCart: (x: boolean)=>void}) => {
   const [estDelivery, setEstDelivery] = useState("null");
   const [deliveryMessage, setDeliveryMessage] = useState("");
   const [orderDialogOpen, setOrderDialogOpen] = useState(false);
-  const [orderId, setOrderId] = useState(""); 
+  const [orderId, setOrderId] = useState("");
 
+  useEffect(() => {
+    const fetchDeliveryRate = async () => {
+      if (!selectedAddress?.zipCode) return;
 
-useEffect(() => {
-  const fetchDeliveryRate = async () => {
-    if (!selectedAddress?.zipCode) return;
-
-    try {
-      const res = await axios.post(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/checkout/delivery-rate`, {
-          userId: user._id,
-          destinationPincode: selectedAddress.zipCode
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${user.token}`,
+      try {
+        const res = await axios.post(
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/checkout/delivery-rate`,
+          {
+            userId: user._id,
+            destinationPincode: selectedAddress.zipCode,
           },
-        }
-      );
+          {
+            headers: {
+              Authorization: `Bearer ${user.token}`,
+            },
+          }
+        );
 
-      setDeliveryRate(res.data.deliveryCharge); 
-      setEstDelivery(res.data.estimatedDeliveryDays)
-      setDeliveryMessage("")
-    } catch (err) {
-      console.log("Delivery rate fetch error:", err);
-      setDeliveryMessage("Incorrect city pincode")
-      setDeliveryRate(0);
-    }
-  };
+        setDeliveryRate(res.data.deliveryCharge);
+        setEstDelivery(res.data.estimatedDeliveryDays);
+        setDeliveryMessage("");
+      } catch (err) {
+        console.log("Delivery rate fetch error:", err);
+        setDeliveryMessage("Incorrect city pincode");
+        setDeliveryRate(0);
+      }
+    };
 
-  fetchDeliveryRate();
-}, [user, selectedAddress]);
-const setCartRefresh = useSetRecoilState(cartRefreshState);
-
+    fetchDeliveryRate();
+  }, [user, selectedAddress]);
+  const setCartRefresh = useSetRecoilState(cartRefreshState);
 
   const [newAddress, setNewAddress] = useState({
     name: "",
@@ -100,7 +103,13 @@ const setCartRefresh = useSetRecoilState(cartRefreshState);
     (sum, item) => sum + item.price * item.quantity,
     0
   );
-  const finalAmount = subtotal+deliveryRate;
+
+  let finalAmount = 0;
+  if (subtotal > 1000) {
+    finalAmount = subtotal;
+  } else {
+    finalAmount = subtotal + deliveryRate;
+  }
 
   useEffect(() => {
     const fetchCart = async () => {
@@ -126,10 +135,10 @@ const setCartRefresh = useSetRecoilState(cartRefreshState);
     }
   }, [user]);
 
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
 
   const handleCheckout = async () => {
-    setLoading(true)
+    setLoading(true);
     if (!selectedAddress) {
       toast({ title: "Please select an address", variant: "destructive" });
       return;
@@ -138,13 +147,15 @@ const setCartRefresh = useSetRecoilState(cartRefreshState);
     if (paymentMethod === "razorpay") {
       try {
         const res = await axios.post(
-          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/checkout/create-checkout-session/${user._id}`, {
-            deliveryRate
-          }, {
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/checkout/create-checkout-session/${user._id}`,
+          {
+            deliveryRate,
+          },
+          {
             headers: {
-              'Authorization': 'Bearer ' + user.token
+              Authorization: "Bearer " + user.token,
             },
-            withCredentials: true
+            withCredentials: true,
           }
         );
 
@@ -166,27 +177,29 @@ const setCartRefresh = useSetRecoilState(cartRefreshState);
             );
 
             // SHIPROCKET CONFIG
-            if(res.data.success){
-              const shiprocketResponse = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/checkout/place-shiprocket-prepaid-order`, {
-                orderId: res.data.order._id,
-                paymentMethod: "Prepaid"
-              }, {
-                headers: { Authorization: `Bearer ${user.token}` }
-              })
+            if (res.data.success) {
+              const shiprocketResponse = await axios.post(
+                `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/checkout/place-shiprocket-prepaid-order`,
+                {
+                  orderId: res.data.order._id,
+                  paymentMethod: "Prepaid",
+                },
+                {
+                  headers: { Authorization: `Bearer ${user.token}` },
+                }
+              );
 
               if (shiprocketResponse.data.success) {
                 console.log(shiprocketResponse);
-              
+
                 toast({
                   title: "Order has been placed successfully. 🎉",
-                  description: "Order ID: " + shiprocketResponse.data.shiprocketOrderId
-                })  
-                setCartRefresh(prev => prev + 1);
+                  description:
+                    "Order ID: " + shiprocketResponse.data.shiprocketOrderId,
+                });
+                setCartRefresh((prev) => prev + 1);
               }
-              
-              
             }
-            
           },
           prefill: {
             name: user.name,
@@ -197,23 +210,23 @@ const setCartRefresh = useSetRecoilState(cartRefreshState);
           },
           modal: {
             // 👇 Fix z-index here
-            
+
             escape: true,
             ondismiss: () => {
               console.log("Razorpay closed");
             },
           },
         };
-        setOpen(false)
-        setCart(false)
+        setOpen(false);
+        setCart(false);
         const razor = new (window as any).Razorpay(options);
-        
+
         razor.open();
       } catch (err) {
         console.log("Razorpay error", err);
         toast({ title: "Payment failed", variant: "destructive" });
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
     } else {
       try {
@@ -221,31 +234,30 @@ const setCartRefresh = useSetRecoilState(cartRefreshState);
           `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/checkout/place-shiprocket-cod-order/${user._id}`,
           {
             shippingAddress: selectedAddress,
-            deliveryRate
+            deliveryRate,
           },
           {
             headers: { Authorization: `Bearer ${token}` },
           }
         );
 
-        if(response.data.success){
+        if (response.data.success) {
           toast({
             title: "Order has been placed successfully. 🎉",
-            description: "OrderID: " + response.data.shiprocketOrderId
-          })
+            description: "OrderID: " + response.data.shiprocketOrderId,
+          });
         }
-        
-        setOrderId(response.data.shiprocketOrderId); 
-        setCartRefresh(prev => prev + 1);
 
+        setOrderId(response.data.shiprocketOrderId);
+        setCartRefresh((prev) => prev + 1);
       } catch (err) {
         console.log("COD error", err);
         toast({ title: "Order failed", variant: "destructive" });
       } finally {
-        setOpen(false)
-        setCart(false)
-        setLoading(false)
-        window.location.reload()
+        setOpen(false);
+        setCart(false);
+        setLoading(false);
+        window.location.reload();
       }
     }
   };
@@ -270,14 +282,23 @@ const setCartRefresh = useSetRecoilState(cartRefreshState);
             </div>
             <div className="flex justify-between text-sm">
               <span>Shipping:</span>
-              <span>₹{deliveryRate.toFixed(2)}</span>
+              <span>{(subtotal > 1000) ? `₹${deliveryRate.toFixed(2)}` : '₹0'}</span>
             </div>
             <div className="flex justify-between text-sm font-medium">
               <span>Total:</span>
               <span>₹{finalAmount.toFixed(2)}</span>
             </div>
-            {deliveryMessage.length>0 && <div className="bg-red-100 p-1 text-sm rounded-md flex flex-row gap-1 items-center"><CircleAlert className="text-red-500 w-4 h-4 inline"/> <p>{deliveryMessage}</p></div>}
-            {deliveryMessage.length==0 && <p className="text-sm bg-slate-100 text-gray-700 font-medium rounded-lg w-fit p-1">Estimated Delivery: {estDelivery}</p>}
+            {deliveryMessage.length > 0 && (
+              <div className="bg-red-100 p-1 text-sm rounded-md flex flex-row gap-1 items-center">
+                <CircleAlert className="text-red-500 w-4 h-4 inline" />{" "}
+                <p>{deliveryMessage}</p>
+              </div>
+            )}
+            {deliveryMessage.length == 0 && (
+              <p className="text-sm bg-slate-100 text-gray-700 font-medium rounded-lg w-fit p-1">
+                Estimated Delivery: {estDelivery}
+              </p>
+            )}
           </div>
 
           {/* Address Selection */}
@@ -434,38 +455,42 @@ const setCartRefresh = useSetRecoilState(cartRefreshState);
             </RadioGroup>
           </div>
 
-          <Button disabled={deliveryMessage?.length > 0 || loading} className="w-full mt-2" onClick={handleCheckout}>
+          <Button
+            disabled={deliveryMessage?.length > 0 || loading}
+            className="w-full mt-2"
+            onClick={handleCheckout}
+          >
             {loading ? "Processing..." : "Place Order"}
           </Button>
         </div>
       </SheetContent>
 
       <Dialog open={orderDialogOpen} onOpenChange={setOrderDialogOpen}>
-  <DialogContent className="sm:max-w-md">
-    <DialogHeader>
-      <DialogTitle className="text-green-600">🎉 Order Confirmed!</DialogTitle>
-    </DialogHeader>
-    <div className="space-y-2 text-sm">
-      <p>Your order has been placed successfully.</p>
-      <p>
-        <span className="font-semibold">Order ID:</span> {orderId}
-      </p>
-      <a
-        href="/account/orders"
-        className="text-green-600 font-medium underline"
-      >
-        View Orders
-      </a>
-    </div>
-    <DialogFooter className="mt-4">
-      <DialogClose asChild>
-        <Button variant="outline">Close</Button>
-      </DialogClose>
-    </DialogFooter>
-  </DialogContent>
-</Dialog>
-
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle className="text-green-600">
+              🎉 Order Confirmed!
+            </DialogTitle>
+          </DialogHeader>
+          <div className="space-y-2 text-sm">
+            <p>Your order has been placed successfully.</p>
+            <p>
+              <span className="font-semibold">Order ID:</span> {orderId}
+            </p>
+            <a
+              href="/account/orders"
+              className="text-green-600 font-medium underline"
+            >
+              View Orders
+            </a>
+          </div>
+          <DialogFooter className="mt-4">
+            <DialogClose asChild>
+              <Button variant="outline">Close</Button>
+            </DialogClose>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </Sheet>
-    
   );
 };

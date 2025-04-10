@@ -16,6 +16,7 @@ import axios from "axios";
 import { Product } from "@/lib/types";
 import { useRouter } from "next/navigation";
 import Loading from "@/components/Loading";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 
 export default function Home() {
   const [screenWidth, setScreenWidth] = useState<number | null>(null);
@@ -186,7 +187,6 @@ export default function Home() {
       <Categories />
 
       <FeaturedProducts1 />
-      <FeaturedProducts2 />
       <FeaturedProducts3 />
 
       <Features />
@@ -418,6 +418,8 @@ export default function Home() {
       </section>
 
       <Certifications />
+
+      <DiscountBox open={true} />
     </div>
   );
 }
@@ -1029,3 +1031,26 @@ const customerReviews = [
     rating: 4.7,
   },
 ];
+
+import {
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+
+const DiscountBox = ({open}: {open: boolean}) => {
+   return (<Dialog open={open}>
+      
+      <DialogContent className="sm:max-w-[425px]">
+        <DialogHeader>
+          <DialogTitle>CONGRATULATIONS 🎉</DialogTitle>
+          <DialogDescription>
+            We are offering 30% OFF for first 100 Orders. ORDER NOW.
+          </DialogDescription>
+        </DialogHeader>
+      </DialogContent>
+    </Dialog>
+  )
+}
