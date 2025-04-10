@@ -164,7 +164,7 @@ export const CheckoutSheet = ({
 
         const options = {
           key: keyId,
-          amount: finalAmount, // *100
+          amount: finalAmount*100, 
           currency: "INR",
           name: "Grab Gardenn",
           description: "Order Payment",
@@ -213,9 +213,7 @@ export const CheckoutSheet = ({
             // 👇 Fix z-index here
 
             escape: true,
-            ondismiss: () => {
-              console.log("Razorpay closed");
-            },
+            
           },
         };
         setOpen(false);
