@@ -6,8 +6,8 @@ const LaunchWrapper = ({ children }: { children: React.ReactNode }) => {
   const [timeLeft, setTimeLeft] = useState("");
 
   useEffect(() => {
-    // Create launch time as UTC timestamp (12 PM IST = 6:30 AM UTC)
-    const launchTime = new Date(Date.UTC(2025, 3, 10, 7, 33)); 
+    // Create launch time as UTC timestamp (2 PM IST = 8:30 AM UTC)
+    const launchTime = new Date(Date.UTC(2025, 3, 10, 8, 40)); 
 
     const updateCountdown = () => {
       const now = new Date();

@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   title: 'GrabGardenn - Live Now!',
   description: 'Healthy & Natural Foods',
   icons: {
-    icon: '/grab-gardenn-logo.png', 
+    icon: '/grab-gardenn-logo.png', // <-- make sure this exists in /public
   },
 };
 
@@ -29,12 +29,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <Script src="https://checkout.razorpay.com/v1/checkout.js"></Script>
+      <LaunchWrapper>
       <div className={`${poppins.variable} font-poppins`}>
         {children}
         <Toaster />
         <Footer />
         <WhatsAppFloatingButton />
       </div>
+      </LaunchWrapper>
       
     </html>
   );
