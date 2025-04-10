@@ -452,7 +452,7 @@ export const BuyNowSheet = ({
               </div>
               <div className="flex items-center space-x-2">
                 <RadioGroupItem disabled value="Prepaid" id="prepaid" />
-                <Label htmlFor="prepaid">Pay with Razorpay</Label>
+                <Label htmlFor="prepaid">Pay with Razorpay (NOT AVAILABLE FOR NOW)</Label>
               </div>
             </RadioGroup>
           </div>
