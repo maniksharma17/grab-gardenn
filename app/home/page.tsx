@@ -1041,7 +1041,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 
-const DiscountBox = ({open, setOpen}: {open: boolean; setOpen: ()=>void}) => {
+const DiscountBox = ({open, setOpen}: {open: boolean; setOpen: (x: boolean)=>void}) => {
    return (<Dialog open={open} onOpenChange={setOpen}>
       
       <DialogContent className="sm:max-w-[425px]">
