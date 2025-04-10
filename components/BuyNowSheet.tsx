@@ -227,7 +227,7 @@ export const BuyNowSheet = ({
           {
             shippingAddress: selectedAddress,
             deliveryRate: deliveryRate,
-            price: total,
+            price: price,
             variant: selectedVariant,
             product: product._id,
             quantity,
