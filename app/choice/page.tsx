@@ -63,7 +63,7 @@ export default function YourChoicePage() {
     }
   
     try {
-      await fetch("https://script.google.com/macros/s/AKfycbwpUV090obYzChM2uj_fUXpuiHbEvS7pOdpDvOXVGxOO4jepR8ZEbwzpsoTX8155D_5/exec", {
+      await fetch("https://script.google.com/macros/s/AKfycbwCHfpzq6hAaUAA2uEO3HaKXNzs5E3WgUQ-TgBhbZ24EDnl8xVnWLM4blz0ZOk20xd-/exec", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
