@@ -452,7 +452,7 @@ export const BuyNowSheet = ({
             </div>
             <div className="flex justify-between text-sm">
               <span>Shipping:</span>
-              <span>₹{deliveryRate.toFixed(2)}</span>
+              <span>{(total>=1000) ?  `₹0` : `₹${(deliveryRate).toFixed(2)}` }</span>
             </div>
             <div className="flex justify-between text-sm font-medium">
               <span>Total:</span>
