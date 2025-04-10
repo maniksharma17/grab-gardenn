@@ -164,7 +164,7 @@ export const CheckoutSheet = ({
 
         const options = {
           keyId,
-          amount: finalAmount * 100,
+          amount: finalAmount, // *100
           currency: "INR",
           name: "Grab Gardenn",
           description: "Order Payment",
@@ -258,7 +258,7 @@ export const CheckoutSheet = ({
         setOpen(false);
         setCart(false);
         setLoading(false);
-        window.location.reload();
+        setCartRefresh(prev => prev+1)
       }
     }
   };
