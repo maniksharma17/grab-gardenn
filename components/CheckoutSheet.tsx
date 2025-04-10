@@ -34,6 +34,7 @@ import {
 } from "@/components/ui/select";
 import { CircleAlert, CreditCard, Truck } from "lucide-react";
 import { Input } from "@/components/ui/input";
+import { validateAddress } from "@/lib/utils";
 
 export const CheckoutSheet = ({
   setCart,
@@ -142,6 +143,12 @@ export const CheckoutSheet = ({
     setLoading(true);
     if (!selectedAddress) {
       toast({ title: "Please select an address", variant: "destructive" });
+      return;
+    }
+
+    const result = validateAddress(selectedAddress);
+    if (!result.isValid) {
+      toast({ title: result.message, variant: "destructive" });
       return;
     }
 

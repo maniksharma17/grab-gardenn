@@ -33,3 +33,52 @@ export const localStorageEffect = (key: string) =>
   
     return width;
   }
+
+  type Address = {
+    name: string;
+    phone: string;
+    street: string;
+    streetOptional?: string;
+    city: string;
+    state: string;
+    zipCode: string;
+    country: string;
+  };
+  
+  type ValidationResult = {
+    isValid: boolean;
+    message: string;
+  };
+  
+  export function validateAddress(address: Address): ValidationResult {
+    if (!address.name.trim()) {
+      return { isValid: false, message: "Name is required." };
+    }
+  
+    if (!/^\d{10}$/.test(address.phone)) {
+      return { isValid: false, message: "Phone number must be 10 digits." };
+    }
+  
+    if (!address.street.trim()) {
+      return { isValid: false, message: "Street is required." };
+    }
+  
+    if (!address.city.trim()) {
+      return { isValid: false, message: "City is required." };
+    }
+  
+    if (!address.state.trim()) {
+      return { isValid: false, message: "State is required." };
+    }
+  
+    if (!/^\d{6}$/.test(address.zipCode)) {
+      return { isValid: false, message: "Zip code must be 6 digits." };
+    }
+  
+    if (!address.country.trim()) {
+      return { isValid: false, message: "Country is required." };
+    }
+  
+    return { isValid: true, message: "Address is valid." };
+  }
+  

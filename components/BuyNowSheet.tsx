@@ -26,6 +26,7 @@ import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
 import { CircleAlert } from "lucide-react";
 import Image from "next/image";
+import { validateAddress } from "@/lib/utils";
 
 interface Variant {
   display: string;
@@ -125,6 +126,11 @@ export const BuyNowSheet = ({
     setLoading(true);
     if (!selectedAddress) {
       toast({ title: "Please select an address", variant: "destructive" });
+      return;
+    }
+    const result = validateAddress(selectedAddress);
+    if (!result.isValid) {
+      toast({ title: result.message, variant: "destructive" });
       return;
     }
 
