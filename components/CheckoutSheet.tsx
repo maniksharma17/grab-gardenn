@@ -163,7 +163,7 @@ export const CheckoutSheet = ({
         const { orderId, keyId } = res.data;
 
         const options = {
-          keyId,
+          key: keyId,
           amount: finalAmount, // *100
           currency: "INR",
           name: "Grab Gardenn",
