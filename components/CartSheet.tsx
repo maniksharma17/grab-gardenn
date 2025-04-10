@@ -151,6 +151,8 @@ export const CartSheet = () => {
       );
     } catch (err) {
       console.log("Quantity update failed", err);
+    } finally {
+      setCartRefresh(prev => prev+1)
     }
   };
 

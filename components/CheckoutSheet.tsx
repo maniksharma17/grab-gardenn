@@ -84,6 +84,7 @@ export const CheckoutSheet = ({
     fetchDeliveryRate();
   }, [user, selectedAddress]);
   const setCartRefresh = useSetRecoilState(cartRefreshState);
+  const cartRefresh = useRecoilValue(cartRefreshState)
 
   const [newAddress, setNewAddress] = useState({
     name: "",
@@ -127,7 +128,7 @@ export const CheckoutSheet = ({
       }
     };
     fetchCart();
-  }, [user, token]);
+  }, [user, token, cartRefresh]);
 
   useEffect(() => {
     if (user?.address?.length > 0) {
@@ -282,7 +283,7 @@ export const CheckoutSheet = ({
             </div>
             <div className="flex justify-between text-sm">
               <span>Shipping:</span>
-              <span>{(subtotal > 1000) ? `₹${deliveryRate.toFixed(2)}` : '₹0'}</span>
+              <span>{(subtotal > 1000) ?  '₹0' : `₹${deliveryRate.toFixed(2)}`}</span>
             </div>
             <div className="flex justify-between text-sm font-medium">
               <span>Total:</span>
