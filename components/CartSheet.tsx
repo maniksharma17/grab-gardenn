@@ -94,7 +94,7 @@ export const CartSheet = () => {
           variant: product.variants[0], 
           quantity: 1,
           dimensions: product.dimensions[0], 
-          price: product.price[0], 
+          priceIndex: 0, 
         },
         {
           headers: { Authorization: `Bearer ${token}` },
