@@ -170,7 +170,21 @@ export const UserProfileSheet = () => {
           </SheetHeader>
 
           <div className="flex flex-col gap-6 py-6 text-sm">
-            
+            <div className="space-y-4">
+              {/* Info Card */}
+              {[
+                { label: "Name", value: user.name },
+                { label: "Email", value: user.email },
+                { label: "Phone", value: user.phone },
+              ].map((field, idx) => (
+                <div key={idx}>
+                  <p className="text-xs text-gray-500">{field.label}</p>
+                  <div className="bg-muted rounded-lg border p-2 text-sm text-gray-900">
+                    {field.value}
+                  </div>
+                </div>
+              ))}
+            </div>
 
             {/* Address */}
             <ShippingAddressSection
@@ -333,16 +347,7 @@ export const ShippingAddressSection = ({
           </SelectContent>
         </Select>
 
-        {primaryAddress && (
-          <div className="border rounded-lg p-4 bg-muted text-gray-800 text-sm space-y-1 shadow-sm">
-            <p>{primaryAddress.street}</p>
-            <p>{primaryAddress.streetOptional || "-"}</p>
-            <p>
-              {primaryAddress.city} - {primaryAddress.zipCode}
-            </p>
-            <p>{primaryAddress.state}, {primaryAddress.country}</p>
-          </div>
-        )}
+        
 
         {user.address.map((addr: any) => (
           <div
