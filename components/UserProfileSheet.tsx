@@ -32,6 +32,7 @@ export const UserProfileSheet = () => {
   const [showAddressForm, setShowAddressForm] = useState(false);
   const [loading, setLoading] = useState(false);
   const [address, setAddress] = useState({
+    id: "",
     name: "",
     phone: "",
     street: "",
@@ -50,31 +51,55 @@ export const UserProfileSheet = () => {
   };
 
   const {toast} = useToast();
+
   const handleAddressSubmit = async () => {
     const result = validateAddress(address);
-    if(!result.isValid){
-      toast({title: result.message, variant: "destructive"})
+    if (!result.isValid) {
+      toast({ title: result.message, variant: "destructive" });
       return;
     }
-
+  
     try {
       setLoading(true);
-      const res = await axios.put(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/${user._id}/address`,
-        address,
-        {
-          withCredentials: true,
-          headers: {
-            'Authorization': 'Bearer ' + user.token,
-            'Content-Type': 'application/json'
+  
+      if (address.id) {
+        const res = await axios.put(
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/${user._id}/${address.id}`,
+          address,
+          {
+            headers: {
+              Authorization: "Bearer " + user.token,
+            },
           }
-        }
-      );
-      setUser((prev) => ({
-        ...prev,
-        address: [...(prev.address || []), res.data.newAddress],
-      }));
+        );
+        const updatedAddress = res.data.address;
+  
+        setUser((prev) => ({
+          ...prev,
+          address: prev.address.map((a) =>
+            a._id === updatedAddress._id ? updatedAddress : a
+          ),
+        }));
+      } else {
+        const res = await axios.put(
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/${user._id}/address`,
+          address,
+          {
+            headers: {
+              Authorization: "Bearer " + user.token,
+            },
+          }
+        );
+        const updatedAddress = res.data.newAddress;
+  
+        setUser((prev) => ({
+          ...prev,
+          address: [...(prev.address || []), updatedAddress],
+        }));
+      }
+  
       setAddress({
+        id: "",
         street: "",
         streetOptional: "",
         city: "",
@@ -82,15 +107,45 @@ export const UserProfileSheet = () => {
         zipCode: "",
         country: "",
         name: "",
-        phone: ""
+        phone: "",
       });
       setShowAddressForm(false);
     } catch (error) {
-      console.error("Error adding address", error);
+      console.error("Error saving address", error);
     } finally {
       setLoading(false);
     }
   };
+  
+
+  const handleEditAddress = (addr: any) => {
+    setAddress(addr); 
+    setShowAddressForm(true);
+  };
+  
+  const handleDeleteAddress = async (addressId: string) => {
+    if (!confirm("Are you sure you want to delete this address?")) return;
+    try {
+      await axios.delete(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/${user._id}/${addressId}`, {
+        headers: {
+          Authorization: "Bearer " + user.token,
+        },
+      });
+  
+      setUser((prev) => ({
+        ...prev,
+        address: prev.address.filter((addr) => addr._id !== addressId),
+      }));
+  
+      toast({ title: "Address deleted successfully" });
+    } catch (error) {
+      toast({
+        title: "Failed to delete address",
+        variant: "destructive",
+      });
+    }
+  };
+  
 
   if (!user?.isLoggedIn) return null;
 
@@ -132,7 +187,12 @@ export const UserProfileSheet = () => {
             </div>
 
             {/* Address */}
-            <ShippingAddressSection user={user}/>
+            <ShippingAddressSection
+              user={user}
+              onEditAddress={handleEditAddress}
+              onDeleteAddress={handleDeleteAddress}
+            />
+
 
             {/* Add Address Toggle */}
             <Button
@@ -143,6 +203,7 @@ export const UserProfileSheet = () => {
               {showAddressForm ? "Cancel" : "Add Address"}
               <Plus className="w-4 h-4 ml-2" />
             </Button>
+            
 
             {/* Add Address Form */}
             {showAddressForm && (
@@ -250,7 +311,15 @@ export const UserProfileSheet = () => {
   );
 };
 
-export const ShippingAddressSection = ({ user }: { user: any }) => {
+export const ShippingAddressSection = ({
+  user,
+  onEditAddress,
+  onDeleteAddress,
+}: {
+  user: any;
+  onEditAddress: (address: any) => void;
+  onDeleteAddress: (id: string) => void;
+}) => {
   const [primaryAddressId, setPrimaryAddressId] = useState(
     user?.address?.[0]?._id ?? null
   );
@@ -288,6 +357,35 @@ export const ShippingAddressSection = ({ user }: { user: any }) => {
             <p>{primaryAddress.state}, {primaryAddress.country}</p>
           </div>
         )}
+
+        {user.address.map((addr: any) => (
+          <div
+            key={addr._id}
+            className="border rounded-lg p-3 text-sm bg-white space-y-1 shadow"
+          >
+            <p className="font-medium">{addr.name}</p>
+            <p>{addr.phone}</p>
+            <p>{addr.street}</p>
+            <p>{addr.city}, {addr.state}, {addr.zipCode}</p>
+            <p>{addr.country}</p>
+            <div className="flex gap-2 pt-2">
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={() => onEditAddress(addr)}
+              >
+                Edit
+              </Button>
+              <Button
+                size="sm"
+                variant="destructive"
+                onClick={() => onDeleteAddress(addr._id)}
+              >
+                Delete
+              </Button>
+            </div>
+          </div>
+        ))}
       </div>
     )
   );
