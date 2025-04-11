@@ -32,7 +32,7 @@ export const UserProfileSheet = () => {
   const [showAddressForm, setShowAddressForm] = useState(false);
   const [loading, setLoading] = useState(false);
   const [address, setAddress] = useState({
-    id: "",
+    _id: "",
     name: "",
     phone: "",
     street: "",
@@ -62,9 +62,9 @@ export const UserProfileSheet = () => {
     try {
       setLoading(true);
   
-      if (address.id) {
+      if (address._id) {
         const res = await axios.put(
-          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/${user._id}/${address.id}`,
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/${user._id}/${address._id}`,
           address,
           {
             headers: {
@@ -99,7 +99,7 @@ export const UserProfileSheet = () => {
       }
   
       setAddress({
-        id: "",
+        _id: "",
         street: "",
         streetOptional: "",
         city: "",
@@ -179,7 +179,7 @@ export const UserProfileSheet = () => {
               ].map((field, idx) => (
                 <div key={idx}>
                   <p className="text-xs text-gray-500">{field.label}</p>
-                  <div className="bg-muted rounded-lg border p-2 text-sm text-gray-900">
+                  <div className="bg-white rounded-lg border p-2 text-sm text-gray-900">
                     {field.value}
                   </div>
                 </div>
