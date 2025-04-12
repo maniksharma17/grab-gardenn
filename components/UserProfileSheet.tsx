@@ -366,7 +366,7 @@ export const ShippingAddressSection = ({
               <Button
                 size="sm"
                 variant="destructive"
-                onClick={() => onDeleteAddress(primaryAddress._id)}
+                onClick={() => onDeleteAddress(primaryAddressId)}
               >
                 Delete
               </Button>
