@@ -124,6 +124,7 @@ export const UserProfileSheet = () => {
   };
   
   const handleDeleteAddress = async (addressId: string) => {
+    console.log(addressId)
     try {
       await axios.delete(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/${user._id}/${addressId}`, {
         headers: {
