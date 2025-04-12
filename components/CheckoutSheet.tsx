@@ -236,6 +236,7 @@ export const CheckoutSheet = ({
         toast({ title: "Payment failed", variant: "destructive" });
       } finally {
         setLoading(false);
+        setCartRefresh((prev) => prev+1);
       }
     } else {
       try {
@@ -266,7 +267,7 @@ export const CheckoutSheet = ({
         setOpen(false);
         setCart(false);
         setLoading(false);
-        setCartRefresh(prev => prev+1)
+        setCartRefresh((prev) => prev+1)
       }
     }
   };
