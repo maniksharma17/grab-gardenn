@@ -72,13 +72,11 @@ export const UserProfileSheet = () => {
             },
           }
         );
-        const updatedAddress = res.data.address;
+        const addresses = res.data.addresses;
   
         setUser((prev) => ({
           ...prev,
-          address: prev.address.map((a) =>
-            a._id === updatedAddress._id ? updatedAddress : a
-          ),
+          address: addresses,
         }));
       } else {
         const res = await axios.put(
@@ -90,11 +88,11 @@ export const UserProfileSheet = () => {
             },
           }
         );
-        const updatedAddress = res.data.newAddress;
+        const addresses = res.data.addresses;
   
         setUser((prev) => ({
           ...prev,
-          address: [...(prev.address), updatedAddress],
+          address: addresses,
         }));
       }
   
@@ -126,15 +124,17 @@ export const UserProfileSheet = () => {
   const handleDeleteAddress = async (addressId: string) => {
     console.log(addressId)
     try {
-      await axios.delete(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/${user._id}/${addressId}`, {
+      const res = await axios.delete(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/${user._id}/${addressId}`, {
         headers: {
           Authorization: "Bearer " + user.token,
         },
       });
   
+      const addresses = res.data.addresses;
+  
       setUser((prev) => ({
         ...prev,
-        address: prev.address.filter((addr) => addr._id !== addressId),
+        address: addresses,
       }));
   
       toast({ title: "Address deleted successfully" });
