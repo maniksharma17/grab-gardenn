@@ -124,7 +124,6 @@ export const UserProfileSheet = () => {
   };
   
   const handleDeleteAddress = async (addressId: string) => {
-    if (!confirm("Are you sure you want to delete this address?")) return;
     try {
       await axios.delete(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/${user._id}/${addressId}`, {
         headers: {
@@ -360,7 +359,7 @@ export const ShippingAddressSection = ({
               <Button
                 size="sm"
                 variant="outline"
-                onClick={() => onEditAddress(primaryAddress._id)}
+                onClick={() => onEditAddress(primaryAddress)}
               >
                 Edit
               </Button>
