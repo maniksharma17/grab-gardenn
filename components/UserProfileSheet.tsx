@@ -21,7 +21,7 @@ import { useRecoilState, useResetRecoilState } from "recoil";
 import { userState } from "@/store/atoms/user";
 import Link from "next/link";
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Input } from "./ui/input";
 import { validateAddress } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
@@ -79,7 +79,7 @@ export const UserProfileSheet = () => {
           address: addresses,
         }));
         localStorage.setItem("user", JSON.stringify(user));
-        
+
       } else {
         const res = await axios.put(
           `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/${user._id}/address`,
@@ -125,7 +125,7 @@ export const UserProfileSheet = () => {
   };
   
   const handleDeleteAddress = async (addressId: string) => {
-    console.log(addressId)
+
     try {
       const res = await axios.delete(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/${user._id}/${addressId}`, {
         headers: {
@@ -328,9 +328,14 @@ export const ShippingAddressSection = ({
   const [primaryAddressId, setPrimaryAddressId] = useState(
     user?.address?.[0]?._id ?? null
   );
-
+  useEffect(() => {
+    if (!user.address?.find((addr: any) => addr._id === primaryAddressId)) {
+      setPrimaryAddressId(user.address?.[0]?._id ?? null);
+    }
+  }, [user.address, primaryAddressId]);
   const primaryAddress = user.address?.find((addr: any) => addr._id === primaryAddressId);
-  console.log(primaryAddress)
+  
+  if(!primaryAddress) return null;
 
   return (
     user.address?.length > 0 && (
