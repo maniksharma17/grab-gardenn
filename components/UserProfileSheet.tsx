@@ -63,7 +63,7 @@ export const UserProfileSheet = () => {
         country: "",
       });
     }
-  }, [user, address]);
+  }, [user]);
 
   const handleLogout = async () => {
     await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/logout`);
