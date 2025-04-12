@@ -249,6 +249,11 @@ export const BuyNowSheet = ({
             title: "Order has been placed successfully. 🎉",
             description: "OrderID: " + response.data.shiprocketOrderId,
           });
+        } else {
+          toast({
+            title: response.data.message,
+            variant: 'destructive'
+          });
         }
       } catch (err: any) {
         console.log("COD error", err);
