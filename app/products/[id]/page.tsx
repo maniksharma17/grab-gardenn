@@ -298,15 +298,22 @@ export default function ProductPage() {
                   CART
                 </Button>
               </div>
-              <BuyNowSheet
-                open={buyNowOpen}
-                setOpen={setBuyNowOpen}
-                product={product}
-                selectedVariant={product.variants[selectedVariant]}
-                dimensions={product.dimensions[selectedVariant]}
-                quantity={quantity}
-                price={product.price[selectedVariant]}
-              />
+              {product.stock == 0 ?
+              <Button disabled className="bg-red-700 text-white hover:bg-red-600 hover:text-white">
+                OUT OF STOCK
+              </Button>
+            : <BuyNowSheet
+            open={buyNowOpen}
+            setOpen={setBuyNowOpen}
+            product={product}
+            selectedVariant={product.variants[selectedVariant]}
+            dimensions={product.dimensions[selectedVariant]}
+            quantity={quantity}
+            price={product.price[selectedVariant]}
+          />
+            
+            }
+              
             </div>
   
             <ProductDetails
