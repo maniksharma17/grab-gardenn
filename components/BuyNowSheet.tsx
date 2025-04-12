@@ -126,11 +126,13 @@ export const BuyNowSheet = ({
     setLoading(true);
     if (!selectedAddress) {
       toast({ title: "Please select an address", variant: "destructive" });
+      setLoading(false);
       return;
     }
     const result = validateAddress(selectedAddress);
     if (!result.isValid) {
       toast({ title: result.message, variant: "destructive" });
+      setLoading(false);
       return;
     }
 
