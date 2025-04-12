@@ -325,6 +325,7 @@ export const ShippingAddressSection = ({
   );
 
   const primaryAddress = user.address?.find((addr: any) => addr._id === primaryAddressId);
+  console.log(primaryAddress)
 
   return (
     user.address?.length > 0 && (
