@@ -259,7 +259,6 @@ export const CheckoutSheet = ({
         }
 
         setOrderId(response.data.shiprocketOrderId);
-        setCartRefresh((prev) => prev + 1);
       } catch (err) {
         console.log("COD error", err);
         toast({ title: "Order failed", variant: "destructive" });

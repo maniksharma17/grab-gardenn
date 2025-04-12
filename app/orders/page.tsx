@@ -1,5 +1,4 @@
 "use client";
-
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { format } from "date-fns";
@@ -7,7 +6,6 @@ import Image from "next/image";
 import { useRecoilValue } from "recoil";
 import { userState } from "@/store/atoms/user";
 import { Navbar } from "@/components/Navbar";
-import { ChevronDown, ChevronUp } from "lucide-react";
 
 interface Order {
   _id: string;
@@ -43,7 +41,6 @@ interface Order {
 const OrdersPage = () => {
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
-  const [expandedOrder, setExpandedOrder] = useState<string | null>(null);
   const user = useRecoilValue(userState);
 
   useEffect(() => {
@@ -66,97 +63,77 @@ const OrdersPage = () => {
     fetchOrders();
   }, [user]);
 
-  const toggleAccordion = (id: string) => {
-    setExpandedOrder((prev) => (prev === id ? null : id));
-  };
-
   if (loading) return <div className="text-center py-10 text-gray-600">Loading orders...</div>;
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-green-50 to-white">
+    <main className="min-h-screen bg-gray-50">
       <Navbar />
-      <div className="w-full max-w-7xl mx-auto px-4 sm:px-8 pt-28 pb-16">
-        <h1 className="text-4xl font-bold text-center text-green-700 mb-12">Your Orders</h1>
+      <div className="w-full px-4 md:px-10 mt-28 py-12">
+        <h1 className="text-4xl mt-32 max-md:text-2xl font-bold mb-12 text-center text-green-700">Your Orders</h1>
 
         {orders.length === 0 ? (
           <p className="text-center text-md text-gray-500">No orders yet.</p>
         ) : (
-          <div className="space-y-8">
+          <div className="space-y-10">
             {orders.map((order) => (
               <div
                 key={order._id}
-                className="rounded-2xl border border-gray-200 bg-white shadow-md overflow-hidden"
+                className="border border-gray-200 rounded-2xl bg-white p-6 shadow-sm hover:shadow-md transition"
               >
-                <button
-                  onClick={() => toggleAccordion(order._id)}
-                  className="w-full px-6 py-5 flex justify-between items-center hover:bg-gray-50 transition-all"
-                >
-                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 w-full text-sm sm:text-base">
-                    <div>
-                      <p className="font-medium text-gray-700">Order ID</p>
-                      <p className="truncate text-gray-600">{order._id}</p>
-                    </div>
-                    <div>
-                      <p className="font-medium text-gray-700">Placed On</p>
-                      <p className="text-gray-600">{format(new Date(order.createdAt), "dd MMM yyyy, hh:mm a")}</p>
-                    </div>
-                    <div>
-                      <p className="font-medium text-gray-700">Total</p>
-                      <p className="text-gray-800 font-semibold">₹{order.total}</p>
-                    </div>
-                    <div>
-                      <p className="font-medium text-gray-700">Status</p>
-                      <p className={`capitalize font-semibold ${order.status === 'delivered' ? 'text-green-600' : 'text-yellow-600'}`}>
-                        {order.status}
-                      </p>
-                    </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 mb-6 text-sm md:text-base">
+                  <div>
+                    <p className="font-medium text-gray-700">Order ID</p>
+                    <p className="truncate text-gray-600">{order._id}</p>
                   </div>
-                  {expandedOrder === order._id ? (
-                    <ChevronUp className="ml-4 shrink-0 text-gray-500" />
-                  ) : (
-                    <ChevronDown className="ml-4 shrink-0 text-gray-500" />
-                  )}
-                </button>
+                  <div>
+                    <p className="font-medium text-gray-700">Placed On</p>
+                    <p className="text-gray-600">{format(new Date(order.createdAt), "dd MMM yyyy, hh:mm a")}</p>
+                  </div>
+                  <div>
+                    <p className="font-medium text-gray-700">Total</p>
+                    <p className="text-gray-600">₹{order.total}</p>
+                  </div>
+                  <div>
+                    <p className="font-medium text-gray-700">Status</p>
+                    <p className="capitalize text-green-600 font-semibold">{order.status}</p>
+                  </div>
+                </div>
 
-                {expandedOrder === order._id && (
-                  <div className="px-6 pb-6 bg-gray-50 border-t">
-                    <div className="text-sm text-gray-700 mb-4 mt-4">
-                      <p className="font-semibold text-gray-800 mb-1">Shipping Address:</p>
-                      <p>
-                        {order.shippingAddress.name}, {order.shippingAddress.street}{" "}
-                        {order.shippingAddress.streetOptional && order.shippingAddress.streetOptional + ","}{" "}
-                        {order.shippingAddress.city}, {order.shippingAddress.state} -{" "}
-                        {order.shippingAddress.zipCode}, {order.shippingAddress.country}.{" "}
-                        Phone: {order.shippingAddress.phone}
-                      </p>
-                    </div>
+                <div className="text-sm text-gray-700 mb-6">
+                  <p className="font-semibold text-gray-800 mb-1">Shipping Address:</p>
+                  <p>
+                    {order.shippingAddress.name}, {order.shippingAddress.street}{" "}
+                    {order.shippingAddress.streetOptional && order.shippingAddress.streetOptional + ","}{" "}
+                    {order.shippingAddress.city}, {order.shippingAddress.state} -{" "}
+                    {order.shippingAddress.zipCode}, {order.shippingAddress.country}.{" "}
+                    Phone: {order.shippingAddress.phone}
+                  </p>
+                </div>
 
-                    <div className="space-y-4">
-                      {order.items.map((item, idx) => (
-                        <div
-                          key={idx}
-                          className="flex flex-col sm:flex-row sm:items-start sm:justify-between border-b pb-4 last:border-b-0"
-                        >
-                          <div className="flex gap-4 mb-4 sm:mb-0">
-                            <Image
-                              src={item.product.images[0]}
-                              alt={item.product.name}
-                              className="w-24 h-24 object-cover rounded-lg border"
-                              width={96}
-                              height={96}
-                            />
-                            <div>
-                              <p className="font-semibold text-gray-800">{item.product.name}</p>
-                              <p className="text-sm text-gray-600">Variant: {item.variant.display}</p>
-                              <p className="text-sm text-gray-600">Qty: {item.quantity}</p>
-                            </div>
-                          </div>
-                          <div className="text-md font-bold text-gray-800 sm:ml-auto">₹{item.price}</div>
+                <div className="space-y-4">
+                  {order.items.map((item, idx) => (
+                    <div
+                      key={idx}
+                      className="flex flex-col sm:flex-row sm:items-center justify-between border-b pb-4 gap-4"
+                    >
+                      <div className="flex gap-4 items-start">
+                        <Image
+                          src={item.product.images[0]}
+                          alt={item.product.name}
+                          className="w-20 h-20 object-cover rounded-md"
+                          width={80}
+                          height={80}
+                        />
+                        <div>
+                          <p className="font-semibold text-gray-800">{item.product.name}</p>
+                          <p className="text-sm text-gray-600">Variant: {item.variant.display}</p>
+                          <p className="text-sm text-gray-600">Qty: {item.quantity}</p>
                         </div>
-                      ))}
+                      </div>
+                      <div className="text-md font-semibold text-gray-800 sm:ml-auto">₹{item.price}</div>
                     </div>
-                  </div>
-                )}
+                  ))}
+                </div>
               </div>
             ))}
           </div>
