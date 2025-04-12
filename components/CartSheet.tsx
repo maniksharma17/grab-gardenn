@@ -78,7 +78,7 @@ export const CartSheet = () => {
     };
 
     fetchCart();
-  }, [user, token, toast, cartRefresh]);
+  }, [user, token, cartRefresh]);
 
   const addToCart = async (product: Product) => {
     if (!token || !user?._id) {

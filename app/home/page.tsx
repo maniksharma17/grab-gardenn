@@ -102,6 +102,7 @@ export default function Home() {
                     src={image.src}
                     alt={`Banner ${index + 1}`}
                     fill
+                    priority
                     unoptimized
                     className="object-cover transition-opacity duration-1000 opacity-100"
                   />
@@ -136,6 +137,7 @@ export default function Home() {
                 src={"/grab-gardenn-logo.png"}
                 alt="LOGO"
                 height={100}
+                priority
                 width={100}
                 unoptimized
                 className="fill md:w-32 md:h-32 mx-auto object-contain"
@@ -249,6 +251,7 @@ export default function Home() {
                     className="w-full h-32 object-cover transition-transform duration-300 hover:scale-105"
                     width={200}
                     height={200}
+                    priority
                   />
                 </Link>
                 <div className="py-4 text-left px-4 flex flex-col flex-grow">
@@ -295,6 +298,7 @@ export default function Home() {
                     className="w-full h-32 object-cover transition-transform duration-300 hover:scale-105"
                     width={200}
                     height={200}
+                    priority
                   />
                 </Link>
                 <div className="py-4 text-left px-4 flex flex-col flex-grow">
@@ -368,6 +372,7 @@ export default function Home() {
                 width={600}
                 height={500}
                 className="object-cover rounded-xl"
+                priority
               />
             </div>
           </div>
@@ -441,7 +446,7 @@ const Categories = () => {
               }}
               className="min-w-[200px] cursor-pointer flex-shrink-0 bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300"
             >
-              <div className="w-full h-[140px] rounded-t-xl overflow-hidden">
+              <div className="w-[200px] h-[140px] rounded-t-xl overflow-hidden">
                 <Image
                   src={category.image}
                   alt={category.name}
@@ -546,6 +551,7 @@ const FeaturedProducts1 = () => {
                         fill
                         sizes="100%"
                         unoptimized
+                        priority
                       />
                     )}
                   </div>
@@ -952,6 +958,7 @@ const Certifications = () => {
               width={200}
               height={200}
               className="max-md:h-30 max-md:w-30"
+              priority
             />
           </div>
         );
