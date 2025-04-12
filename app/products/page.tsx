@@ -304,6 +304,7 @@ export default function ProductsPage() {
                     isHorizontal ? "md:w-3/4" : ""
                   } p-4 max-md:p-2 flex flex-col gap-2`}
                 >
+                  {product.stock == 0 && <p className="text-red-500 text-left">Out of stock</p>}
                   <h3
                     className={`text-gray-800 font-semibold ${
                       isHorizontal ? "text-xl" : "text-md"

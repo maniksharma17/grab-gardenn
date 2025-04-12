@@ -174,6 +174,8 @@ export default function ProductsPage() {
                 key={product._id}
                 className={`rounded-lg bg-white border overflow-hidden hover:shadow-md transition ${
                   isHorizontal ? "flex flex-col md:flex-row" : ""
+                } ${
+                  product.stock == 0 ? 'opacity-50' : 'opacity-100'
                 }`}
               >
                 <div
@@ -202,6 +204,7 @@ export default function ProductsPage() {
                 </div>
 
                 <div className={`${isHorizontal?"md:w-3/4 p-4":""} md:p-4 p-2 flex flex-col gap-2`}>
+                  {product.stock == 0 && <p className="text-red-500 text-left">Out of stock</p>}
                   <h3
                     className={`text-gray-800 font-semibold ${
                       isHorizontal ? "text-xl" : "text-md"
