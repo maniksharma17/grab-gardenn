@@ -69,7 +69,7 @@ const OrdersPage = () => {
     <main className="min-h-screen bg-gray-50">
       <Navbar />
       <div className="w-full px-4 md:px-10 mt-28 py-12">
-        <h1 className="text-4xl max-md:text-2xl font-bold mb-12 text-center text-primary">Your Orders</h1>
+        <h1 className="text-4xl max-md:text-2xl font-medium mb-12 text-left text-primary">Your Orders</h1>
 
         {orders.length === 0 ? (
           <p className="text-center text-md text-gray-500">No orders yet.</p>
