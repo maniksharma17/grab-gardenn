@@ -250,9 +250,9 @@ export const BuyNowSheet = ({
             description: "OrderID: " + response.data.shiprocketOrderId,
           });
         }
-      } catch (err) {
+      } catch (err: any) {
         console.log("COD error", err);
-        toast({ title: "Order failed", variant: "destructive" });
+        toast({ title: "Order failed", description: err.message, variant: "destructive" });
       } finally {
         setOpen(false);
         setLoading(false);

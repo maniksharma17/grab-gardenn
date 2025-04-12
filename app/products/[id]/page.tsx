@@ -116,10 +116,11 @@ export default function ProductPage() {
       toast({
         title: "Added to cart",
       });
-    } catch (error) {
+    } catch (error: any) {
       console.error("Add to cart error:", error);
       toast({
         title: "Failed to add to cart",
+        description: error.message,
         variant: "destructive",
       });
     } finally {

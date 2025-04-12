@@ -1,7 +1,6 @@
 "use client";
 
 import { Navbar } from "@/components/Navbar";
-import { products } from "@/lib/data";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
@@ -265,6 +264,8 @@ export default function ProductsPage() {
                 key={product._id}
                 className={`rounded-lg bg-white border overflow-hidden hover:shadow-md transition ${
                   isHorizontal ? "flex md:flex-row flex-col" : ""
+                } ${
+                  product.stock == 0 ? 'opacity-50' : 'opacity-100'
                 }`}
               >
                 <div

@@ -929,8 +929,8 @@ const VideoSection = () => {
             generations.
             <br />
             <br />
-            Whether you're sipping our Buransh tea or cooking with heirloom
-            pulses, you're not just eating clean — you're becoming a part of a
+            Whether you&apos;re sipping our Buransh tea or cooking with heirloom
+            pulses, you&apos;re not just eating clean — you&apos;re becoming a part of a
             larger story, one that values wellness, sustainability, and
             authenticity.
           </p>
