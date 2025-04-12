@@ -78,6 +78,8 @@ export const UserProfileSheet = () => {
           ...prev,
           address: addresses,
         }));
+        localStorage.setItem("user", JSON.stringify(user));
+        
       } else {
         const res = await axios.put(
           `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/${user._id}/address`,
@@ -94,6 +96,7 @@ export const UserProfileSheet = () => {
           ...prev,
           address: addresses,
         }));
+        localStorage.setItem("user", JSON.stringify(user));
       }
   
       setAddress({
@@ -131,11 +134,13 @@ export const UserProfileSheet = () => {
       });
   
       const addresses = res.data.addresses;
+      console.log(addresses)
   
       setUser((prev) => ({
         ...prev,
         address: addresses,
       }));
+      localStorage.setItem("user", JSON.stringify(user));
   
       toast({ title: "Address deleted successfully" });
     } catch (error) {
