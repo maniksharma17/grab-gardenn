@@ -101,21 +101,31 @@ export default function ProductPage() {
         dimensions: product.dimensions[selectedVariant],
       };
 
-      await axios.post(
+      const res = await fetch(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/cart/add/${user._id}`,
-        payload,
         {
-          withCredentials: true,
+          method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${user.token}`,
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
+          body: JSON.stringify(payload),
         }
       );
 
-      toast({
-        title: "Added to cart",
-      });
+      if(res.ok){
+        toast({
+          title: "Added to cart",
+        });
+      } else {
+        const errorData = await res.json();
+        toast({
+          title: errorData.message,
+          variant: 'destructive'
+        });
+      }
+
+      
     } catch (error: any) {
       console.error("Add to cart error:", error);
       toast({

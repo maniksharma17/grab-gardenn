@@ -90,7 +90,7 @@ export default function ProductsPage() {
       } else {
         const errorData = await res.json();
         toast({
-          title: "Failed to add to cart",
+          title: errorData.message,
           variant: "destructive",
         });
       }
