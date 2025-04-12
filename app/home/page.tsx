@@ -763,6 +763,7 @@ const FeaturedProducts2 = () => {
                       } transition-all duration-300 hover:scale-105`}
                       fill
                       sizes="100%"
+                      priority
                     />
 
                     {product.images.length > 1 && (
