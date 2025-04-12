@@ -94,7 +94,7 @@ export const UserProfileSheet = () => {
   
         setUser((prev) => ({
           ...prev,
-          address: [...(prev.address || []), updatedAddress],
+          address: [...(prev.address), updatedAddress],
         }));
       }
   
