@@ -336,7 +336,7 @@ export const ShippingAddressSection = ({
           onValueChange={(value) => setPrimaryAddressId(value)}
         >
           <SelectTrigger className="w-full">
-            <SelectValue placeholder="Select Address" />
+            <SelectValue />
           </SelectTrigger>
           <SelectContent>
             {user.address.map((addr: any) => (
@@ -346,37 +346,36 @@ export const ShippingAddressSection = ({
             ))}
           </SelectContent>
         </Select>
-
         
-
-        {user.address.map((addr: any) => (
-          <div
-            key={addr._id}
+        <div
+            key={primaryAddress._id}
             className="border rounded-lg p-3 text-sm bg-white space-y-1 shadow"
           >
-            <p className="font-medium">{addr.name}</p>
-            <p>{addr.phone}</p>
-            <p>{addr.street}</p>
-            <p>{addr.city}, {addr.state}, {addr.zipCode}</p>
-            <p>{addr.country}</p>
+            <p className="font-medium">{primaryAddress.name}</p>
+            <p>{primaryAddress.phone}</p>
+            <p>{primaryAddress.street}</p>
+            <p>{primaryAddress.city}, {primaryAddress.state}, {primaryAddress.zipCode}</p>
+            <p>{primaryAddress.country}</p>
             <div className="flex gap-2 pt-2">
               <Button
                 size="sm"
                 variant="outline"
-                onClick={() => onEditAddress(addr)}
+                onClick={() => onEditAddress(primaryAddress._id)}
               >
                 Edit
               </Button>
               <Button
                 size="sm"
                 variant="destructive"
-                onClick={() => onDeleteAddress(addr._id)}
+                onClick={() => onDeleteAddress(primaryAddress._id)}
               >
                 Delete
               </Button>
             </div>
           </div>
-        ))}
+        
+
+        
       </div>
     )
   );
