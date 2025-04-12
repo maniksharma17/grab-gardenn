@@ -69,16 +69,16 @@ const OrdersPage = () => {
     <main className="min-h-screen bg-gray-50">
       <Navbar />
       <div className="w-full px-4 md:px-10 mt-28 py-12">
-        <h1 className="text-4xl mt-32 max-md:text-2xl font-bold mb-12 text-center text-green-700">Your Orders</h1>
+        <h1 className="text-4xl max-md:text-2xl font-bold mb-12 text-center text-primary">Your Orders</h1>
 
         {orders.length === 0 ? (
           <p className="text-center text-md text-gray-500">No orders yet.</p>
         ) : (
-          <div className="space-y-10">
+          <div className="space-y-4">
             {orders.map((order) => (
               <div
                 key={order._id}
-                className="border border-gray-200 rounded-2xl bg-white p-6 shadow-sm hover:shadow-md transition"
+                className="border border-gray-200 rounded-lg bg-white p-6 shadow-sm hover:shadow-md transition"
               >
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 mb-6 text-sm md:text-base">
                   <div>
