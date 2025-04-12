@@ -299,7 +299,7 @@ export default function ProductPage() {
                 </Button>
               </div>
               {product.stock == 0 ?
-              <Button disabled className="bg-red-700 text-white hover:bg-red-600 hover:text-white">
+              <Button disabled className="w-full bg-red-700 text-white hover:bg-red-600 hover:text-white">
                 OUT OF STOCK
               </Button>
             : <BuyNowSheet
