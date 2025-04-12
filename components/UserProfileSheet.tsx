@@ -8,7 +8,13 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import {
   LogOut,
@@ -21,7 +27,7 @@ import { useRecoilState, useResetRecoilState } from "recoil";
 import { userState } from "@/store/atoms/user";
 import Link from "next/link";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import { Input } from "./ui/input";
 import { validateAddress } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
@@ -43,6 +49,22 @@ export const UserProfileSheet = () => {
     country: "",
   });
 
+  useEffect(() => {
+    if (!user.address.length) {
+      setAddress({
+        _id: "",
+        name: "",
+        phone: "",
+        street: "",
+        streetOptional: "",
+        city: "",
+        state: "",
+        zipCode: "",
+        country: "",
+      });
+    }
+  }, [user, address]);
+
   const handleLogout = async () => {
     await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/logout`);
     localStorage.removeItem("token");
@@ -50,7 +72,7 @@ export const UserProfileSheet = () => {
     location.reload();
   };
 
-  const {toast} = useToast();
+  const { toast } = useToast();
 
   const handleAddressSubmit = async () => {
     const result = validateAddress(address);
@@ -58,10 +80,10 @@ export const UserProfileSheet = () => {
       toast({ title: result.message, variant: "destructive" });
       return;
     }
-  
+
     try {
       setLoading(true);
-  
+
       if (address._id) {
         const res = await axios.put(
           `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/${user._id}/${address._id}`,
@@ -73,13 +95,12 @@ export const UserProfileSheet = () => {
           }
         );
         const addresses = res.data.addresses;
-  
+
         setUser((prev) => ({
           ...prev,
           address: addresses,
         }));
         localStorage.setItem("user", JSON.stringify(user));
-
       } else {
         const res = await axios.put(
           `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/${user._id}/address`,
@@ -91,14 +112,14 @@ export const UserProfileSheet = () => {
           }
         );
         const addresses = res.data.addresses;
-  
+
         setUser((prev) => ({
           ...prev,
           address: addresses,
         }));
         localStorage.setItem("user", JSON.stringify(user));
       }
-  
+
       setAddress({
         _id: "",
         street: "",
@@ -117,31 +138,32 @@ export const UserProfileSheet = () => {
       setLoading(false);
     }
   };
-  
 
   const handleEditAddress = (addr: any) => {
-    setAddress(addr); 
+    setAddress(addr);
     setShowAddressForm(true);
   };
-  
-  const handleDeleteAddress = async (addressId: string) => {
 
+  const handleDeleteAddress = async (addressId: string) => {
     try {
-      const res = await axios.delete(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/${user._id}/${addressId}`, {
-        headers: {
-          Authorization: "Bearer " + user.token,
-        },
-      });
-  
+      const res = await axios.delete(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/${user._id}/${addressId}`,
+        {
+          headers: {
+            Authorization: "Bearer " + user.token,
+          },
+        }
+      );
+
       const addresses = res.data.addresses;
-      console.log(addresses)
-  
+      console.log(addresses);
+
       setUser((prev) => ({
         ...prev,
         address: addresses,
       }));
       localStorage.setItem("user", JSON.stringify(user));
-  
+
       toast({ title: "Address deleted successfully" });
     } catch (error) {
       toast({
@@ -150,7 +172,6 @@ export const UserProfileSheet = () => {
       });
     }
   };
-  
 
   if (!user?.isLoggedIn) return null;
 
@@ -198,7 +219,6 @@ export const UserProfileSheet = () => {
               onDeleteAddress={handleDeleteAddress}
             />
 
-
             {/* Add Address Toggle */}
             <Button
               variant="outline"
@@ -208,7 +228,6 @@ export const UserProfileSheet = () => {
               {showAddressForm ? "Cancel" : "Add Address"}
               <Plus className="w-4 h-4 ml-2" />
             </Button>
-            
 
             {/* Add Address Form */}
             {showAddressForm && (
@@ -278,37 +297,33 @@ export const UserProfileSheet = () => {
                 </Button>
               </div>
             )}
-
-            
           </div>
         </div>
 
         {/* Logout */}
         <SheetFooter>
           <div className="w-full flex flex-col gap-1">
-
-          
-          <Link href="/orders">
+            <Link href="/orders">
+              <Button
+                variant="outline"
+                className="w-full flex justify-between items-center"
+              >
+                View Orders <PackageSearch className="w-4 h-4 ml-2" />
+              </Button>
+            </Link>
             <Button
               variant="outline"
               className="w-full flex justify-between items-center"
             >
-              View Orders <PackageSearch className="w-4 h-4 ml-2" />
+              Settings <Settings className="w-4 h-4 ml-2" />
             </Button>
-          </Link>
-          <Button
-            variant="outline"
-            className="w-full flex justify-between items-center"
-          >
-            Settings <Settings className="w-4 h-4 ml-2" />
-          </Button>
-          <Button
-            variant="destructive"
-            className="w-full flex justify-between items-center"
-            onClick={handleLogout}
-          >
-            Logout <LogOut className="w-4 h-4 ml-2" />
-          </Button>
+            <Button
+              variant="destructive"
+              className="w-full flex justify-between items-center"
+              onClick={handleLogout}
+            >
+              Logout <LogOut className="w-4 h-4 ml-2" />
+            </Button>
           </div>
         </SheetFooter>
       </SheetContent>
@@ -333,9 +348,11 @@ export const ShippingAddressSection = ({
       setPrimaryAddressId(user.address?.[0]?._id ?? null);
     }
   }, [user.address, primaryAddressId]);
-  const primaryAddress = user.address?.find((addr: any) => addr._id === primaryAddressId);
-  
-  if(!primaryAddress) return null;
+  const primaryAddress = user.address?.find(
+    (addr: any) => addr._id === primaryAddressId
+  );
+
+  if (!primaryAddress) return null;
 
   return (
     user.address?.length > 0 && (
@@ -357,36 +374,36 @@ export const ShippingAddressSection = ({
             ))}
           </SelectContent>
         </Select>
-        
-        <div
-            key={primaryAddress._id}
-            className="border rounded-lg p-3 text-sm bg-white space-y-1 shadow"
-          >
-            <p className="font-medium">{primaryAddress.name}</p>
-            <p>{primaryAddress.phone}</p>
-            <p>{primaryAddress.street}</p>
-            <p>{primaryAddress.city}, {primaryAddress.state}, {primaryAddress.zipCode}</p>
-            <p>{primaryAddress.country}</p>
-            <div className="flex gap-2 pt-2">
-              <Button
-                size="sm"
-                variant="outline"
-                onClick={() => onEditAddress(primaryAddress)}
-              >
-                Edit
-              </Button>
-              <Button
-                size="sm"
-                variant="destructive"
-                onClick={() => onDeleteAddress(primaryAddressId)}
-              >
-                Delete
-              </Button>
-            </div>
-          </div>
-        
 
-        
+        <div
+          key={primaryAddress._id}
+          className="border rounded-lg p-3 text-sm bg-white space-y-1 shadow"
+        >
+          <p className="font-medium">{primaryAddress.name}</p>
+          <p>{primaryAddress.phone}</p>
+          <p>{primaryAddress.street}</p>
+          <p>
+            {primaryAddress.city}, {primaryAddress.state},{" "}
+            {primaryAddress.zipCode}
+          </p>
+          <p>{primaryAddress.country}</p>
+          <div className="flex gap-2 pt-2">
+            <Button
+              size="sm"
+              variant="outline"
+              onClick={() => onEditAddress(primaryAddress)}
+            >
+              Edit
+            </Button>
+            <Button
+              size="sm"
+              variant="destructive"
+              onClick={() => onDeleteAddress(primaryAddressId)}
+            >
+              Delete
+            </Button>
+          </div>
+        </div>
       </div>
     )
   );
