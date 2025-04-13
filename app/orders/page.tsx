@@ -236,6 +236,7 @@ const OrdersPage = () => {
                 </div>
 
                 {/* Action Buttons */}
+                {!(order.status == 'cancelled') && 
                 <div className="flex justify-between items-center mt-4 flex-wrap gap-4">
                   <Button variant={"link"} onClick={async () => {
                     await setSelectedOrderId(order.shiprocketOrderId);
@@ -243,19 +244,19 @@ const OrdersPage = () => {
                   }}>
                     Track Order
                   </Button>
-                  {order.status !== "cancelled" && (
-                    <Button
-                      variant="outline"
-                      className="text-sm"
-                      onClick={() => {
-                        setSelectedOrderId(order.shiprocketOrderId);
-                        setShowCancelDialog(true);
-                      }}
-                    >
-                      Cancel Order
-                    </Button>
-                  )}
-                </div>
+                  
+                  <Button
+                    variant="outline"
+                    className="text-sm"
+                    onClick={() => {
+                      setSelectedOrderId(order.shiprocketOrderId);
+                      setShowCancelDialog(true);
+                    }}
+                  >
+                    Cancel Order
+                  </Button>
+                  
+                </div>}
               </div>
             ))}
           </div>
