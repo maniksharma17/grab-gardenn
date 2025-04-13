@@ -84,7 +84,7 @@ const OrdersPage = () => {
     if (!selectedOrderId || !cancelReason) return;
     try {
       await axios.post(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/orders/cancel-order/${selectedOrderId}`, {},
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/checkout/cancel-order/${selectedOrderId}`, {},
         {
           withCredentials: true,
           headers: {
