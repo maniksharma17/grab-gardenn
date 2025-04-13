@@ -17,6 +17,7 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
+import { useToast } from "@/hooks/use-toast";
 
 interface Order {
   _id: string;
@@ -100,10 +101,11 @@ const OrdersPage = () => {
     
   }
 
+  const { toast } = useToast();
   const handleCancelOrder = async () => {
     if (!selectedOrderId || !cancelReason) return;
     try {
-      await axios.post(
+      const res = await axios.post(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/checkout/cancel-order`, {
           shiprocketOrderId: selectedOrderId,
           reason: cancelReason
@@ -115,13 +117,17 @@ const OrdersPage = () => {
           },
         }
       );
-      setOrders((prev) =>
-        prev.map((o) =>
-          o._id === selectedOrderId ? { ...o, status: "cancelled" } : o
-        )
-      );
+
+      toast({
+        title: res.data.message,
+      })
+      
     } catch (err) {
       console.error("Cancellation failed", err);
+      toast({
+        title: 'Failed to cancel order. You may contact us directly.',
+        variant: 'destructive'
+      })
     } finally {
       setShowCancelDialog(false);
       setCancelReason("");
