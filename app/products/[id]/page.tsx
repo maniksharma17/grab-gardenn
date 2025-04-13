@@ -47,7 +47,7 @@ export default function ProductPage() {
           `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/checkout/direct-delivery-rate`, {
             userId: user._id,
             destinationPincode: zipCode,
-            weight: product?.variants[selectedVariant].value
+            weight: (product?.variants[selectedVariant].value as number)*quantity
           },
           {
             headers: {
