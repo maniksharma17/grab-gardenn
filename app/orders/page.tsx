@@ -6,7 +6,15 @@ import Image from "next/image";
 import { useRecoilValue } from "recoil";
 import { userState } from "@/store/atoms/user";
 import { Navbar } from "@/components/Navbar";
-import { Dialog } from "@headlessui/react";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+} from "@/components/ui/dialog";
+import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 
 interface Order {
@@ -130,7 +138,10 @@ const OrdersPage = () => {
                   <div>
                     <p className="font-medium text-gray-700">Placed On</p>
                     <p className="text-gray-600">
-                      {format(new Date(order.createdAt), "dd MMM yyyy, hh:mm a")}
+                      {format(
+                        new Date(order.createdAt),
+                        "dd MMM yyyy, hh:mm a"
+                      )}
                     </p>
                   </div>
                   <div>
@@ -157,12 +168,11 @@ const OrdersPage = () => {
                     Shipping Address:
                   </p>
                   <p>
-                    {order.shippingAddress.name},{" "}
-                    {order.shippingAddress.street}{" "}
+                    {order.shippingAddress.name}, {order.shippingAddress.street}{" "}
                     {order.shippingAddress.streetOptional &&
                       order.shippingAddress.streetOptional + ","}{" "}
-                    {order.shippingAddress.city}, {order.shippingAddress.state} -{" "}
-                    {order.shippingAddress.zipCode},{" "}
+                    {order.shippingAddress.city}, {order.shippingAddress.state}{" "}
+                    - {order.shippingAddress.zipCode},{" "}
                     {order.shippingAddress.country}. Phone:{" "}
                     {order.shippingAddress.phone}
                   </p>
@@ -229,24 +239,21 @@ const OrdersPage = () => {
         )}
       </div>
 
-      {/* Cancel Order Dialog */}
-      <Dialog
-        open={showCancelDialog}
-        onClose={() => setShowCancelDialog(false)}
-        className="fixed z-50 inset-0 flex items-center justify-center p-4 bg-black/50"
-      >
-        <Dialog.Panel className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full">
-          <Dialog.Title className="text-lg font-semibold mb-4">
-            Cancel Order
-          </Dialog.Title>
-          <p className="text-sm text-gray-600 mb-2">Please provide a reason:</p>
-          <textarea
-            className="w-full border rounded-md p-2 text-sm"
+      <Dialog open={showCancelDialog} onOpenChange={setShowCancelDialog}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Cancel Order</DialogTitle>
+            <DialogDescription>
+              Please provide a reason for cancellation.
+            </DialogDescription>
+          </DialogHeader>
+          <Textarea
+            placeholder="Enter your reason..."
             rows={3}
             value={cancelReason}
             onChange={(e) => setCancelReason(e.target.value)}
           />
-          <div className="mt-4 flex justify-end gap-2">
+          <DialogFooter className="mt-4">
             <Button
               variant="ghost"
               onClick={() => {
@@ -256,14 +263,11 @@ const OrdersPage = () => {
             >
               Close
             </Button>
-            <Button
-              onClick={handleCancelOrder}
-              disabled={!cancelReason.trim()}
-            >
+            <Button onClick={handleCancelOrder} disabled={!cancelReason.trim()}>
               Confirm Cancel
             </Button>
-          </div>
-        </Dialog.Panel>
+          </DialogFooter>
+        </DialogContent>
       </Dialog>
     </main>
   );
