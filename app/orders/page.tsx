@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/dialog";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 
 interface Order {
   _id: string;
@@ -81,12 +82,30 @@ const OrdersPage = () => {
     fetchOrders();
   }, [user]);
 
+  const trackOrder = async () => {
+    try {
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/checkout/get-awb-id/${selectedOrderId}`, {}, {
+        withCredentials: true,
+        headers: {
+          'Authorization': 'Bearer ' + user.token
+        }
+      })
+      const awb = response.data.awb_code;
+      window.open(`https://www.shiprocket.in/shipment-tracking/${awb}`, '_blank');
+
+    } catch (err) {
+      console.log("Failed to fetch orders", err);
+    } 
+    
+  }
+
   const handleCancelOrder = async () => {
     if (!selectedOrderId || !cancelReason) return;
     try {
       await axios.post(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/checkout/cancel-order`, {
-          shiprocketOrderId: selectedOrderId
+          shiprocketOrderId: selectedOrderId,
+          reason: cancelReason
         },
         {
           withCredentials: true,
@@ -216,12 +235,12 @@ const OrdersPage = () => {
 
                 {/* Action Buttons */}
                 <div className="flex justify-between items-center mt-4 flex-wrap gap-4">
-                  <a
-                    href={`/track-order/${order._id}`}
-                    className="text-sm text-blue-600 hover:underline font-medium"
-                  >
+                  <Button variant={"link"} onClick={() => {
+                    setSelectedOrderId(order.shiprocketOrderId);
+                    trackOrder()
+                  }}>
                     Track Order
-                  </a>
+                  </Button>
                   {order.status !== "cancelled" && (
                     <Button
                       variant="outline"
