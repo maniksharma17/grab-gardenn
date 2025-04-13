@@ -85,7 +85,7 @@ const OrdersPage = () => {
 
   const trackOrder = async () => {
     try {
-      const response = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/checkout/get-awb-id/${selectedOrderId}`, {
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/checkout/get-awb_id/${selectedOrderId}`, {
         withCredentials: true,
         headers: {
           'Authorization': 'Bearer ' + user.token
