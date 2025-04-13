@@ -47,7 +47,8 @@ export default function ProductPage() {
           `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/checkout/direct-delivery-rate`, {
             userId: user._id,
             destinationPincode: zipCode,
-            weight: (product?.variants[selectedVariant].value as number)*quantity
+            weight: (product?.variants[selectedVariant].value as number)*quantity,
+            cod: "0"
           },
           {
             headers: {
@@ -261,8 +262,8 @@ export default function ProductPage() {
                 <Button onClick={()=>{fetchDeliveryRate()}} variant={"outline"}>Check Delivery</Button>
               </div>
               <div className="mt-1">
-              {(deliveryMessage.length==0 && deliveryRate>0) && <p className="w-fit font-normal text-gray-900 rounded-md">Est. Shipping Cost: ₹{deliveryRate}</p>}
-              {(deliveryMessage.length==0 && estDelivery.length>0) && <p className="w-fit font-normal text-gray-900 rounded-md">Est. Delivery by {estDelivery}</p>}
+              {(deliveryMessage.length==0 && deliveryRate>0) && <p className="w-fit bg-primary/10 font-medium text-gray-800 rounded-md">Shipping Cost (Prepaid): ₹{deliveryRate}</p>}
+              {(deliveryMessage.length==0 && estDelivery.length>0) && <p className="w-fit bg-primary/10 font-medium text-gray-800 rounded-md">Estimated Delivery by {estDelivery}</p>}
               {deliveryMessage.length>0 && <p className="text-red-600">{deliveryMessage}</p>}
             </div>
 
