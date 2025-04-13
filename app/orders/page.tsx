@@ -21,6 +21,7 @@ interface Order {
   _id: string;
   total: number;
   type: string;
+  shiprocketOrderId: string,
   status: string;
   createdAt: string;
   shippingAddress: {
@@ -84,7 +85,9 @@ const OrdersPage = () => {
     if (!selectedOrderId || !cancelReason) return;
     try {
       await axios.post(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/checkout/cancel-order/${selectedOrderId}`, {},
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/checkout/cancel-order`, {
+          shiprocketOrderId: selectedOrderId
+        },
         {
           withCredentials: true,
           headers: {
@@ -224,7 +227,7 @@ const OrdersPage = () => {
                       variant="outline"
                       className="text-sm"
                       onClick={() => {
-                        setSelectedOrderId(order._id);
+                        setSelectedOrderId(order.shiprocketOrderId);
                         setShowCancelDialog(true);
                       }}
                     >
