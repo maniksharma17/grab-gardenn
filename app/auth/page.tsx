@@ -10,6 +10,7 @@ import Image from "next/image";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { userState } from "@/store/atoms/user";
 import { useRouter } from "next/navigation";
+import axios from "axios";
 
 
 interface RegisterDataTypes {
@@ -62,6 +63,22 @@ export default function AuthPage() {
       router.replace("/products");
     } 
   }, [user, router]);
+
+  const handlePasswordReset = async () => {
+    try {
+      const res = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/forgot-password`, {
+        email: loginData.email
+      }, {
+        withCredentials: true,
+        headers: {
+          'Content-Type': 'application/json' 
+        }
+      })
+      toast({title: res.data.message})
+    } catch (e) {
+      toast({title: 'Some error occured'})
+    }
+  }
   
   const handleSubmit = async (
     e: React.FormEvent,
@@ -248,6 +265,7 @@ export default function AuthPage() {
                     <a
                       href="#"
                       className="text-sm text-primary hover:underline"
+                      onClick={handlePasswordReset}
                     >
                       Forgot password?
                     </a>
