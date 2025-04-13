@@ -92,7 +92,7 @@ const OrdersPage = () => {
         }
       })
       const awb = response.data.awb_code;
-      window.open(`https://www.shiprocket.in/shipment-tracking/${awb}`, '_blank');
+      window.open(`https://shiprocket.co/tracking/${awb}`, '_blank');
 
     } catch (err) {
       console.log("Failed to fetch orders", err);
