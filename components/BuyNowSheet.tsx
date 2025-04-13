@@ -80,6 +80,7 @@ export const BuyNowSheet = ({
   });
   const [paymentMode, setPaymentMode] = useState<"COD" | "Prepaid">("COD");
   const [deliveryRate, setDeliveryRate] = useState<number>(0);
+  const [courierId, setCourierId] = useState(null);
   const [estDelivery, setEstDelivery] = useState<string>("");
   const [loading, setLoading] = useState(false);
 
@@ -115,6 +116,7 @@ export const BuyNowSheet = ({
           }
         );
         setDeliveryRate(res.data.deliveryCharge);
+        setCourierId(res.data.courierId)
         setEstDelivery(res.data.estimatedDeliveryDays);
         setDeliveryMessage("");
       } catch (err) {
@@ -248,6 +250,7 @@ export const BuyNowSheet = ({
             product: product._id,
             quantity,
             dimensions: dimensions,
+            courierId: courierId
           },
           {
             headers: { Authorization: `Bearer ${user.token}` },
