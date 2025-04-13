@@ -945,7 +945,7 @@ const Certifications = () => {
     "https://grabgardenn-storage.s3.ap-south-1.amazonaws.com/logos/fssai.png",
     "https://grabgardenn-storage.s3.ap-south-1.amazonaws.com/logos/msme.png",
     "https://grabgardenn-storage.s3.ap-south-1.amazonaws.com/logos/swach-bharat.png",
-    "https://grabgardenn-storage.s3.ap-south-1.amazonaws.com/logos/made-in-india.jpg",
+    "https://grabgardenn-storage.s3.ap-south-1.amazonaws.com/logos/make-in-india.webp",
   ];
 
   return (
