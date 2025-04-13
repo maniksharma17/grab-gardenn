@@ -107,6 +107,7 @@ export const BuyNowSheet = ({
           {
             destinationPincode: selectedAddress.zipCode,
             weight: ((selectedVariant.value as number) || 1) * quantity,
+            cod: paymentMode == 'COD' ? "1" : "0"
           },
           {
             headers: {

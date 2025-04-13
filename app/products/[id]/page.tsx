@@ -22,6 +22,14 @@ import Link from "next/link";
 import Loading from "@/components/Loading";
 import { Input } from "@/components/ui/input";
 import { BuyNowSheet } from "@/components/BuyNowSheet";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 
 export default function ProductPage() {
   const [quantity, setQuantity] = useState(1);
@@ -34,40 +42,73 @@ export default function ProductPage() {
   const id = params.id;
   const user = useRecoilValue(userState);
   const setCartRefresh = useSetRecoilState(cartRefreshState);
-  const [zipCode, setZipCode] = useState("")
-  const [deliveryRate, setDeliveryRate] = useState(0)
-  const [deliveryMessage, setDeliveryMessage] = useState("")
-  const [estDelivery, setEstDelivery] = useState("")
+  const [zipCode, setZipCode] = useState("");
+  const [deliveryRateCod, setDeliveryRateCod] = useState(0);
+  const [deliveryRatePrepaid, setDeliveryRatePrepaid] = useState(0);
+  const [deliveryMessage, setDeliveryMessage] = useState("");
+  const [estDelivery, setEstDelivery] = useState("");
   const router = useRouter();
 
-  const fetchDeliveryRate = async () => {
-      if (!zipCode) return;
-      try {
-        const res = await axios.post(
-          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/checkout/direct-delivery-rate`, {
-            userId: user._id,
-            destinationPincode: zipCode,
-            weight: (product?.variants[selectedVariant].value as number)*quantity,
-            cod: "0"
+  const fetchDeliveryRateCOD = async () => {
+    if (!zipCode) return;
+    try {
+      const res = await axios.post(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/checkout/direct-delivery-rate`,
+        {
+          userId: user._id,
+          destinationPincode: zipCode,
+          weight:
+            (product?.variants[selectedVariant].value as number) * quantity,
+          cod: "1",
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
           },
-          {
-            headers: {
-              Authorization: `Bearer ${user.token}`,
-            },
-          }
-        );
-        
-        if((product?.price[selectedVariant] as number)*quantity >= 1000){
-          setDeliveryRate(0)
         }
-        setDeliveryRate(res.data.deliveryCharge); 
-        setEstDelivery(res.data.estimatedDeliveryDays)
-        setDeliveryMessage("")
-      } catch (err) {
-        console.log("Delivery rate fetch error:", err);
-        setDeliveryMessage("Incorrect city pincode")
+      );
+
+      if ((product?.price[selectedVariant] as number) * quantity >= 1000) {
+        setDeliveryRateCod(0);
       }
-    };
+      setDeliveryRateCod(res.data.deliveryCharge);
+      setEstDelivery(res.data.estimatedDeliveryDays);
+      setDeliveryMessage("");
+    } catch (err) {
+      console.log("Delivery rate fetch error:", err);
+      setDeliveryMessage("Incorrect city pincode");
+    }
+  };
+
+  const fetchDeliveryRatePrepaid = async () => {
+    if (!zipCode) return;
+    try {
+      const res = await axios.post(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/checkout/direct-delivery-rate`,
+        {
+          userId: user._id,
+          destinationPincode: zipCode,
+          weight:
+            (product?.variants[selectedVariant].value as number) * quantity,
+          cod: "0",
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        }
+      );
+
+      if ((product?.price[selectedVariant] as number) * quantity >= 1000) {
+        setDeliveryRatePrepaid(0);
+      }
+      setDeliveryRatePrepaid(res.data.deliveryCharge);
+      setDeliveryMessage("");
+    } catch (err) {
+      console.log("Delivery rate fetch error:", err);
+      setDeliveryMessage("Incorrect city pincode");
+    }
+  };
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -77,20 +118,16 @@ export default function ProductPage() {
         );
         setProduct(res.data.product);
         return res.data.product.category;
-
       } catch (error) {
         console.error("Error fetching product:", error);
       }
     };
-    
-    fetchProduct()
+
+    fetchProduct();
   }, [id]);
 
-
   if (!product) {
-    return (
-      <Loading/>
-    );
+    return <Loading />;
   }
 
   const addToCart = async () => {
@@ -117,7 +154,7 @@ export default function ProductPage() {
         }
       );
 
-      if(res.ok){
+      if (res.ok) {
         toast({
           title: "Added to cart",
         });
@@ -125,11 +162,9 @@ export default function ProductPage() {
         const errorData = await res.json();
         toast({
           title: errorData.message,
-          variant: 'destructive'
+          variant: "destructive",
         });
       }
-
-      
     } catch (error: any) {
       console.error("Add to cart error:", error);
       toast({
@@ -152,7 +187,7 @@ export default function ProductPage() {
     <div className="min-h-screen bg-primary/5">
       <Navbar />
       <CartHandle />
-  
+
       {/* Product Section */}
       <div className="container mt-20 max-md:mt-12 mx-auto px-4 py-10">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
@@ -182,7 +217,7 @@ export default function ProductPage() {
                 ))}
               </div>
             )}
-  
+
             <div className="w-full max-h-[500px] shadow-sm aspect-square overflow-hidden rounded-xl">
               <Image
                 src={product.images[selectedImage]}
@@ -194,7 +229,7 @@ export default function ProductPage() {
               />
             </div>
           </div>
-  
+
           {/* Product Info */}
           <div className="overflow-y-scroll top-2 space-y-12">
             <h1 className="text-4xl font-medium capitalize leading-tight">
@@ -215,12 +250,10 @@ export default function ProductPage() {
               </div>
               {product.name}{" "}
               {product.hindiName && (
-                <p className="text-lg text-gray-600">
-                  ({product.hindiName})
-                </p>
+                <p className="text-lg text-gray-600">({product.hindiName})</p>
               )}
             </h1>
-  
+
             <div className="space-y-2">
               <div className="text-3xl font-normal text-primary flex items-center flex-wrap gap-2">
                 ₹{discounted}
@@ -234,7 +267,7 @@ export default function ProductPage() {
                   MRP (Inclusive of all taxes)
                 </p>
               </div>
-  
+
               <div className="flex flex-wrap gap-2">
                 {product.variants.map((variant, idx) => {
                   return (
@@ -253,22 +286,70 @@ export default function ProductPage() {
                 })}
               </div>
             </div>
-              
-            <div>
-              <div className="flex flex-row gap-4 w-fit px-1">
-                <Input onChange={(e)=>{
-                  setZipCode(e.target.value)
-                }} placeholder="City Pincode"/>
-                <Button onClick={()=>{fetchDeliveryRate()}} variant={"outline"}>Check Delivery</Button>
+
+            <div className="space-y-4">
+              <div className="flex items-center gap-4 w-fit px-1">
+                <Input
+                  placeholder="City Pincode"
+                  value={zipCode}
+                  onChange={(e) => setZipCode(e.target.value)}
+                />
+                <Button
+                  variant="outline"
+                  onClick={() => {
+                    fetchDeliveryRateCOD();
+                    fetchDeliveryRatePrepaid();
+                  }}
+                >
+                  Check Delivery
+                </Button>
               </div>
-              <div className="mt-1">
-              {(deliveryMessage.length==0 && deliveryRate>0) && <p className="p-1 w-fit my-1 bg-primary/10 font-normal text-gray-700 rounded-md">Shipping Cost (Prepaid): ₹{deliveryRate}</p>}
-              {(deliveryMessage.length==0 && estDelivery.length>0) && <p className="p-1 w-fit bg-primary/10 font-normal text-gray-700 rounded-md">Estimated Delivery by {estDelivery}</p>}
-              {deliveryMessage.length>0 && <p className="text-red-600 p-1 my-1">{deliveryMessage}</p>}
+
+              {(deliveryRateCod > 0 ||
+                deliveryRatePrepaid > 0 ||
+                estDelivery ||
+                deliveryMessage) && (
+                <Table className="w-fit text-sm border border-muted rounded-md">
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Type</TableHead>
+                      <TableHead>Details</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {deliveryRateCod > 0 && (
+                      <TableRow>
+                        <TableCell>Shipping Cost (COD)</TableCell>
+                        <TableCell>₹{deliveryRateCod}</TableCell>
+                      </TableRow>
+                    )}
+                    {deliveryRatePrepaid > 0 && (
+                      <TableRow>
+                        <TableCell>Shipping Cost (Prepaid)</TableCell>
+                        <TableCell>₹{deliveryRatePrepaid}</TableCell>
+                      </TableRow>
+                    )}
+                    {estDelivery && (
+                      <TableRow>
+                        <TableCell>Estimated Delivery</TableCell>
+                        <TableCell>{estDelivery}</TableCell>
+                      </TableRow>
+                    )}
+                    {deliveryMessage && (
+                      <TableRow>
+                        <TableCell className="text-red-600 font-medium">
+                          Error
+                        </TableCell>
+                        <TableCell className="text-red-600">
+                          {deliveryMessage}
+                        </TableCell>
+                      </TableRow>
+                    )}
+                  </TableBody>
+                </Table>
+              )}
             </div>
 
-            </div>
-  
             <div className="flex flex-col items-center gap-4 w-full">
               <div className="flex flex-row items-center w-full gap-4">
                 <div className="flex items-center space-x-4">
@@ -291,10 +372,10 @@ export default function ProductPage() {
                 <Button
                   className="w-full cursor-pointer border border-primary bg-transparent hover:bg-primary/90 hover:text-white text-primary text-md py-5"
                   onClick={() => {
-                    if(user.isLoggedIn){
-                      addToCart()
+                    if (user.isLoggedIn) {
+                      addToCart();
                     } else {
-                      router.push('/auth')
+                      router.push("/auth");
                     }
                   }}
                 >
@@ -302,24 +383,26 @@ export default function ProductPage() {
                   CART
                 </Button>
               </div>
-              {product.stock == 0 ?
-              <Button disabled className="w-full bg-red-700 text-white hover:bg-red-600 hover:text-white">
-                OUT OF STOCK
-              </Button>
-            : <BuyNowSheet
-            open={buyNowOpen}
-            setOpen={setBuyNowOpen}
-            product={product}
-            selectedVariant={product.variants[selectedVariant]}
-            dimensions={product.dimensions[selectedVariant]}
-            quantity={quantity}
-            price={product.price[selectedVariant]}
-          />
-            
-            }
-              
+              {product.stock == 0 ? (
+                <Button
+                  disabled
+                  className="w-full bg-red-700 text-white hover:bg-red-600 hover:text-white"
+                >
+                  OUT OF STOCK
+                </Button>
+              ) : (
+                <BuyNowSheet
+                  open={buyNowOpen}
+                  setOpen={setBuyNowOpen}
+                  product={product}
+                  selectedVariant={product.variants[selectedVariant]}
+                  dimensions={product.dimensions[selectedVariant]}
+                  quantity={quantity}
+                  price={product.price[selectedVariant]}
+                />
+              )}
             </div>
-  
+
             <ProductDetails
               product={product}
               selectedVariant={selectedVariant}
@@ -329,7 +412,6 @@ export default function ProductPage() {
       </div>
     </div>
   );
-  
 }
 
 const ProductDetails = ({
