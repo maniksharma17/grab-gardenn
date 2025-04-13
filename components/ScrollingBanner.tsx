@@ -30,7 +30,7 @@ export function ScrollingBanner() {
 
   return (
     <div
-      className={`fixed z-50 top-0 left-0 right-0 w-full h-6 bg-primary text-primary-foreground flex items-center justify-center overflow-hidden transition-all duration-300 ${
+      className={`fixed z-50 top-0 left-0 right-0 w-full h-5 bg-primary text-primary-foreground flex items-center justify-center overflow-hidden transition-all duration-300 ${
         isVisible ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-full"
       }`}
     >
