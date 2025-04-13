@@ -91,43 +91,42 @@ export const BuyNowSheet = ({
   const cutoffPrice = product.cutoffPrice?.[selectedIndex];
 
   let finalAmount = 0;
-  if(total > 1000) {
+  if (total > 1000) {
     finalAmount = total;
   } else {
-    finalAmount = total + deliveryRate
+    finalAmount = total + deliveryRate;
   }
 
   useEffect(() => {
-    if (selectedAddress) {
-      fetchDeliveryRate();
-    }
-  }, [selectedAddress]);
-  
-  const [deliveryMessage, setDeliveryMessage] = useState("");
-
-  const fetchDeliveryRate = async () => {
-    try {
-      const res = await axios.post(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/checkout/direct-delivery-rate`,
-        {
-          destinationPincode: selectedAddress.zipCode,
-          weight: (selectedVariant.value as number || 1)*quantity,
-        },
-        {
-          headers: {
-            Authorization: "Bearer " + user.token,
-            "Content-Type": "application/json",
+    if(!selectedAddress) return;
+    const fetchDeliveryRate = async () => {
+      try {
+        const res = await axios.post(
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/checkout/direct-delivery-rate`,
+          {
+            destinationPincode: selectedAddress.zipCode,
+            weight: ((selectedVariant.value as number) || 1) * quantity,
           },
-        }
-      );
-      setDeliveryRate(res.data.deliveryCharge);
-      setEstDelivery(res.data.estimatedDeliveryDays);
-      setDeliveryMessage("");
-    } catch (err) {
-      setDeliveryMessage("Incorrect Pincode");
-      console.log(err);
-    }
-  };
+          {
+            headers: {
+              Authorization: "Bearer " + user.token,
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        setDeliveryRate(res.data.deliveryCharge);
+        setEstDelivery(res.data.estimatedDeliveryDays);
+        setDeliveryMessage("");
+      } catch (err) {
+        setDeliveryMessage("Incorrect Pincode");
+        console.log(err);
+      }
+    };
+
+    fetchDeliveryRate();
+  }, [selectedAddress, quantity, selectedVariant, user]);
+
+  const [deliveryMessage, setDeliveryMessage] = useState("");
 
   const { toast } = useToast();
 
@@ -263,12 +262,16 @@ export const BuyNowSheet = ({
         } else {
           toast({
             title: response.data.message,
-            variant: 'destructive'
+            variant: "destructive",
           });
         }
       } catch (err: any) {
         console.log("COD error", err);
-        toast({ title: "Order failed", description: err.message, variant: "destructive" });
+        toast({
+          title: "Order failed",
+          description: err.message,
+          variant: "destructive",
+        });
       } finally {
         setOpen(false);
         setLoading(false);
@@ -288,24 +291,26 @@ export const BuyNowSheet = ({
   });
   const handleAddNewAddress = () => {
     const { name, phone, city, state, country, zipCode, street } = newAddress;
-  
+
     if (!name || !phone || !city || !state || !country || !zipCode || !street) {
-      toast({ title: "Please fill in all required fields.", variant: "destructive" });
+      toast({
+        title: "Please fill in all required fields.",
+        variant: "destructive",
+      });
       return;
     }
-  
+
     if (!/^[6-9]\d{9}$/.test(phone)) {
       toast({ title: "Invalid Phone Number", variant: "destructive" });
       return;
     }
-  
+
     // Everything is valid, so now set the address
     setSelectedAddress(newAddress);
     toast({ title: "New Address Selected", variant: "default" });
 
     setShowNewAddressForm(false); // Optional: hide the form after adding
   };
-  
 
   const [showNewAddressForm, setShowNewAddressForm] = useState(false);
 
@@ -468,7 +473,9 @@ export const BuyNowSheet = ({
               </div>
               <div className="flex items-center space-x-2">
                 <RadioGroupItem disabled value="Prepaid" id="prepaid" />
-                <Label htmlFor="prepaid">Pay with Razorpay (NOT AVAILABLE FOR NOW)</Label>
+                <Label htmlFor="prepaid">
+                  Pay with Razorpay (NOT AVAILABLE FOR NOW)
+                </Label>
               </div>
             </RadioGroup>
           </div>
@@ -482,11 +489,17 @@ export const BuyNowSheet = ({
             </div>
             <div className="flex justify-between text-sm">
               <span>Shipping:</span>
-              <span>{(total>=1000) ?  `₹0` : `₹${(deliveryRate).toFixed(2)}` }</span>
+              <span>
+                {total >= 1000 ? `₹0` : `₹${deliveryRate.toFixed(2)}`}
+              </span>
             </div>
             <div className="flex justify-between text-sm font-medium">
               <span>Total:</span>
-              <span>{(total>=1000) ?  `₹${total.toFixed(2)}` : `₹${(total + deliveryRate).toFixed(2)}` }</span>
+              <span>
+                {total >= 1000
+                  ? `₹${total.toFixed(2)}`
+                  : `₹${(total + deliveryRate).toFixed(2)}`}
+              </span>
             </div>
             {deliveryMessage.length > 0 && (
               <div className="bg-red-100 p-1 text-sm rounded-md flex flex-row gap-1 items-center">
