@@ -103,7 +103,7 @@ export function Navbar() {
         {/* Logo */}
         <Link href="/">
           <Image
-            src="/grab-gardenn-logo.png"
+            src="https://grabgardenn-storage.s3.ap-south-1.amazonaws.com/logos/grab-gardenn-logo.png"
             alt="Grab Gardenn"
             width={95}
             height={95}
