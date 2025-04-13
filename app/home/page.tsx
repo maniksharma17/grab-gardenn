@@ -148,7 +148,7 @@ export default function Home() {
             {currentCarousel.map((item, index) =>
               index === currentSlide ? (
                 <div key={index}>
-                  <h1 className="lg:h-36 text-3xl md:w-1/2 mx-auto md:text-4xl font-extrabold leading-tight bg-gradient-to-r from-green-500 via-lime-400 to-white max-md:from-gray-200 max-md:to-white max-md:mb-4 bg-clip-text text-transparent drop-shadow-lg">
+                  <h1 className="text-3xl md:w-1/2 mx-auto md:text-4xl font-extrabold leading-tight bg-gradient-to-r from-green-500 via-lime-400 to-white max-md:from-gray-200 max-md:to-white max-md:mb-4 bg-clip-text text-transparent drop-shadow-lg">
                     {item.heading}
                   </h1>
                   {screenWidth > 800 && (
