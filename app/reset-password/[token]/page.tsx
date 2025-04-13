@@ -23,6 +23,7 @@ export default function ResetPasswordPage({ params }: { params: { token: string 
       setLoading(true)
       await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/reset-password/${params.token}`, { password })
       toast.success("Password reset successful. Please login.")
+      router.replace('/auth')
     } catch (err: any) {
       toast.error(err?.response?.data?.message || "Something went wrong")
     } finally {
