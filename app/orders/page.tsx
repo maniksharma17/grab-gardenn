@@ -70,8 +70,8 @@ const OrdersPage = () => {
   return (
     <main className="min-h-screen bg-gray-50">
       <Navbar />
-      <div className="w-full max-w-6xl mx-auto px-4 pt-28 pb-20">
-        <h1 className="text-4xl max-md:text-2xl font-bold mb-10 text-primary">Your Orders</h1>
+      <div className="w-full max-w-6xl mx-auto px-4 pt-32 pb-20">
+        <h1 className="text-3xl max-md:text-2xl font-medium px-4 mb-10 text-primary">Your Orders</h1>
 
         {loading ? (
           <p className="text-center text-gray-500 text-md">Loading orders...</p>
