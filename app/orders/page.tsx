@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { format } from "date-fns";
@@ -46,40 +47,44 @@ const OrdersPage = () => {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const res = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/orders/${user._id}`, {
-          withCredentials: true,
-          headers: {
-            'Authorization': 'Bearer ' + user.token
+        const res = await axios.get(
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/orders/${user._id}`,
+          {
+            withCredentials: true,
+            headers: {
+              Authorization: `Bearer ${user.token}`,
+            },
           }
-        });
+        );
         setOrders(res.data.orders);
       } catch (err) {
-        console.log("Failed to fetch orders", err);
+        console.error("Failed to fetch orders", err);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchOrders();
+    if (user._id) fetchOrders();
   }, [user]);
-
-  if (loading) return <div className="text-center py-10 text-gray-600">Loading orders...</div>;
 
   return (
     <main className="min-h-screen bg-gray-50">
       <Navbar />
-      <div className="w-full px-4 md:px-10 mt-28 py-12">
-        <h1 className="text-4xl max-md:text-2xl font-medium mb-12 text-left text-primary">Your Orders</h1>
+      <div className="w-full max-w-6xl mx-auto px-4 pt-28 pb-20">
+        <h1 className="text-4xl max-md:text-2xl font-bold mb-10 text-primary">Your Orders</h1>
 
-        {orders.length === 0 ? (
+        {loading ? (
+          <p className="text-center text-gray-500 text-md">Loading orders...</p>
+        ) : orders.length === 0 ? (
           <p className="text-center text-md text-gray-500">No orders yet.</p>
         ) : (
-          <div className="space-y-4">
+          <div className="space-y-6">
             {orders.map((order) => (
               <div
                 key={order._id}
-                className="border border-gray-200 rounded-lg bg-white p-6 shadow-sm hover:shadow-md transition"
+                className="border border-gray-200 rounded-xl bg-white p-6 shadow-sm hover:shadow-md transition-all"
               >
+                {/* Order Metadata */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 mb-6 text-sm md:text-base">
                   <div>
                     <p className="font-medium text-gray-700">Order ID</p>
@@ -87,11 +92,13 @@ const OrdersPage = () => {
                   </div>
                   <div>
                     <p className="font-medium text-gray-700">Placed On</p>
-                    <p className="text-gray-600">{format(new Date(order.createdAt), "dd MMM yyyy, hh:mm a")}</p>
+                    <p className="text-gray-600">
+                      {format(new Date(order.createdAt), "dd MMM yyyy, hh:mm a")}
+                    </p>
                   </div>
                   <div>
                     <p className="font-medium text-gray-700">Total</p>
-                    <p className="text-gray-600">₹{order.total}</p>
+                    <p className="text-gray-600 font-semibold">₹{order.total}</p>
                   </div>
                   <div>
                     <p className="font-medium text-gray-700">Status</p>
@@ -99,17 +106,19 @@ const OrdersPage = () => {
                   </div>
                 </div>
 
+                {/* Shipping Address */}
                 <div className="text-sm text-gray-700 mb-6">
                   <p className="font-semibold text-gray-800 mb-1">Shipping Address:</p>
                   <p>
                     {order.shippingAddress.name}, {order.shippingAddress.street}{" "}
-                    {order.shippingAddress.streetOptional && order.shippingAddress.streetOptional + ","}{" "}
+                    {order.shippingAddress.streetOptional && `${order.shippingAddress.streetOptional}, `}
                     {order.shippingAddress.city}, {order.shippingAddress.state} -{" "}
-                    {order.shippingAddress.zipCode}, {order.shippingAddress.country}.{" "}
-                    Phone: {order.shippingAddress.phone}
+                    {order.shippingAddress.zipCode}, {order.shippingAddress.country}. Phone:{" "}
+                    {order.shippingAddress.phone}
                   </p>
                 </div>
 
+                {/* Items */}
                 <div className="space-y-4">
                   {order.items.map((item, idx) => (
                     <div
@@ -117,20 +126,23 @@ const OrdersPage = () => {
                       className="flex flex-col sm:flex-row sm:items-center justify-between border-b pb-4 gap-4"
                     >
                       <div className="flex gap-4 items-start">
-                        <Image
-                          src={item.product.images[0]}
-                          alt={item.product.name}
-                          className="w-20 h-20 object-cover rounded-md"
-                          width={80}
-                          height={80}
-                        />
+                        <div className="w-20 h-20 relative rounded-md overflow-hidden border">
+                          <Image
+                            src={item.product.images?.[0] || "/placeholder.png"}
+                            alt={item.product.name}
+                            fill
+                            className="object-cover"
+                          />
+                        </div>
                         <div>
                           <p className="font-semibold text-gray-800">{item.product.name}</p>
                           <p className="text-sm text-gray-600">Variant: {item.variant.display}</p>
                           <p className="text-sm text-gray-600">Qty: {item.quantity}</p>
                         </div>
                       </div>
-                      <div className="text-md font-semibold text-gray-800 sm:ml-auto">₹{item.price}</div>
+                      <div className="text-md font-semibold text-gray-800 sm:ml-auto">
+                        ₹{item.price}
+                      </div>
                     </div>
                   ))}
                 </div>
