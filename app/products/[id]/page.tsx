@@ -55,7 +55,10 @@ export default function ProductPage() {
             },
           }
         );
-  
+        
+        if((product?.price[selectedVariant] as number)*quantity >= 1000){
+          setDeliveryRate(0)
+        }
         setDeliveryRate(res.data.deliveryCharge); 
         setEstDelivery(res.data.estimatedDeliveryDays)
         setDeliveryMessage("")

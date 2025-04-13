@@ -111,7 +111,7 @@ export const BuyNowSheet = ({
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/checkout/direct-delivery-rate`,
         {
           destinationPincode: selectedAddress.zipCode,
-          weight: selectedVariant.value || "1",
+          weight: (selectedVariant.value as number || 1)*quantity,
         },
         {
           headers: {
