@@ -149,7 +149,7 @@ export default function Home() {
               index === currentSlide ? (
                 <div
                   key={index}
-                  className="lg:h-44 flex flex-col justify-start items-center"
+                  className="flex flex-col justify-start items-center"
                 >
                   <div className="text-3xl md:w-1/2 mx-auto md:text-4xl font-extrabold leading-tight bg-gradient-to-r from-green-500 via-lime-400 to-white max-md:from-gray-200 max-md:to-white max-md:mb-4 bg-clip-text text-transparent drop-shadow-lg">
                     <h1>{item.heading}</h1>
