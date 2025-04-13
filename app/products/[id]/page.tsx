@@ -262,9 +262,9 @@ export default function ProductPage() {
                 <Button onClick={()=>{fetchDeliveryRate()}} variant={"outline"}>Check Delivery</Button>
               </div>
               <div className="mt-1">
-              {(deliveryMessage.length==0 && deliveryRate>0) && <p className="w-fit my-1 bg-primary/10 font-medium text-gray-700 rounded-md">Shipping Cost (Prepaid): ₹{deliveryRate}</p>}
-              {(deliveryMessage.length==0 && estDelivery.length>0) && <p className="w-fit bg-primary/10 font-medium text-gray-700 rounded-md">Estimated Delivery by {estDelivery}</p>}
-              {deliveryMessage.length>0 && <p className="text-red-600">{deliveryMessage}</p>}
+              {(deliveryMessage.length==0 && deliveryRate>0) && <p className="p-1 w-fit my-1 bg-primary/10 font-normal text-gray-700 rounded-md">Shipping Cost (Prepaid): ₹{deliveryRate}</p>}
+              {(deliveryMessage.length==0 && estDelivery.length>0) && <p className="p-1 w-fit bg-primary/10 font-normal text-gray-700 rounded-md">Estimated Delivery by {estDelivery}</p>}
+              {deliveryMessage.length>0 && <p className="text-red-600 p-1 my-1">{deliveryMessage}</p>}
             </div>
 
             </div>
