@@ -9,6 +9,19 @@ const nextConfig = {
       domains: ['grabgardenn-storage.s3.ap-south-1.amazonaws.com'],
     },
    },
+   async headers() {
+    return [
+      {
+        source: "/(.*)",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "no-cache, no-store, must-revalidate",
+          },
+        ],
+      },
+    ];
+  },
    
 };
 
