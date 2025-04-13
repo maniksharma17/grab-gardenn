@@ -26,10 +26,9 @@ export default function Home() {
     {
       src: "https://grabgardenn-storage.s3.ap-south-1.amazonaws.com/banners/home-banner-1.jpg",
       href: "/products",
-      heading: "The Taste of Culture, The Purity of Nature",
-      text: "Experience Himalayan ingredients passed down through generations—pure, local, and full of natural nourishment.",
+      heading: "Purity Rooted in Tradition",
+      text: "Pure, local, and nourishing ingredients passed down through generations.",
     },
-
     {
       src: "https://grabgardenn-storage.s3.ap-south-1.amazonaws.com/banners/home-banner-7.png",
       href: "/products",
@@ -39,10 +38,12 @@ export default function Home() {
     {
       src: "https://grabgardenn-storage.s3.ap-south-1.amazonaws.com/banners/home-banner-4.jpeg",
       href: "/products",
-      heading: "Wholesome Goodness, Straight from the Hills",
-      text: "Savor the purity of naturally grown ingredients handpicked from the Himalayan valleys.",
+      heading: "Goodness from the Hills",
+      text: "Naturally grown ingredients, rich in purity and Himalayan tradition.",
     },
   ];
+  
+
 
   const carouselImagesMobile = [
     {
