@@ -59,32 +59,33 @@ const OrdersPage = () => {
   const [cancelReason, setCancelReason] = useState("");
   const [selectedOrderId, setSelectedOrderId] = useState<string | null>(null);
 
-  useEffect(() => {
-    const fetchOrders = async () => {
-      try {
-        const res = await axios.get(
-          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/orders/${user._id}`,
-          {
-            withCredentials: true,
-            headers: {
-              Authorization: "Bearer " + user.token,
-            },
-          }
-        );
-        setOrders(res.data.orders);
-      } catch (err) {
-        console.log("Failed to fetch orders", err);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const fetchOrders = async () => {
+    try {
+      const res = await axios.get(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/orders/${user._id}`,
+        {
+          withCredentials: true,
+          headers: {
+            Authorization: "Bearer " + user.token,
+          },
+        }
+      );
+      setOrders(res.data.orders);
+    } catch (err) {
+      console.log("Failed to fetch orders", err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
     fetchOrders();
-  }, [user]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const trackOrder = async () => {
     try {
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/checkout/get-awb-id/${selectedOrderId}`, {}, {
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/checkout/get-awb-id/${selectedOrderId}`, {
         withCredentials: true,
         headers: {
           'Authorization': 'Bearer ' + user.token
@@ -125,6 +126,7 @@ const OrdersPage = () => {
       setShowCancelDialog(false);
       setCancelReason("");
       setSelectedOrderId(null);
+      fetchOrders()
     }
   };
 
