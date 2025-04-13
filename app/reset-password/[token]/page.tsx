@@ -32,7 +32,7 @@ export default function ResetPasswordPage({ params }: { params: { token: string 
   }
 
   return (
-    <div className="max-w-md min-h-screen flex justify-center items-center mx-auto mt-20 px-6 py-10 bg-white shadow-md rounded-xl border">
+    <div className="max-w-md min-h-screen mx-auto mt-20 px-6 py-10 bg-white shadow-md rounded-xl border">
       <h1 className="text-2xl font-semibold mb-4 text-center">Reset Password</h1>
       <Input
         type="password"

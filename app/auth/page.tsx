@@ -109,7 +109,7 @@ export default function AuthPage() {
       if(data.error){
         toast({
           title: "Error",
-          description: "Incorrect credentials"
+          description: data.message
       });
       return;
       }
