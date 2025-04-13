@@ -127,7 +127,7 @@ export const BuyNowSheet = ({
     };
 
     fetchDeliveryRate();
-  }, [selectedAddress, quantity, selectedVariant, user]);
+  }, [selectedAddress, quantity, selectedVariant, user, paymentMode]);
 
   const [deliveryMessage, setDeliveryMessage] = useState("");
 
