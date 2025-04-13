@@ -90,24 +90,23 @@ export default function Home() {
       <section className="relative w-full h-screen flex items-center justify-center text-center overflow-hidden">
         {/* Background Image or Carousel */}
         <div className="top-0 left-0 right-0 bottom-0 mt-16 max-md:mt-20 w-full h-[140px] sm:h-[600px] overflow-hidden">
-          {currentCarousel.map(
-            (image, index) =>
-              index === currentSlide ? (
-                <Link
-                  key={image.src}
-                  href={`products/collection/${image.href}`}
-                  className="absolute inset-0 w-full h-full"
-                >
-                  <Image
-                    src={image.src}
-                    alt={`Banner ${index + 1}`}
-                    fill
-                    priority
-                    unoptimized
-                    className="object-cover transition-opacity duration-1000 opacity-100"
-                  />
-                </Link>
-              ) : null
+          {currentCarousel.map((image, index) =>
+            index === currentSlide ? (
+              <Link
+                key={image.src}
+                href={`products/collection/${image.href}`}
+                className="absolute inset-0 w-full h-full"
+              >
+                <Image
+                  src={image.src}
+                  alt={`Banner ${index + 1}`}
+                  fill
+                  priority
+                  unoptimized
+                  className="object-cover transition-opacity duration-1000 opacity-100"
+                />
+              </Link>
+            ) : null
           )}
 
           {screenWidth < 800 ? (
@@ -147,28 +146,29 @@ export default function Home() {
             {/* Only render current slide heading and text */}
             {currentCarousel.map((item, index) =>
               index === currentSlide ? (
-                <div key={index} className="lg:h-44 flex flex-col justify-start items-center">
-                  <h1 className="text-3xl md:w-1/2 mx-auto md:text-4xl font-extrabold leading-tight bg-gradient-to-r from-green-500 via-lime-400 to-white max-md:from-gray-200 max-md:to-white max-md:mb-4 bg-clip-text text-transparent drop-shadow-lg">
-                    <p>{item.heading}</p>
+                <div
+                  key={index}
+                  className="lg:h-44 flex flex-col justify-start items-center"
+                >
+                  <div className="text-3xl md:w-1/2 mx-auto md:text-4xl font-extrabold leading-tight bg-gradient-to-r from-green-500 via-lime-400 to-white max-md:from-gray-200 max-md:to-white max-md:mb-4 bg-clip-text text-transparent drop-shadow-lg">
+                    <h1>{item.heading}</h1>
                     {screenWidth > 800 && (
-                    <p className="text-lg md:text-lg md:mx-auto text-gray-100 font-normal mt-6 mb-4 lg:mb-8 leading-relaxed drop-shadow-md">
-                      {item.text}
-                    </p>
-                  )}
-                  </h1>
-                  
+                      <p className="text-lg md:text-lg md:mx-auto text-gray-100 font-normal mt-6 mb-4 lg:mb-8 leading-relaxed drop-shadow-md">
+                        {item.text}
+                      </p>
+                    )}
+                  </div>
+                  <Link href="/products">
+                    <Button
+                      size="lg"
+                      className="text-lg font-medium py-8 px-12 rounded-full shadow-xl bg-green-600 text-white hover:bg-green-500/90 hover:scale-105 transition-all duration-300"
+                    >
+                      Explore Our Collection
+                    </Button>
+                  </Link>
                 </div>
               ) : null
             )}
-
-            <Link href="/products">
-              <Button
-                size="lg"
-                className="text-lg font-medium py-8 px-12 rounded-full shadow-xl bg-green-600 text-white hover:bg-green-500/90 hover:scale-105 transition-all duration-300"
-              >
-                Explore Our Collection
-              </Button>
-            </Link>
           </div>
         </div>
 
@@ -931,9 +931,9 @@ const VideoSection = () => {
             <br />
             <br />
             Whether you&apos;re sipping our Buransh tea or cooking with heirloom
-            pulses, you&apos;re not just eating clean — you&apos;re becoming a part of a
-            larger story, one that values wellness, sustainability, and
-            authenticity.
+            pulses, you&apos;re not just eating clean — you&apos;re becoming a
+            part of a larger story, one that values wellness, sustainability,
+            and authenticity.
           </p>
         </div>
       </div>
