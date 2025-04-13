@@ -147,15 +147,16 @@ export default function Home() {
             {/* Only render current slide heading and text */}
             {currentCarousel.map((item, index) =>
               index === currentSlide ? (
-                <div key={index}>
+                <div key={index} className="flex flex-col justify-start items-center">
                   <h1 className="text-3xl md:w-1/2 mx-auto md:text-4xl font-extrabold leading-tight bg-gradient-to-r from-green-500 via-lime-400 to-white max-md:from-gray-200 max-md:to-white max-md:mb-4 bg-clip-text text-transparent drop-shadow-lg">
-                    {item.heading}
-                  </h1>
-                  {screenWidth > 800 && (
-                    <p className="lg:h-28 text-lg md:text-lg md:w-1/2 md:mx-auto text-gray-100 mt-6 mb-4 lg:mb-8 leading-relaxed drop-shadow-md">
+                    <p>{item.heading}</p>
+                    {screenWidth > 800 && (
+                    <p className="text-lg md:text-lg md:w-1/2 md:mx-auto text-gray-100 mt-6 mb-4 lg:mb-8 leading-relaxed drop-shadow-md">
                       {item.text}
                     </p>
                   )}
+                  </h1>
+                  
                 </div>
               ) : null
             )}
