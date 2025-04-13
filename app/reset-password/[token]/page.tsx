@@ -33,7 +33,7 @@ export default function ResetPasswordPage({ params }: { params: { token: string 
 
   return (
     <main className='min-screen w-screen flex justify-center items-center'>
-    <div className="max-w-md mx-auto mt-20 px-6 py-10 bg-white shadow-md rounded-xl border">
+    <div className="md:w-1/3 md:h-1/3 mx-auto mt-20 px-6 py-10 bg-white shadow-md rounded-md border">
       <h1 className="text-2xl font-semibold mb-4 text-center">Reset Password</h1>
       <Input
         type="password"
