@@ -23,7 +23,6 @@ export default function ResetPasswordPage({ params }: { params: { token: string 
       setLoading(true)
       await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/reset-password/${params.token}`, { password })
       toast.success("Password reset successful. Please login.")
-      router.push('/login')
     } catch (err: any) {
       toast.error(err?.response?.data?.message || "Something went wrong")
     } finally {
@@ -32,7 +31,7 @@ export default function ResetPasswordPage({ params }: { params: { token: string 
   }
 
   return (
-    <main className='min-screen w-screen flex justify-center items-center'>
+    <main className='min-h-screen w-screen flex justify-center items-center'>
     <div className="md:w-1/3 md:h-1/3 mx-auto mt-20 px-6 py-10 bg-white shadow-md rounded-md border">
       <h1 className="text-2xl font-semibold mb-4 text-center">Reset Password</h1>
       <Input
