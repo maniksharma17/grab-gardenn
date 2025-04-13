@@ -1,5 +1,4 @@
 "use client";
-
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { format } from "date-fns";
@@ -7,6 +6,8 @@ import Image from "next/image";
 import { useRecoilValue } from "recoil";
 import { userState } from "@/store/atoms/user";
 import { Navbar } from "@/components/Navbar";
+import { Dialog } from "@headlessui/react";
+import { Button } from "@/components/ui/button";
 
 interface Order {
   _id: string;
@@ -44,6 +45,10 @@ const OrdersPage = () => {
   const [loading, setLoading] = useState(true);
   const user = useRecoilValue(userState);
 
+  const [showCancelDialog, setShowCancelDialog] = useState(false);
+  const [cancelReason, setCancelReason] = useState("");
+  const [selectedOrderId, setSelectedOrderId] = useState<string | null>(null);
+
   useEffect(() => {
     const fetchOrders = async () => {
       try {
@@ -52,39 +57,71 @@ const OrdersPage = () => {
           {
             withCredentials: true,
             headers: {
-              Authorization: `Bearer ${user.token}`,
+              Authorization: "Bearer " + user.token,
             },
           }
         );
         setOrders(res.data.orders);
       } catch (err) {
-        console.error("Failed to fetch orders", err);
+        console.log("Failed to fetch orders", err);
       } finally {
         setLoading(false);
       }
     };
 
-    if (user._id) fetchOrders();
+    fetchOrders();
   }, [user]);
+
+  const handleCancelOrder = async () => {
+    if (!selectedOrderId || !cancelReason) return;
+    try {
+      await axios.patch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/orders/${selectedOrderId}/cancel`,
+        { reason: cancelReason },
+        {
+          withCredentials: true,
+          headers: {
+            Authorization: "Bearer " + user.token,
+          },
+        }
+      );
+      setOrders((prev) =>
+        prev.map((o) =>
+          o._id === selectedOrderId ? { ...o, status: "cancelled" } : o
+        )
+      );
+    } catch (err) {
+      console.error("Cancellation failed", err);
+    } finally {
+      setShowCancelDialog(false);
+      setCancelReason("");
+      setSelectedOrderId(null);
+    }
+  };
+
+  if (loading)
+    return (
+      <div className="text-center py-10 text-gray-600">Loading orders...</div>
+    );
 
   return (
     <main className="min-h-screen bg-gray-50">
       <Navbar />
-      <div className="w-full max-w-6xl mx-auto px-4 pt-32 pb-20">
-        <h1 className="text-3xl max-md:text-2xl font-medium px-4 mb-10 text-primary">Your Orders</h1>
+      <div className="w-full px-4 md:px-10 pt-28 py-12">
+        <h1 className="text-4xl max-md:text-2xl font-medium mb-12 text-left text-primary">
+          Your Orders
+        </h1>
 
-        {loading ? (
-          <p className="text-center text-gray-500 text-md">Loading orders...</p>
-        ) : orders.length === 0 ? (
+        {orders.length === 0 ? (
           <p className="text-center text-md text-gray-500">No orders yet.</p>
         ) : (
-          <div className="space-y-6">
+          <div className="space-y-4">
             {orders.map((order) => (
               <div
                 key={order._id}
-                className="border border-gray-200 rounded-xl bg-white p-6 shadow-sm hover:shadow-md transition-all"
+                className="border border-gray-200 rounded-lg bg-white p-6 shadow-sm hover:shadow-md transition"
               >
-                {/* Order Metadata */}
+                {/* Order Details */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 mb-6 text-sm md:text-base">
                   <div>
                     <p className="font-medium text-gray-700">Order ID</p>
@@ -98,46 +135,64 @@ const OrdersPage = () => {
                   </div>
                   <div>
                     <p className="font-medium text-gray-700">Total</p>
-                    <p className="text-gray-600 font-semibold">₹{order.total}</p>
+                    <p className="text-gray-600">₹{order.total}</p>
                   </div>
                   <div>
                     <p className="font-medium text-gray-700">Status</p>
-                    <p className="capitalize text-green-600 font-semibold">{order.status}</p>
+                    <p
+                      className={`capitalize font-semibold ${
+                        order.status === "cancelled"
+                          ? "text-red-600"
+                          : "text-green-600"
+                      }`}
+                    >
+                      {order.status}
+                    </p>
                   </div>
                 </div>
 
                 {/* Shipping Address */}
                 <div className="text-sm text-gray-700 mb-6">
-                  <p className="font-semibold text-gray-800 mb-1">Shipping Address:</p>
+                  <p className="font-semibold text-gray-800 mb-1">
+                    Shipping Address:
+                  </p>
                   <p>
-                    {order.shippingAddress.name}, {order.shippingAddress.street}{" "}
-                    {order.shippingAddress.streetOptional && `${order.shippingAddress.streetOptional}, `}
+                    {order.shippingAddress.name},{" "}
+                    {order.shippingAddress.street}{" "}
+                    {order.shippingAddress.streetOptional &&
+                      order.shippingAddress.streetOptional + ","}{" "}
                     {order.shippingAddress.city}, {order.shippingAddress.state} -{" "}
-                    {order.shippingAddress.zipCode}, {order.shippingAddress.country}. Phone:{" "}
+                    {order.shippingAddress.zipCode},{" "}
+                    {order.shippingAddress.country}. Phone:{" "}
                     {order.shippingAddress.phone}
                   </p>
                 </div>
 
-                {/* Items */}
-                <div className="space-y-4">
+                {/* Products */}
+                <div className="space-y-4 mb-4">
                   {order.items.map((item, idx) => (
                     <div
                       key={idx}
                       className="flex flex-col sm:flex-row sm:items-center justify-between border-b pb-4 gap-4"
                     >
                       <div className="flex gap-4 items-start">
-                        <div className="w-20 h-20 relative rounded-md overflow-hidden border">
-                          <Image
-                            src={item.product.images?.[0] || "/placeholder.png"}
-                            alt={item.product.name}
-                            fill
-                            className="object-cover"
-                          />
-                        </div>
+                        <Image
+                          src={item.product.images[0]}
+                          alt={item.product.name}
+                          className="w-20 h-20 object-cover rounded-md"
+                          width={80}
+                          height={80}
+                        />
                         <div>
-                          <p className="font-semibold text-gray-800">{item.product.name}</p>
-                          <p className="text-sm text-gray-600">Variant: {item.variant.display}</p>
-                          <p className="text-sm text-gray-600">Qty: {item.quantity}</p>
+                          <p className="font-semibold text-gray-800">
+                            {item.product.name}
+                          </p>
+                          <p className="text-sm text-gray-600">
+                            Variant: {item.variant.display}
+                          </p>
+                          <p className="text-sm text-gray-600">
+                            Qty: {item.quantity}
+                          </p>
                         </div>
                       </div>
                       <div className="text-md font-semibold text-gray-800 sm:ml-auto">
@@ -146,11 +201,70 @@ const OrdersPage = () => {
                     </div>
                   ))}
                 </div>
+
+                {/* Action Buttons */}
+                <div className="flex flex-wrap gap-4 justify-end">
+                  <a
+                    href={`/track-order/${order._id}`}
+                    className="text-sm text-blue-600 hover:underline font-medium"
+                  >
+                    Track Order
+                  </a>
+                  {order.status !== "cancelled" && (
+                    <Button
+                      variant="outline"
+                      className="text-sm"
+                      onClick={() => {
+                        setSelectedOrderId(order._id);
+                        setShowCancelDialog(true);
+                      }}
+                    >
+                      Cancel Order
+                    </Button>
+                  )}
+                </div>
               </div>
             ))}
           </div>
         )}
       </div>
+
+      {/* Cancel Order Dialog */}
+      <Dialog
+        open={showCancelDialog}
+        onClose={() => setShowCancelDialog(false)}
+        className="fixed z-50 inset-0 flex items-center justify-center p-4 bg-black/50"
+      >
+        <Dialog.Panel className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full">
+          <Dialog.Title className="text-lg font-semibold mb-4">
+            Cancel Order
+          </Dialog.Title>
+          <p className="text-sm text-gray-600 mb-2">Please provide a reason:</p>
+          <textarea
+            className="w-full border rounded-md p-2 text-sm"
+            rows={3}
+            value={cancelReason}
+            onChange={(e) => setCancelReason(e.target.value)}
+          />
+          <div className="mt-4 flex justify-end gap-2">
+            <Button
+              variant="ghost"
+              onClick={() => {
+                setShowCancelDialog(false);
+                setCancelReason("");
+              }}
+            >
+              Close
+            </Button>
+            <Button
+              onClick={handleCancelOrder}
+              disabled={!cancelReason.trim()}
+            >
+              Confirm Cancel
+            </Button>
+          </div>
+        </Dialog.Panel>
+      </Dialog>
     </main>
   );
 };
