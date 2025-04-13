@@ -83,7 +83,7 @@ const OrdersPage = () => {
   const handleCancelOrder = async () => {
     if (!selectedOrderId || !cancelReason) return;
     try {
-      await axios.patch(
+      await axios.post(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/orders/cancel-order/${selectedOrderId}`,
         {
           withCredentials: true,
