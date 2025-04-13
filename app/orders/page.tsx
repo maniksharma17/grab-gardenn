@@ -115,7 +115,7 @@ const OrdersPage = () => {
   return (
     <main className="min-h-screen bg-gray-50">
       <Navbar />
-      <div className="w-full px-4 md:px-10 pt-28 py-12">
+      <div className="container w-full px-4 md:px-10 pt-32 py-12">
         <h1 className="text-4xl max-md:text-2xl font-medium mb-12 text-left text-primary">
           Your Orders
         </h1>
@@ -127,7 +127,7 @@ const OrdersPage = () => {
             {orders.map((order) => (
               <div
                 key={order._id}
-                className="border border-gray-200 rounded-lg bg-white p-6 shadow-sm hover:shadow-md transition"
+                className="border border-gray-200 rounded-lg bg-white p-4 shadow-sm hover:shadow-md transition"
               >
                 {/* Order Details */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 mb-6 text-sm md:text-base">
@@ -213,7 +213,7 @@ const OrdersPage = () => {
                 </div>
 
                 {/* Action Buttons */}
-                <div className="flex flex-wrap gap-4 justify-end">
+                <div className="flex justify-between items-center mt-4 flex-wrap gap-4">
                   <a
                     href={`/track-order/${order._id}`}
                     className="text-sm text-blue-600 hover:underline font-medium"
