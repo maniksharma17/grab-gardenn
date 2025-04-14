@@ -194,7 +194,7 @@ export const CheckoutSheet = ({
 
         const amount = Math.max(subtotal - res.data.discountAmount, 0);
         setFinalAmount(amount + discountedDeliveryRate);
-        
+
         setPromoError("");
       } catch (err: any) {
         console.log("Promo reapply error", err);
@@ -394,6 +394,19 @@ export const CheckoutSheet = ({
                 </TableCell>
               </TableRow>
 
+              {discount > 0 && (
+                <TableRow>
+                  <TableCell className="text-green-600">
+                    <div className="w-fit p-1 text-center bg-green-50 border border-green-200 rounded-md text-green-800 font-semibold">
+                      {promoName}
+                    </div>
+                  </TableCell>
+                  <TableCell className="text-right text-green-600">
+                    -₹{discount.toFixed(2)}
+                  </TableCell>
+                </TableRow>
+              )}
+
               <TableRow>
                 <TableCell className="text-muted-foreground">
                   Shipping
@@ -410,19 +423,6 @@ export const CheckoutSheet = ({
                   </TableCell>
                   <TableCell className="text-right text-green-600">
                     -₹{DELIVERY_DISCOUNT}
-                  </TableCell>
-                </TableRow>
-              )}
-
-              {discount > 0 && (
-                <TableRow>
-                  <TableCell className="text-green-600">
-                    <div className="w-fit p-1 text-center bg-green-50 border border-green-200 rounded-md text-green-800 font-semibold">
-                      {promoName}
-                    </div>
-                  </TableCell>
-                  <TableCell className="text-right text-green-600">
-                    -₹{discount.toFixed(2)}
                   </TableCell>
                 </TableRow>
               )}
