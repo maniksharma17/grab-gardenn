@@ -323,7 +323,7 @@ export const CheckoutSheet = ({
                     Shipping Discount
                   </TableCell>
                   <TableCell className="text-right text-sm text-green-600">
-                    -₹{deliveryRate.toFixed(2)}
+                    -₹{40}
                   </TableCell>
                 </TableRow>
               )}
