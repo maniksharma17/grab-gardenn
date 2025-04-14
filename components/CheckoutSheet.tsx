@@ -49,6 +49,7 @@ export const CheckoutSheet = ({
   const { toast } = useToast();
   const [open, setOpen] = useState(false);
   const [deliveryRate, setDeliveryRate] = useState<number>(0);
+  const [courierId, setCourierId] = useState(null)
   const [estDelivery, setEstDelivery] = useState("null");
   const [deliveryMessage, setDeliveryMessage] = useState("");
   const [orderDialogOpen, setOrderDialogOpen] = useState(false);
@@ -74,6 +75,7 @@ export const CheckoutSheet = ({
         );
 
         setDeliveryRate(res.data.deliveryCharge);
+        setCourierId(res.data.courierId)
         setEstDelivery(res.data.estimatedDeliveryDays);
         setDeliveryMessage("");
       } catch (err) {
@@ -247,6 +249,7 @@ export const CheckoutSheet = ({
           {
             shippingAddress: selectedAddress,
             deliveryRate,
+            courierId: courierId
           },
           {
             headers: { Authorization: `Bearer ${token}` },
