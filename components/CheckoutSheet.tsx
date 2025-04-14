@@ -35,6 +35,7 @@ import {
 import { CircleAlert, CreditCard, Truck } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { validateAddress } from "@/lib/utils";
+import { DELIVERY_DISCOUNT } from "@/lib/config";
 
 export const CheckoutSheet = ({
   setCart,
@@ -111,7 +112,7 @@ export const CheckoutSheet = ({
   );
 
   const discountedDeliveryRate =
-    deliveryRate > 40 ? deliveryRate - 40 : deliveryRate;
+    deliveryRate > DELIVERY_DISCOUNT ? deliveryRate - DELIVERY_DISCOUNT : deliveryRate;
   let finalAmount = 0;
   if (subtotal > 1000) {
     finalAmount = subtotal;
@@ -323,7 +324,7 @@ export const CheckoutSheet = ({
                     Shipping Discount
                   </TableCell>
                   <TableCell className="text-right text-sm text-green-600">
-                    -₹{40}
+                    -₹{DELIVERY_DISCOUNT}
                   </TableCell>
                 </TableRow>
               )}
