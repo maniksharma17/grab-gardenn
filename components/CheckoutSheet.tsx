@@ -57,6 +57,7 @@ export const CheckoutSheet = ({
   const [discount, setDiscount] = useState(0);
   const [promoError, setPromoError] = useState("");
   const [promoCodeId, setPromoCodeId] = useState("");
+  const [finalAmount, setFinalAmount] = useState(0)
 
   useEffect(() => {
     const fetchDeliveryRate = async () => {
@@ -117,12 +118,11 @@ export const CheckoutSheet = ({
     deliveryRate > DELIVERY_DISCOUNT
       ? deliveryRate - DELIVERY_DISCOUNT
       : deliveryRate;
-  let finalAmount = 0;
 
   if (subtotal >= 1000) {
-    finalAmount = subtotal;
+    setFinalAmount(subtotal);
   } else {
-    finalAmount = subtotal + discountedDeliveryRate;
+    setFinalAmount(subtotal + discountedDeliveryRate);
   }
 
   const handleApplyPromo = async () => {
@@ -145,7 +145,7 @@ export const CheckoutSheet = ({
 
       setDiscount(res.data.discountAmount);
       setPromoCodeId(res.data.promoCodeId);
-      finalAmount = Math.max(finalAmount - discount, 0);
+      setFinalAmount(Math.max(finalAmount - res.data.discountAmount, 0));
       toast({
         title: "Promo code applied 🎉",
         description: `You saved ₹${res.data.discountAmount}`,
