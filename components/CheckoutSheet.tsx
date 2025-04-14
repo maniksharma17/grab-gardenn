@@ -119,11 +119,14 @@ export const CheckoutSheet = ({
       ? deliveryRate - DELIVERY_DISCOUNT
       : deliveryRate;
 
-  if (subtotal >= 1000) {
-    setFinalAmount(subtotal);
-  } else {
-    setFinalAmount(subtotal + discountedDeliveryRate);
-  }
+  useEffect(() => {
+    if (subtotal >= 1000) {
+      setFinalAmount(subtotal);
+    } else {
+      setFinalAmount(subtotal + discountedDeliveryRate);
+    }
+  }, [subtotal, discountedDeliveryRate]);
+  
 
   const handleApplyPromo = async () => {
     if (!promoCode) return;
