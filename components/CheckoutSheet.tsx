@@ -53,8 +53,10 @@ export const CheckoutSheet = ({
   const [courierId, setCourierId] = useState(null);
   const [estDelivery, setEstDelivery] = useState("null");
   const [deliveryMessage, setDeliveryMessage] = useState("");
-  const [orderDialogOpen, setOrderDialogOpen] = useState(false);
-  const [orderId, setOrderId] = useState("");
+  const [promoCode, setPromoCode] = useState("");
+  const [discount, setDiscount] = useState(0);
+  const [promoError, setPromoError] = useState("");
+  const [promoCodeId, setPromoCodeId] = useState("");
 
   useEffect(() => {
     const fetchDeliveryRate = async () => {
@@ -112,13 +114,51 @@ export const CheckoutSheet = ({
   );
 
   const discountedDeliveryRate =
-    deliveryRate > DELIVERY_DISCOUNT ? deliveryRate - DELIVERY_DISCOUNT : deliveryRate;
+    deliveryRate > DELIVERY_DISCOUNT
+      ? deliveryRate - DELIVERY_DISCOUNT
+      : deliveryRate;
   let finalAmount = 0;
-  if (subtotal > 1000) {
+
+  if (subtotal >= 1000) {
     finalAmount = subtotal;
   } else {
     finalAmount = subtotal + discountedDeliveryRate;
   }
+
+  const handleApplyPromo = async () => {
+    if (!promoCode) return;
+
+    try {
+      const res = await axios.post(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/promo-code/apply`,
+        {
+          code: promoCode,
+          total: finalAmount,
+          userId: user._id,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      setDiscount(res.data.discountAmount);
+      setPromoCodeId(res.data.promoCodeId);
+      finalAmount = Math.max(finalAmount - discount, 0);
+      toast({
+        title: "Promo code applied 🎉",
+        description: `You saved ₹${res.data.discountAmount}`,
+      });
+      setPromoError("");
+    } catch (err: any) {
+      console.log("Promo code error", err);
+      setPromoError(
+        err?.response?.data?.message || "Invalid or expired promo code"
+      );
+      setDiscount(0);
+    }
+  };
 
   useEffect(() => {
     const fetchCart = async () => {
@@ -264,8 +304,6 @@ export const CheckoutSheet = ({
             description: "OrderID: " + response.data.shiprocketOrderId,
           });
         }
-
-        setOrderId(response.data.shiprocketOrderId);
       } catch (err) {
         console.log("COD error", err);
         toast({ title: "Order failed", variant: "destructive" });
@@ -325,6 +363,39 @@ export const CheckoutSheet = ({
                   </TableCell>
                   <TableCell className="text-right text-sm text-green-600">
                     -₹{DELIVERY_DISCOUNT}
+                  </TableCell>
+                </TableRow>
+              )}
+
+              <TableRow>
+                <TableCell colSpan={2}>
+                  <div className="flex items-center gap-2">
+                    <Input
+                      placeholder="Enter promo code"
+                      value={promoCode}
+                      onChange={(e) => setPromoCode(e.target.value)}
+                    />
+                    <Button
+                      variant="outline"
+                      onClick={handleApplyPromo}
+                      disabled={discount > 0}
+                    >
+                      Apply
+                    </Button>
+                  </div>
+                  {promoError && (
+                    <p className="text-xs text-red-500 mt-1">{promoError}</p>
+                  )}
+                </TableCell>
+              </TableRow>
+
+              {discount > 0 && (
+                <TableRow>
+                  <TableCell className="text-sm text-green-600">
+                    Promo Discount
+                  </TableCell>
+                  <TableCell className="text-right text-sm text-green-600">
+                    -₹{discount.toFixed(2)}
                   </TableCell>
                 </TableRow>
               )}
