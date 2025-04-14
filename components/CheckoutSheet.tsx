@@ -7,14 +7,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogFooter,
-  DialogClose,
-} from "@/components/ui/dialog";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
@@ -110,11 +103,12 @@ export const CheckoutSheet = ({
     0
   );
 
+  const discountedDeliveryRate = deliveryRate > 40 ? deliveryRate - 40 : deliveryRate;
   let finalAmount = 0;
   if (subtotal > 1000) {
     finalAmount = subtotal;
   } else {
-    finalAmount = subtotal + deliveryRate;
+    finalAmount = subtotal + discountedDeliveryRate;
   }
 
   useEffect(() => {
@@ -163,7 +157,7 @@ export const CheckoutSheet = ({
         const res = await axios.post(
           `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/checkout/create-checkout-session/${user._id}`,
           {
-            deliveryRate,
+            deliveryRate: discountedDeliveryRate,
           },
           {
             headers: {
@@ -179,7 +173,7 @@ export const CheckoutSheet = ({
           key: keyId,
           amount: finalAmount*100, 
           currency: "INR",
-          name: "Grab Gardenn",
+          name: "Grab Gardenn Healthy Foods",
           description: "Order Payment",
           order_id: orderId,
           handler: async function (response: any) {
@@ -248,7 +242,7 @@ export const CheckoutSheet = ({
           `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/checkout/place-shiprocket-cod-order/${user._id}`,
           {
             shippingAddress: selectedAddress,
-            deliveryRate,
+            deliveryRate: discountedDeliveryRate,
             courierId: courierId
           },
           {
@@ -287,32 +281,53 @@ export const CheckoutSheet = ({
         </SheetHeader>
 
         <div className="space-y-4 mt-4 pb-10">
-          {/* Order Summary */}
-          <div className="space-y-2 border-b pb-4">
-            <h3 className="text-lg font-semibold">Order Summary</h3>
-            <div className="flex justify-between text-sm">
-              <span>Items:</span>
-              <span>₹{subtotal.toFixed(2)}</span>
-            </div>
-            <div className="flex justify-between text-sm">
-              <span>Shipping:</span>
-              <span>{(subtotal > 1000) ?  '₹0' : `₹${deliveryRate.toFixed(2)}`}</span>
-            </div>
-            <div className="flex justify-between text-sm font-medium">
-              <span>Total:</span>
-              <span>₹{finalAmount.toFixed(2)}</span>
-            </div>
-            {deliveryMessage.length > 0 && (
-              <div className="bg-red-100 p-1 text-sm rounded-md flex flex-row gap-1 items-center">
-                <CircleAlert className="text-red-500 w-4 h-4 inline" />{" "}
-                <p>{deliveryMessage}</p>
-              </div>
+        <Table className="w-full border rounded-lg">
+          <TableHeader>
+            <TableRow>
+              <TableHead className="text-left text-lg font-semibold" colSpan={2}>
+                Order Summary
+              </TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            <TableRow>
+              <TableCell className="text-sm text-muted-foreground">Items</TableCell>
+              <TableCell className="text-right text-sm">₹{subtotal.toFixed(2)}</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell className="text-sm text-muted-foreground">Shipping</TableCell>
+              <TableCell className="text-right text-sm">
+                {subtotal > 1000 ? "₹0" : `₹${deliveryRate.toFixed(2)}`}
+              </TableCell>
+            </TableRow>
+
+            {subtotal > 1000 && (
+              <TableRow>
+                <TableCell className="text-sm text-green-600">Shipping Discount</TableCell>
+                <TableCell className="text-right text-sm text-green-600">
+                  -₹{deliveryRate.toFixed(2)}
+                </TableCell>
+              </TableRow>
             )}
-            {deliveryMessage.length == 0 && (
-              <p className="text-sm bg-slate-100 text-gray-700 font-medium rounded-lg w-fit p-1">
-                Estimated Delivery: {estDelivery}
-              </p>
-            )}
+
+            <TableRow>
+              <TableCell className="text-sm font-medium">Total</TableCell>
+              <TableCell className="text-right text-sm font-medium">₹{finalAmount.toFixed(2)}</TableCell>
+            </TableRow>
+          </TableBody>
+        </Table>
+
+        {/* Delivery Info */}
+        {deliveryMessage.length > 0 ? (
+          <div className="bg-red-100 text-red-700 mt-4 p-3 rounded-md flex items-start gap-2 text-sm">
+            <CircleAlert className="w-4 h-4 mt-0.5" />
+            <p>{deliveryMessage}</p>
+          </div>
+        ) : (
+          <div className="mt-4 p-3 bg-green-50 border border-green-200 rounded-md text-green-800 text-sm font-medium">
+            Estimated Delivery: <span className="font-semibold">{estDelivery}</span>
+          </div>
+        )}
           </div>
 
           {/* Address Selection */}
@@ -479,32 +494,7 @@ export const CheckoutSheet = ({
         </div>
       </SheetContent>
 
-      <Dialog open={orderDialogOpen} onOpenChange={setOrderDialogOpen}>
-        <DialogContent className="sm:max-w-md">
-          <DialogHeader>
-            <DialogTitle className="text-green-600">
-              🎉 Order Confirmed!
-            </DialogTitle>
-          </DialogHeader>
-          <div className="space-y-2 text-sm">
-            <p>Your order has been placed successfully.</p>
-            <p>
-              <span className="font-semibold">Order ID:</span> {orderId}
-            </p>
-            <a
-              href="/account/orders"
-              className="text-green-600 font-medium underline"
-            >
-              View Orders
-            </a>
-          </div>
-          <DialogFooter className="mt-4">
-            <DialogClose asChild>
-              <Button variant="outline">Close</Button>
-            </DialogClose>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+      
     </Sheet>
   );
 };
