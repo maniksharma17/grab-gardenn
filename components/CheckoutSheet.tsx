@@ -104,7 +104,7 @@ export const CheckoutSheet = ({
     state: "",
     zipCode: "",
     country: "",
-  });
+  })
 
   const token =
     typeof window !== "undefined" ? localStorage.getItem("token") : null;
