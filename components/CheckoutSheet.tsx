@@ -268,10 +268,10 @@ export const CheckoutSheet = ({
         console.log("COD error", err);
         toast({ title: "Order failed", variant: "destructive" });
       } finally {
+        setCartRefresh((prev) => prev + 1);
         setOpen(false);
         setCart(false);
         setLoading(false);
-        setCartRefresh((prev) => prev+1)
       }
     }
   };
