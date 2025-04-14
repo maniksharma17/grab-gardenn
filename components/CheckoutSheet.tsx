@@ -161,6 +161,7 @@ export const CheckoutSheet = ({
     }
   };
 
+
   useEffect(() => {
     const fetchCart = async () => {
       if (!token || !user?._id) return;
@@ -371,7 +372,7 @@ export const CheckoutSheet = ({
               {discount > 0 && (
                 <TableRow>
                   <TableCell className="text-green-600">
-                    <div className="p-3 text-center bg-green-50 border border-green-200 rounded-md text-green-800 font-medium">{promoCode}</div>
+                    <div className="w-fit p-1 text-center bg-green-50 border border-green-200 rounded-md text-green-800 font-semibold">{promoCode}</div>
                   </TableCell>
                   <TableCell className="text-right text-green-600">
                     -₹{discount.toFixed(2)}
