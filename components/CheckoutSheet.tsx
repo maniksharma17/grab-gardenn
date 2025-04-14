@@ -407,7 +407,7 @@ export const CheckoutSheet = ({
 
           {/* Total Savings */}
           {(discount > 0 || subtotal <= 1000) && (
-            <p className="text-center text-sm text-green-700 font-semibold flex items-center gap-1">
+            <p className="text-center mx-auto justify-center text-sm text-green-700 font-semibold flex items-center gap-1">
               You saved
               <span className="text-green-800 font-bold">
                 ₹
