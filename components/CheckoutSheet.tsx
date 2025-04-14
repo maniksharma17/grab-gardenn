@@ -407,12 +407,15 @@ export const CheckoutSheet = ({
 
           {/* Total Savings */}
           {(discount > 0 || subtotal <= 1000) && (
-            <p className="text-sm text-green-700 font-medium">
-              You saved ₹
-              {(discount + (subtotal <= 1000 ? DELIVERY_DISCOUNT : 0)).toFixed(
-                2
-              )}{" "}
-              on your order!
+            <p className="text-sm text-green-700 font-semibold flex items-center gap-1">
+              You saved
+              <span className="text-green-800 font-bold">
+                ₹
+                {(
+                  discount + (subtotal <= 1000 ? DELIVERY_DISCOUNT : 0)
+                ).toFixed(2)}
+              </span>
+              on your order! 🎉
             </p>
           )}
 
