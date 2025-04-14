@@ -145,6 +145,11 @@ export const CheckoutSheet = ({
         }
       );
 
+      if(res.data.error){
+        setPromoError(res.data.message);
+        return;
+      }
+
       setDiscount(res.data.discountAmount);
       setPromoName(res.data.code)
       setFinalAmount(Math.max(finalAmount - res.data.discountAmount, 0));
@@ -171,8 +176,7 @@ export const CheckoutSheet = ({
           `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/promo-code/apply`,
           {
             code: promoCode,
-            total:
-              subtotal >= 1000 ? subtotal : subtotal + discountedDeliveryRate,
+            total: finalAmount,
             userId: user._id,
           },
           {
@@ -183,26 +187,18 @@ export const CheckoutSheet = ({
         );
   
         setDiscount(res.data.discountAmount);
-        setPromoCode(res.data.code);
-        setFinalAmount(
-          Math.max(
-            (subtotal >= 1000 ? subtotal : subtotal + discountedDeliveryRate) -
-              res.data.discountAmount,
-            0
-          )
-        );
+        setPromoName(res.data.code);
+        setFinalAmount(Math.max(finalAmount - res.data.discountAmount, 0));
         setPromoError("");
       } catch (err: any) {
         console.log("Promo reapply error", err);
-        setPromoError("Promo code invalid or expired after cart update");
         setDiscount(0);
       }
     };
   
     reapplyPromo();
-  }, [subtotal, discountedDeliveryRate, promoCode, user, selectedAddress]);
+  }, [finalAmount, promoCode, discountedDeliveryRate, user, selectedAddress]);
   
-
 
   useEffect(() => {
     const fetchCart = async () => {
