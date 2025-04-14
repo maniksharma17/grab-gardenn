@@ -313,7 +313,7 @@ export const CheckoutSheet = ({
                   Shipping
                 </TableCell>
                 <TableCell className="text-right text-sm">
-                  {subtotal >= 1000 ? "₹0" : `₹${discountedDeliveryRate.toFixed(2)}`}
+                  {subtotal >= 1000 ? "₹0" : `₹${deliveryRate.toFixed(2)}`}
                 </TableCell>
               </TableRow>
 
