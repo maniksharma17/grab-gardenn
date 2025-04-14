@@ -292,7 +292,7 @@ export const CartSheet = () => {
                   <span className="font-medium">₹{subtotal.toFixed(2)}</span>
                 </div>
                 <div>
-                <CheckoutSheet setCart={setOpen}/>
+                {/* <CheckoutSheet setCart={setOpen}/> */}
 
 
                 </div>
