@@ -153,8 +153,9 @@ export const CheckoutSheet = ({
       setDiscount(res.data.discountAmount);
       setPromoName(res.data.code)
 
-      const amount = Math.max(subtotal - res.data.discountAmount, 0);
-      setFinalAmount(amount + discountedDeliveryRate);
+      const amount = Math.max(subtotal - res.data.discountAmount, 0)
+      const final = subtotal>=1000 ? amount : amount + deliveryRate
+      setFinalAmount(final);
 
       toast({
         title: "Promo code applied 🎉",
