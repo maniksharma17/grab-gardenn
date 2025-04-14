@@ -135,7 +135,7 @@ export const CheckoutSheet = ({
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/promo-code/apply`,
         {
           code: promoCode,
-          total: finalAmount,
+          total: subtotal,
           userId: user._id,
         },
         {
@@ -152,7 +152,10 @@ export const CheckoutSheet = ({
 
       setDiscount(res.data.discountAmount);
       setPromoName(res.data.code)
-      setFinalAmount(Math.max(finalAmount - res.data.discountAmount, 0));
+
+      const amount = Math.max(subtotal - res.data.discountAmount, 0);
+      setFinalAmount(amount + discountedDeliveryRate);
+
       toast({
         title: "Promo code applied 🎉",
         description: `You saved ₹${res.data.discountAmount}`,
@@ -176,7 +179,7 @@ export const CheckoutSheet = ({
           `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/promo-code/apply`,
           {
             code: promoCode,
-            total: subtotal <= 1000 ? subtotal+discountedDeliveryRate : subtotal,
+            total: subtotal,
             userId: user._id,
           },
           {
@@ -188,7 +191,10 @@ export const CheckoutSheet = ({
   
         setDiscount(res.data.discountAmount);
         setPromoName(res.data.code);
-        setFinalAmount(Math.max((subtotal <= 1000 ? subtotal+discountedDeliveryRate : subtotal) - res.data.discountAmount, 0));
+
+        const amount = Math.max(subtotal - res.data.discountAmount, 0);
+        setFinalAmount(amount + discountedDeliveryRate);
+        
         setPromoError("");
       } catch (err: any) {
         console.log("Promo reapply error", err);
