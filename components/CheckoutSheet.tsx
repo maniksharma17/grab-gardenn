@@ -57,7 +57,7 @@ export const CheckoutSheet = ({
   const [discount, setDiscount] = useState(0);
   const [promoError, setPromoError] = useState("");
   const [promoCodeId, setPromoCodeId] = useState("");
-  const [finalAmount, setFinalAmount] = useState(0)
+  const [finalAmount, setFinalAmount] = useState(0);
 
   useEffect(() => {
     const fetchDeliveryRate = async () => {
@@ -104,7 +104,7 @@ export const CheckoutSheet = ({
     state: "",
     zipCode: "",
     country: "",
-  })
+  });
 
   const token =
     typeof window !== "undefined" ? localStorage.getItem("token") : null;
@@ -126,7 +126,6 @@ export const CheckoutSheet = ({
       setFinalAmount(subtotal + discountedDeliveryRate);
     }
   }, [subtotal, discountedDeliveryRate]);
-  
 
   const handleApplyPromo = async () => {
     if (!promoCode) return;
@@ -330,11 +329,11 @@ export const CheckoutSheet = ({
         </SheetHeader>
 
         <div className="space-y-4 mt-4 pb-10">
-          <Table className="w-full border rounded-lg">
+          <Table className="w-full border rounded-lg text-sm">
             <TableHeader>
               <TableRow>
                 <TableHead
-                  className="text-left text-lg font-semibold"
+                  className="text-left text-base font-semibold"
                   colSpan={2}
                 >
                   Order Summary
@@ -343,74 +342,79 @@ export const CheckoutSheet = ({
             </TableHeader>
             <TableBody>
               <TableRow>
-                <TableCell className="text-sm text-muted-foreground">
-                  Items
-                </TableCell>
-                <TableCell className="text-right text-sm">
+                <TableCell className="text-muted-foreground">Items</TableCell>
+                <TableCell className="text-right">
                   ₹{subtotal.toFixed(2)}
                 </TableCell>
               </TableRow>
+
               <TableRow>
-                <TableCell className="text-sm text-muted-foreground">
+                <TableCell className="text-muted-foreground">
                   Shipping
                 </TableCell>
-                <TableCell className="text-right text-sm">
+                <TableCell className="text-right">
                   {subtotal >= 1000 ? "₹0" : `₹${deliveryRate.toFixed(2)}`}
                 </TableCell>
               </TableRow>
 
               {subtotal <= 1000 && (
                 <TableRow>
-                  <TableCell className="text-sm text-green-600">
+                  <TableCell className="text-green-600">
                     Shipping Discount
                   </TableCell>
-                  <TableCell className="text-right text-sm text-green-600">
+                  <TableCell className="text-right text-green-600">
                     -₹{DELIVERY_DISCOUNT}
                   </TableCell>
                 </TableRow>
               )}
 
-              <TableRow>
-                <TableCell colSpan={2}>
-                  <div className="flex items-center gap-2">
-                    <Input
-                      placeholder="Enter promo code"
-                      value={promoCode}
-                      onChange={(e) => setPromoCode(e.target.value)}
-                    />
-                    <Button
-                      variant="outline"
-                      onClick={handleApplyPromo}
-                      disabled={discount > 0}
-                    >
-                      Apply
-                    </Button>
-                  </div>
-                  {promoError && (
-                    <p className="text-xs text-red-500 mt-1">{promoError}</p>
-                  )}
-                </TableCell>
-              </TableRow>
-
               {discount > 0 && (
                 <TableRow>
-                  <TableCell className="text-sm text-green-600">
+                  <TableCell className="text-green-600">
                     Promo Discount
                   </TableCell>
-                  <TableCell className="text-right text-sm text-green-600">
+                  <TableCell className="text-right text-green-600">
                     -₹{discount.toFixed(2)}
                   </TableCell>
                 </TableRow>
               )}
 
               <TableRow>
-                <TableCell className="text-sm font-medium">Total</TableCell>
-                <TableCell className="text-right text-sm font-medium">
+                <TableCell className="font-medium">Total</TableCell>
+                <TableCell className="text-right font-medium">
                   ₹{finalAmount.toFixed(2)}
                 </TableCell>
               </TableRow>
             </TableBody>
           </Table>
+
+          {/* Promo Input */}
+          <div className="flex items-center gap-2 mt-2">
+            <Input
+              placeholder="Enter promo code"
+              value={promoCode}
+              onChange={(e) => setPromoCode(e.target.value)}
+            />
+            <Button
+              variant="outline"
+              onClick={handleApplyPromo}
+              disabled={discount > 0}
+            >
+              Apply
+            </Button>
+          </div>
+          {promoError && <p className="text-xs text-red-500">{promoError}</p>}
+
+          {/* Total Savings */}
+          {(discount > 0 || subtotal <= 1000) && (
+            <p className="text-sm text-green-700 font-medium">
+              You saved ₹
+              {(discount + (subtotal <= 1000 ? DELIVERY_DISCOUNT : 0)).toFixed(
+                2
+              )}{" "}
+              on your order!
+            </p>
+          )}
 
           {/* Delivery Info */}
           {deliveryMessage.length > 0 ? (
