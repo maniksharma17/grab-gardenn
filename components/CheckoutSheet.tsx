@@ -64,6 +64,7 @@ export const CheckoutSheet = ({
           {
             userId: user._id,
             destinationPincode: selectedAddress.zipCode,
+            cod: paymentMethod === 'cod' ? "1" : "0"
           },
           {
             headers: {
