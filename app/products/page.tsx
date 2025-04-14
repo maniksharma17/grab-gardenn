@@ -343,7 +343,7 @@ export default function ProductsPage() {
                   </div>
 
                   <div
-                    className={`flex max-md:flex-col items-center gap-2 mt-2 ${
+                    className={`flex items-center gap-2 mt-2 ${
                       isHorizontal
                         ? "md:w-1/2 flex-col justify-start"
                         : "flex-row"
@@ -357,7 +357,7 @@ export default function ProductsPage() {
                     >
                       <SelectTrigger
                         className={`h-10 text-sm ${
-                          isHorizontal ? "w-full" : "w-24"
+                          isHorizontal ? "w-full" : "w-fit"
                         }`}
                       >
                         <SelectValue placeholder="Select" />
