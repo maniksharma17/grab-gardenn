@@ -54,6 +54,7 @@ export const CheckoutSheet = ({
   const [estDelivery, setEstDelivery] = useState("null");
   const [deliveryMessage, setDeliveryMessage] = useState("");
   const [promoCode, setPromoCode] = useState("");
+  const [promoName, setPromoName] = useState("")
   const [discount, setDiscount] = useState(0);
   const [promoError, setPromoError] = useState("");
   const [finalAmount, setFinalAmount] = useState(0);
@@ -145,7 +146,7 @@ export const CheckoutSheet = ({
       );
 
       setDiscount(res.data.discountAmount);
-      setPromoCode(res.data.code)
+      setPromoName(res.data.code)
       setFinalAmount(Math.max(finalAmount - res.data.discountAmount, 0));
       toast({
         title: "Promo code applied 🎉",
@@ -160,6 +161,47 @@ export const CheckoutSheet = ({
       setDiscount(0);
     }
   };
+
+  useEffect(() => {
+    const reapplyPromo = async () => {
+      if (!promoCode) return;
+  
+      try {
+        const res = await axios.post(
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/promo-code/apply`,
+          {
+            code: promoCode,
+            total:
+              subtotal >= 1000 ? subtotal : subtotal + discountedDeliveryRate,
+            userId: user._id,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${user.token}`,
+            },
+          }
+        );
+  
+        setDiscount(res.data.discountAmount);
+        setPromoCode(res.data.code);
+        setFinalAmount(
+          Math.max(
+            (subtotal >= 1000 ? subtotal : subtotal + discountedDeliveryRate) -
+              res.data.discountAmount,
+            0
+          )
+        );
+        setPromoError("");
+      } catch (err: any) {
+        console.log("Promo reapply error", err);
+        setPromoError("Promo code invalid or expired after cart update");
+        setDiscount(0);
+      }
+    };
+  
+    reapplyPromo();
+  }, [subtotal, discountedDeliveryRate, promoCode, user, selectedAddress]);
+  
 
 
   useEffect(() => {
@@ -372,7 +414,9 @@ export const CheckoutSheet = ({
               {discount > 0 && (
                 <TableRow>
                   <TableCell className="text-green-600">
-                    <div className="w-fit p-1 text-center bg-green-50 border border-green-200 rounded-md text-green-800 font-semibold">{promoCode}</div>
+                    <div className="w-fit p-1 text-center bg-green-50 border border-green-200 rounded-md text-green-800 font-semibold">
+                      {promoName}
+                    </div>
                   </TableCell>
                   <TableCell className="text-right text-green-600">
                     -₹{discount.toFixed(2)}
