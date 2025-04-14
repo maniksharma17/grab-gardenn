@@ -56,7 +56,6 @@ export const CheckoutSheet = ({
   const [promoCode, setPromoCode] = useState("");
   const [discount, setDiscount] = useState(0);
   const [promoError, setPromoError] = useState("");
-  const [promoCodeId, setPromoCodeId] = useState("");
   const [finalAmount, setFinalAmount] = useState(0);
 
   useEffect(() => {
@@ -146,7 +145,7 @@ export const CheckoutSheet = ({
       );
 
       setDiscount(res.data.discountAmount);
-      setPromoCodeId(res.data.promoCodeId);
+      setPromoCode(res.data.code)
       setFinalAmount(Math.max(finalAmount - res.data.discountAmount, 0));
       toast({
         title: "Promo code applied 🎉",
@@ -294,6 +293,7 @@ export const CheckoutSheet = ({
             shippingAddress: selectedAddress,
             deliveryRate: discountedDeliveryRate,
             courierId: courierId,
+            promoCode: promoCode
           },
           {
             headers: { Authorization: `Bearer ${token}` },
@@ -371,7 +371,7 @@ export const CheckoutSheet = ({
               {discount > 0 && (
                 <TableRow>
                   <TableCell className="text-green-600">
-                    Promo Discount
+                    <div className="bg-gray-50 rounded-md px-4 py-2 text-gray-700 text-medium">{promoCode}</div>
                   </TableCell>
                   <TableCell className="text-right text-green-600">
                     -₹{discount.toFixed(2)}
@@ -403,11 +403,11 @@ export const CheckoutSheet = ({
               Apply
             </Button>
           </div>
-          {promoError && <p className="text-xs text-red-500">{promoError}</p>}
+          {promoError && <p className="px-2 text-xs text-red-500">{promoError}</p>}
 
           {/* Total Savings */}
           {(discount > 0 || subtotal <= 1000) && (
-            <p className="text-sm text-green-700 font-semibold flex items-center gap-1">
+            <p className="text-center text-sm text-green-700 font-semibold flex items-center gap-1">
               You saved
               <span className="text-green-800 font-bold">
                 ₹
@@ -421,12 +421,12 @@ export const CheckoutSheet = ({
 
           {/* Delivery Info */}
           {deliveryMessage.length > 0 ? (
-            <div className="bg-red-100 text-red-700 mt-4 p-3 rounded-md flex items-start gap-2 text-sm">
+            <div className="bg-red-100 text-center text-red-700 mt-4 p-3 rounded-md flex items-start gap-2 text-sm">
               <CircleAlert className="w-4 h-4 mt-0.5" />
               <p>{deliveryMessage}</p>
             </div>
           ) : (
-            <div className="mt-4 p-3 bg-green-50 border border-green-200 rounded-md text-green-800 text-sm font-medium">
+            <div className="mt-4 p-3 text-center bg-green-50 border border-green-200 rounded-md text-green-800 text-sm font-medium">
               Estimated Delivery:{" "}
               <span className="font-semibold">{estDelivery}</span>
             </div>
