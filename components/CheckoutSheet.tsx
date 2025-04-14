@@ -332,7 +332,8 @@ export const CheckoutSheet = ({
             shippingAddress: selectedAddress,
             deliveryRate: discountedDeliveryRate,
             courierId: courierId,
-            promoCode: promoCode
+            promoCode: promoCode,
+            promoCodeDiscount: discount
           },
           {
             headers: { Authorization: `Bearer ${token}` },
