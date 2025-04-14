@@ -154,7 +154,7 @@ export const CheckoutSheet = ({
       setPromoName(res.data.code)
 
       const amount = Math.max(subtotal - res.data.discountAmount, 0)
-      const final = subtotal>=1000 ? amount : amount + deliveryRate
+      const final = subtotal>=1000 ? amount : amount + discountedDeliveryRate
       setFinalAmount(final);
 
       toast({
@@ -193,8 +193,9 @@ export const CheckoutSheet = ({
         setDiscount(res.data.discountAmount);
         setPromoName(res.data.code);
 
-        const amount = Math.max(subtotal - res.data.discountAmount, 0);
-        setFinalAmount(amount + discountedDeliveryRate);
+        const amount = Math.max(subtotal - res.data.discountAmount, 0)
+        const final = subtotal>=1000 ? amount : amount + discountedDeliveryRate
+        setFinalAmount(final);
 
         setPromoError("");
       } catch (err: any) {
