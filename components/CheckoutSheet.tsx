@@ -7,7 +7,14 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
@@ -42,7 +49,7 @@ export const CheckoutSheet = ({
   const { toast } = useToast();
   const [open, setOpen] = useState(false);
   const [deliveryRate, setDeliveryRate] = useState<number>(0);
-  const [courierId, setCourierId] = useState(null)
+  const [courierId, setCourierId] = useState(null);
   const [estDelivery, setEstDelivery] = useState("null");
   const [deliveryMessage, setDeliveryMessage] = useState("");
   const [orderDialogOpen, setOrderDialogOpen] = useState(false);
@@ -58,7 +65,7 @@ export const CheckoutSheet = ({
           {
             userId: user._id,
             destinationPincode: selectedAddress.zipCode,
-            cod: paymentMethod === 'cod' ? "1" : "0"
+            cod: paymentMethod === "cod" ? "1" : "0",
           },
           {
             headers: {
@@ -68,7 +75,7 @@ export const CheckoutSheet = ({
         );
 
         setDeliveryRate(res.data.deliveryCharge);
-        setCourierId(res.data.courierId)
+        setCourierId(res.data.courierId);
         setEstDelivery(res.data.estimatedDeliveryDays);
         setDeliveryMessage("");
       } catch (err) {
@@ -82,7 +89,7 @@ export const CheckoutSheet = ({
   }, [user, selectedAddress, paymentMethod]);
 
   const setCartRefresh = useSetRecoilState(cartRefreshState);
-  const cartRefresh = useRecoilValue(cartRefreshState)
+  const cartRefresh = useRecoilValue(cartRefreshState);
 
   const [newAddress, setNewAddress] = useState({
     name: "",
@@ -103,7 +110,8 @@ export const CheckoutSheet = ({
     0
   );
 
-  const discountedDeliveryRate = deliveryRate > 40 ? deliveryRate - 40 : deliveryRate;
+  const discountedDeliveryRate =
+    deliveryRate > 40 ? deliveryRate - 40 : deliveryRate;
   let finalAmount = 0;
   if (subtotal > 1000) {
     finalAmount = subtotal;
@@ -141,14 +149,14 @@ export const CheckoutSheet = ({
     setLoading(true);
     if (!selectedAddress) {
       toast({ title: "Please select an address", variant: "destructive" });
-      setLoading(false)
+      setLoading(false);
       return;
     }
 
     const result = validateAddress(selectedAddress);
     if (!result.isValid) {
       toast({ title: result.message, variant: "destructive" });
-      setLoading(false)
+      setLoading(false);
       return;
     }
 
@@ -171,7 +179,7 @@ export const CheckoutSheet = ({
 
         const options = {
           key: keyId,
-          amount: finalAmount*100, 
+          amount: finalAmount * 100,
           currency: "INR",
           name: "Grab Gardenn Healthy Foods",
           description: "Order Payment",
@@ -221,7 +229,6 @@ export const CheckoutSheet = ({
             // 👇 Fix z-index here
 
             escape: true,
-            
           },
         };
         setOpen(false);
@@ -234,7 +241,7 @@ export const CheckoutSheet = ({
         toast({ title: "Payment failed", variant: "destructive" });
       } finally {
         setLoading(false);
-        setCartRefresh((prev) => prev+1);
+        setCartRefresh((prev) => prev + 1);
       }
     } else {
       try {
@@ -243,7 +250,7 @@ export const CheckoutSheet = ({
           {
             shippingAddress: selectedAddress,
             deliveryRate: discountedDeliveryRate,
-            courierId: courierId
+            courierId: courierId,
           },
           {
             headers: { Authorization: `Bearer ${token}` },
@@ -281,54 +288,67 @@ export const CheckoutSheet = ({
         </SheetHeader>
 
         <div className="space-y-4 mt-4 pb-10">
-        <Table className="w-full border rounded-lg">
-          <TableHeader>
-            <TableRow>
-              <TableHead className="text-left text-lg font-semibold" colSpan={2}>
-                Order Summary
-              </TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            <TableRow>
-              <TableCell className="text-sm text-muted-foreground">Items</TableCell>
-              <TableCell className="text-right text-sm">₹{subtotal.toFixed(2)}</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell className="text-sm text-muted-foreground">Shipping</TableCell>
-              <TableCell className="text-right text-sm">
-                {subtotal > 1000 ? "₹0" : `₹${deliveryRate.toFixed(2)}`}
-              </TableCell>
-            </TableRow>
-
-            {subtotal > 1000 && (
+          <Table className="w-full border rounded-lg">
+            <TableHeader>
               <TableRow>
-                <TableCell className="text-sm text-green-600">Shipping Discount</TableCell>
-                <TableCell className="text-right text-sm text-green-600">
-                  -₹{deliveryRate.toFixed(2)}
+                <TableHead
+                  className="text-left text-lg font-semibold"
+                  colSpan={2}
+                >
+                  Order Summary
+                </TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              <TableRow>
+                <TableCell className="text-sm text-muted-foreground">
+                  Items
+                </TableCell>
+                <TableCell className="text-right text-sm">
+                  ₹{subtotal.toFixed(2)}
                 </TableCell>
               </TableRow>
-            )}
+              <TableRow>
+                <TableCell className="text-sm text-muted-foreground">
+                  Shipping
+                </TableCell>
+                <TableCell className="text-right text-sm">
+                  {subtotal > 1000 ? "₹0" : `₹${deliveryRate.toFixed(2)}`}
+                </TableCell>
+              </TableRow>
 
-            <TableRow>
-              <TableCell className="text-sm font-medium">Total</TableCell>
-              <TableCell className="text-right text-sm font-medium">₹{finalAmount.toFixed(2)}</TableCell>
-            </TableRow>
-          </TableBody>
-        </Table>
+              {subtotal > 1000 && (
+                <TableRow>
+                  <TableCell className="text-sm text-green-600">
+                    Shipping Discount
+                  </TableCell>
+                  <TableCell className="text-right text-sm text-green-600">
+                    -₹{deliveryRate.toFixed(2)}
+                  </TableCell>
+                </TableRow>
+              )}
 
-        {/* Delivery Info */}
-        {deliveryMessage.length > 0 ? (
-          <div className="bg-red-100 text-red-700 mt-4 p-3 rounded-md flex items-start gap-2 text-sm">
-            <CircleAlert className="w-4 h-4 mt-0.5" />
-            <p>{deliveryMessage}</p>
-          </div>
-        ) : (
-          <div className="mt-4 p-3 bg-green-50 border border-green-200 rounded-md text-green-800 text-sm font-medium">
-            Estimated Delivery: <span className="font-semibold">{estDelivery}</span>
-          </div>
-        )}
-          </div>
+              <TableRow>
+                <TableCell className="text-sm font-medium">Total</TableCell>
+                <TableCell className="text-right text-sm font-medium">
+                  ₹{finalAmount.toFixed(2)}
+                </TableCell>
+              </TableRow>
+            </TableBody>
+          </Table>
+
+          {/* Delivery Info */}
+          {deliveryMessage.length > 0 ? (
+            <div className="bg-red-100 text-red-700 mt-4 p-3 rounded-md flex items-start gap-2 text-sm">
+              <CircleAlert className="w-4 h-4 mt-0.5" />
+              <p>{deliveryMessage}</p>
+            </div>
+          ) : (
+            <div className="mt-4 p-3 bg-green-50 border border-green-200 rounded-md text-green-800 text-sm font-medium">
+              Estimated Delivery:{" "}
+              <span className="font-semibold">{estDelivery}</span>
+            </div>
+          )}
 
           {/* Address Selection */}
           <div className="space-y-2">
@@ -493,8 +513,6 @@ export const CheckoutSheet = ({
           </Button>
         </div>
       </SheetContent>
-
-      
     </Sheet>
   );
 };
