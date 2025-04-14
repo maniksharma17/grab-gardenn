@@ -84,7 +84,7 @@ export const CheckoutSheet = ({
     };
 
     fetchDeliveryRate();
-  }, [user, selectedAddress]);
+  }, [user, selectedAddress, paymentMethod]);
 
   const setCartRefresh = useSetRecoilState(cartRefreshState);
   const cartRefresh = useRecoilValue(cartRefreshState)
