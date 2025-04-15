@@ -402,7 +402,7 @@ export const BuyNowSheet = ({
                     {total >= 1000 ? (
                       <>
                         <span className="line-through text-muted-foreground mr-1">
-                          ₹{discountedDeliveryRate.toFixed(2)}
+                          ₹{deliveryRate.toFixed(2)}
                         </span>
                         <span className="text-green-600 font-medium">₹0</span>
                         <Badge
