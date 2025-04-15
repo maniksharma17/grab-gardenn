@@ -107,7 +107,7 @@ export const BuyNowSheet = ({
 
   useEffect(() => {
     const applyPromo = async () => {
-      if (!promoCode) return;
+      if (!finalPromoCode) return;
   
       try {
         const res = await axios.post(
@@ -144,7 +144,7 @@ export const BuyNowSheet = ({
     };
   
     applyPromo();
-  }, [total, promoCode, discountedDeliveryRate, user]);
+  }, [total, finalPromoCode, discountedDeliveryRate, user]);
   
 
   useEffect(() => {
