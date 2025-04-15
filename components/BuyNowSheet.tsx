@@ -519,7 +519,7 @@ export const BuyNowSheet = ({
               <span className="text-green-800 font-bold">
                 ₹
                 {(
-                  discount + (total <= 1000 ? DELIVERY_DISCOUNT : 0)
+                  discount + (total < 1000 ? DELIVERY_DISCOUNT : deliveryRate)
                 ).toFixed(2)}
               </span>
               on your order! 🎉
