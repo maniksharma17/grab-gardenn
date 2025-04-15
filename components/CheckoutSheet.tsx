@@ -205,7 +205,7 @@ export const CheckoutSheet = ({
     };
   
     reapplyPromo();
-  }, [subtotal, promoCode, discountedDeliveryRate, user, selectedAddress]);
+  }, [subtotal, promoCode, discountedDeliveryRate, user]);
   
 
   useEffect(() => {
@@ -443,6 +443,7 @@ export const CheckoutSheet = ({
             <Input
               placeholder="Enter promo code"
               value={promoCode}
+              disabled={discount>0}
               onChange={(e) => setPromoCode(e.target.value)}
             />
             <Button
