@@ -1041,6 +1041,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { useWindowWidth } from "@/lib/utils";
+import { toast } from "sonner";
 
 const DiscountBox = ({
   open,
@@ -1055,16 +1056,17 @@ const DiscountBox = ({
         <DialogHeader>
           <DialogTitle>CONGRATULATIONS 🎉</DialogTitle>
           <DialogDescription>
-            We are offering 30% OFF for first 100 Orders. ORDER NOW.
+            We are offering 30% OFF for our first 100 Orders. ORDER NOW with promo code <strong>LAUNCH30</strong>. 
           </DialogDescription>
         </DialogHeader>
         <Button
           variant={"outline"}
           onClick={() => {
-            setOpen(false);
+            window.navigator.clipboard.writeText("LAUNCH30");
+            toast("Copied")
           }}
         >
-          Close
+          COPY LAUNCH30
         </Button>
       </DialogContent>
     </Dialog>
