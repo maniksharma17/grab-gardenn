@@ -123,12 +123,11 @@ export const BuyNowSheet = ({
           }
         );
 
-        if(res.data.error){
+        if(res.status===400){
           setPromoError(res.data.error);
           return;
         }
           
-  
         setDiscount(res.data.discountAmount);
         setPromoName(res.data.code);
 
