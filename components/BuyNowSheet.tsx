@@ -531,10 +531,22 @@ export const BuyNowSheet = ({
                         </Badge>
                       </>
                     ) : (
-                      <>₹{discountedDeliveryRate.toFixed(2)}</>
+                      <>₹{deliveryRate.toFixed(2)}</>
                     )}
                   </TableCell>
                 </TableRow>
+
+                {total < 1000 && 
+                <TableRow>
+                  <TableCell className="text-sm text-primary">
+                    Shipping Discount
+                  </TableCell>
+                  <TableCell className="text-right">
+                      <span className="line-through text-muted-foreground mr-1">
+                        -₹{DELIVERY_DISCOUNT.toFixed(2)}
+                      </span>
+                  </TableCell>
+                </TableRow>}
 
                 <TableRow>
                   <TableCell className="text-sm font-semibold">Total</TableCell>
@@ -542,6 +554,7 @@ export const BuyNowSheet = ({
                     ₹{finalAmount.toFixed(2)}
                   </TableCell>
                 </TableRow>
+              
               </TableBody>
             </Table>
 
