@@ -333,7 +333,7 @@ export const BuyNowSheet = ({
         setLoading(false);
         setFinalPromoCode("")
         setPromoCode("")
-        setFinalAmount((prev) => prev - discount);
+        setFinalAmount((prev) => prev + discount);
         setDiscount(0)
         
       }
