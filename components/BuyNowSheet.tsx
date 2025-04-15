@@ -124,11 +124,7 @@ export const BuyNowSheet = ({
           }
         );
 
-        if(res.status===400){
-          setPromoError(res.data.error);
-          return;
-        }
-          
+       
         setDiscount(res.data.discountAmount);
         setPromoName(res.data.code);
 
@@ -138,7 +134,12 @@ export const BuyNowSheet = ({
 
         
       } catch (err: any) {
-        console.log("Promo reapply error", err);
+        if (err.response && err.response.status === 400) {
+          setPromoError(err.response.data.error); 
+        } else {
+          setPromoError("Something went wrong. Please try again.");
+        }
+  
         setDiscount(0);
       }
     };
