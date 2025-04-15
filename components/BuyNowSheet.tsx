@@ -333,6 +333,7 @@ export const BuyNowSheet = ({
         setLoading(false);
         setFinalPromoCode("")
         setPromoCode("")
+        setDiscount(0)
       }
     }
   };
