@@ -71,16 +71,7 @@ export const BuyNowSheet = ({
     zipCode: string;
     street: string;
     streetOptional: string;
-  }>({
-    name: "",
-    phone: "",
-    city: "",
-    state: "",
-    country: "",
-    zipCode: "",
-    street: "",
-    streetOptional: "",
-  });
+  }>(user.address[0]);
   const [paymentMode, setPaymentMode] = useState<"COD" | "Prepaid">("COD");
   const [deliveryRate, setDeliveryRate] = useState<number>(0);
   const [courierId, setCourierId] = useState(null);
