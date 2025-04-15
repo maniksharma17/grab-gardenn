@@ -427,6 +427,19 @@ export const BuyNowSheet = ({
                   </TableCell>
                 </TableRow>
 
+                {discount > 0 && (
+                  <TableRow>
+                    <TableCell className="text-green-600">
+                      <div className="w-fit p-1 text-center bg-green-50 border border-green-200 rounded-md text-green-800 font-semibold">
+                        {promoName}
+                      </div>
+                    </TableCell>
+                    <TableCell className="text-right text-green-600">
+                      -₹{discount.toFixed(2)}
+                    </TableCell>
+                  </TableRow>
+                )}
+
                 <TableRow>
                   <TableCell className="text-sm text-muted-foreground">
                     Shipping
