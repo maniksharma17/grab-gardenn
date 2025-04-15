@@ -83,6 +83,7 @@ export const BuyNowSheet = ({
   const [discount, setDiscount] = useState(0);
   const [promoName, setPromoName] = useState("")
   const [promoError, setPromoError] = useState("");
+  const [finalPromoCode, setFinalPromoCode] = useState("");
 
   const selectedIndex = product.variants.findIndex(
     (v) => v.value === selectedVariant.value
@@ -112,7 +113,7 @@ export const BuyNowSheet = ({
         const res = await axios.post(
           `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/promo-code/apply`,
           {
-            code: promoCode,
+            code: finalPromoCode,
             total: total,
             userId: user._id,
           },
@@ -503,6 +504,7 @@ export const BuyNowSheet = ({
             <Button
               variant="outline"
               disabled={discount > 0}
+              onClick={(e)=>{setFinalPromoCode(promoCode)}}
             >
               Apply
             </Button>
