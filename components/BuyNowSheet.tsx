@@ -30,6 +30,7 @@ import { CircleAlert } from "lucide-react";
 import Image from "next/image";
 import { validateAddress } from "@/lib/utils";
 import { DELIVERY_DISCOUNT } from "@/lib/config";
+import { Input } from "./ui/input";
 
 interface Variant {
   display: string;
@@ -80,7 +81,8 @@ export const BuyNowSheet = ({
   const [finalAmount, setFinalAmount] = useState(0);
   const [promoCode, setPromoCode] = useState("");
   const [discount, setDiscount] = useState(0);
-  const [promoMessage, setPromoMessage] = useState("");
+  const [promoName, setPromoName] = useState("")
+  const [promoError, setPromoError] = useState("");
 
   const selectedIndex = product.variants.findIndex(
     (v) => v.value === selectedVariant.value
@@ -101,6 +103,43 @@ export const BuyNowSheet = ({
       setFinalAmount(total + discountedDeliveryRate);
     }
   }, [total, discountedDeliveryRate]);
+
+  useEffect(() => {
+    const applyPromo = async () => {
+      if (!promoCode) return;
+  
+      try {
+        const res = await axios.post(
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/promo-code/apply`,
+          {
+            code: promoCode,
+            total: total,
+            userId: user._id,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${user.token}`,
+            },
+          }
+        );
+  
+        setDiscount(res.data.discountAmount);
+        setPromoName(res.data.code);
+
+        const amount = Math.max(total - res.data.discountAmount, 0)
+        const final = total>=1000 ? amount : amount + discountedDeliveryRate
+        setFinalAmount(final);
+
+        setPromoError("");
+      } catch (err: any) {
+        console.log("Promo reapply error", err);
+        setDiscount(0);
+      }
+    };
+  
+    applyPromo();
+  }, [total, promoCode, discountedDeliveryRate, user]);
+  
 
   useEffect(() => {
     if (!selectedAddress) return;
@@ -256,6 +295,8 @@ export const BuyNowSheet = ({
             quantity,
             dimensions: dimensions,
             courierId: courierId,
+            promoCode: promoCode,
+            promoCodeDiscount: discount
           },
           {
             headers: { Authorization: `Bearer ${user.token}` },
@@ -432,6 +473,37 @@ export const BuyNowSheet = ({
               </TableBody>
             </Table>
           </div>
+
+          {/* Promo Input */}
+          <div className="flex items-center gap-2 mt-2">
+            <Input
+              placeholder="Enter promo code"
+              value={promoCode}
+              disabled={discount>0}
+              onChange={(e) => setPromoCode(e.target.value)}
+            />
+            <Button
+              variant="outline"
+              disabled={discount > 0}
+            >
+              Apply
+            </Button>
+          </div>
+          {promoError && <p className="px-2 text-xs text-red-500">{promoError}</p>}
+
+          {/* Total Savings */}
+          {(discount > 0 || total <= 1000) && (
+            <p className="text-center mx-auto justify-center text-sm text-green-700 font-semibold flex items-center gap-1">
+              You saved
+              <span className="text-green-800 font-bold">
+                ₹
+                {(
+                  discount + (total <= 1000 ? DELIVERY_DISCOUNT : 0)
+                ).toFixed(2)}
+              </span>
+              on your order! 🎉
+            </p>
+          )}
 
           {/* Estimated Delivery */}
           {deliveryMessage.length > 0 ? (
