@@ -122,6 +122,12 @@ export const BuyNowSheet = ({
             },
           }
         );
+
+        if(res.data.error){
+          setPromoError(res.data.error);
+          return;
+        }
+          
   
         setDiscount(res.data.discountAmount);
         setPromoName(res.data.code);
@@ -130,7 +136,7 @@ export const BuyNowSheet = ({
         const final = total>=1000 ? amount : amount + discountedDeliveryRate
         setFinalAmount(final);
 
-        setPromoError("");
+        
       } catch (err: any) {
         console.log("Promo reapply error", err);
         setDiscount(0);
