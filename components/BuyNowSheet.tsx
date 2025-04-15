@@ -331,6 +331,8 @@ export const BuyNowSheet = ({
       } finally {
         setOpen(false);
         setLoading(false);
+        setFinalPromoCode("")
+        setPromoCode("")
       }
     }
   };
