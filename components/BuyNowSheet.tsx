@@ -14,7 +14,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
+import { Table, TableBody, TableCell, TableHead, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Button } from "@/components/ui/button";
@@ -372,6 +372,87 @@ export const BuyNowSheet = ({
             </div>
           </div>
 
+          {/* Order Summary */}
+          <div className="shadow-sm space-y-4">
+
+            <Table className="w-full border rounded-lg text-sm">
+              <TableBody>
+                <TableRow>
+                  <TableHead
+                    className="text-left text-base font-semibold"
+                    colSpan={2}
+                  >
+                    Order Summary
+                  </TableHead>
+                </TableRow>
+                <TableRow>
+                  <TableCell className="text-sm text-muted-foreground">
+                    Items
+                  </TableCell>
+                  <TableCell className="text-right font-medium">
+                    ₹{total.toFixed(2)}
+                  </TableCell>
+                </TableRow>
+
+                <TableRow>
+                  <TableCell className="text-sm text-muted-foreground">
+                    Shipping
+                  </TableCell>
+                  <TableCell className="text-right">
+                    {total >= 1000 ? (
+                      <>
+                        <span className="line-through text-muted-foreground mr-1">
+                          ₹{discountedDeliveryRate.toFixed(2)}
+                        </span>
+                        <span className="text-green-600 font-medium">₹0</span>
+                        <Badge
+                          variant="outline"
+                          className="ml-2 text-green-700 border-green-300 bg-green-50"
+                        >
+                          Free Shipping
+                        </Badge>
+                      </>
+                    ) : (
+                      <>₹{deliveryRate.toFixed(2)}</>
+                    )}
+                  </TableCell>
+                </TableRow>
+
+                {total < 1000 && 
+                <TableRow>
+                  <TableCell className="text-sm text-primary">
+                    Shipping Discount
+                  </TableCell>
+                  <TableCell className="text-right">
+                      <span className="text-muted-foreground mr-1">
+                        -₹{DELIVERY_DISCOUNT.toFixed(2)}
+                      </span>
+                  </TableCell>
+                </TableRow>}
+
+                <TableRow>
+                  <TableCell className="text-sm font-semibold">Total</TableCell>
+                  <TableCell className="text-right font-semibold text-primary">
+                    ₹{finalAmount.toFixed(2)}
+                  </TableCell>
+                </TableRow>
+              
+              </TableBody>
+            </Table>
+          </div>
+
+          {/* Estimated Delivery */}
+          {deliveryMessage.length > 0 ? (
+              <div className="flex items-center gap-2 text-sm bg-red-100 border border-red-200 text-red-700 px-3 py-2 rounded-md">
+                <CircleAlert className="w-4 h-4" />
+                <span>{deliveryMessage}</span>
+              </div>
+            ) : (
+              <div className="text-center flex items-center gap-2 text-sm bg-green-50 border border-green-300 text-primary font-medium px-3 py-4 rounded-md w-full">
+                Estimated Delivery: <span className="font-semibold">{estDelivery}</span>
+              </div>
+            )}
+
           <div>
             <Label className="mb-2 block">Choose Address</Label>
             <Select
@@ -497,79 +578,7 @@ export const BuyNowSheet = ({
             </RadioGroup>
           </div>
 
-          {/* Order Summary */}
-          <div className="border p-4 rounded-lg shadow-sm space-y-4">
-            <h3 className="text-lg font-semibold">Order Summary</h3>
-
-            <Table>
-              <TableBody>
-                <TableRow>
-                  <TableCell className="text-sm text-muted-foreground">
-                    Items
-                  </TableCell>
-                  <TableCell className="text-right font-medium">
-                    ₹{total.toFixed(2)}
-                  </TableCell>
-                </TableRow>
-
-                <TableRow>
-                  <TableCell className="text-sm text-muted-foreground">
-                    Shipping
-                  </TableCell>
-                  <TableCell className="text-right">
-                    {total >= 1000 ? (
-                      <>
-                        <span className="line-through text-muted-foreground mr-1">
-                          ₹{discountedDeliveryRate.toFixed(2)}
-                        </span>
-                        <span className="text-green-600 font-medium">₹0</span>
-                        <Badge
-                          variant="outline"
-                          className="ml-2 text-green-700 border-green-300 bg-green-50"
-                        >
-                          Free Shipping
-                        </Badge>
-                      </>
-                    ) : (
-                      <>₹{deliveryRate.toFixed(2)}</>
-                    )}
-                  </TableCell>
-                </TableRow>
-
-                {total < 1000 && 
-                <TableRow>
-                  <TableCell className="text-sm text-primary">
-                    Shipping Discount
-                  </TableCell>
-                  <TableCell className="text-right">
-                      <span className="text-muted-foreground mr-1">
-                        -₹{DELIVERY_DISCOUNT.toFixed(2)}
-                      </span>
-                  </TableCell>
-                </TableRow>}
-
-                <TableRow>
-                  <TableCell className="text-sm font-semibold">Total</TableCell>
-                  <TableCell className="text-right font-semibold text-primary">
-                    ₹{finalAmount.toFixed(2)}
-                  </TableCell>
-                </TableRow>
-              
-              </TableBody>
-            </Table>
-
-            {/* Estimated Delivery */}
-            {deliveryMessage.length > 0 ? (
-              <div className="flex items-center gap-2 text-sm bg-red-100 border border-red-200 text-red-700 px-3 py-2 rounded-md">
-                <CircleAlert className="w-4 h-4" />
-                <span>{deliveryMessage}</span>
-              </div>
-            ) : (
-              <div className="text-center flex items-center gap-2 text-sm bg-green-50 border border-green-400 text-gray-800 font-medium px-3 py-2 rounded-md w-full">
-                Estimated Delivery: {estDelivery}
-              </div>
-            )}
-          </div>
+          
           <Button
             className="w-full"
             disabled={loading}
