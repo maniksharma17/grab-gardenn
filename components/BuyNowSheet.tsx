@@ -14,6 +14,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
+import { Badge } from "@/components/ui/badge";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -27,6 +29,7 @@ import { useToast } from "@/hooks/use-toast";
 import { CircleAlert } from "lucide-react";
 import Image from "next/image";
 import { validateAddress } from "@/lib/utils";
+import { DELIVERY_DISCOUNT } from "@/lib/config";
 
 interface Variant {
   display: string;
@@ -83,6 +86,10 @@ export const BuyNowSheet = ({
   const [courierId, setCourierId] = useState(null);
   const [estDelivery, setEstDelivery] = useState<string>("");
   const [loading, setLoading] = useState(false);
+  const [finalAmount, setFinalAmount] = useState(0);
+  const [promoCode, setPromoCode] = useState("");
+  const [discount, setDiscount] = useState(0);
+  const [promoMessage, setPromoMessage] = useState("");
 
   const selectedIndex = product.variants.findIndex(
     (v) => v.value === selectedVariant.value
@@ -91,15 +98,21 @@ export const BuyNowSheet = ({
   const total = price * quantity;
   const cutoffPrice = product.cutoffPrice?.[selectedIndex];
 
-  let finalAmount = 0;
-  if (total > 1000) {
-    finalAmount = total;
-  } else {
-    finalAmount = total + deliveryRate;
-  }
+  const discountedDeliveryRate =
+    deliveryRate > DELIVERY_DISCOUNT
+      ? deliveryRate - DELIVERY_DISCOUNT
+      : deliveryRate;
 
   useEffect(() => {
-    if(!selectedAddress) return;
+    if (total >= 1000) {
+      setFinalAmount(total);
+    } else {
+      setFinalAmount(total + discountedDeliveryRate);
+    }
+  }, [total, discountedDeliveryRate]);
+
+  useEffect(() => {
+    if (!selectedAddress) return;
     const fetchDeliveryRate = async () => {
       try {
         const res = await axios.post(
@@ -107,7 +120,7 @@ export const BuyNowSheet = ({
           {
             destinationPincode: selectedAddress.zipCode,
             weight: ((selectedVariant.value as number) || 1) * quantity,
-            cod: paymentMode == 'COD' ? "1" : "0"
+            cod: paymentMode == "COD" ? "1" : "0",
           },
           {
             headers: {
@@ -117,7 +130,7 @@ export const BuyNowSheet = ({
           }
         );
         setDeliveryRate(res.data.deliveryCharge);
-        setCourierId(res.data.courierId)
+        setCourierId(res.data.courierId);
         setEstDelivery(res.data.estimatedDeliveryDays);
         setDeliveryMessage("");
       } catch (err) {
@@ -245,13 +258,13 @@ export const BuyNowSheet = ({
           `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/checkout/place-direct-shiprocket-cod-order/${user._id}`,
           {
             shippingAddress: selectedAddress,
-            deliveryRate: deliveryRate,
+            deliveryRate: discountedDeliveryRate,
             price: price,
             variant: selectedVariant,
             product: product._id,
             quantity,
             dimensions: dimensions,
-            courierId: courierId
+            courierId: courierId,
           },
           {
             headers: { Authorization: `Bearer ${user.token}` },
@@ -485,39 +498,65 @@ export const BuyNowSheet = ({
           </div>
 
           {/* Order Summary */}
-          <div className="space-y-2 border-b pb-4">
+          <div className="border p-4 rounded-lg shadow-sm space-y-4">
             <h3 className="text-lg font-semibold">Order Summary</h3>
-            <div className="flex justify-between text-sm">
-              <span>Items:</span>
-              <span>₹{total.toFixed(2)}</span>
-            </div>
-            <div className="flex justify-between text-sm">
-              <span>Shipping:</span>
-              <span>
-                {total >= 1000 ? `₹0` : `₹${deliveryRate.toFixed(2)}`}
-              </span>
-            </div>
-            <div className="flex justify-between text-sm font-medium">
-              <span>Total:</span>
-              <span>
-                {total >= 1000
-                  ? `₹${total.toFixed(2)}`
-                  : `₹${(total + deliveryRate).toFixed(2)}`}
-              </span>
-            </div>
-            {deliveryMessage.length > 0 && (
-              <div className="bg-red-100 p-1 text-sm rounded-md flex flex-row gap-1 items-center">
-                <CircleAlert className="text-red-500 w-4 h-4 inline" />{" "}
-                <p>{deliveryMessage}</p>
+
+            <Table>
+              <TableBody>
+                <TableRow>
+                  <TableCell className="text-sm text-muted-foreground">
+                    Items
+                  </TableCell>
+                  <TableCell className="text-right font-medium">
+                    ₹{total.toFixed(2)}
+                  </TableCell>
+                </TableRow>
+
+                <TableRow>
+                  <TableCell className="text-sm text-muted-foreground">
+                    Shipping
+                  </TableCell>
+                  <TableCell className="text-right">
+                    {total >= 1000 ? (
+                      <>
+                        <span className="line-through text-muted-foreground mr-1">
+                          ₹{discountedDeliveryRate.toFixed(2)}
+                        </span>
+                        <span className="text-green-600 font-medium">₹0</span>
+                        <Badge
+                          variant="outline"
+                          className="ml-2 text-green-700 border-green-300 bg-green-50"
+                        >
+                          Free Shipping
+                        </Badge>
+                      </>
+                    ) : (
+                      <>₹{discountedDeliveryRate.toFixed(2)}</>
+                    )}
+                  </TableCell>
+                </TableRow>
+
+                <TableRow>
+                  <TableCell className="text-sm font-semibold">Total</TableCell>
+                  <TableCell className="text-right font-semibold text-primary">
+                    ₹{finalAmount.toFixed(2)}
+                  </TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
+
+            {/* Estimated Delivery */}
+            {deliveryMessage.length > 0 ? (
+              <div className="flex items-center gap-2 text-sm bg-red-100 border border-red-200 text-red-700 px-3 py-2 rounded-md">
+                <CircleAlert className="w-4 h-4" />
+                <span>{deliveryMessage}</span>
+              </div>
+            ) : (
+              <div className="flex items-center gap-2 text-sm bg-slate-100 text-gray-800 font-medium px-3 py-2 rounded-md w-fit">
+                🚚 Estimated Delivery: {estDelivery}
               </div>
             )}
-            {deliveryMessage.length == 0 && (
-              <p className="text-sm bg-slate-100 text-gray-700 font-medium rounded-lg w-fit p-1">
-                Estimated Delivery: {estDelivery}
-              </p>
-            )}
           </div>
-
           <Button
             className="w-full"
             disabled={loading}
