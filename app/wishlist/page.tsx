@@ -90,7 +90,6 @@ const WishlistPage = () => {
     <main className="min-h-screen py-16 bg-gray-50">
       <Navbar />
       <div className="mt-16 container mx-auto">
-        <h2 className="text-4xl my-6 max-md:text-2xl px-4 font-medium text-primary text-left">Your Wishlist</h2>
 
         {wishlistProducts.length === 0 ? (
           <div className="text-center mt-10">
@@ -104,7 +103,10 @@ const WishlistPage = () => {
             </Button>
           </div>
         ) : (
+          
           <div className="container mx-auto px-4 md:px-8 py-6 pt-2 max-md:py-2">
+            <h2 className="text-4xl my-6 max-md:text-2xl px-4 font-medium text-primary text-left">Your Wishlist</h2>
+
             <div
               className={
                 "grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-x-2 gap-y-6 md:gap-x-4 md:gap-y-12"
