@@ -83,8 +83,8 @@ export default function AuthPage() {
     if (!addr.name.trim()) return "Shipping name is required";
     if (!addr.phone) return "Shipping phone number is required";
   
-    let shippingPhone = addr.phone.trim().replace(/\D/g, "");
-    if (!/^[6-9]\d{9}$/.test(shippingPhone)) return "Invalid shipping phone number";
+    let shippingPhone = addr.phone.trim();
+    if (!(shippingPhone.length == 10)) return "Invalid shipping phone number";
   
     if (!addr.street.trim()) return "Street address is required";
     if (!addr.city.trim()) return "City is required";
