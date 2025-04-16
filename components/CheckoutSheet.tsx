@@ -65,6 +65,7 @@ export const CheckoutSheet = ({
       const res = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/promo-code/`);
       setPromoCodes(res.data);
     }
+    fetchPromos()
   }, [])
 
   const subtotal = cartItems.reduce(
@@ -123,7 +124,6 @@ export const CheckoutSheet = ({
   const token =
     typeof window !== "undefined" ? localStorage.getItem("token") : null;
 
-  
 
   const discountedDeliveryRate =
     deliveryRate > DELIVERY_DISCOUNT
