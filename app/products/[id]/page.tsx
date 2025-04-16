@@ -256,7 +256,7 @@ export default function ProductPage() {
 
       {/* Product Section */}
       <div className="container mt-20 max-md:mt-12 mx-auto px-4 py-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 max-md:gap-12 gap-4">
           {/* Image Gallery */}
           <div className="md:sticky md:top-32 max-h-[70vh] flex md:flex-row flex-col-reverse gap-4 overflow-hidden">
             {product.images.length > 1 && (
@@ -297,7 +297,7 @@ export default function ProductPage() {
           </div>
 
           {/* Product Info */}
-          <div className="relative overflow-y-scroll top-2 space-y-12">
+          <div className="relative overflow-y-scroll top-2 max-md:space-6 md:space-y-12">
             <div
               className="max-md:hidden absolute top-10 right-10 z-10 bg-white p-2 rounded-full shadow hover:scale-110 transition cursor-pointer"
               onClick={(e) => {
@@ -313,7 +313,7 @@ export default function ProductPage() {
             </div>
             
             <div
-              className="md:hidden z-10 bg-white p-2 rounded-full shadow hover:scale-110 transition cursor-pointer"
+              className="md:hidden w-fit z-10 bg-white p-2 rounded-full shadow transition cursor-pointer"
               onClick={(e) => {
                 e.stopPropagation(); // Prevent routing to product detail
                 toggleWishlist(product._id);
