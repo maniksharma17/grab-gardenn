@@ -70,27 +70,35 @@ export default function AuthPage() {
     if (!emailRegex.test(email)) return "Invalid email format";
   
     // Phone
-    const phoneRegex = /^[6-9]\d{9}$/;
     if (!phone.trim()) return "Phone number is required";
-    if (!phoneRegex.test(phone)) return "Invalid phone number";
+    let cleanedPhone = phone.trim().replace(/\D/g, "");
+    if (cleanedPhone.length > 10) {
+      cleanedPhone = cleanedPhone.slice(-10); // Take last 10 digits
+    }
+    if (!/^[6-9]\d{9}$/.test(cleanedPhone)) return "Invalid phone number";
   
     // Password
     if (password.length < 6) return "Password must be at least 6 characters";
   
+    // Address
     if (!address.length) return "At least one address is required";
     const addr = address[0];
+  
     if (!addr.name.trim()) return "Shipping name is required";
-    
-    const shippingPhone = addr.phone.trim();
-    if (!shippingPhone) return "Shipping phone number is required";
-    if (!phoneRegex.test(shippingPhone)) return "Invalid Shipping Phone number";
-
+    if (!addr.phone) return "Shipping phone number is required";
+  
+    let shippingPhone = addr.phone.trim().replace(/\D/g, "");
+    if (shippingPhone.length > 10) {
+      shippingPhone = shippingPhone.slice(-10); // Take last 10 digits
+    }
+    if (!/^[6-9]\d{9}$/.test(shippingPhone)) return "Invalid Shipping Phone number";
+  
     if (!addr.street.trim()) return "Street address is required";
     if (!addr.city.trim()) return "City is required";
     if (!addr.state.trim()) return "State is required";
     if (!addr.zipCode.trim()) return "Zip Code is required";
   
-    return null; 
+    return null;
   }
   
 
