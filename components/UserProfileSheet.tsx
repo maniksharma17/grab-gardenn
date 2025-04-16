@@ -22,6 +22,7 @@ import {
   PackageSearch,
   Plus,
   Settings,
+  ShoppingBag,
   UserCircle,
 } from "lucide-react";
 import { useRecoilState, useResetRecoilState } from "recoil";
@@ -218,7 +219,7 @@ export const UserProfileSheet = () => {
                 variant="outline"
                 className="w-full flex justify-between items-center"
               >
-                Orders <PackageSearch className="w-4 h-4 ml-2 text-primary" fill="currentColor" />
+                Orders <ShoppingBag className="w-4 h-4 ml-2 text-primary" />
               </Button>
             </Link>
 
