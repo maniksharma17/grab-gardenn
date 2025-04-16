@@ -299,7 +299,7 @@ export default function ProductPage() {
           {/* Product Info */}
           <div className="relative overflow-y-scroll top-2 space-y-12">
             <div
-              className="absolute top-10 right-10 z-10 bg-white p-2 rounded-full shadow hover:scale-110 transition cursor-pointer"
+              className="max-md:hidden absolute top-10 right-10 z-10 bg-white p-2 rounded-full shadow hover:scale-110 transition cursor-pointer"
               onClick={(e) => {
                 e.stopPropagation(); // Prevent routing to product detail
                 toggleWishlist(product._id);
@@ -311,7 +311,23 @@ export default function ProductPage() {
                 <Heart className="text-gray-400 w-7 h-7" />
               )}
             </div>
-            <h1 className="text-4xl font-medium capitalize leading-tight">
+            
+            <div
+              className="md:hidden z-10 bg-white p-2 rounded-full shadow hover:scale-110 transition cursor-pointer"
+              onClick={(e) => {
+                e.stopPropagation(); // Prevent routing to product detail
+                toggleWishlist(product._id);
+              }}
+            >
+              {wishlist.includes(product._id) ? (
+                <Heart className="text-red-500 fill-red-500 w-7 h-7" />
+              ) : (
+                <Heart className="text-gray-400 w-7 h-7" />
+              )}
+            </div>
+
+
+            <h1 className="text-4xl max-md:text-2xl font-medium capitalize leading-tight">
               {/* Breadcrumbs */}
               <div className="text-sm flex flex-wrap gap-2">
                 <Link className="hover:underline" href={"/products"}>
