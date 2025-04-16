@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import {
+  Heart,
   LogOut,
   PackageSearch,
   Plus,
@@ -217,7 +218,16 @@ export const UserProfileSheet = () => {
                 variant="outline"
                 className="w-full flex justify-between items-center"
               >
-                View Orders <PackageSearch className="w-4 h-4 ml-2" />
+                Orders <PackageSearch className="w-4 h-4 ml-2 text-primary" fill="currentColor" />
+              </Button>
+            </Link>
+
+            <Link href="/wishlist">
+              <Button
+                variant="outline"
+                className="w-full flex justify-between items-center"
+              >
+                Wishlist <Heart className="w-4 h-4 ml-2 text-red-600" fill="currentColor" />
               </Button>
             </Link>
 
