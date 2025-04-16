@@ -470,12 +470,12 @@ export const CheckoutSheet = ({
             </Button>
           </div>
 
-          <div>
+          <div className="flex flex-row gap-2 flex-wrap w-full">
             {promoCodes.map((item: any) => {
               return <div onClick={()=>{
                 setPromoCode(item.code)
               }}
-              key={item._id} className="px-4 py-1 font-semibold text-gray-700 bg-green-50 border border-green-400 rounded-md w-fit flex-wrap">
+              key={item._id} className="cursor-pointer text-sm px-3 py-1 font-semibold text-gray-600 bg-green-50 border border-green-300 rounded-md w-fit flex-wrap">
                 {item.code}
               </div>
             })}
