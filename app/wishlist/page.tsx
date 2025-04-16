@@ -186,7 +186,7 @@ const WishlistPage = () => {
                         </div>
                       </div>
                       <div>
-                        <p>{product.variant[0].display}</p>
+                        <p>{product.variants[0].display}</p>
                       </div>
                     </div>
                   </div>
