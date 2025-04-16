@@ -535,6 +535,7 @@ export const BuyNowSheet = ({
             {promoCodes.map((item: any) => {
               return <div onClick={()=>{
                 setPromoCode(item.code)
+                setFinalPromoCode(item.code)
               }}
               key={item._id} className="cursor-pointer text-sm px-3 py-1 font-semibold text-gray-500 bg-slate-50 border border-gray-300 rounded-md w-fit flex-wrap">
                 {item.code}
