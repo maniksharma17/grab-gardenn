@@ -1,8 +1,40 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Facebook, Instagram, Twitter, Youtube } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
+import { useState } from "react";
+
 
 export function Footer() {
+  const {toast} = useToast();
+  const [email, setEmail] = useState("");
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+  
+    if (!email) {
+      toast({ title: "Error", description: "Enter email", variant: "destructive" });
+      return;
+    }
+  
+    try {
+      const res = await fetch("https://script.google.com/macros/s/AKfycbyypgXQ5_lpr6WMSsKXVVkn2w4P1ARX21Qp-Ur0fwVKrBfJrAfTAW5yljJfM1-oy_hYRw/exec", {
+        method: "POST",
+        body: (`Email=${email}`),
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      });
+  
+      if (res.ok) {
+        toast({ title: "We got your email!"});
+        setEmail("");
+      } else {
+        throw new Error("Failed to submit");
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <footer className="bg-gradient-to-b from-green-100 to-white pt-16">
       {/* Illustration */}
@@ -89,7 +121,7 @@ export function Footer() {
                 placeholder="Your email"
                 className="w-full p-2 border border-gray-300 rounded-l-md focus:outline-none focus:ring-1 focus:ring-green-500"
               />
-              <button className="bg-green-600 text-white px-4 rounded-r-md hover:bg-green-700 transition">
+              <button onClick={handleSubmit} className="bg-green-600 text-white px-4 rounded-r-md hover:bg-green-700 transition">
                 Subscribe
               </button>
             </div>
