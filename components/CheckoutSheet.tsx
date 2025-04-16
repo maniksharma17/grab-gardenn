@@ -58,6 +58,18 @@ export const CheckoutSheet = ({
   const [discount, setDiscount] = useState(0);
   const [promoError, setPromoError] = useState("");
   const [finalAmount, setFinalAmount] = useState(0);
+  const [promoCodes, setPromoCodes] = useState([]);
+
+  useEffect(()=>{
+    const fetchPromos = async () => {
+      const res = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/promo-code`)
+    }
+  }, [])
+
+  const subtotal = cartItems.reduce(
+    (sum, item) => sum + item.price * item.quantity,
+    0
+  );
 
   useEffect(() => {
     const fetchDeliveryRate = async () => {
@@ -70,6 +82,7 @@ export const CheckoutSheet = ({
             userId: user._id,
             destinationPincode: selectedAddress.zipCode,
             cod: paymentMethod === "cod" ? "1" : "0",
+            subtotal: subtotal
           },
           {
             headers: {
@@ -90,7 +103,7 @@ export const CheckoutSheet = ({
     };
 
     fetchDeliveryRate();
-  }, [user, selectedAddress, paymentMethod]);
+  }, [user, subtotal, selectedAddress, paymentMethod]);
 
   const setCartRefresh = useSetRecoilState(cartRefreshState);
   const cartRefresh = useRecoilValue(cartRefreshState);
@@ -109,10 +122,7 @@ export const CheckoutSheet = ({
   const token =
     typeof window !== "undefined" ? localStorage.getItem("token") : null;
 
-  const subtotal = cartItems.reduce(
-    (sum, item) => sum + item.price * item.quantity,
-    0
-  );
+  
 
   const discountedDeliveryRate =
     deliveryRate > DELIVERY_DISCOUNT
@@ -454,6 +464,7 @@ export const CheckoutSheet = ({
               Apply
             </Button>
           </div>
+
           {promoError && <p className="px-2 text-xs text-red-500">{promoError}</p>}
 
           {/* Total Savings */}
