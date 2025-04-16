@@ -62,7 +62,8 @@ export const CheckoutSheet = ({
 
   useEffect(()=>{
     const fetchPromos = async () => {
-      const res = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/promo-code`)
+      const res = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/promo-code/`);
+      setPromoCodes(res.data);
     }
   }, [])
 
@@ -463,6 +464,17 @@ export const CheckoutSheet = ({
             >
               Apply
             </Button>
+          </div>
+
+          <div>
+            {promoCodes.map((item: any) => {
+              return <div onClick={()=>{
+                setPromoCode(item.code)
+              }}
+              key={item._id} className="px-4 py-2 text-semibold text-gray-700 bg-green-50 border border-green-300 flex-wrap">
+                {item.code}
+              </div>
+            })}
           </div>
 
           {promoError && <p className="px-2 text-xs text-red-500">{promoError}</p>}
