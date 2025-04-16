@@ -62,7 +62,11 @@ export const CheckoutSheet = ({
 
   useEffect(()=>{
     const fetchPromos = async () => {
-      const res = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/promo-code/`);
+      const res = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/promo-code/`, {
+        headers: {
+          'Authorization': 'Bearer ' + user.token
+        }
+      });
       setPromoCodes(res.data);
     }
     fetchPromos()
