@@ -145,7 +145,7 @@ const OrdersPage = () => {
     <main className="min-h-screen bg-gray-50">
       <Navbar />
       <div className="container mx-auto w-full px-4 md:px-10 pt-32 py-12">
-        <h1 className="text-4xl mt-6 max-md:text-2xl font-medium mb-12 text-left text-primary">
+        <h1 className="px-4 text-4xl mt-6 max-md:text-2xl font-medium my-8 text-left text-primary">
           Your Orders
         </h1>
 
