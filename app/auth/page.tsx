@@ -90,7 +90,7 @@ export default function AuthPage() {
       shippingPhone = shippingPhone.slice(1);
     }
 
-    if (shippingPhone.length !== 10 || !/^[6-9]\d{9}$/.test(shippingPhone)) {
+    if (shippingPhone.length !== 10) {
       return "Invalid Shipping Phone number";
     }
   
