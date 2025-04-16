@@ -475,7 +475,7 @@ export const CheckoutSheet = ({
               return <div onClick={()=>{
                 setPromoCode(item.code)
               }}
-              key={item._id} className="cursor-pointer text-sm px-3 py-1 font-semibold text-gray-600 bg-green-50 border border-green-300 rounded-md w-fit flex-wrap">
+              key={item._id} className="cursor-pointer text-sm px-3 py-1 font-semibold text-gray-500 bg-slate-50 border border-gray-300 rounded-md w-fit flex-wrap">
                 {item.code}
               </div>
             })}
