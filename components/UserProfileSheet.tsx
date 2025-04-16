@@ -195,8 +195,8 @@ export const UserProfileSheet = () => {
             </SheetTitle>
           </SheetHeader>
 
-          <div className="flex flex-col gap-6 py-6 text-sm">
-            <div className="space-y-4">
+          <div className="flex flex-col gap-4 py-4 text-sm">
+            <div className="space-y-2">
               {/* Info Card */}
               {[
                 { label: "Name", value: user.name },
@@ -211,6 +211,15 @@ export const UserProfileSheet = () => {
                 </div>
               ))}
             </div>
+
+            <Link href="/orders">
+              <Button
+                variant="outline"
+                className="w-full flex justify-between items-center"
+              >
+                View Orders <PackageSearch className="w-4 h-4 ml-2" />
+              </Button>
+            </Link>
 
             {/* Address */}
             <ShippingAddressSection
@@ -303,14 +312,7 @@ export const UserProfileSheet = () => {
         {/* Logout */}
         <SheetFooter>
           <div className="w-full flex flex-col gap-1">
-            <Link href="/orders">
-              <Button
-                variant="outline"
-                className="w-full flex justify-between items-center"
-              >
-                View Orders <PackageSearch className="w-4 h-4 ml-2" />
-              </Button>
-            </Link>
+            
             <Button
               variant="outline"
               className="w-full flex justify-between items-center"
