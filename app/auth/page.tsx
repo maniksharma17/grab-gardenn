@@ -80,8 +80,11 @@ export default function AuthPage() {
     if (!address.length) return "At least one address is required";
     const addr = address[0];
     if (!addr.name.trim()) return "Shipping name is required";
-    if (!addr.phone.trim()) return "Shipping phone number is required";
-    if (!phoneRegex.test(addr.phone)) return "Invalid Shipping Phone number";
+    
+    const shippingPhone = addr.phone.trim();
+    if (!shippingPhone) return "Shipping phone number is required";
+    if (!phoneRegex.test(shippingPhone)) return "Invalid Shipping Phone number";
+
     if (!addr.street.trim()) return "Street address is required";
     if (!addr.city.trim()) return "City is required";
     if (!addr.state.trim()) return "State is required";
