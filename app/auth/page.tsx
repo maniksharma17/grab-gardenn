@@ -58,6 +58,39 @@ export default function AuthPage() {
   const user = useRecoilValue(userState)
   const router = useRouter();
 
+  function validateRegisterData(data: RegisterDataTypes): string | null {
+    const { name, email, password, phone, address } = data;
+  
+    // Name
+    if (!name.trim()) return "Name is required";
+  
+    // Email
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!email.trim()) return "Email is required";
+    if (!emailRegex.test(email)) return "Invalid email format";
+  
+    // Phone
+    const phoneRegex = /^[6-9]\d{9}$/;
+    if (!phone.trim()) return "Phone number is required";
+    if (!phoneRegex.test(phone)) return "Invalid Indian phone number";
+  
+    // Password
+    if (password.length < 6) return "Password must be at least 6 characters";
+  
+    // Address (at least 1 address)
+    if (!address.length) return "At least one address is required";
+    const addr = address[0];
+    if (!addr.name.trim()) return "Shipping name is required";
+    if (!addr.phone.trim()) return "Shipping phone is required";
+    if (!addr.street.trim()) return "Street address is required";
+    if (!addr.city.trim()) return "City is required";
+    if (!addr.state.trim()) return "State is required";
+    if (!addr.zipCode.trim()) return "Zip Code is required";
+  
+    return null; // Everything valid
+  }
+  
+
   useEffect(() => {
     if (user?.isLoggedIn) {
       router.replace("/products");
@@ -87,10 +120,17 @@ export default function AuthPage() {
     e.preventDefault();
     setIsLoading(true);
 
+    if (type === "register") {
+      const error = validateRegisterData(registerData);
+      if (error) {
+        toast({ title: "Validation Error", description: error, variant: "destructive" });
+        setIsLoading(false);
+        return;
+      }
+    }    
+
     const endpoint = type === "login" ? "/api/users/login" : "/api/users/register";
-    
     const body = type === "login" ? loginData : registerData;
-    
 
     try {
       const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}${endpoint}`, {
