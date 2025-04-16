@@ -19,7 +19,7 @@ export function Footer() {
     }
   
     try {
-      const res = await fetch("https://script.google.com/macros/s/AKfycbyypgXQ5_lpr6WMSsKXVVkn2w4P1ARX21Qp-Ur0fwVKrBfJrAfTAW5yljJfM1-oy_hYRw/exec", {
+      const res = await fetch("https://script.google.com/macros/s/AKfycbxlfSMsANIRH7F6TJzd3B8hqMl48E9V3HcyY0AjjTdZNOKcnQKTNrPSGEPEyCjbul_Vyg/exec", {
         method: "POST",
         body: (`Email=${email}`),
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
