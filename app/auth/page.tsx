@@ -72,7 +72,7 @@ export default function AuthPage() {
     // Phone
     const phoneRegex = /^[6-9]\d{9}$/;
     if (!phone.trim()) return "Phone number is required";
-    if (!phoneRegex.test(phone)) return "Invalid Indian phone number";
+    if (!phoneRegex.test(phone)) return "Invalid phone number";
   
     // Password
     if (password.length < 6) return "Password must be at least 6 characters";
@@ -80,8 +80,8 @@ export default function AuthPage() {
     if (!address.length) return "At least one address is required";
     const addr = address[0];
     if (!addr.name.trim()) return "Shipping name is required";
-    if (!addr.phone.trim()) return "Shipping phone is required";
-    if (!phoneRegex.test(addr.phone.trim())) return "Invalid Indian Shipping Phone number";
+    if (!addr.phone.trim()) return "Shipping phone number is required";
+    if (!phoneRegex.test(addr.phone.trim())) return "Invalid Shipping Phone number";
     if (!addr.street.trim()) return "Street address is required";
     if (!addr.city.trim()) return "City is required";
     if (!addr.state.trim()) return "State is required";
