@@ -299,16 +299,16 @@ export default function ProductPage() {
           {/* Product Info */}
           <div className="relative overflow-y-scroll top-2 space-y-12">
             <div
-              className="absolute top-10 right-10 z-10 bg-white p-4 rounded-full shadow hover:scale-110 transition cursor-pointer"
+              className="absolute top-10 right-10 z-10 bg-white p-2 rounded-full shadow hover:scale-110 transition cursor-pointer"
               onClick={(e) => {
                 e.stopPropagation(); // Prevent routing to product detail
                 toggleWishlist(product._id);
               }}
             >
               {wishlist.includes(product._id) ? (
-                <Heart className="text-red-500 fill-red-500 w-8 h-8" />
+                <Heart className="text-red-500 fill-red-500 w-7 h-7" />
               ) : (
-                <Heart className="text-gray-400 w-8 h-8" />
+                <Heart className="text-gray-400 w-7 h-7" />
               )}
             </div>
             <h1 className="text-4xl font-medium capitalize leading-tight">
