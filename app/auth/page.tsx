@@ -77,17 +77,17 @@ export default function AuthPage() {
     // Password
     if (password.length < 6) return "Password must be at least 6 characters";
   
-    // Address (at least 1 address)
     if (!address.length) return "At least one address is required";
     const addr = address[0];
     if (!addr.name.trim()) return "Shipping name is required";
     if (!addr.phone.trim()) return "Shipping phone is required";
+    if (!phoneRegex.test(addr.phone.trim())) return "Invalid Indian Shipping Phone number";
     if (!addr.street.trim()) return "Street address is required";
     if (!addr.city.trim()) return "City is required";
     if (!addr.state.trim()) return "State is required";
     if (!addr.zipCode.trim()) return "Zip Code is required";
   
-    return null; // Everything valid
+    return null; 
   }
   
 
