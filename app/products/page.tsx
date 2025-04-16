@@ -176,7 +176,8 @@ export default function ProductsPage() {
           {carouselImages.map((_, index) => (
             <div
               key={index}
-              className={`h-2 w-2 rounded-full transition-all duration-300 ${
+              onClick={()=>{setCurrentSlide(index)}}
+              className={`cursor-pointer h-2 w-2 rounded-full transition-all duration-300 ${
                 index === currentSlide ? "bg-white" : "bg-white/50"
               }`}
             />
