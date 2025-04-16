@@ -44,7 +44,7 @@ export default function ProductsPage() {
       }
     );
     const data = await res.json();
-    if (data.wishlist.length == 0) setWishlist([]);
+    if (data.wishlist.items.length == 0) setWishlist([]);
     else setWishlist(data.wishlist.items);
   };
 
