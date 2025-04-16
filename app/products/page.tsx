@@ -204,7 +204,6 @@ export default function ProductsPage() {
                   className="w-full h-full rounded-full object-cover"
                   width={80}
                   unoptimized
-                  priority
                   height={80}
                 />
               </div>
