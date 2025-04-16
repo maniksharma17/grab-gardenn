@@ -21,6 +21,7 @@ import { CartHandle } from "@/components/CartHandle";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { cartRefreshState, userState } from "@/store/atoms/user";
 import { Grid, List } from "lucide-react";
+import { Heart, HeartOff } from "lucide-react";
 
 export default function ProductsPage() {
   const [selectedVariants, setSelectedVariants] = useState<{
@@ -33,6 +34,69 @@ export default function ProductsPage() {
   const user = useRecoilValue(userState);
   const setCartRefresh = useSetRecoilState(cartRefreshState);
   const [isHorizontal, setIsHorizontal] = useState(false);
+
+  const [wishlist, setWishlist] = useState<string[]>([]);
+
+  useEffect(() => {
+    const fetchWishlist = async () => {
+      if (!user.isLoggedIn) return;
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/wishlist/${user._id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        }
+      );
+      const data = await res.json();
+      setWishlist(data);
+    };
+    fetchWishlist();
+  }, [user]);
+
+  const toggleWishlist = async (productId: string) => {
+    if (!user.isLoggedIn) {
+      router.push("/auth");
+      return;
+    }
+
+    const isWished = wishlist.includes(productId);
+
+    const url = `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/wishlist/${
+      isWished ? "remove" : "add"
+    }/${user._id}`;
+    const method = "POST";
+
+    try {
+      const res = await fetch(url, {
+        method,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        body: JSON.stringify({ productId }),
+      });
+
+      if (res.ok) {
+        setWishlist((prev) =>
+          isWished
+            ? prev.filter((id) => id !== productId)
+            : [...prev, productId]
+        );
+        toast({
+          title: isWished ? "Removed from wishlist" : "Added to wishlist",
+        });
+      } else {
+        toast({ title: "Failed", variant: "destructive" });
+      }
+    } catch (err) {
+      console.error(err);
+      toast({
+        title: "Something went wrong",
+        variant: "destructive",
+      });
+    }
+  };
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -176,7 +240,9 @@ export default function ProductsPage() {
           {carouselImages.map((_, index) => (
             <div
               key={index}
-              onClick={()=>{setCurrentSlide(index)}}
+              onClick={() => {
+                setCurrentSlide(index);
+              }}
               className={`hover:scale-105 cursor-pointer h-3 w-3 rounded-full transition-all duration-300 ${
                 index === currentSlide ? "bg-white" : "bg-white/50"
               }`}
@@ -264,9 +330,7 @@ export default function ProductsPage() {
                 key={product._id}
                 className={`rounded-lg bg-white border overflow-hidden hover:shadow-md transition ${
                   isHorizontal ? "flex md:flex-row flex-col" : ""
-                } ${
-                  product.stock == 0 ? 'opacity-50' : 'opacity-100'
-                }`}
+                } ${product.stock == 0 ? "opacity-50" : "opacity-100"}`}
               >
                 <div
                   className={`relative ${
@@ -278,12 +342,28 @@ export default function ProductsPage() {
                     router.push(`/products/${product._id}`);
                   }}
                 >
+                  <div
+                    className="absolute top-2 right-2 z-10 bg-white p-1 rounded-full shadow hover:scale-110 transition cursor-pointer"
+                    onClick={(e) => {
+                      e.stopPropagation(); // Prevent routing to product detail
+                      toggleWishlist(product._id);
+                    }}
+                  >
+                    {wishlist.includes(product._id) ? (
+                      <Heart className="text-red-500 fill-red-500 w-5 h-5" />
+                    ) : (
+                      <Heart className="text-gray-400 w-5 h-5" />
+                    )}
+                  </div>
+
                   <Image
                     src={product.images[0]}
                     alt={product.name}
                     fill
                     unoptimized
-                    className={`object-cover ${product.images.length>1 && "hover:opacity-0"} transition-all duration-300`}
+                    className={`object-cover ${
+                      product.images.length > 1 && "hover:opacity-0"
+                    } transition-all duration-300`}
                   />
 
                   {product.images.length > 1 && (
@@ -302,7 +382,9 @@ export default function ProductsPage() {
                     isHorizontal ? "md:w-3/4" : ""
                   } p-4 max-md:p-2 flex flex-col gap-2`}
                 >
-                  {product.stock == 0 && <p className="text-red-500 text-left">Out of stock</p>}
+                  {product.stock == 0 && (
+                    <p className="text-red-500 text-left">Out of stock</p>
+                  )}
                   <h3
                     className={`text-gray-800 font-semibold ${
                       isHorizontal ? "text-xl" : "text-md"
@@ -371,10 +453,10 @@ export default function ProductsPage() {
                     <Button
                       className={`w-full text-sm`}
                       onClick={() => {
-                        if(user.isLoggedIn){
-                          addToCart(product._id)
+                        if (user.isLoggedIn) {
+                          addToCart(product._id);
                         } else {
-                          router.push('/auth')
+                          router.push("/auth");
                         }
                       }}
                     >
