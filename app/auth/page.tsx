@@ -46,7 +46,7 @@ export default function AuthPage() {
   });
   const [address, setAddress] = useState<Address>({
     street: "",
-    streetOptional: "",
+  streetOptional: "",
     city: "",
     state: "",
     country: "India",

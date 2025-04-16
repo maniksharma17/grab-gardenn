@@ -61,7 +61,7 @@ export default function AboutPage() {
           {/* Right Side - Image */}
           <div className="px-4 md:w-1/2 relative">
             <Image
-              src="https://grabgardenn-storage.s3.ap-south-1.amazonaws.com/images/IMG_5884.JPG"
+              src="https://grabgardenn-storage.s3.ap-south-1.amazonaws.com/images/IMG_5884.jpeg"
               alt="Natural Farming"
               width={500}
               height={500}
@@ -75,7 +75,7 @@ export default function AboutPage() {
           {/* Left Side - Image */}
           <div className="px-4 w-full md:w-1/2 relative">
             <Image
-              src="hero/IMG_5858.JPG"
+              src="https://grabgardenn-storage.s3.ap-south-1.amazonaws.com/images/about-image.JPG"
               alt="Natural Farming"
               width={500}
               height={500}
