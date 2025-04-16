@@ -66,7 +66,7 @@ const WishlistPage = () => {
       {
         method: "POST",
         body: JSON.stringify({ productId }),
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", 'Authorization': 'Bearer ' + user.token },
       }
     );
 
@@ -90,7 +90,7 @@ const WishlistPage = () => {
     <main className="min-h-screen py-16">
       <Navbar />
       <div className="mt-20 container mx-auto">
-        <h2 className="text-4xl max-md:text-2xl font-medium text-primary text-center">Your Wishlist</h2>
+        <h2 className="text-4xl my-4 max-md:text-2xl font-medium text-primary text-center">Your Wishlist</h2>
 
         {wishlistProducts.length === 0 ? (
           <div className="text-center mt-10">
