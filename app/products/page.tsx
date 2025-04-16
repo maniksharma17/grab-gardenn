@@ -48,7 +48,8 @@ export default function ProductsPage() {
       }
     );
     const data = await res.json();
-    setWishlist(data.wishlist.items);
+    if(data.wishlist.length==0) setWishlist([]);
+    else setWishlist(data.wishlist.items);
   };
 
   useEffect(() => {
