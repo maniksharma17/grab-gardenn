@@ -2,41 +2,54 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { Button } from '@/components/ui/button';
+import { useRecoilValue } from 'recoil';
+import { userState } from '@/store/atoms/user';
 
 const WishlistPage = () => {
   const router = useRouter();
   const [wishlist, setWishlist] = useState([]);
+  const user = useRecoilValue(userState);
+
+  const fetchWishlist = async () => {
+    if (!user.isLoggedIn) return;
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/wishlist/${user._id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      }
+    );
+    const data = await res.json();
+    if(data.wishlist.length==0) setWishlist([]);
+    else setWishlist(data.wishlist.items);
+  };
 
   useEffect(() => {
-    // Fetch wishlist from the backend (you can replace this with your actual API call)
-    const fetchWishlist = async () => {
-      const response = await fetch('/api/wishlist');
-      const data = await response.json();
-      setWishlist(data.items);
-    };
-
     fetchWishlist();
   }, []);
 
   const removeFromWishlist = async (productId: string) => {
-    const response = await fetch(`/api/wishlist/remove`, {
-      method: 'DELETE',
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/wishlist/remove/${user._id}`, {
+      method: 'POST',
       body: JSON.stringify({ productId }),
       headers: { 'Content-Type': 'application/json' },
     });
 
     if (response.ok) {
       setWishlist(wishlist.filter((item: any) => item._id !== productId));
+      fetchWishlist()
     }
   };
 
   const clearWishlist = async () => {
-    const response = await fetch('/api/wishlist/clear', {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/wishlist/${user._id}`, {
       method: 'DELETE',
     });
 
     if (response.ok) {
       setWishlist([]);
+      fetchWishlist()
     }
   };
 
