@@ -48,7 +48,7 @@ export default function ProductsPage() {
       }
     );
     const data = await res.json();
-    setWishlist(data);
+    setWishlist(data.items);
   };
 
   useEffect(() => {
