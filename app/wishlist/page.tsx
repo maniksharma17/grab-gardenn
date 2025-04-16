@@ -1,4 +1,5 @@
-"use client";
+'use client';
+
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
@@ -7,11 +8,20 @@ import { userState } from '@/store/atoms/user';
 
 const WishlistPage = () => {
   const router = useRouter();
-  const [wishlist, setWishlist] = useState([]);
   const user = useRecoilValue(userState);
 
+  const [wishlistIds, setWishlistIds] = useState<string[]>([]);
+  const [allProducts, setAllProducts] = useState<any[]>([]);
+  const [wishlistProducts, setWishlistProducts] = useState<any[]>([]);
+
+  useEffect(() => {
+    if (user.isLoggedIn) {
+      fetchWishlist();
+      fetchAllProducts();
+    }
+  }, [user]);
+
   const fetchWishlist = async () => {
-    if (!user.isLoggedIn) return;
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/wishlist/${user._id}`,
       {
@@ -21,35 +31,53 @@ const WishlistPage = () => {
       }
     );
     const data = await res.json();
-    if(data.wishlist.length==0) setWishlist([]);
-    else setWishlist(data.wishlist.items);
+    if (data?.wishlist?.items?.length > 0) {
+      setWishlistIds(data.wishlist.items);
+    } else {
+      setWishlistIds([]);
+    }
+  };
+
+  const fetchAllProducts = async () => {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/products`);
+    const data = await res.json();
+    setAllProducts(data.products || []);
   };
 
   useEffect(() => {
-    fetchWishlist();
-  }, []);
+    if (allProducts.length > 0 && wishlistIds.length > 0) {
+      const matched = allProducts.filter((product: any) =>
+        wishlistIds.includes(product._id)
+      );
+      setWishlistProducts(matched);
+    } else {
+      setWishlistProducts([]);
+    }
+  }, [allProducts, wishlistIds]);
 
   const removeFromWishlist = async (productId: string) => {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/wishlist/remove/${user._id}`, {
-      method: 'POST',
-      body: JSON.stringify({ productId }),
-      headers: { 'Content-Type': 'application/json' },
-    });
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/wishlist/remove/${user._id}`,
+      {
+        method: 'POST',
+        body: JSON.stringify({ productId }),
+        headers: { 'Content-Type': 'application/json' },
+      }
+    );
 
     if (response.ok) {
-      setWishlist(wishlist.filter((item: any) => item._id !== productId));
-      fetchWishlist()
+      setWishlistIds(prev => prev.filter(id => id !== productId));
     }
   };
 
   const clearWishlist = async () => {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/wishlist/${user._id}`, {
-      method: 'DELETE',
-    });
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/wishlist/${user._id}`,
+      { method: 'DELETE' }
+    );
 
     if (response.ok) {
-      setWishlist([]);
-      fetchWishlist()
+      setWishlistIds([]);
     }
   };
 
@@ -57,9 +85,8 @@ const WishlistPage = () => {
     <div className="py-8 mt-20 bg-white">
       <h2 className="text-4xl text-center">Your Wishlist</h2>
 
-      {/* If wishlist is empty */}
-      {wishlist.length === 0 ? (
-        <div className="text-center">
+      {wishlistProducts.length === 0 ? (
+        <div className="text-center mt-10">
           <p className="text-xl">Your wishlist is empty.</p>
           <Button
             variant="outline"
@@ -70,46 +97,37 @@ const WishlistPage = () => {
           </Button>
         </div>
       ) : (
-        <div className="mt-8 space-y-6">
-          {/* Display wishlist items */}
-          {wishlist.map((item: any) => (
-            <div key={item._id} className="shadow-md rounded-lg border border-gray-200 p-6 flex items-center space-x-6">
-              <img
-                src={item.image || '/default-image.jpg'}
-                alt={item.name}
-                className="w-24 h-24 object-cover"
-              />
-              <div className="flex-1">
-                <h3 className="text-xl font-semibold">{item.name}</h3>
-                <p className="text-md">{item.description}</p>
-                <p className="text-lg font-bold">{`₹${item.price}`}</p>
-              </div>
-
-              {/* Remove button */}
-              <Button
-                variant="outline"
-                onClick={() => removeFromWishlist(item._id)}
+        <div className="mt-10 px-4 md:px-10">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {wishlistProducts.map(product => (
+              <div
+                key={product._id}
+                className="shadow-md rounded-lg border border-gray-200 p-4 flex flex-col justify-between"
               >
-                Remove
-              </Button>
-            </div>
-          ))}
+                <img
+                  src={product.images?.[0] || '/placeholder.jpg'}
+                  alt={product.name}
+                  className="w-full h-48 object-cover rounded-md"
+                />
+                <div className="mt-4 flex-1">
+                  <h3 className="text-xl font-semibold">{product.name}</h3>
+                  <p className="text-sm mt-1">{product.description?.slice(0, 60)}...</p>
+                  <p className="text-lg font-bold mt-2">₹{product.price?.[0]}</p>
+                </div>
+                <Button
+                  variant="outline"
+                  onClick={() => removeFromWishlist(product._id)}
+                  className="mt-4"
+                >
+                  Remove
+                </Button>
+              </div>
+            ))}
+          </div>
 
-          {/* Buttons for clearing wishlist or proceeding to checkout */}
-          <div className="mt-8 flex justify-between">
-            <Button
-              variant="outline"
-              onClick={clearWishlist}
-              className="w-1/2 mr-4"
-            >
+          <div className="mt-12 flex justify-center">
+            <Button variant="outline" onClick={clearWishlist}>
               Clear Wishlist
-            </Button>
-            <Button
-              variant="outline"
-              onClick={() => router.push('/checkout')}
-              className="w-1/2"
-            >
-              Proceed to Checkout
             </Button>
           </div>
         </div>
