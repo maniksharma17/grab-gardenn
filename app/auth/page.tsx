@@ -123,10 +123,15 @@ export default function AuthPage() {
   ) => {
     e.preventDefault();
     setIsLoading(true);
-    console.log(registerData)
+
+    const finalRegisterData = {
+      ...registerData,
+      address: [address]
+    };
+    console.log(finalRegisterData)
 
     if (type === "register") {
-      const error = validateRegisterData(registerData);
+      const error = validateRegisterData(finalRegisterData);
       if (error) {
         toast({ title: "Validation Error", description: error, variant: "destructive" });
         setIsLoading(false);
@@ -135,7 +140,7 @@ export default function AuthPage() {
     }    
 
     const endpoint = type === "login" ? "/api/users/login" : "/api/users/register";
-    const body = type === "login" ? loginData : registerData;
+    const body = type === "login" ? loginData : finalRegisterData;
 
     try {
       const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}${endpoint}`, {
