@@ -1,4 +1,4 @@
-"use state"
+"use client"
 import Link from "next/link";
 import Image from "next/image";
 import { Facebook, Instagram, Twitter, Youtube } from "lucide-react";
