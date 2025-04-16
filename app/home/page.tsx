@@ -1068,7 +1068,7 @@ const DiscountBox = ({
             toast({title: "Copied.", description: "LAUNCH5"})
           }}
         >
-          COPY LAUNCH30
+          COPY LAUNCH5
         </Button>
       </DialogContent>
     </Dialog>
