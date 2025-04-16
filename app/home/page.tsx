@@ -253,7 +253,7 @@ export default function Home() {
                     className="w-full h-32 object-cover transition-transform duration-300 hover:scale-105"
                     width={200}
                     height={200}
-                    priority
+                    
                   />
                 </Link>
                 <div className="py-4 text-left px-4 flex flex-col flex-grow">
@@ -300,7 +300,7 @@ export default function Home() {
                     className="w-full h-32 object-cover transition-transform duration-300 hover:scale-105"
                     width={200}
                     height={200}
-                    priority
+                    
                   />
                 </Link>
                 <div className="py-4 text-left px-4 flex flex-col flex-grow">
@@ -374,7 +374,7 @@ export default function Home() {
                 width={600}
                 height={500}
                 className="object-cover rounded-xl"
-                priority
+                
               />
             </div>
           </div>
@@ -553,7 +553,6 @@ const FeaturedProducts1 = () => {
                         fill
                         sizes="100%"
                         unoptimized
-                        priority
                       />
                     )}
                   </div>
@@ -765,7 +764,7 @@ const FeaturedProducts2 = () => {
                       } transition-all duration-300 hover:scale-105`}
                       fill
                       sizes="100%"
-                      priority
+                      
                     />
 
                     {product.images.length > 1 && (
@@ -961,7 +960,6 @@ const Certifications = () => {
               width={200}
               height={200}
               className="max-md:h-30 max-md:w-30"
-              priority
             />
           </div>
         );

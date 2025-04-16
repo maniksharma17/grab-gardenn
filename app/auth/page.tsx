@@ -133,7 +133,7 @@ export default function AuthPage() {
     if (type === "register") {
       const error = validateRegisterData(finalRegisterData);
       if (error) {
-        toast({ title: "Validation Error", description: error, variant: "destructive" });
+        toast({ description: error, variant: "destructive" });
         setIsLoading(false);
         return;
       }
