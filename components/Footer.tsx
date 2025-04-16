@@ -119,6 +119,7 @@ export function Footer() {
             <div className="mt-3 flex">
               <input
                 type="email"
+                onChange={(e)=>{setEmail(e.target.value)}}
                 placeholder="Your email"
                 className="w-full p-2 border border-gray-300 rounded-l-md focus:outline-none focus:ring-1 focus:ring-green-500"
               />
