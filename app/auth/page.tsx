@@ -46,7 +46,7 @@ export default function AuthPage() {
   });
   const [address, setAddress] = useState<Address>({
     street: "",
-  streetOptional: "",
+    streetOptional: "",
     city: "",
     state: "",
     country: "India",
@@ -123,6 +123,7 @@ export default function AuthPage() {
   ) => {
     e.preventDefault();
     setIsLoading(true);
+    console.log(registerData)
 
     if (type === "register") {
       const error = validateRegisterData(registerData);
