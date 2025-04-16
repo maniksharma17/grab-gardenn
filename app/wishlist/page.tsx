@@ -1,10 +1,13 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import { Button } from '@/components/ui/button';
-import { useRecoilValue } from 'recoil';
-import { userState } from '@/store/atoms/user';
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { useRecoilValue } from "recoil";
+import { userState } from "@/store/atoms/user";
+import { Navbar } from "@/components/Navbar";
+import { Heart } from "lucide-react";
+import Image from "next/image";
 
 const WishlistPage = () => {
   const router = useRouter();
@@ -39,7 +42,9 @@ const WishlistPage = () => {
   };
 
   const fetchAllProducts = async () => {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/products`);
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/products`
+    );
     const data = await res.json();
     setAllProducts(data.products || []);
   };
@@ -59,21 +64,21 @@ const WishlistPage = () => {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/wishlist/remove/${user._id}`,
       {
-        method: 'POST',
+        method: "POST",
         body: JSON.stringify({ productId }),
-        headers: { 'Content-Type': 'application/json' },
+        headers: { "Content-Type": "application/json" },
       }
     );
 
     if (response.ok) {
-      setWishlistIds(prev => prev.filter(id => id !== productId));
+      setWishlistIds((prev) => prev.filter((id) => id !== productId));
     }
   };
 
   const clearWishlist = async () => {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/wishlist/${user._id}`,
-      { method: 'DELETE' }
+      { method: "DELETE" }
     );
 
     if (response.ok) {
@@ -82,57 +87,113 @@ const WishlistPage = () => {
   };
 
   return (
-    <div className="py-8 mt-20 bg-white">
-      <h2 className="text-4xl text-center">Your Wishlist</h2>
+    <main className="min-h-screen py-16">
+      <Navbar />
+      <div className="mt-20 container">
+        <h2 className="text-4xl text-center">Your Wishlist</h2>
 
-      {wishlistProducts.length === 0 ? (
-        <div className="text-center mt-10">
-          <p className="text-xl">Your wishlist is empty.</p>
-          <Button
-            variant="outline"
-            onClick={() => router.push('/products')}
-            className="mt-4"
-          >
-            Go to Products
-          </Button>
-        </div>
-      ) : (
-        <div className="mt-10 px-4 md:px-10">
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {wishlistProducts.map(product => (
-              <div
-                key={product._id}
-                className="shadow-md rounded-lg border border-gray-200 p-4 flex flex-col justify-between"
-              >
-                <img
-                  src={product.images?.[0] || '/placeholder.jpg'}
-                  alt={product.name}
-                  className="w-full h-48 object-cover rounded-md"
-                />
-                <div className="mt-4 flex-1">
-                  <h3 className="text-xl font-semibold">{product.name}</h3>
-                  <p className="text-sm mt-1">{product.description?.slice(0, 60)}...</p>
-                  <p className="text-lg font-bold mt-2">₹{product.price?.[0]}</p>
-                </div>
-                <Button
-                  variant="outline"
-                  onClick={() => removeFromWishlist(product._id)}
-                  className="mt-4"
-                >
-                  Remove
-                </Button>
-              </div>
-            ))}
-          </div>
-
-          <div className="mt-12 flex justify-center">
-            <Button variant="outline" onClick={clearWishlist}>
-              Clear Wishlist
+        {wishlistProducts.length === 0 ? (
+          <div className="text-center mt-10">
+            <p className="text-xl">Your wishlist is empty.</p>
+            <Button
+              variant="outline"
+              onClick={() => router.push("/products")}
+              className="mt-4"
+            >
+              Go to Products
             </Button>
           </div>
-        </div>
-      )}
-    </div>
+        ) : (
+          <div className="container mx-auto px-4 md:px-8 py-6 pt-2 max-md:py-2">
+            <div
+              className={
+                "grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-x-2 gap-y-6 md:gap-x-4 md:gap-y-12"
+              }
+            >
+              {" "}
+              {wishlistProducts.map((product) => {
+                const price = product.price[0];
+                const cutoffPrice = product.cutoffPrice[0];
+                const discount = Math.round(
+                  ((cutoffPrice - price) / cutoffPrice) * 100
+                );
+
+                return (
+                  <div
+                    key={product._id}
+                    className={`rounded-lg bg-white border overflow-hidden hover:shadow-md transition ${
+                      product.stock == 0 ? "opacity-50" : "opacity-100"
+                    }`}
+                  >
+                    <div
+                      className={`relative aspect-square cursor-pointer`}
+                      onClick={() => {
+                        router.push(`/products/${product._id}`);
+                      }}
+                    >
+                      <div
+                        className="absolute top-2 right-2 z-10 bg-white p-1 rounded-full shadow hover:scale-110 transition cursor-pointer"
+                        onClick={(e) => {
+                          e.stopPropagation(); // Prevent routing to product detail
+                          removeFromWishlist(product._id);
+                        }}
+                      >
+                        {wishlistIds.includes(product._id) ? (
+                          <Heart className="text-red-500 fill-red-500 w-5 h-5" />
+                        ) : (
+                          <Heart className="text-gray-400 w-5 h-5" />
+                        )}
+                      </div>
+
+                      <Image
+                        src={product.images[0]}
+                        alt={product.name}
+                        fill
+                        unoptimized
+                        className={`object-cover ${
+                          product.images.length > 1 && "hover:opacity-0"
+                        } transition-all duration-300`}
+                      />
+
+                      {product.images.length > 1 && (
+                        <Image
+                          src={product.images[1]}
+                          alt={product.name}
+                          fill
+                          unoptimized
+                          className="object-cover opacity-0 hover:opacity-100 transition-all duration-300"
+                        />
+                      )}
+                    </div>
+
+                    <div className={`p-4 max-md:p-2 flex flex-col gap-2`}>
+                      {product.stock == 0 && (
+                        <p className="text-red-500 text-left">Out of stock</p>
+                      )}
+                      <h3 className={`text-gray-800 text-md font-semibold`}>
+                        {product.name}
+                      </h3>
+
+                      <div className={`text-gray-700 text-lg`}>
+                        <div className={`text-primary font-semibold tetx-xl`}>
+                          ₹{price}
+                          <span className="text-gray-400 line-through text-xs ml-1">
+                            ₹{cutoffPrice}
+                          </span>
+                          <span className="text-green-600 text-xs ml-2">
+                            ({discount}% OFF)
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
+      </div>
+    </main>
   );
 };
 
