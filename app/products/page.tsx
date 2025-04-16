@@ -165,7 +165,7 @@ export default function ProductsPage() {
                 alt={`Banner ${index + 1}`}
                 fill
                 unoptimized
-                priority
+                priority={index === 0}
                 className="object-cover transition-opacity duration-1000 opacity-100"
               />
             </Link>
