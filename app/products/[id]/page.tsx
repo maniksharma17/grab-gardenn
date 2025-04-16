@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { Navbar } from "@/components/Navbar";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
-import { Minus, Plus, ShoppingBagIcon, Weight } from "lucide-react";
+import { Heart, Minus, Plus, ShoppingBagIcon, Weight } from "lucide-react";
 import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
 import axios from "axios";
@@ -48,6 +48,72 @@ export default function ProductPage() {
   const [deliveryMessage, setDeliveryMessage] = useState("");
   const [estDelivery, setEstDelivery] = useState("");
   const router = useRouter();
+  const [wishlist, setWishlist] = useState<string[]>([]);
+
+  const fetchWishlist = async () => {
+    if (!user.isLoggedIn) return;
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/wishlist/${user._id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      }
+    );
+    const data = await res.json();
+    if (data.wishlist.length == 0) setWishlist([]);
+    else setWishlist(data.wishlist.items);
+  };
+
+  useEffect(() => {
+    fetchWishlist();
+  }, []);
+
+  const toggleWishlist = async (productId: string) => {
+    if (!user.isLoggedIn) {
+      router.push("/auth");
+      return;
+    }
+
+    const isWished = wishlist.includes(productId);
+
+    const url = `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/wishlist/${
+      isWished ? "remove" : "add"
+    }/${user._id}`;
+    const method = "POST";
+
+    try {
+      const res = await fetch(url, {
+        method,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        body: JSON.stringify({ productId }),
+      });
+
+      if (res.ok) {
+        setWishlist((prev) =>
+          isWished
+            ? prev.filter((id) => id !== productId)
+            : [...prev, productId]
+        );
+        toast({
+          title: isWished ? "Removed from wishlist" : "Added to wishlist",
+        });
+      } else {
+        toast({ title: "Failed", variant: "destructive" });
+      }
+    } catch (err) {
+      console.error(err);
+      toast({
+        title: "Something went wrong",
+        variant: "destructive",
+      });
+    } finally {
+      fetchWishlist();
+    }
+  };
 
   const fetchDeliveryRateCOD = async () => {
     if (!zipCode) return;
@@ -232,6 +298,19 @@ export default function ProductPage() {
 
           {/* Product Info */}
           <div className="overflow-y-scroll top-2 space-y-12">
+            <div
+              className="absolute top-2 right-2 z-10 bg-white p-1 rounded-full shadow hover:scale-110 transition cursor-pointer"
+              onClick={(e) => {
+                e.stopPropagation(); // Prevent routing to product detail
+                toggleWishlist(product._id);
+              }}
+            >
+              {wishlist.includes(product._id) ? (
+                <Heart className="text-red-500 fill-red-500 w-5 h-5" />
+              ) : (
+                <Heart className="text-gray-400 w-5 h-5" />
+              )}
+            </div>
             <h1 className="text-4xl font-medium capitalize leading-tight">
               {/* Breadcrumbs */}
               <div className="text-sm flex flex-wrap gap-2">
