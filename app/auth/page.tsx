@@ -88,10 +88,15 @@ export default function AuthPage() {
     if (!addr.phone) return "Shipping phone number is required";
   
     let shippingPhone = addr.phone.trim().replace(/\D/g, "");
-    if (shippingPhone.length > 10) {
-      shippingPhone = shippingPhone.slice(-10); // Take last 10 digits
+    if (shippingPhone.startsWith("91") && shippingPhone.length > 10) {
+      shippingPhone = shippingPhone.slice(2);
+    } else if (shippingPhone.startsWith("0") && shippingPhone.length > 10) {
+      shippingPhone = shippingPhone.slice(1);
     }
-    if (!/^[6-9]\d{9}$/.test(shippingPhone)) return "Invalid Shipping Phone number";
+
+    if (shippingPhone.length !== 10 || !/^[6-9]\d{9}$/.test(shippingPhone)) {
+      return "Invalid Shipping Phone number";
+    }
   
     if (!addr.street.trim()) return "Street address is required";
     if (!addr.city.trim()) return "City is required";
