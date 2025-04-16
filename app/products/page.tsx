@@ -37,22 +37,23 @@ export default function ProductsPage() {
 
   const [wishlist, setWishlist] = useState<string[]>([]);
 
+  const fetchWishlist = async () => {
+    if (!user.isLoggedIn) return;
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/wishlist/${user._id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      }
+    );
+    const data = await res.json();
+    setWishlist(data);
+  };
+
   useEffect(() => {
-    const fetchWishlist = async () => {
-      if (!user.isLoggedIn) return;
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/wishlist/${user._id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${user.token}`,
-          },
-        }
-      );
-      const data = await res.json();
-      setWishlist(data);
-    };
     fetchWishlist();
-  }, [user]);
+  }, []);
 
   const toggleWishlist = async (productId: string) => {
     if (!user.isLoggedIn) {
@@ -95,6 +96,8 @@ export default function ProductsPage() {
         title: "Something went wrong",
         variant: "destructive",
       });
+    } finally {
+      fetchWishlist()
     }
   };
 
