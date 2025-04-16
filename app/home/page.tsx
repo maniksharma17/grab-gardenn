@@ -1056,7 +1056,7 @@ const DiscountBox = ({
         <DialogHeader>
           <DialogTitle>CONGRATULATIONS 🎉</DialogTitle>
           <DialogDescription>
-            We are offering 30% OFF for our first 100 Orders. ORDER NOW with promo code <strong>LAUNCH30</strong>. 
+            We are offering an extra 5% OFF for our first 100 Orders. ORDER NOW with promo code <strong>LAUNCH5</strong>. 
           </DialogDescription>
         </DialogHeader>
         <Button
