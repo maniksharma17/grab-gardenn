@@ -444,7 +444,7 @@ export const CheckoutSheet = ({
                 </TableRow>
               )}
 
-              <TableRow className="bg-gray-100">
+              <TableRow className="bg-gray-50">
                 <TableCell className="font-medium">Total</TableCell>
                 <TableCell className="text-right font-medium">
                   ₹{finalAmount.toFixed(2)}

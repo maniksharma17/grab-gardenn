@@ -85,6 +85,21 @@ export const BuyNowSheet = ({
   const [promoError, setPromoError] = useState("");
   const [finalPromoCode, setFinalPromoCode] = useState("");
 
+  const [promoCodes, setPromoCodes] = useState([]);
+
+  useEffect(()=>{
+    const fetchPromos = async () => {
+      const res = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/promo-code/`, {
+        headers: {
+          'Authorization': 'Bearer ' + user.token
+        }
+      });
+      setPromoCodes(res.data);
+    }
+    fetchPromos()
+  }, [])
+
+
   const selectedIndex = product.variants.findIndex(
     (v) => v.value === selectedVariant.value
   );
@@ -515,6 +530,18 @@ export const BuyNowSheet = ({
               Apply
             </Button>
           </div>
+
+          <div className="flex flex-row gap-2 flex-wrap w-full">
+            {promoCodes.map((item: any) => {
+              return <div onClick={()=>{
+                setPromoCode(item.code)
+              }}
+              key={item._id} className="cursor-pointer text-sm px-3 py-1 font-semibold text-gray-500 bg-slate-50 border border-gray-300 rounded-md w-fit flex-wrap">
+                {item.code}
+              </div>
+            })}
+          </div>
+
           {promoError && <p className="px-2 text-xs text-red-500">{promoError}</p>}
 
           {/* Total Savings */}
@@ -576,7 +603,7 @@ export const BuyNowSheet = ({
               className="mt-4 w-full text-sm font-medium border-dashed border-gray-300 hover:border-primary hover:text-primary transition"
               onClick={() => setShowNewAddressForm(true)}
             >
-              ➕ Add a New Address
+              ➕ Use a New Address
             </Button>
           </div>
 
