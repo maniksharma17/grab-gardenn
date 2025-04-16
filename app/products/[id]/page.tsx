@@ -256,7 +256,7 @@ export default function ProductPage() {
 
       {/* Product Section */}
       <div className="container mt-20 max-md:mt-12 mx-auto px-4 py-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 max-md:gap-12 gap-2">
+        <div className="grid grid-cols-1 md:grid-cols-2 md:gap-12 max-md:gap-4">
           {/* Image Gallery */}
           <div className="md:sticky md:top-32 max-h-[70vh] flex md:flex-row flex-col-reverse gap-4 overflow-hidden">
             {product.images.length > 1 && (
@@ -297,7 +297,7 @@ export default function ProductPage() {
           </div>
 
           {/* Product Info */}
-          <div className="relative overflow-y-scroll top-2 max-md:space-y-6 md:space-y-12">
+          <div className="relative overflow-y-scroll top-2 max-md:space-y-8 md:space-y-12">
             <div
               className="max-md:hidden absolute top-10 right-10 z-10 bg-white p-2 rounded-full shadow hover:scale-110 transition cursor-pointer"
               onClick={(e) => {
