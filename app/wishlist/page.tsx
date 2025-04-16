@@ -89,8 +89,8 @@ const WishlistPage = () => {
   return (
     <main className="min-h-screen py-16">
       <Navbar />
-      <div className="mt-20 container">
-        <h2 className="text-4xl text-center">Your Wishlist</h2>
+      <div className="mt-20 container mx-auto">
+        <h2 className="text-4xl max-md:text-2xl font-medium text-primary text-center">Your Wishlist</h2>
 
         {wishlistProducts.length === 0 ? (
           <div className="text-center mt-10">
