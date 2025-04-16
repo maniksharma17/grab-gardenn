@@ -520,6 +520,7 @@ export const BuyNowSheet = ({
               placeholder="Enter promo code"
               value={promoCode}
               disabled={discount>0}
+              autoFocus={false}
               onChange={(e) => setPromoCode(e.target.value)}
             />
             <Button

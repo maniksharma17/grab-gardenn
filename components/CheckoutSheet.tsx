@@ -458,6 +458,7 @@ export const CheckoutSheet = ({
             <Input
               placeholder="Enter promo code"
               value={promoCode}
+              autoFocus={false}
               disabled={discount>0}
               onChange={(e) => setPromoCode(e.target.value)}
             />
