@@ -71,11 +71,7 @@ export default function AuthPage() {
   
     // Phone
     if (!phone.trim()) return "Phone number is required";
-    let cleanedPhone = phone.trim().replace(/\D/g, "");
-    if (cleanedPhone.length > 10) {
-      cleanedPhone = cleanedPhone.slice(-10); // Take last 10 digits
-    }
-    if (!/^[6-9]\d{9}$/.test(cleanedPhone)) return "Invalid phone number";
+    if (!/^[6-9]\d{9}$/.test(phone.trim())) return "Invalid phone number";
   
     // Password
     if (password.length < 6) return "Password must be at least 6 characters";
@@ -87,13 +83,7 @@ export default function AuthPage() {
     if (!addr.name.trim()) return "Shipping name is required";
     if (!addr.phone) return "Shipping phone number is required";
   
-    let shippingPhone = addr.phone.trim().replace(/\D/g, "");
-    if (shippingPhone.startsWith("91") && shippingPhone.length > 10) {
-      shippingPhone = shippingPhone.slice(2);
-    } else if (shippingPhone.startsWith("0") && shippingPhone.length > 10) {
-      shippingPhone = shippingPhone.slice(1);
-    }
-
+    let shippingPhone = addr.phone.trim();
     if (shippingPhone.length !== 10 || !/^[6-9]\d{9}$/.test(shippingPhone)) {
       return "Invalid Shipping Phone number";
     }
