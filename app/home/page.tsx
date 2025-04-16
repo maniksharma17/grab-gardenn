@@ -1042,6 +1042,7 @@ import {
 } from "@/components/ui/dialog";
 import { useWindowWidth } from "@/lib/utils";
 import { toast } from "sonner";
+import { useToast } from "@/hooks/use-toast";
 
 const DiscountBox = ({
   open,
@@ -1050,6 +1051,7 @@ const DiscountBox = ({
   open: boolean;
   setOpen: (x: boolean) => void;
 }) => {
+  const {toast} = useToast();
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent className="sm:max-w-[425px]">
@@ -1062,8 +1064,8 @@ const DiscountBox = ({
         <Button
           variant={"outline"}
           onClick={() => {
-            window.navigator.clipboard.writeText("LAUNCH30");
-            toast("Copied")
+            window.navigator.clipboard.writeText("LAUNCH5");
+            toast({title: "Copied.", description: "LAUNCH5"})
           }}
         >
           COPY LAUNCH30
