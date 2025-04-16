@@ -179,7 +179,7 @@ export default function ProductsPage() {
       <CartHandle />
 
       {/* Category Header */}
-      <div className="mt-12 relative bg-green-700 shadow-sm overflow-hidden h-[200px]">
+      <div className="mt-12 relative bg-green-700 shadow-sm overflow-hidden h-[250px]">
         {/* Overlay with Text */}
         {categoryData && (
           <div className="absolute mt-6 inset-0 flex flex-col items-center justify-center text-center px-4">
@@ -263,7 +263,7 @@ export default function ProductsPage() {
                       <Heart className="text-gray-400 w-5 h-5" />
                     )}
                   </div>
-                  
+
                   <Image
                     src={product.images[0]}
                     alt={product.name}
