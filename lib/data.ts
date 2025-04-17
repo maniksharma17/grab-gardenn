@@ -431,6 +431,26 @@ export const cart = [
 export const news = [
   {
     id: 1,
+    title: "Employment from Buransh: Himalayan Flower Boosts Women's Income in Pauri",
+    summary: "Uttarakhand Witnesses a Buransh Bloom, Women in Pauri Earning Big from the Rhododendron Flower",
+    content: `
+    Pauri Garhwal, Uttarakhand – A bumper bloom of Buransh (Rhododendron) in the hills of Uttarakhand is turning into a source of income for local women. Under the Gramotthan Project, women from Self Help Groups (SHGs) are collecting the flowers and producing juices, jams, pickles, and teas.
+    
+    Chief Development Officer Girish Gunwant initiated the project to commercially utilize Buransh and empower rural women. The collected flowers are bought at ₹30–₹35 per kg and processed by local federations.
+    
+    Medicinal Benefits: Buransh juice helps control blood pressure, strengthens the heart, detoxifies the body, and boosts immunity, according to Ayurvedic experts.
+
+    Women Empowerment: The initiative has provided seasonal employment, with processing units in Dugadda and Pauri buying the flowers and producing marketable products.
+
+    Federation member Geeta Rawat said, "This has brought work in the off-season and benefited women in our villages."
+
+    This eco-friendly initiative is helping both the environment and the economy thrive in the region.
+    `,
+    date: "April 15, 2025",
+    image: 'https://www.tribuneindia.com/sortd-service/imaginary/v22-01/jpg/large/high?url=dGhldHJpYnVuZS1zb3J0ZC1wcm8tcHJvZC1zb3J0ZC9tZWRpYThiYTNhMWYwLTA4NTMtMTFmMC1hOTk3LWUzYWEyZTRhMzM5Ni5qcGc='
+  },
+  {
+    id: 2,
     title: "India Introduces Stricter natural Food Regulations",
     summary:
       "New government policies aim to ensure higher quality standards in natural produce.",
@@ -447,7 +467,7 @@ export const news = [
     date: "March 25, 2025",
   },
   {
-    id: 2,
+    id: 3,
     title: "Natural Food Market in India Expected to Reach $2 Billion",
     summary:
       "The Indian natural food industry is growing rapidly, fueled by increased consumer awareness.",
@@ -464,7 +484,7 @@ export const news = [
     date: "March 20, 2025",
   },
   {
-    id: 3,
+    id: 4,
     title: "Uttarakhand Farmers Lead India's natural Revolution",
     summary:
       "Himalayan farmers are setting an example for sustainable natural farming.",
@@ -481,7 +501,7 @@ export const news = [
     date: "March 18, 2025",
   },
   {
-    id: 4,
+    id: 5,
     title: "Pesticide-Free Farming Gains Popularity in Maharashtra",
     summary:
       "Farmers are embracing pesticide-free cultivation methods for healthier crops.",
