@@ -520,7 +520,7 @@ export const news = [
 
   {
     id: 6,
-    title: "natural Farming Reduces Carbon Footprint, Says Study",
+    title: "Natural Farming Reduces Carbon Footprint, Says Study",
     summary:
       "New research highlights the environmental benefits of natural farming.",
     content: `
