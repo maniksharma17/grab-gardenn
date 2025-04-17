@@ -13,7 +13,6 @@ export default function ArticlePage() {
 
   // Find article in news or blogs
   const article =
-    news.find((item) => item.id === Number(id)) ||
     blogs.find((item) => item.id === Number(id));
 
   if (!article) {
