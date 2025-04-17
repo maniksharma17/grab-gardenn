@@ -431,8 +431,8 @@ export const cart = [
 export const news = [
   {
     id: 1,
-    title: "Employment from Buransh: Himalayan Flower Boosts Women's Income in Pauri",
-    summary: "Uttarakhand Witnesses a Buransh Bloom, Women in Pauri Earning Big from the Rhododendron Flower",
+    title: "Himalayan Flower Buransh Boosts Women's Income in Pauri",
+    summary: "Women in Pauri Earning Big from the Rhododendron Flower",
     content: `
     Pauri Garhwal, Uttarakhand – A bumper bloom of Buransh (Rhododendron) in the hills of Uttarakhand is turning into a source of income for local women. Under the Gramotthan Project, women from Self Help Groups (SHGs) are collecting the flowers and producing juices, jams, pickles, and teas.
     
@@ -455,13 +455,9 @@ export const news = [
     summary:
       "New government policies aim to ensure higher quality standards in natural produce.",
     content: `
-      The Indian government has recently introduced new stringent regulations for natural food certification. 
-      These policies focus on maintaining purity in natural farming by reducing the use of artificial pesticides 
-      and ensuring transparency in labeling. Farmers across the country are adapting to these regulations to 
-      meet the growing demand for authentic natural products.
+      The Indian government has recently introduced new stringent regulations for natural food certification. These policies focus on maintaining purity in natural farming by reducing the use of artificial pesticides and ensuring transparency in labeling. Farmers across the country are adapting to these regulations to meet the growing demand for authentic natural products.
       
-      Consumers can now expect better transparency with labeling, making it easier to distinguish genuine 
-      natural products from falsely marketed ones.
+      Consumers can now expect better transparency with labeling, making it easier to distinguish genuine natural products from falsely marketed ones.
     `,
     image: "https://images.unsplash.com/photo-1504674900247-0877df9cc836",
     date: "March 25, 2025",
@@ -472,12 +468,9 @@ export const news = [
     summary:
       "The Indian natural food industry is growing rapidly, fueled by increased consumer awareness.",
     content: `
-      With more Indians shifting towards healthier eating habits, the natural food industry in the country 
-      is projected to reach a valuation of $2 billion by 2027. Experts cite rising awareness, health concerns, 
-      and increased affordability as key reasons for this surge.
+      With more Indians shifting towards healthier eating habits, the natural food industry in the country is projected to reach a valuation of $2 billion by 2027. Experts cite rising awareness, health concerns, and increased affordability as key reasons for this surge.
       
-      Farmers and companies are investing in sustainable agricultural practices to meet the demand. Many 
-      online grocery stores are now offering certified natural food to cater to health-conscious consumers.
+      Farmers and companies are investing in sustainable agricultural practices to meet the demand. Many online grocery stores are now offering certified natural food to cater to health-conscious consumers.
     `,
     image:
       "https://images.unsplash.com/photo-1607349913338-fca6f7fc42d0?q=80&w=3174&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
@@ -489,12 +482,9 @@ export const news = [
     summary:
       "Himalayan farmers are setting an example for sustainable natural farming.",
     content: `
-      Uttarakhand's farmers are becoming pioneers in India's natural revolution. With fertile soil and 
-      a favorable climate, many farmers are switching from conventional farming to natural methods.
+      Uttarakhand's farmers are becoming pioneers in India's natural revolution. With fertile soil and a favorable climate, many farmers are switching from conventional farming to natural methods.
       
-      The state government has launched various initiatives to support natural farming, including training 
-      programs and subsidies for farmers. The region is now home to some of India's most sought-after natural 
-      produce, including millets, lentils, and herbal teas.
+      The state government has launched various initiatives to support natural farming, including training programs and subsidies for farmers. The region is now home to some of India's most sought-after natural produce, including millets, lentils, and herbal teas.
     `,
     image:
       "https://images.unsplash.com/photo-1528693404014-b13ebe6e723e?q=80&w=3133&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
@@ -506,12 +496,9 @@ export const news = [
     summary:
       "Farmers are embracing pesticide-free cultivation methods for healthier crops.",
     content: `
-      In Maharashtra, a growing number of farmers are adopting pesticide-free farming techniques. These methods 
-      reduce soil contamination, improve biodiversity, and result in healthier food.
+      In Maharashtra, a growing number of farmers are adopting pesticide-free farming techniques. These methods reduce soil contamination, improve biodiversity, and result in healthier food.
       
-      Many farmers are now leveraging natural fertilizers and bio-pesticides instead of synthetic chemicals, 
-      ensuring their produce is safe for consumption. The state government is offering incentives to promote 
-      sustainable agriculture.
+      Many farmers are now leveraging natural fertilizers and bio-pesticides instead of synthetic chemicals, ensuring their produce is safe for consumption. The state government is offering incentives to promote sustainable agriculture.
     `,
     image:
       "https://images.unsplash.com/photo-1628352081506-83c43123ed6d?q=80&w=3096&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
@@ -524,12 +511,9 @@ export const news = [
     summary:
       "New research highlights the environmental benefits of natural farming.",
     content: `
-      A recent study has revealed that natural farming significantly reduces greenhouse gas emissions compared 
-      to conventional farming methods. The research indicates that the elimination of synthetic fertilizers and 
-      pesticides plays a crucial role in lowering carbon footprints.
+      A recent study has revealed that natural farming significantly reduces greenhouse gas emissions compared to conventional farming methods. The research indicates that the elimination of synthetic fertilizers and pesticides plays a crucial role in lowering carbon footprints.
       
-      The study suggests that if more farmers adopt natural practices, it could contribute to global climate 
-      change mitigation efforts.
+      The study suggests that if more farmers adopt natural practices, it could contribute to global climate change mitigation efforts.
     `,
     image:
       "https://images.unsplash.com/photo-1728919722219-9a9f1d9e08db?q=80&w=2969&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
@@ -540,11 +524,9 @@ export const news = [
     title: "Demand for natural Grains Rises in India",
     summary: "Indian households are increasingly switching to natural grains.",
     content: `
-      Indian consumers are making the switch to natural grains due to their health benefits and lack of chemical 
-      residues. natural wheat, rice, and pulses have seen a steady rise in demand over the past few years.
+      Indian consumers are making the switch to natural grains due to their health benefits and lack of chemical residues. natural wheat, rice, and pulses have seen a steady rise in demand over the past few years.
       
-      Many e-commerce platforms now provide home delivery of certified natural grains, making them more accessible 
-      to urban populations.
+      Many e-commerce platforms now provide home delivery of certified natural grains, making them more accessible to urban populations.
     `,
     image:
       "https://images.unsplash.com/photo-1566218246241-934ad8b38ea6?q=80&w=3087&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
@@ -558,7 +540,7 @@ export const blogs = [
     title: "5 Benefits of Natural Food You Should Know",
     summary: "Discover how natural food can improve your health and lifestyle.",
     content: `
-      natural food is free from harmful chemicals and pesticides, making it a healthier choice for you and your family. 
+      Natural food is free from harmful chemicals and pesticides, making it a healthier choice for you and your family. 
       Here are five key benefits:
       
       1. **Better Nutrition**: natural foods retain more essential vitamins and minerals.
@@ -577,8 +559,7 @@ export const blogs = [
     summary:
       "Natural grains are packed with nutrients and free from harmful chemicals.",
     content: `
-      Many households are switching to natural grains due to their high nutritional value and lack of chemical residues.
-      Whole grains such as brown rice, quinoa, and millet provide fiber, protein, and essential minerals.
+      Many households are switching to natural grains due to their high nutritional value and lack of chemical residues. Whole grains such as brown rice, quinoa, and millet provide fiber, protein, and essential minerals.
     `,
     image:
       "https://images.unsplash.com/photo-1737735633629-f9ed8408a176?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
@@ -590,8 +571,7 @@ export const blogs = [
     summary:
       "A beginner’s guide to starting your own natural vegetable garden.",
     content: `
-      Growing natural vegetables at home is easier than you think! Start with small herbs like basil and coriander, 
-      and gradually move to tomatoes and spinach. Use compost and natural fertilizers for the best results.
+      Growing natural vegetables at home is easier than you think! Start with small herbs like basil and coriander, and gradually move to tomatoes and spinach. Use compost and natural fertilizers for the best results.
     `,
     image:
       "https://images.unsplash.com/photo-1558717738-12f5dde036a7?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
@@ -603,8 +583,7 @@ export const blogs = [
     summary:
       "Unveiling the truth about natural fruits and their health benefits.",
     content: `
-      Studies show that natural fruits contain higher levels of antioxidants and fewer pesticide residues than 
-      conventionally grown fruits. Choosing natural can lead to better overall health.
+      Studies show that natural fruits contain higher levels of antioxidants and fewer pesticide residues than conventionally grown fruits. Choosing natural can lead to better overall health.
     `,
     image:
       "https://images.unsplash.com/photo-1551888762-164944b399d8?q=80&w=3134&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
@@ -615,8 +594,7 @@ export const blogs = [
     title: "Sustainable Eating: How to Reduce Food Waste",
     summary: "Practical tips to reduce food waste and support sustainability.",
     content: `
-      Reducing food waste is essential for a sustainable future. Plan meals in advance, store food properly, and 
-      compost scraps to minimize waste.
+      Reducing food waste is essential for a sustainable future. Plan meals in advance, store food properly, and compost scraps to minimize waste.
     `,
     image:
       "https://images.unsplash.com/photo-1582408904325-adf33a0ec010?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
