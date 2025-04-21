@@ -694,8 +694,8 @@ const ReviewSection = ({ reviews, currentUser, productId }: any) => {
           <>
             {/* User's Review */}
             {currentUserReview && (
-              <div className="bg-white p-4 rounded-lg shadow border relative">
-                <div className="flex items-center gap-2 text-yellow-400">
+              <div className="bg-white p-4 rounded-md shadow-sm border relative">
+                <div className="flex items-center gap-1 text-yellow-400">
                   {"★".repeat(currentUserReview.rating)}
                   <span className="text-sm text-gray-500 ml-2">
                     {currentUserReview.user?.name || "You"}
@@ -707,7 +707,7 @@ const ReviewSection = ({ reviews, currentUser, productId }: any) => {
                     strokeWidth={1.2}
                   />
                 </div>
-                <p className="text-md mt-2 text-gray-700">
+                <p className="text-md max-md:text-sm mt-2 text-gray-700">
                   {currentUserReview.comment}
                 </p>
               </div>
@@ -715,14 +715,14 @@ const ReviewSection = ({ reviews, currentUser, productId }: any) => {
 
             {/* Other Reviews */}
             {otherReviews.map((rev: any, i: number) => (
-              <div key={i} className="bg-white p-4 rounded-lg shadow border">
-                <div className="flex items-center gap-2 text-yellow-400">
+              <div key={i} className="bg-white p-4 rounded-md shadow-sm border">
+                <div className="flex items-center gap-1 text-yellow-400">
                   {"★".repeat(rev.rating)}
                   <span className="text-sm text-gray-500 ml-2">
                     {rev.user?.name || "Anonymous"}
                   </span>
                 </div>
-                <p className="text-md mt-2 text-gray-700">{rev.comment}</p>
+                <p className="text-md max-md:text-sm mt-2 text-gray-700">{rev.comment}</p>
               </div>
             ))}
           </>
