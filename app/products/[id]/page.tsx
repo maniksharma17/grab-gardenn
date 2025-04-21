@@ -647,7 +647,7 @@ const ReviewSection = ({ reviews, currentUser, productId }: any) => {
       {/* Review Input */}
       <div className="space-y-4 mb-10">
         <div className="flex gap-2 items-center">
-          <span className="text-md font-medium">Your Rating:</span>
+          <span className="text-md text-gray-700 font-medium">RATE NOW</span>
           {[1, 2, 3, 4, 5].map((star) => (
             <button
               key={star}
