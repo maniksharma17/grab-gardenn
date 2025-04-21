@@ -13,6 +13,7 @@ import { useRouter } from "next/navigation";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import axios from "axios";
+import { Checkbox } from "@/components/ui/checkbox";
 
 interface RegisterDataTypes {
   name: string;
@@ -37,7 +38,10 @@ export default function AuthPage() {
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [loginData, setLoginData] = useState({ email: "", password: "" });
+  const [loginData, setLoginData] = useState({
+    emailOrPhone: "",
+    password: "",
+  });
   const [registerData, setRegisterData] = useState<RegisterDataTypes>({
     name: "",
     email: "",
@@ -58,6 +62,7 @@ export default function AuthPage() {
   const setUser = useSetRecoilState(userState);
   const user = useRecoilValue(userState);
   const router = useRouter();
+  const [useEmail, setUseEmail] = useState<boolean|"indeterminate">(false);
 
   function validateRegisterData(data: RegisterDataTypes): string | null {
     const { name, email, password, address } = data;
@@ -99,7 +104,7 @@ export default function AuthPage() {
       const res = await axios.post(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/forgot-password`,
         {
-          email: loginData.email,
+          emailOrPhone: loginData.emailOrPhone,
         },
         {
           withCredentials: true,
@@ -265,22 +270,54 @@ export default function AuthPage() {
                   onSubmit={(e) => handleSubmit(e, "login")}
                   className="space-y-4"
                 >
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium">Email</label>
-                    <div className="relative">
-                      <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                      <Input
-                        type="email"
-                        value={loginData.email}
-                        onChange={(e) =>
-                          setLoginData({ ...loginData, email: e.target.value })
-                        }
-                        placeholder="Enter your email"
-                        className="pl-10"
-                        required
-                      />
+                  {useEmail ? (
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium">Email</label>
+                      <div className="relative">
+                        <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                        <Input
+                          type="email"
+                          value={loginData.emailOrPhone}
+                          onChange={(e) =>
+                            setLoginData({
+                              ...loginData,
+                              emailOrPhone: e.target.value,
+                            })
+                          }
+                          placeholder="Enter your email"
+                          className="pl-10"
+                          required
+                        />
+                      </div>
                     </div>
+                  ) : (
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium">Phone</label>
+                      <div className="relative">
+                        <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                        <PhoneInput
+                          country={"in"}
+                          value={loginData.emailOrPhone}
+                          onChange={(e) => {
+                            setLoginData({
+                              ...registerData,
+                              emailOrPhone: "+" + e,
+                            });
+                          }}
+                          inputClass="!w-full !h-12 !text-md"
+                          inputStyle={{ borderRadius: "8px", width: "100%" }}
+                          placeholder="Enter your phone number"
+                        />
+                      </div>
+                    </div>
+                  )}
+                  <div className="flex items-center justify-between gap-2">
+                    <Checkbox checked={useEmail} onCheckedChange={setUseEmail} />
+                    <label className="text-sm font-medium">
+                      Login using Email
+                    </label>
                   </div>
+
                   <div className="space-y-2">
                     <label className="text-sm font-medium">Password</label>
                     <div className="relative">
@@ -607,7 +644,6 @@ export default function AuthPage() {
                         />
                       </div>
                     </div>
-                    
                   </div>
                   <p className="text-sm text-muted-foreground">
                     By creating an account, you agree to our{" "}
