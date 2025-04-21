@@ -10,6 +10,8 @@ import Image from "next/image";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { userState } from "@/store/atoms/user";
 import { useRouter } from "next/navigation";
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css";
 import axios from "axios";
 
 
@@ -69,9 +71,9 @@ export default function AuthPage() {
     if (!email.trim()) return "Email is required";
     if (!emailRegex.test(email)) return "Invalid email format";
   
-    // Phone
-    if (!phone.trim()) return "Phone number is required";
-    if (!/^[6-9]\d{9}$/.test(phone.trim())) return "Invalid phone number";
+    // // Phone
+    // if (!phone.trim()) return "Phone number is required";
+    // if (!/^[6-9]\d{9}$/.test(phone.trim())) return "Invalid phone number";
   
     // Password
     if (password.length < 6) return "Password must be at least 6 characters";
@@ -381,19 +383,23 @@ export default function AuthPage() {
                     <label className="text-sm font-medium">Phone</label>
                     <div className="relative">
                       <Phone className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                      <Input
-                        type="text"
+                      <div className="my-4">
+                      <PhoneInput
+                        country={'in'}
                         value={registerData.phone}
                         onChange={(e) =>
                           setRegisterData({
                             ...registerData,
-                            phone: e.target.value,
+                            phone: e,
                           })
                         }
+                        inputClass="!w-full !h-12 !text-md"
+                        inputStyle={{ borderRadius: "8px", width: "100%" }}
                         placeholder="Enter your phone number"
-                        className="pl-10"
-                        required
+                        
                       />
+                    </div>
+                      
                     </div>
                   </div>
                   <div className="">
