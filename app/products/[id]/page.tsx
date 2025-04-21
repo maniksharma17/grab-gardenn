@@ -61,7 +61,7 @@ export default function ProductPage() {
       const res = await axios.get(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/reviews/${product?._id}`
       );
-      setReviews(res.data.reviews);
+      setReviews(res.data);
     } catch (err) {
       console.error("Error fetching reviews:", err);
     }
@@ -83,7 +83,7 @@ export default function ProductPage() {
 
     try {
       await axios.post(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/reviews`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/reviews/${user._id}`,
         {
           productId: product?._id,
           rating: userRating,
