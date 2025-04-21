@@ -14,13 +14,12 @@ import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import axios from "axios";
 
-
 interface RegisterDataTypes {
-  name: string,
-  email: string,
-  password: string,
-  phone: string,
-  address: Address[]
+  name: string;
+  email: string;
+  password: string;
+  phone: string;
+  address: Address[];
 }
 
 type Address = {
@@ -30,8 +29,8 @@ type Address = {
   state: string;
   country: string;
   zipCode: string;
-  phone: string,
-  name: string,
+  phone: string;
+  name: string;
 };
 
 export default function AuthPage() {
@@ -44,75 +43,77 @@ export default function AuthPage() {
     email: "",
     phone: "",
     password: "",
-    address: []
+    address: [],
   });
   const [address, setAddress] = useState<Address>({
     street: "",
     streetOptional: "",
     city: "",
     state: "",
-    country: "India",
+    country: "",
     zipCode: "",
     name: "",
-    phone: ""
-  })
+    phone: "",
+  });
   const setUser = useSetRecoilState(userState);
-  const user = useRecoilValue(userState)
+  const user = useRecoilValue(userState);
   const router = useRouter();
 
   function validateRegisterData(data: RegisterDataTypes): string | null {
     const { name, email, password, address } = data;
-  
+
     // Name
     if (!name.trim()) return "Name is required";
-  
+
     // Email
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!email.trim()) return "Email is required";
     if (!emailRegex.test(email)) return "Invalid email format";
-  
-  
+
     // Password
     if (password.length < 6) return "Password must be at least 6 characters";
-  
+
     // Address
     if (!address.length) return "At least one address is required";
     const addr = address[0];
-  
+
     if (!addr.name.trim()) return "Shipping name is required";
     if (!addr.phone) return "Shipping phone number is required";
-    
+
     if (!addr.street.trim()) return "Street address is required";
     if (!addr.city.trim()) return "City is required";
     if (!addr.state.trim()) return "State is required";
     if (!addr.zipCode.trim()) return "Zip Code is required";
-  
+
     return null;
   }
-  
 
   useEffect(() => {
     if (user?.isLoggedIn) {
       router.replace("/products");
-    } 
+    }
   }, [user, router]);
 
   const handlePasswordReset = async () => {
     try {
-      const res = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/forgot-password`, {
-        email: loginData.email
-      }, {
-        withCredentials: true,
-        headers: {
-          'Content-Type': 'application/json' 
+      const res = await axios.post(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/forgot-password`,
+        {
+          email: loginData.email,
+        },
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+          },
         }
-      })
-      toast({title: res.data.message})
+      );
+      toast({ title: res.data.message });
     } catch (e) {
-      toast({title: 'Some error occured'})
+      toast({ title: "Some error occured" });
     }
-  }
-  
+  };
+
   const handleSubmit = async (
     e: React.FormEvent,
     type: "login" | "register"
@@ -122,9 +123,9 @@ export default function AuthPage() {
 
     const finalRegisterData = {
       ...registerData,
-      address: [address]
+      address: [address],
     };
-    console.log(finalRegisterData)
+    console.log(finalRegisterData);
 
     if (type === "register") {
       const error = validateRegisterData(finalRegisterData);
@@ -133,18 +134,22 @@ export default function AuthPage() {
         setIsLoading(false);
         return;
       }
-    }    
+    }
 
-    const endpoint = type === "login" ? "/api/users/login" : "/api/users/register";
+    const endpoint =
+      type === "login" ? "/api/users/login" : "/api/users/register";
     const body = type === "login" ? loginData : finalRegisterData;
 
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}${endpoint}`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
-        credentials: 'include'
-      });
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}${endpoint}`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(body),
+          credentials: "include",
+        }
+      );
 
       const data = await res.json();
 
@@ -152,12 +157,12 @@ export default function AuthPage() {
         throw new Error(data.message || "Something went wrong");
       }
 
-      if(data.error){
+      if (data.error) {
         toast({
           title: "Error",
-          description: data.message
-      });
-      return;
+          description: data.message,
+        });
+        return;
       }
 
       setUser({
@@ -173,17 +178,20 @@ export default function AuthPage() {
         primaryAddress: 0,
       });
 
-      localStorage.setItem("user", JSON.stringify({
-        _id: data.user._id,
-        name: data.user.name,
-        email: data.user.email,
-        phone: data.user.phone,
-        address: data.user.address,
-        token: data.token,
-        isLoggedIn: true,
-        createdAt: data.user.createdAt,
-        updatedAt: data.user.updatedAt,
-      }));
+      localStorage.setItem(
+        "user",
+        JSON.stringify({
+          _id: data.user._id,
+          name: data.user.name,
+          email: data.user.email,
+          phone: data.user.phone,
+          address: data.user.address,
+          token: data.token,
+          isLoggedIn: true,
+          createdAt: data.user.createdAt,
+          updatedAt: data.user.updatedAt,
+        })
+      );
       localStorage.setItem("token", data.token);
 
       toast({
@@ -194,8 +202,7 @@ export default function AuthPage() {
             : "Account created successfully",
       });
 
-      router.replace('/products');
-      
+      router.replace("/products");
     } catch (err: any) {
       toast({
         title: "Error",
@@ -331,9 +338,9 @@ export default function AuthPage() {
                   onSubmit={(e) => handleSubmit(e, "register")}
                   className="space-y-4"
                 >
-                  
-
-                  <h4 className=" text-gray-600 text-sm font-medium">PERSONAL INFORMATION</h4>
+                  <h4 className=" text-gray-600 text-sm font-medium">
+                    PERSONAL INFORMATION
+                  </h4>
 
                   <div className="">
                     <label className="text-sm font-medium">Full Name</label>
@@ -378,22 +385,20 @@ export default function AuthPage() {
                     <div className="relative">
                       <Phone className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                       <div className="my-4">
-                      <PhoneInput
-                        country={'in'}
-                        value={registerData.phone}
-                        onChange={(e) =>
-                          setRegisterData({
-                            ...registerData,
-                            phone: '+' + e,
-                          })
-                        }
-                        inputClass="!w-full !h-12 !text-md"
-                        inputStyle={{ borderRadius: "8px", width: "100%" }}
-                        placeholder="Enter your phone number"
-                        
-                      />
-                    </div>
-                      
+                        <PhoneInput
+                          country={"in"}
+                          value={registerData.phone}
+                          onChange={(e) =>
+                            setRegisterData({
+                              ...registerData,
+                              phone: "+" + e,
+                            })
+                          }
+                          inputClass="!w-full !h-12 !text-md"
+                          inputStyle={{ borderRadius: "8px", width: "100%" }}
+                          placeholder="Enter your phone number"
+                        />
+                      </div>
                     </div>
                   </div>
                   <div className="">
@@ -426,8 +431,10 @@ export default function AuthPage() {
                       </button>
                     </div>
                   </div>
-                    <h4 className="border-t pt-4 mt-8 text-gray-600 text-sm font-medium">SHIPPING INFO</h4>
-                    <div className="space-y-2">
+                  <h4 className="border-t pt-4 mt-8 text-gray-600 text-sm font-medium">
+                    SHIPPING INFO
+                  </h4>
+                  <div className="space-y-2">
                     <div className="">
                       <label className="text-xs font-medium ml-1">Name</label>
                       <div className="relative">
@@ -435,12 +442,12 @@ export default function AuthPage() {
                           type="text"
                           value={address.name}
                           onChange={(e) => {
-                            setAddress({...address, name: e.target.value})
+                            setAddress({ ...address, name: e.target.value });
                             setRegisterData({
                               ...registerData,
-                              address: [address]
-                          });
-                        }}
+                              address: [address],
+                            });
+                          }}
                           placeholder=""
                           className=""
                           required
@@ -451,38 +458,38 @@ export default function AuthPage() {
                     <div className="">
                       <label className="text-xs font-medium ml-1">Phone</label>
                       <div className="relative">
-                      <PhoneInput
-                        country={'in'}
-                        value={address.phone}
-                        onChange={(e) => {
-                          setAddress({...address, phone: '+' + e})
-                          setRegisterData({
-                            ...registerData,
-                            address: [address]
-                        });
-                      }}
-                        inputClass="!w-full !h-12 !text-md"
-                        inputStyle={{ borderRadius: "8px", width: "100%" }}
-                        placeholder="Enter your phone number"
-                        
-                      />
-                        
+                        <PhoneInput
+                          country={"in"}
+                          value={address.phone}
+                          onChange={(e) => {
+                            setAddress({ ...address, phone: "+" + e });
+                            setRegisterData({
+                              ...registerData,
+                              address: [address],
+                            });
+                          }}
+                          inputClass="!w-full !h-12 !text-md"
+                          inputStyle={{ borderRadius: "8px", width: "100%" }}
+                          placeholder="Enter your phone number"
+                        />
                       </div>
                     </div>
 
                     <div className="">
-                      <label className="text-xs font-medium ml-1">Street 1</label>
+                      <label className="text-xs font-medium ml-1">
+                        Street 1
+                      </label>
                       <div className="relative">
                         <Input
                           type="text"
                           value={address.street}
                           onChange={(e) => {
-                            setAddress({...address, street: e.target.value})
+                            setAddress({ ...address, street: e.target.value });
                             setRegisterData({
                               ...registerData,
-                              address: [address]
-                          });
-                        }}
+                              address: [address],
+                            });
+                          }}
                           placeholder=""
                           className=""
                           required
@@ -491,91 +498,130 @@ export default function AuthPage() {
                     </div>
 
                     <div className="">
-                      <label className="text-xs font-medium ml-1">Street 2 <span className="text-xs">(Optional)</span></label>
+                      <label className="text-xs font-medium ml-1">
+                        Street 2 <span className="text-xs">(Optional)</span>
+                      </label>
                       <div className="relative">
                         <Input
                           type="text"
                           value={address.streetOptional}
                           onChange={(e) => {
-                            setAddress({...address, streetOptional: e.target.value})
+                            setAddress({
+                              ...address,
+                              streetOptional: e.target.value,
+                            });
                             setRegisterData({
                               ...registerData,
-                              address: [address]
-                          });
+                              address: [address],
+                            });
                           }}
                           placeholder=""
                           className=""
                         />
-                    </div>
-                  </div>
-
-                  <div className="flex flex-row gap-2">
-                    <div className="">
-                      <label className="text-xs font-medium ml-1">City</label>
-                      <div className="relative">
-                        <Input
-                          type="text"
-                          value={address.city}
-                          onChange={(e) => {
-                            setAddress({...address, city: e.target.value})
-                            setRegisterData({
-                              ...registerData,
-                              address: [address]
-                          });
-                          }}
-                          placeholder=""
-                          className=""
-                        />
-                    </div>
-                  </div>
-                    <div className="">
-                      <label className="text-xs font-medium ml-1">State</label>
-                      <div className="relative">
-                        <Input
-                          type="text"
-                          value={address.state}
-                          onChange={(e) => {
-                            setAddress({...address, state: e.target.value})
-                            setRegisterData({
-                              ...registerData,
-                              address: [address]
-                          });
-                          }}
-                          placeholder=""
-                          className=""
-                        />
+                      </div>
                     </div>
 
-                  
-                  </div>
-                  </div>
-                  <div className="">
-                      <label className="text-xs font-medium ml-1">Pin Code</label>
+                    <div className="flex flex-row gap-2">
+                      <div className="">
+                        <label className="text-xs font-medium ml-1">City</label>
+                        <div className="relative">
+                          <Input
+                            type="text"
+                            value={address.city}
+                            onChange={(e) => {
+                              setAddress({ ...address, city: e.target.value });
+                              setRegisterData({
+                                ...registerData,
+                                address: [address],
+                              });
+                            }}
+                            placeholder=""
+                            className=""
+                          />
+                        </div>
+                      </div>
+                      <div className="">
+                        <label className="text-xs font-medium ml-1">
+                          State
+                        </label>
+                        <div className="relative">
+                          <Input
+                            type="text"
+                            value={address.state}
+                            onChange={(e) => {
+                              setAddress({ ...address, state: e.target.value });
+                              setRegisterData({
+                                ...registerData,
+                                address: [address],
+                              });
+                            }}
+                            placeholder=""
+                            className=""
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div className="">
+                      <label className="text-xs font-medium ml-1">
+                        Pin Code
+                      </label>
                       <div className="relative">
                         <Input
                           type="text"
                           value={address.zipCode}
                           onChange={(e) => {
-                            setAddress({...address, zipCode: e.target.value.trim()})
+                            setAddress({
+                              ...address,
+                              zipCode: e.target.value.trim(),
+                            });
                             setRegisterData({
                               ...registerData,
-                              address: [address]
-                          });
+                              address: [address],
+                            });
                           }}
                           placeholder=""
                           className=""
                         />
+                      </div>
                     </div>
+                    <div className="">
+                      <label className="text-xs font-medium ml-1">
+                        Country
+                      </label>
+                      <div className="relative">
+                        <Input
+                          type="text"
+                          value={address.country}
+                          onChange={(e) => {
+                            setAddress({
+                              ...address,
+                              country: e.target.value,
+                            });
+                            setRegisterData({
+                              ...registerData,
+                              address: [address],
+                            });
+                          }}
+                          placeholder=""
+                          className=""
+                        />
+                      </div>
                     </div>
                     
                   </div>
                   <p className="text-sm text-muted-foreground">
                     By creating an account, you agree to our{" "}
-                    <a href="/policies/terms-and-conditions" className="text-primary hover:underline">
+                    <a
+                      href="/policies/terms-and-conditions"
+                      className="text-primary hover:underline"
+                    >
                       Terms of Service
                     </a>{" "}
                     and{" "}
-                    <a href="/policies/privacy-policy" className="text-primary hover:underline">
+                    <a
+                      href="/policies/privacy-policy"
+                      className="text-primary hover:underline"
+                    >
                       Privacy Policy
                     </a>
                   </p>
