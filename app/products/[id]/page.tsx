@@ -541,7 +541,7 @@ export default function ProductPage() {
         </div>
       </div>
       {/* Reviews Section */}
-      <ReviewSection reviews={reviews} currentUser={user._id} productId={product._id}/>
+      <ReviewSection reviews={reviews} currentUser={user} productId={product._id}/>
       
     </div>
   );
