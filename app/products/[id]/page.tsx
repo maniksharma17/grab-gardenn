@@ -11,6 +11,7 @@ import axios from "axios";
 import { Product } from "@/lib/types";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { cartRefreshState, userState } from "@/store/atoms/user";
+import { Trash2 } from "lucide-react";
 import {
   Accordion,
   AccordionContent,
@@ -608,10 +609,6 @@ export default function ProductPage() {
     </div>
   );
 }
-"use client";
-
-
-import { Trash2 } from "lucide-react";
 
 export function ReviewSection({ reviews, currentUser, productId }: any) {
   const [userReview, setUserReview] = useState("");
