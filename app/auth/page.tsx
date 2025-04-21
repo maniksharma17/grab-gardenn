@@ -390,7 +390,7 @@ export default function AuthPage() {
                         onChange={(e) =>
                           setRegisterData({
                             ...registerData,
-                            phone: e,
+                            phone: '+' + e,
                           })
                         }
                         inputClass="!w-full !h-12 !text-md"
@@ -412,7 +412,7 @@ export default function AuthPage() {
                         onChange={(e) =>
                           setRegisterData({
                             ...registerData,
-                            password: e.target.value,
+                            password: e.target.value.trim(),
                           })
                         }
                         placeholder="Create a password"
@@ -457,20 +457,22 @@ export default function AuthPage() {
                     <div className="">
                       <label className="text-xs font-medium ml-1">Phone</label>
                       <div className="relative">
-                        <Input
-                          type="text"
-                          value={address.phone}
-                          onChange={(e) => {
-                            setAddress({...address, phone: e.target.value})
-                            setRegisterData({
-                              ...registerData,
-                              address: [address]
-                          });
-                        }}
-                          placeholder=""
-                          className=""
-                          required
-                        />
+                      <PhoneInput
+                        country={'in'}
+                        value={registerData.phone}
+                        onChange={(e) => {
+                          setAddress({...address, phone: '+' + e})
+                          setRegisterData({
+                            ...registerData,
+                            address: [address]
+                        });
+                      }}
+                        inputClass="!w-full !h-12 !text-md"
+                        inputStyle={{ borderRadius: "8px", width: "100%" }}
+                        placeholder="Enter your phone number"
+                        
+                      />
+                        
                       </div>
                     </div>
 
@@ -560,7 +562,7 @@ export default function AuthPage() {
                           type="text"
                           value={address.zipCode}
                           onChange={(e) => {
-                            setAddress({...address, zipCode: e.target.value})
+                            setAddress({...address, zipCode: e.target.value.trim()})
                             setRegisterData({
                               ...registerData,
                               address: [address]
