@@ -54,8 +54,6 @@ export default function ProductPage() {
   const [reviews, setReviews] = useState<
     { rating: number; comment: string; user?: { name: string } }[]
   >([]);
-  const [userRating, setUserRating] = useState<number>(0);
-  const [userReview, setUserReview] = useState<string>("");
 
   
   useEffect(() => {
@@ -72,69 +70,8 @@ export default function ProductPage() {
     fetchReviews();
   }, [product]);
 
-  const fetchReviews = async () => {
-    try {
-      const res = await axios.get(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/reviews/${product?._id}`
-      );
-      setReviews(res.data);
-    } catch (err) {
-      console.error("Error fetching reviews:", err);
-    }
-  };
-  fetchReviews();
-
-  const submitReview = async () => {
-    if (!user.isLoggedIn) {
-      router.push("/auth");
-      return;
-    }
-
-    if (userRating === 0 || userReview.trim() === "") {
-      toast({
-        title: "Please give a rating and write a review",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    try {
-      await axios.post(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/reviews/${user._id}`,
-        {
-          productId: product?._id,
-          rating: userRating,
-          comment: userReview.trim(),
-          userId: user._id,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${user.token}`,
-          },
-        }
-      );
-
-      toast({ title: "Review submitted!" });
-      setUserRating(0);
-      setUserReview("");
-      
-    } catch (err) {
-      console.error("Submit review error:", err);
-      let errorMessage = "Failed to submit review";
-    
-      if (err && typeof err === "object" && "response" in err) {
-        const response = (err as any).response;
-        if (response?.data?.message) {
-          errorMessage = response.data.message;
-        }
-      }
-    
-      toast({ title: errorMessage, variant: "destructive" });
-    } finally {
-      fetchReviews();
-    }
-  };
-
+  
+  
   const fetchWishlist = async () => {
     if (!user.isLoggedIn) return;
     const res = await fetch(
@@ -615,6 +552,8 @@ const ReviewSection = ({ reviews, currentUser, productId }: any) => {
   const [userRating, setUserRating] = useState(0);
   const [allReviews, setAllReviews] = useState(reviews);
   const { toast } = useToast();
+  const user = useRecoilValue(userState);
+  const router = useRouter();
 
   const currentUserReview = allReviews.find(
     (rev: any) => rev.user?._id === currentUser?._id
@@ -623,34 +562,72 @@ const ReviewSection = ({ reviews, currentUser, productId }: any) => {
     (rev: any) => rev.user?._id !== currentUser?._id
   );
 
-  const submitReview = async () => {
+  const fetchReviews = async () => {
     try {
-      const { data } = await axios.post("/api/reviews", {
-        productId,
-        rating: userRating,
-        comment: userReview,
-      });
-
-      toast({ title: "Review submitted!" });
-
-      // Add or update user's review in list
-      const updatedReviews = allReviews.filter(
-        (rev: any) => rev.user?._id !== currentUser?._id
+      const res = await axios.get(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/reviews/${productId}`
       );
-      setAllReviews([data.review, ...updatedReviews]);
-      setUserReview("");
-      setUserRating(0);
+      setAllReviews(res.data);
     } catch (err) {
-      console.error("Submit review error:", err);
-      const errorMessage =
-        (err as any)?.response?.data?.message || "Failed to submit review";
-      toast({ title: errorMessage, variant: "destructive" });
+      console.error("Error fetching reviews:", err);
     }
   };
 
+  const submitReview = async () => {
+    if (!user.isLoggedIn) {
+      router.push("/auth");
+      return;
+    }
+
+    if (userRating === 0 || userReview.trim() === "") {
+      toast({
+        title: "Please give a rating and write a review",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    try {
+      await axios.post(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/reviews/${user._id}`,
+        {
+          productId: productId,
+          rating: userRating,
+          comment: userReview.trim(),
+          userId: user._id,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        }
+      );
+
+      toast({ title: "Review submitted!" });
+      setUserRating(0);
+      setUserReview("");
+      
+    } catch (err) {
+      console.error("Submit review error:", err);
+      let errorMessage = "Failed to submit review";
+    
+      if (err && typeof err === "object" && "response" in err) {
+        const response = (err as any).response;
+        if (response?.data?.message) {
+          errorMessage = response.data.message;
+        }
+      }
+    
+      toast({ title: errorMessage, variant: "destructive" });
+    } finally {
+      fetchReviews();
+    }
+  };
+
+
   const deleteReview = async () => {
     try {
-      await axios.delete(`/api/reviews/${currentUserReview._id}`);
+      await axios.delete(`${process.env.BACKEND_URL}/api/reviews/${currentUserReview._id}`);
       setAllReviews(otherReviews);
       toast({ title: "Review deleted!" });
     } catch (err) {
@@ -658,6 +635,8 @@ const ReviewSection = ({ reviews, currentUser, productId }: any) => {
       const errorMessage =
         (err as any)?.response?.data?.message || "Failed to delete review";
       toast({ title: errorMessage, variant: "destructive" });
+    } finally {
+      fetchReviews();
     }
   };
 
