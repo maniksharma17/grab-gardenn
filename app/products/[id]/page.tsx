@@ -87,7 +87,7 @@ export default function ProductPage() {
         {
           productId: product?._id,
           rating: userRating,
-          text: userReview.trim(),
+          comment: userReview.trim(),
           userId: user._id,
         },
         {
