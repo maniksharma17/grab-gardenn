@@ -107,7 +107,16 @@ export default function ProductPage() {
       
     } catch (err) {
       console.error("Submit review error:", err);
-      toast({ title: "Failed to submit", variant: "destructive" });
+      let errorMessage = "Failed to submit review";
+    
+      if (err && typeof err === "object" && "response" in err) {
+        const response = (err as any).response;
+        if (response?.data?.message) {
+          errorMessage = response.data.message;
+        }
+      }
+    
+      toast({ title: errorMessage, variant: "destructive" });
     }
   };
 
