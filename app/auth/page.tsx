@@ -61,7 +61,7 @@ export default function AuthPage() {
   const router = useRouter();
 
   function validateRegisterData(data: RegisterDataTypes): string | null {
-    const { name, email, password, phone, address } = data;
+    const { name, email, password, address } = data;
   
     // Name
     if (!name.trim()) return "Name is required";
@@ -71,9 +71,6 @@ export default function AuthPage() {
     if (!email.trim()) return "Email is required";
     if (!emailRegex.test(email)) return "Invalid email format";
   
-    // // Phone
-    // if (!phone.trim()) return "Phone number is required";
-    // if (!/^[6-9]\d{9}$/.test(phone.trim())) return "Invalid phone number";
   
     // Password
     if (password.length < 6) return "Password must be at least 6 characters";
@@ -84,10 +81,7 @@ export default function AuthPage() {
   
     if (!addr.name.trim()) return "Shipping name is required";
     if (!addr.phone) return "Shipping phone number is required";
-  
-    let shippingPhone = addr.phone;
-    if (!(shippingPhone.length == 10)) return "Invalid shipping phone number";
-  
+    
     if (!addr.street.trim()) return "Street address is required";
     if (!addr.city.trim()) return "City is required";
     if (!addr.state.trim()) return "State is required";
