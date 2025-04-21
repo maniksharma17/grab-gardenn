@@ -459,7 +459,7 @@ export default function AuthPage() {
                       <div className="relative">
                       <PhoneInput
                         country={'in'}
-                        value={registerData.phone}
+                        value={address.phone}
                         onChange={(e) => {
                           setAddress({...address, phone: '+' + e})
                           setRegisterData({
