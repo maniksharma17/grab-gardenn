@@ -71,6 +71,18 @@ export default function ProductPage() {
     fetchReviews();
   }, [product]);
 
+  const fetchReviews = async () => {
+    try {
+      const res = await axios.get(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/reviews/${product?._id}`
+      );
+      setReviews(res.data);
+    } catch (err) {
+      console.error("Error fetching reviews:", err);
+    }
+  };
+  fetchReviews();
+
   const submitReview = async () => {
     if (!user.isLoggedIn) {
       router.push("/auth");
@@ -117,6 +129,8 @@ export default function ProductPage() {
       }
     
       toast({ title: errorMessage, variant: "destructive" });
+    } finally {
+      fetchReviews();
     }
   };
 
@@ -589,43 +603,126 @@ export default function ProductPage() {
         </div>
       </div>
       {/* Reviews Section */}
-      <div className="mx-auto container md:px-20 px-6 md:mt-20 mt-6 border-t py-10">
-        <h2 className="text-2xl font-semibold mb-4">Customer Reviews</h2>
+      <ReviewSection reviews={reviews} currentUser={user._id} productId={product._id}/>
+      
+    </div>
+  );
+}
+"use client";
 
-        {/* Review Input */}
-        <div className="space-y-4 mb-10">
-          <div className="flex gap-2 items-center">
-            <span className="text-md font-medium"></span>
-            {[1, 2, 3, 4, 5].map((star) => (
-              <button
-                key={star}
-                onClick={() => setUserRating(star)}
-                className={`text-xl ${
-                  userRating >= star ? "text-yellow-400" : "text-gray-300"
-                }`}
-              >
-                ★
-              </button>
-            ))}
-          </div>
 
-          <Textarea
-            placeholder="Write your review here..."
-            className="w-full border-gray-300 focus:border-primary focus:ring focus:ring-primary rounded-md"
-            maxLength={500}
-            value={userReview}
-            rows={3}
-            onChange={(e) => setUserReview(e.target.value)}
-          />
-          <Button onClick={submitReview}>Submit Review</Button>
+import { Trash2 } from "lucide-react";
+
+export function ReviewSection({ reviews, currentUser, productId }: any) {
+  const [userReview, setUserReview] = useState("");
+  const [userRating, setUserRating] = useState(0);
+  const [allReviews, setAllReviews] = useState(reviews);
+
+  const currentUserReview = allReviews.find(
+    (rev: any) => rev.user?._id === currentUser?._id
+  );
+  const otherReviews = allReviews.filter(
+    (rev: any) => rev.user?._id !== currentUser?._id
+  );
+
+  const submitReview = async () => {
+    try {
+      const { data } = await axios.post("/api/reviews", {
+        productId,
+        rating: userRating,
+        comment: userReview,
+      });
+
+      toast({ title: "Review submitted!" });
+
+      // Add or update user's review in list
+      const updatedReviews = allReviews.filter(
+        (rev: any) => rev.user?._id !== currentUser?._id
+      );
+      setAllReviews([data.review, ...updatedReviews]);
+      setUserReview("");
+      setUserRating(0);
+    } catch (err) {
+      console.error("Submit review error:", err);
+      const errorMessage =
+        (err as any)?.response?.data?.message || "Failed to submit review";
+      toast({ title: errorMessage, variant: "destructive" });
+    }
+  };
+
+  const deleteReview = async () => {
+    try {
+      await axios.delete(`/api/reviews/${currentUserReview._id}`);
+      setAllReviews(otherReviews);
+      toast({ title: "Review deleted!" });
+    } catch (err) {
+      console.error("Delete review error:", err);
+      const errorMessage =
+        (err as any)?.response?.data?.message || "Failed to delete review";
+      toast({ title: errorMessage, variant: "destructive" });
+    }
+  };
+
+  return (
+    <div className="mx-auto container md:px-20 px-6 md:mt-20 mt-6 border-t py-10">
+      <h2 className="text-2xl font-semibold mb-4">Customer Reviews</h2>
+
+      {/* Review Input */}
+      <div className="space-y-4 mb-10">
+        <div className="flex gap-2 items-center">
+          <span className="text-md font-medium">Your Rating:</span>
+          {[1, 2, 3, 4, 5].map((star) => (
+            <button
+              key={star}
+              onClick={() => setUserRating(star)}
+              className={`text-xl ${
+                userRating >= star ? "text-yellow-400" : "text-gray-300"
+              }`}
+            >
+              ★
+            </button>
+          ))}
         </div>
 
-        {/* All Reviews */}
-        <div className="space-y-6">
-          {reviews.length === 0 ? (
-            <p className="text-gray-500">No reviews yet.</p>
-          ) : (
-            reviews.map((rev, i) => (
+        <Textarea
+          placeholder="Write your review here..."
+          className="w-full border-gray-300 focus:border-primary focus:ring focus:ring-primary rounded-md"
+          maxLength={500}
+          value={userReview}
+          rows={3}
+          onChange={(e) => setUserReview(e.target.value)}
+        />
+        <Button onClick={submitReview}>Submit Review</Button>
+      </div>
+
+      {/* All Reviews */}
+      <div className="space-y-6">
+        {allReviews.length === 0 ? (
+          <p className="text-gray-500">No reviews yet.</p>
+        ) : (
+          <>
+            {/* User's Review */}
+            {currentUserReview && (
+              <div className="bg-white p-4 rounded-lg shadow border relative">
+                <div className="flex items-center gap-2 text-yellow-400">
+                  {"★".repeat(currentUserReview.rating)}
+                  <span className="text-sm text-gray-500 ml-2">
+                    {currentUserReview.user?.name || "You"}
+                  </span>
+                  <Trash2
+                    className="ml-auto text-gray-500 hover:text-red-500 cursor-pointer"
+                    size={18}
+                    onClick={deleteReview}
+                  />
+                </div>
+                <p className="text-md mt-2 text-gray-700">
+                  {currentUserReview.comment}
+                </p>
+              </div>
+            )}
+
+            {/* Other Reviews */}
+            {otherReviews.map((rev: any, i: number) => (
               <div key={i} className="bg-white p-4 rounded-lg shadow border">
                 <div className="flex items-center gap-2 text-yellow-400">
                   {"★".repeat(rev.rating)}
@@ -635,9 +732,9 @@ export default function ProductPage() {
                 </div>
                 <p className="text-md mt-2 text-gray-700">{rev.comment}</p>
               </div>
-            ))
-          )}
-        </div>
+            ))}
+          </>
+        )}
       </div>
     </div>
   );
