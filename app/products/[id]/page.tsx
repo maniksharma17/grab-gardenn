@@ -687,7 +687,7 @@ const ReviewSection = ({ reviews, currentUser, productId }: any) => {
       </div>
 
       {/* All Reviews */}
-      <div className="space-y-6">
+      <div className="space-y-2">
         {allReviews.length === 0 ? (
           <p className="text-gray-500">No reviews yet.</p>
         ) : (
