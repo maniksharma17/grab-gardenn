@@ -435,7 +435,7 @@ export default function AuthPage() {
                           type="text"
                           value={address.name}
                           onChange={(e) => {
-                            setAddress({...address, name: e.target.value.trim()})
+                            setAddress({...address, name: e.target.value})
                             setRegisterData({
                               ...registerData,
                               address: [address]
@@ -477,7 +477,7 @@ export default function AuthPage() {
                           type="text"
                           value={address.street}
                           onChange={(e) => {
-                            setAddress({...address, street: e.target.value.trim()})
+                            setAddress({...address, street: e.target.value})
                             setRegisterData({
                               ...registerData,
                               address: [address]
@@ -497,7 +497,7 @@ export default function AuthPage() {
                           type="text"
                           value={address.streetOptional}
                           onChange={(e) => {
-                            setAddress({...address, streetOptional: e.target.value.trim()})
+                            setAddress({...address, streetOptional: e.target.value})
                             setRegisterData({
                               ...registerData,
                               address: [address]
@@ -517,7 +517,7 @@ export default function AuthPage() {
                           type="text"
                           value={address.city}
                           onChange={(e) => {
-                            setAddress({...address, city: e.target.value.trim()})
+                            setAddress({...address, city: e.target.value})
                             setRegisterData({
                               ...registerData,
                               address: [address]
@@ -535,7 +535,7 @@ export default function AuthPage() {
                           type="text"
                           value={address.state}
                           onChange={(e) => {
-                            setAddress({...address, state: e.target.value.trim()})
+                            setAddress({...address, state: e.target.value})
                             setRegisterData({
                               ...registerData,
                               address: [address]
