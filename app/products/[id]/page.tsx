@@ -30,6 +30,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { Textarea } from "@/components/ui/textarea";
 
 export default function ProductPage() {
   const [quantity, setQuantity] = useState(1);
@@ -568,7 +569,7 @@ export default function ProductPage() {
         {/* Review Input */}
         <div className="space-y-4 mb-10">
           <div className="flex gap-2 items-center">
-            <span className="text-md font-medium">Your Rating:</span>
+            <span className="text-md font-medium"></span>
             {[1, 2, 3, 4, 5].map((star) => (
               <button
                 key={star}
@@ -582,10 +583,12 @@ export default function ProductPage() {
             ))}
           </div>
 
-          <Input
-            placeholder="Write your review (max 500 chars)..."
+          <Textarea
+            placeholder="Write your review here..."
+            className="w-full border-gray-300 focus:border-primary focus:ring focus:ring-primary rounded-md"
             maxLength={500}
             value={userReview}
+            rows={3}
             onChange={(e) => setUserReview(e.target.value)}
           />
           <Button onClick={submitReview}>Submit Review</Button>
