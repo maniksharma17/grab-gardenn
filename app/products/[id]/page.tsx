@@ -573,6 +573,20 @@ const ReviewSection = ({ reviews, currentUser, productId }: any) => {
     }
   };
 
+  useEffect(() => {
+    const fetchReviews = async () => {
+      try {
+        const res = await axios.get(
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/reviews/${productId}`
+        );
+        setAllReviews(res.data);
+      } catch (err) {
+        console.error("Error fetching reviews:", err);
+      }
+    };
+    fetchReviews();
+  }, [productId]);
+
   const submitReview = async () => {
     if (!user.isLoggedIn) {
       router.push("/auth");
@@ -690,6 +704,7 @@ const ReviewSection = ({ reviews, currentUser, productId }: any) => {
                     className="ml-auto text-gray-500 hover:text-red-500 cursor-pointer"
                     size={18}
                     onClick={deleteReview}
+                    strokeWidth={1.2}
                   />
                 </div>
                 <p className="text-md mt-2 text-gray-700">
