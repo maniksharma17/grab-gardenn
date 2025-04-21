@@ -49,6 +49,62 @@ export default function ProductPage() {
   const [estDelivery, setEstDelivery] = useState("");
   const router = useRouter();
   const [wishlist, setWishlist] = useState<string[]>([]);
+  const [reviews, setReviews] = useState<
+    { rating: number; text: string; user?: { name: string } }[]
+  >([]);
+  const [userRating, setUserRating] = useState<number>(0);
+  const [userReview, setUserReview] = useState<string>("");
+
+  const fetchReviews = async () => {
+    try {
+      const res = await axios.get(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/review/${product?._id}`
+      );
+      setReviews(res.data.reviews);
+    } catch (err) {
+      console.error("Error fetching reviews:", err);
+    }
+  };
+
+  const submitReview = async () => {
+    if (!user.isLoggedIn) {
+      router.push("/auth");
+      return;
+    }
+
+    if (userRating === 0 || userReview.trim() === "") {
+      toast({
+        title: "Please give a rating and write a review",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    try {
+      await axios.post(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/review`,
+        {
+          productId: product?._id,
+          rating: userRating,
+          text: userReview.trim(),
+          userId: user._id,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        }
+      );
+
+      toast({ title: "Review submitted!" });
+      setUserRating(0);
+      setUserReview("");
+      fetchReviews();
+    } catch (err) {
+      console.error("Submit review error:", err);
+      toast({ title: "Failed to submit", variant: "destructive" });
+    }
+  };
 
   const fetchWishlist = async () => {
     if (!user.isLoggedIn) return;
@@ -67,6 +123,7 @@ export default function ProductPage() {
 
   useEffect(() => {
     fetchWishlist();
+    fetchReviews();
   }, []);
 
   const toggleWishlist = async (productId: string) => {
@@ -311,7 +368,7 @@ export default function ProductPage() {
                 <Heart className="text-gray-400 w-7 h-7" />
               )}
             </div>
-            
+
             <div
               className="md:hidden w-fit z-10 bg-white p-2 rounded-full shadow transition cursor-pointer"
               onClick={(e) => {
@@ -325,7 +382,6 @@ export default function ProductPage() {
                 <Heart className="text-gray-400 w-7 h-7" />
               )}
             </div>
-
 
             <h1 className="text-4xl max-md:text-2xl font-medium capitalize leading-tight">
               {/* Breadcrumbs */}
@@ -503,6 +559,55 @@ export default function ProductPage() {
               selectedVariant={selectedVariant}
             />
           </div>
+        </div>
+      </div>
+      {/* Reviews Section */}
+      <div className="mt-20 border-t pt-10">
+        <h2 className="text-2xl font-semibold mb-4">Customer Reviews</h2>
+
+        {/* Review Input */}
+        <div className="space-y-4 mb-10">
+          <div className="flex gap-2 items-center">
+            <span className="text-md font-medium">Your Rating:</span>
+            {[1, 2, 3, 4, 5].map((star) => (
+              <button
+                key={star}
+                onClick={() => setUserRating(star)}
+                className={`text-xl ${
+                  userRating >= star ? "text-yellow-400" : "text-gray-300"
+                }`}
+              >
+                ★
+              </button>
+            ))}
+          </div>
+
+          <Input
+            placeholder="Write your review (max 500 chars)..."
+            maxLength={500}
+            value={userReview}
+            onChange={(e) => setUserReview(e.target.value)}
+          />
+          <Button onClick={submitReview}>Submit Review</Button>
+        </div>
+
+        {/* All Reviews */}
+        <div className="space-y-6">
+          {reviews.length === 0 ? (
+            <p className="text-gray-500">No reviews yet.</p>
+          ) : (
+            reviews.map((rev, i) => (
+              <div key={i} className="bg-white p-4 rounded-lg shadow border">
+                <div className="flex items-center gap-2 text-yellow-400">
+                  {"★".repeat(rev.rating)}
+                  <span className="text-sm text-gray-500 ml-2">
+                    {rev.user?.name || "Anonymous"}
+                  </span>
+                </div>
+                <p className="text-md mt-2 text-gray-700">{rev.text}</p>
+              </div>
+            ))
+          )}
         </div>
       </div>
     </div>
