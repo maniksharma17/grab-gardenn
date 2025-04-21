@@ -51,7 +51,7 @@ export default function ProductPage() {
   const router = useRouter();
   const [wishlist, setWishlist] = useState<string[]>([]);
   const [reviews, setReviews] = useState<
-    { rating: number; text: string; user?: { name: string } }[]
+    { rating: number; comment: string; user?: { name: string } }[]
   >([]);
   const [userRating, setUserRating] = useState<number>(0);
   const [userReview, setUserReview] = useState<string>("");
