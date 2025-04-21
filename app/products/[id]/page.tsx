@@ -563,7 +563,7 @@ export default function ProductPage() {
         </div>
       </div>
       {/* Reviews Section */}
-      <div className="mx-auto container px-20 mt-20 border-t py-10">
+      <div className="mx-auto container md:px-20 px-2 md:mt-20 mt-6 border-t py-10">
         <h2 className="text-2xl font-semibold mb-4">Customer Reviews</h2>
 
         {/* Review Input */}
