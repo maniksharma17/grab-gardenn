@@ -610,7 +610,7 @@ export default function ProductPage() {
   );
 }
 
-export function ReviewSection({ reviews, currentUser, productId }: any) {
+const ReviewSection = ({ reviews, currentUser, productId }: any) => {
   const [userReview, setUserReview] = useState("");
   const [userRating, setUserRating] = useState(0);
   const [allReviews, setAllReviews] = useState(reviews);
