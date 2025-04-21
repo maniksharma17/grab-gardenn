@@ -350,7 +350,7 @@ export default function AuthPage() {
                       </div>{" "}
                     </div>
                   </div>
-                  <div className="flex items-center justify-between">
+                  {useEmail && <div className="flex items-center justify-between">
                     <label className="flex items-center space-x-2"></label>
                     <a
                       href="#"
@@ -359,7 +359,7 @@ export default function AuthPage() {
                     >
                       Forgot password?
                     </a>
-                  </div>
+                  </div>}
                   <Button className="w-full" type="submit" disabled={isLoading}>
                     {isLoading ? "Logging in..." : "Login"}
                   </Button>
