@@ -56,16 +56,20 @@ export default function ProductPage() {
   const [userRating, setUserRating] = useState<number>(0);
   const [userReview, setUserReview] = useState<string>("");
 
-  const fetchReviews = async () => {
-    try {
-      const res = await axios.get(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/reviews/${product?._id}`
-      );
-      setReviews(res.data);
-    } catch (err) {
-      console.error("Error fetching reviews:", err);
-    }
-  };
+  
+  useEffect(() => {
+    const fetchReviews = async () => {
+      try {
+        const res = await axios.get(
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/reviews/${product?._id}`
+        );
+        setReviews(res.data);
+      } catch (err) {
+        console.error("Error fetching reviews:", err);
+      }
+    };
+    fetchReviews();
+  }, [product]);
 
   const submitReview = async () => {
     if (!user.isLoggedIn) {
@@ -100,7 +104,7 @@ export default function ProductPage() {
       toast({ title: "Review submitted!" });
       setUserRating(0);
       setUserReview("");
-      fetchReviews();
+      
     } catch (err) {
       console.error("Submit review error:", err);
       toast({ title: "Failed to submit", variant: "destructive" });
@@ -123,9 +127,22 @@ export default function ProductPage() {
   };
 
   useEffect(() => {
+    const fetchWishlist = async () => {
+      if (!user.isLoggedIn) return;
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/wishlist/${user._id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        }
+      );
+      const data = await res.json();
+      if (data.wishlist.length == 0) setWishlist([]);
+      else setWishlist(data.wishlist.items);
+    };
     fetchWishlist();
-    fetchReviews();
-  }, []);
+  }, [user]);
 
   const toggleWishlist = async (productId: string) => {
     if (!user.isLoggedIn) {
