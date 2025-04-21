@@ -311,9 +311,9 @@ export default function AuthPage() {
                       </div>
                     </div>
                   )}
-                  <div className="flex items-center justify-between gap-2">
+                  <div className="flex items-center gap-2">
                     <Checkbox checked={useEmail} onCheckedChange={setUseEmail} />
-                    <label className="text-sm font-medium">
+                    <label className="text-sm font-normal">
                       Login using Email
                     </label>
                   </div>
