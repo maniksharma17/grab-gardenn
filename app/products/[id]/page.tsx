@@ -124,6 +124,7 @@ export default function ProductPage() {
 
   useEffect(() => {
     fetchWishlist();
+    fetchReviews();
   }, []);
 
   const toggleWishlist = async (productId: string) => {
@@ -247,7 +248,6 @@ export default function ProductPage() {
     };
 
     fetchProduct();
-    fetchReviews();
   }, [id]);
 
   if (!product) {
