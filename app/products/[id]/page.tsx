@@ -617,6 +617,7 @@ export function ReviewSection({ reviews, currentUser, productId }: any) {
   const [userReview, setUserReview] = useState("");
   const [userRating, setUserRating] = useState(0);
   const [allReviews, setAllReviews] = useState(reviews);
+  const { toast } = useToast();
 
   const currentUserReview = allReviews.find(
     (rev: any) => rev.user?._id === currentUser?._id
