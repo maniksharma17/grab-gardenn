@@ -607,7 +607,7 @@ export default function ProductPage() {
                     {rev.user?.name || "Anonymous"}
                   </span>
                 </div>
-                <p className="text-md mt-2 text-gray-700">{rev.text}</p>
+                <p className="text-md mt-2 text-gray-700">{rev.comment}</p>
               </div>
             ))
           )}
