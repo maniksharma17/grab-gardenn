@@ -641,7 +641,7 @@ const ReviewSection = ({ reviews, currentUser, productId }: any) => {
 
   const deleteReview = async () => {
     try {
-      await axios.delete(`${process.env.BACKEND_URL}/api/reviews/${currentUserReview._id}`);
+      await axios.delete(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/reviews/${currentUserReview._id}`);
       setAllReviews(otherReviews);
       toast({ title: "Review deleted!" });
     } catch (err) {
