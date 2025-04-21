@@ -345,7 +345,7 @@ export default function AuthPage() {
                         onChange={(e) =>
                           setRegisterData({
                             ...registerData,
-                            name: e.target.value,
+                            name: e.target.value.trim(),
                           })
                         }
                         placeholder="Enter your name"
@@ -364,7 +364,7 @@ export default function AuthPage() {
                         onChange={(e) =>
                           setRegisterData({
                             ...registerData,
-                            email: e.target.value,
+                            email: e.target.value.trim(),
                           })
                         }
                         placeholder="Enter your email"
@@ -435,7 +435,7 @@ export default function AuthPage() {
                           type="text"
                           value={address.name}
                           onChange={(e) => {
-                            setAddress({...address, name: e.target.value})
+                            setAddress({...address, name: e.target.value.trim()})
                             setRegisterData({
                               ...registerData,
                               address: [address]
@@ -477,7 +477,7 @@ export default function AuthPage() {
                           type="text"
                           value={address.street}
                           onChange={(e) => {
-                            setAddress({...address, street: e.target.value})
+                            setAddress({...address, street: e.target.value.trim()})
                             setRegisterData({
                               ...registerData,
                               address: [address]
@@ -497,7 +497,7 @@ export default function AuthPage() {
                           type="text"
                           value={address.streetOptional}
                           onChange={(e) => {
-                            setAddress({...address, streetOptional: e.target.value})
+                            setAddress({...address, streetOptional: e.target.value.trim()})
                             setRegisterData({
                               ...registerData,
                               address: [address]
@@ -517,7 +517,7 @@ export default function AuthPage() {
                           type="text"
                           value={address.city}
                           onChange={(e) => {
-                            setAddress({...address, city: e.target.value})
+                            setAddress({...address, city: e.target.value.trim()})
                             setRegisterData({
                               ...registerData,
                               address: [address]
@@ -535,7 +535,7 @@ export default function AuthPage() {
                           type="text"
                           value={address.state}
                           onChange={(e) => {
-                            setAddress({...address, state: e.target.value})
+                            setAddress({...address, state: e.target.value.trim()})
                             setRegisterData({
                               ...registerData,
                               address: [address]
@@ -571,11 +571,11 @@ export default function AuthPage() {
                   </div>
                   <p className="text-sm text-muted-foreground">
                     By creating an account, you agree to our{" "}
-                    <a href="#" className="text-primary hover:underline">
+                    <a href="/policies/terms-and-conditions" className="text-primary hover:underline">
                       Terms of Service
                     </a>{" "}
                     and{" "}
-                    <a href="#" className="text-primary hover:underline">
+                    <a href="/policies/privacy-policy" className="text-primary hover:underline">
                       Privacy Policy
                     </a>
                   </p>
