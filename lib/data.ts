@@ -431,6 +431,39 @@ export const cart = [
 export const news = [
   {
     id: 1,
+    date: "April 24, 2025",
+    image: "https://www.tribuneindia.com/sortd-service/imaginary/v22-01/jpg/large/high?url=dGhldHJpYnVuZS1zb3J0ZC1wcm8tcHJvZC1zb3J0ZC9tZWRpYThiYTNhMWYwLTA4NTMtMTFmMC1hOTk3LWUzYWEyZTRhMzM5Ni5qcGc=",
+    title:
+      "Doon University Committed to Building Holistic Student Personalities: Prof. Surekha Dangwal",
+    summary: "Doon University focuses on holistic development of students.",
+    content: `
+    Dehradun.
+A workshop on the theme "Empowerment, Innovation, and Skill Development of Students through the National Education Policy 2020" was organized under the joint aegis of the Centre for Innovation, Entrepreneurship, Incubation and Industrial Relations (CIEIR) and the Internal Quality Assurance Cell (IQAC) of Doon University.
+
+On this occasion, Shri B.R. Shankaranand, All India Organizational Secretary of Bharatiya Shikshan Mandal, emphasized that the implementation of the National Education Policy is dedicated to the building of human character. “A teacher lights the way by burning themselves like a lamp,” he said, adding that the teacher plays a pivotal role in shaping excellent human beings.
+
+He stressed the spiritualization of education, saying that when a person walks the spiritual path, their conduct aligns with righteousness (dharma). Such righteous thinking fosters morality, which not only drives material growth but also paves the way for spiritual elevation. “Morality is essential in every area of life, as it instills fearlessness. Where there is no morality, there is control or coercion,” he remarked.
+
+He further stated that the spirit of cooperation should be nurtured over competition to truly realize the ideal of ‘Vasudhaiva Kutumbakam’ (the world is one family). The National Education Policy prioritizes the development of ethical values and skills among students, essential for the creation of exemplary human beings.
+
+Shri Shankaranand urged educators to become modern-day “Rishis”, awakening in students qualities like reverence, intellect, wisdom, talent, and clarity of thought. Teaching and writing based on original thinking and analysis, he said, would make learning both enjoyable for students and fulfilling for teachers. He emphasized that education should be participatory and pressure-free, reflecting its spiritual essence.
+
+Prof. Surekha Dangwal, Vice-Chancellor of Doon University, elaborated on the skill development and value-enrichment courses conducted under the National Education Policy. She stated that the university is continually working toward holistic personality and character development of students based on Indian knowledge traditions.
+
+She praised the recognition of Indian Natya Shastra by the United Nations as a symbol of India’s vast knowledge heritage and affirmed Doon University’s commitment to promoting this legacy across all domains.
+
+“Our objective is to instill ethical values in students across every sphere of life so they may serve society as responsible and virtuous citizens,” she said. “To this end, the curriculum is regularly updated and enhanced.”
+
+Dr. Sudhanshu Joshi, Director of CIEIR, presented an overview of the skill development programs, while Dr. Narendra Rawal, Controller of Examinations, explained the technical aspects of the admission and exit procedures related to the courses.
+
+Dr. Mala Shikha conducted the program and Prof. H.C. Purohit delivered the vote of thanks.
+
+The event was graced by several dignitaries and faculty members, including Registrar Mr. Durgesh Dimri, Amit Rawat (National Youth Wing Leader), Anuj Parasar (Western UP Coordinator), as well as Prof. Sandeep Vijay, Prof. Rajesh Kumar, Prof. Harsh Dobhal, Prof. Reena Singh, and many others.
+
+Notably, former students of Doon University, Dr. Preeti Rana and Priya Saini, presented locally sourced organic products from their startup "Grab Gardenn" to the chief guest. Their startup showcases traditional foods and sustainable practices from Uttarakhand.`,
+  },
+  {
+    id: 2,
     title: "Himalayan Flower Buransh Boosts Women's Income in Pauri",
     summary: "Women in Pauri Earning Big from the Rhododendron Flower",
     content: `
@@ -447,10 +480,11 @@ export const news = [
     This eco-friendly initiative is helping both the environment and the economy thrive in the region.
     `,
     date: "April 15, 2025",
-    image: 'https://www.tribuneindia.com/sortd-service/imaginary/v22-01/jpg/large/high?url=dGhldHJpYnVuZS1zb3J0ZC1wcm8tcHJvZC1zb3J0ZC9tZWRpYThiYTNhMWYwLTA4NTMtMTFmMC1hOTk3LWUzYWEyZTRhMzM5Ni5qcGc='
+    image:
+      "https://www.tribuneindia.com/sortd-service/imaginary/v22-01/jpg/large/high?url=dGhldHJpYnVuZS1zb3J0ZC1wcm8tcHJvZC1zb3J0ZC9tZWRpYThiYTNhMWYwLTA4NTMtMTFmMC1hOTk3LWUzYWEyZTRhMzM5Ni5qcGc=",
   },
   {
-    id: 2,
+    id: 3,
     title: "India Introduces Stricter natural Food Regulations",
     summary:
       "New government policies aim to ensure higher quality standards in natural produce.",
@@ -463,7 +497,7 @@ export const news = [
     date: "March 25, 2025",
   },
   {
-    id: 3,
+    id: 4,
     title: "Natural Food Market in India Expected to Reach $2 Billion",
     summary:
       "The Indian natural food industry is growing rapidly, fueled by increased consumer awareness.",
@@ -477,7 +511,7 @@ export const news = [
     date: "March 20, 2025",
   },
   {
-    id: 4,
+    id: 5,
     title: "Uttarakhand Farmers Lead India's natural Revolution",
     summary:
       "Himalayan farmers are setting an example for sustainable natural farming.",
@@ -491,7 +525,7 @@ export const news = [
     date: "March 18, 2025",
   },
   {
-    id: 5,
+    id: 6,
     title: "Pesticide-Free Farming Gains Popularity in Maharashtra",
     summary:
       "Farmers are embracing pesticide-free cultivation methods for healthier crops.",
@@ -506,7 +540,7 @@ export const news = [
   },
 
   {
-    id: 6,
+    id: 7,
     title: "Natural Farming Reduces Carbon Footprint, Says Study",
     summary:
       "New research highlights the environmental benefits of natural farming.",
@@ -520,7 +554,7 @@ export const news = [
     date: "March 10, 2025",
   },
   {
-    id: 7,
+    id: 8,
     title: "Demand for natural Grains Rises in India",
     summary: "Indian households are increasingly switching to natural grains.",
     content: `
@@ -607,45 +641,53 @@ export const categories = [
     name: "Millets",
     description:
       "Freshly milled, nutrient-rich flours for all your baking needs.",
-    image: "https://grabgardenn-storage.s3.ap-south-1.amazonaws.com/categories/millets.jpg"  
+    image:
+      "https://grabgardenn-storage.s3.ap-south-1.amazonaws.com/categories/millets.jpg",
   },
   {
     name: "Rice",
     description: "Wholesome, unprocessed grains packed with natural goodness.",
-    image: "https://grabgardenn-storage.s3.ap-south-1.amazonaws.com/categories/rice.jpg"  
+    image:
+      "https://grabgardenn-storage.s3.ap-south-1.amazonaws.com/categories/rice.jpg",
   },
   {
     name: "Sweeteners",
     description:
       "High-protein, natural pulses for a healthy and balanced diet.",
-    image: "https://grabgardenn-storage.s3.ap-south-1.amazonaws.com/categories/sweeteners.png"  
+    image:
+      "https://grabgardenn-storage.s3.ap-south-1.amazonaws.com/categories/sweeteners.png",
   },
   {
     name: "Pulses",
     description: "Nutrient-dense seeds for snacking, cooking, and wellness.",
-    image: "https://grabgardenn-storage.s3.ap-south-1.amazonaws.com/categories/pulses.jpg"  
+    image:
+      "https://grabgardenn-storage.s3.ap-south-1.amazonaws.com/categories/pulses.jpg",
   },
   {
     name: "Seeds",
     description:
       "Aromatic, farm-fresh spices to enhance your culinary creations.",
-    image: "https://grabgardenn-storage.s3.ap-south-1.amazonaws.com/categories/seeds.jpg"  
+    image:
+      "https://grabgardenn-storage.s3.ap-south-1.amazonaws.com/categories/seeds.jpg",
   },
   {
     name: "Beverages",
     description:
       "Natural sweeteners like jaggery and raw sugar for guilt-free indulgence.",
-      image: "https://grabgardenn-storage.s3.ap-south-1.amazonaws.com/categories/beverages.jpg"  
-    },
+    image:
+      "https://grabgardenn-storage.s3.ap-south-1.amazonaws.com/categories/beverages.jpg",
+  },
   {
     name: "Tea",
     description:
       "Handpicked natural teas for a refreshing and calming experience.",
-      image: "https://grabgardenn-storage.s3.ap-south-1.amazonaws.com/categories/tea.jpg"  
-    },
+    image:
+      "https://grabgardenn-storage.s3.ap-south-1.amazonaws.com/categories/tea.jpg",
+  },
   {
     name: "Salt",
     description: "Healthy, natural drinks to keep you energized and hydrated.",
-    image: "https://grabgardenn-storage.s3.ap-south-1.amazonaws.com/categories/salt.jpg"  
+    image:
+      "https://grabgardenn-storage.s3.ap-south-1.amazonaws.com/categories/salt.jpg",
   },
 ];
