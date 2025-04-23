@@ -432,7 +432,7 @@ export const news = [
   {
     id: 1,
     date: "April 24, 2025",
-    image: "https://www.tribuneindia.com/sortd-service/imaginary/v22-01/jpg/large/high?url=dGhldHJpYnVuZS1zb3J0ZC1wcm8tcHJvZC1zb3J0ZC9tZWRpYThiYTNhMWYwLTA4NTMtMTFmMC1hOTk3LWUzYWEyZTRhMzM5Ni5qcGc=",
+    image: "https://devbhoomikhabar.com/wp-content/uploads/2025/04/IMG-20250422-WA0021.jpg",
     title:
       "Doon University Committed to Building Holistic Student Personalities: Prof. Surekha Dangwal",
     summary: "Doon University focuses on holistic development of students.",
