@@ -54,23 +54,26 @@ export const CheckoutSheet = ({
   const [estDelivery, setEstDelivery] = useState("null");
   const [deliveryMessage, setDeliveryMessage] = useState("");
   const [promoCode, setPromoCode] = useState("");
-  const [promoName, setPromoName] = useState("")
+  const [promoName, setPromoName] = useState("");
   const [discount, setDiscount] = useState(0);
   const [promoError, setPromoError] = useState("");
   const [finalAmount, setFinalAmount] = useState(0);
   const [promoCodes, setPromoCodes] = useState([]);
 
-  useEffect(()=>{
+  useEffect(() => {
     const fetchPromos = async () => {
-      const res = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/promo-code/`, {
-        headers: {
-          'Authorization': 'Bearer ' + user.token
+      const res = await axios.get(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/promo-code/`,
+        {
+          headers: {
+            Authorization: "Bearer " + user.token,
+          },
         }
-      });
+      );
       setPromoCodes(res.data);
-    }
-    fetchPromos()
-  }, [])
+    };
+    fetchPromos();
+  }, []);
 
   const subtotal = cartItems.reduce(
     (sum, item) => sum + item.price * item.quantity,
@@ -88,7 +91,7 @@ export const CheckoutSheet = ({
             userId: user._id,
             destinationPincode: selectedAddress.zipCode,
             cod: paymentMethod === "cod" ? "1" : "0",
-            subtotal: subtotal
+            subtotal: subtotal,
           },
           {
             headers: {
@@ -128,7 +131,6 @@ export const CheckoutSheet = ({
   const token =
     typeof window !== "undefined" ? localStorage.getItem("token") : null;
 
-
   const discountedDeliveryRate =
     deliveryRate > DELIVERY_DISCOUNT
       ? deliveryRate - DELIVERY_DISCOUNT
@@ -160,16 +162,16 @@ export const CheckoutSheet = ({
         }
       );
 
-      if(res.data.error){
+      if (res.data.error) {
         setPromoError(res.data.message);
         return;
       }
 
       setDiscount(res.data.discountAmount);
-      setPromoName(res.data.code)
+      setPromoName(res.data.code);
 
-      const amount = Math.max(subtotal - res.data.discountAmount, 0)
-      const final = subtotal>=1000 ? amount : amount + discountedDeliveryRate
+      const amount = Math.max(subtotal - res.data.discountAmount, 0);
+      const final = subtotal >= 1000 ? amount : amount + discountedDeliveryRate;
       setFinalAmount(final);
 
       toast({
@@ -189,7 +191,7 @@ export const CheckoutSheet = ({
   useEffect(() => {
     const reapplyPromo = async () => {
       if (!promoCode) return;
-  
+
       try {
         const res = await axios.post(
           `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/promo-code/apply`,
@@ -204,12 +206,13 @@ export const CheckoutSheet = ({
             },
           }
         );
-  
+
         setDiscount(res.data.discountAmount);
         setPromoName(res.data.code);
 
-        const amount = Math.max(subtotal - res.data.discountAmount, 0)
-        const final = subtotal>=1000 ? amount : amount + discountedDeliveryRate
+        const amount = Math.max(subtotal - res.data.discountAmount, 0);
+        const final =
+          subtotal >= 1000 ? amount : amount + discountedDeliveryRate;
         setFinalAmount(final);
 
         setPromoError("");
@@ -218,10 +221,9 @@ export const CheckoutSheet = ({
         setDiscount(0);
       }
     };
-  
+
     reapplyPromo();
   }, [subtotal, promoCode, discountedDeliveryRate, user]);
-  
 
   useEffect(() => {
     const fetchCart = async () => {
@@ -283,17 +285,21 @@ export const CheckoutSheet = ({
 
         const options = {
           key: keyId,
-          amount: finalAmount * 100,
           currency: "INR",
           name: "Grab Gardenn Healthy Foods",
           description: "Order Payment",
           order_id: orderId,
           handler: async function (response: any) {
-            console.log("✅ Payment Handler Called", response);
             toast({ title: "Payment Successful" });
             const res = await axios.post(
               `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/checkout/verify-payment/${user._id}`,
-              { ...response, shippingAddress: selectedAddress, deliveryRate },
+              { ...response, 
+                shippingAddress: selectedAddress,
+                deliveryRate: discountedDeliveryRate,
+                courierId: courierId,
+                promoCode: promoCode,
+                promoCodeDiscount: discount
+              },
               { headers: { Authorization: `Bearer ${user.token}` } }
             );
 
@@ -356,7 +362,7 @@ export const CheckoutSheet = ({
             deliveryRate: discountedDeliveryRate,
             courierId: courierId,
             promoCode: promoCode,
-            promoCodeDiscount: discount
+            promoCodeDiscount: discount,
           },
           {
             headers: { Authorization: `Bearer ${token}` },
@@ -459,7 +465,7 @@ export const CheckoutSheet = ({
               placeholder="Enter promo code"
               value={promoCode}
               autoFocus={false}
-              disabled={discount>0}
+              disabled={discount > 0}
               onChange={(e) => setPromoCode(e.target.value)}
             />
             <Button
@@ -473,16 +479,23 @@ export const CheckoutSheet = ({
 
           <div className="flex flex-row gap-2 flex-wrap w-full">
             {promoCodes.map((item: any) => {
-              return <div onClick={()=>{
-                setPromoCode(item.code)
-              }}
-              key={item._id} className="cursor-pointer text-sm px-3 py-1 font-semibold text-gray-500 bg-slate-50 border border-gray-300 rounded-md w-fit flex-wrap">
-                {item.code}
-              </div>
+              return (
+                <div
+                  onClick={() => {
+                    setPromoCode(item.code);
+                  }}
+                  key={item._id}
+                  className="cursor-pointer text-sm px-3 py-1 font-semibold text-gray-500 bg-slate-50 border border-gray-300 rounded-md w-fit flex-wrap"
+                >
+                  {item.code}
+                </div>
+              );
             })}
           </div>
 
-          {promoError && <p className="px-2 text-xs text-red-500">{promoError}</p>}
+          {promoError && (
+            <p className="px-2 text-xs text-red-500">{promoError}</p>
+          )}
 
           {/* Total Savings */}
           {(discount > 0 || subtotal <= 1000) && (
@@ -649,7 +662,7 @@ export const CheckoutSheet = ({
               className="space-y-2"
             >
               <div className="flex items-center space-x-2">
-                <RadioGroupItem disabled value="razorpay" id="razorpay" />
+                <RadioGroupItem value="razorpay" id="razorpay" />
                 <Label htmlFor="razorpay" className="flex items-center gap-2">
                   <CreditCard className="w-4 h-4" />
                   Pay with Razorpay (NOT AVAILABLE FOR NOW)
