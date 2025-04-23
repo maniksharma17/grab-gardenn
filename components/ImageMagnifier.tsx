@@ -36,7 +36,6 @@ const ImageMagnifierLens = ({ src, zoom = 2, lensSize = 150 }: ImageMagnifierLen
         ref={imgRef}
         src={src}
         
-        layout="responsive"
         alt="Zoomable"
         className="w-full h-full rounded-lg"
       />
