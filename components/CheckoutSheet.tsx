@@ -440,7 +440,7 @@ export const CheckoutSheet = ({
                 </TableCell>
               </TableRow>
 
-              {(subtotal <= 1000 && deliveryRate > 40) && (
+              {(subtotal <= 1000 && deliveryRate > DELIVERY_DISCOUNT) && (
                 <TableRow>
                   <TableCell className="text-green-600">
                     Shipping Discount
@@ -505,7 +505,7 @@ export const CheckoutSheet = ({
               <span className="text-green-800 font-bold">
                 ₹
                 {(
-                  discount + (subtotal <= 1000 ? DELIVERY_DISCOUNT : 0)
+                  discount + ((subtotal < 1000 && deliveryRate > DELIVERY_DISCOUNT) ? DELIVERY_DISCOUNT : 0)
                 ).toFixed(2)}
               </span>
               on your order! 🎉
