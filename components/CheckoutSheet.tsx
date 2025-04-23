@@ -297,7 +297,6 @@ export const CheckoutSheet = ({
               { ...response, 
                 shippingAddress: selectedAddress,
                 deliveryRate: discountedDeliveryRate,
-                courierId: courierId,
                 promoCode: promoCode,
                 promoCodeDiscount: discount
               },
@@ -311,6 +310,7 @@ export const CheckoutSheet = ({
                 {
                   orderId: res.data.order._id,
                   paymentMethod: "Prepaid",
+                  courierId: courierId,
                 },
                 {
                   headers: { Authorization: `Bearer ${user.token}` },
