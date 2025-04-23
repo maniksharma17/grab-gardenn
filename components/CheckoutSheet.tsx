@@ -272,6 +272,7 @@ export const CheckoutSheet = ({
           `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/checkout/create-checkout-session/${user._id}`,
           {
             deliveryRate: discountedDeliveryRate,
+            promoCodeDiscount: discount,
           },
           {
             headers: {
