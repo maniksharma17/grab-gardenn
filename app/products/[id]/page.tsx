@@ -316,7 +316,7 @@ export default function ProductPage() {
                       className="rounded-lg object-cover aspect-square"
                       unoptimized
                     />
-                    <ImageMagnifier src={img} zoom={3.0}/>
+                    <ImageMagnifier src={img} zoom={2.5} lensSize={200} />
                   </button>
                 ))}
               </div>
