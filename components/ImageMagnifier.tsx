@@ -27,7 +27,7 @@ const ImageMagnifierLens = ({ src, zoom = 2, lensSize = 150 }: ImageMagnifierLen
 
   return (
     <div
-      className="relative w-full max-w-md overflow-hidden"
+      className="relative w-full h-full overflow-hidden"
       onMouseEnter={() => setShowLens(true)}
       onMouseLeave={() => setShowLens(false)}
       onMouseMove={handleMouseMove}
@@ -40,7 +40,7 @@ const ImageMagnifierLens = ({ src, zoom = 2, lensSize = 150 }: ImageMagnifierLen
         layout="responsive"
         objectFit="cover"
         alt="Zoomable"
-        className="w-full h-full aspect-square object-cover rounded-lg"
+        className="w-full h-full object-cover rounded-lg"
       />
       {showLens && (
         <div
