@@ -222,6 +222,7 @@ export default function AuthPage() {
   return (
     <div className="min-h-screen flex flex-col">
       <div className="flex-1 container mx-auto py-12">
+      
         <div className="max-w-md mx-auto">
           <div className="text-center mb-8">
             <Image

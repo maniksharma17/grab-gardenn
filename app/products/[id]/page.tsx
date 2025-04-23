@@ -32,6 +32,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Textarea } from "@/components/ui/textarea";
+import ProductImageMagnifier from "@/components/ImageMagnifier";
 
 export default function ProductPage() {
   const [quantity, setQuantity] = useState(1);
@@ -315,6 +316,7 @@ export default function ProductPage() {
                       className="rounded-lg object-cover aspect-square"
                       unoptimized
                     />
+                    <ProductImageMagnifier src={img} />
                   </button>
                 ))}
               </div>
