@@ -38,9 +38,8 @@ const ImageMagnifierLens = ({ src, zoom = 2, lensSize = 150 }: ImageMagnifierLen
         height={500}
         width={500}
         layout="responsive"
-        objectFit="cover"
         alt="Zoomable"
-        className="w-full h-full object-cover rounded-lg"
+        className="w-full h-full rounded-lg"
       />
       {showLens && (
         <div
