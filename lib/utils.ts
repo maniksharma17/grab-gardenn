@@ -55,10 +55,6 @@ export const localStorageEffect = (key: string) =>
       return { isValid: false, message: "Name is required." };
     }
   
-    if (!/^\d{10}$/.test(address.phone)) {
-      return { isValid: false, message: "Phone number must be 10 digits." };
-    }
-  
     if (!address.street.trim()) {
       return { isValid: false, message: "Street is required." };
     }
