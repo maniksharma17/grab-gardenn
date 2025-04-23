@@ -316,21 +316,15 @@ export default function ProductPage() {
                       className="rounded-lg object-cover aspect-square"
                       unoptimized
                     />
-                    <ImageMagnifier src={img} zoom={2.5} lensSize={200} />
+                    
                   </button>
                 ))}
               </div>
             )}
 
             <div className="w-full max-h-[500px] shadow-sm aspect-square overflow-hidden rounded-xl">
-              <Image
-                src={product.images[selectedImage]}
-                alt={product.name}
-                className="w-full h-full object-cover"
-                width={500}
-                height={500}
-                unoptimized
-              />
+              
+              <ImageMagnifier src={product.images[selectedImage]} zoom={2.5} lensSize={200} />
             </div>
           </div>
 
