@@ -666,7 +666,7 @@ export const CheckoutSheet = ({
                 <RadioGroupItem value="razorpay" id="razorpay" />
                 <Label htmlFor="razorpay" className="flex items-center gap-2">
                   <CreditCard className="w-4 h-4" />
-                  Pay with Razorpay (NOT AVAILABLE FOR NOW)
+                  Pay with Razorpay 
                 </Label>
               </div>
               <div className="flex items-center space-x-2">

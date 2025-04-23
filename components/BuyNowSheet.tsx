@@ -217,8 +217,9 @@ export const BuyNowSheet = ({
         const res = await axios.post(
           `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/checkout/create-direct-checkout-session/${user._id}`,
           {
-            deliveryRate,
-            price: total,
+            deliveryRate: discountedDeliveryRate,
+            total: total,
+            promoCodeDiscount: discount
           },
           {
             headers: {
@@ -232,9 +233,8 @@ export const BuyNowSheet = ({
 
         const options = {
           keyId,
-          amount: finalAmount * 100,
           currency: "INR",
-          name: "Grab Gardenn",
+          name: "Grab Gardenn Healthy Foods",
           description: "Order Payment",
           order_id: orderId,
           handler: async function (response: any) {
@@ -244,8 +244,11 @@ export const BuyNowSheet = ({
               {
                 ...response,
                 shippingAddress: selectedAddress,
-                deliveryRate,
-                price: total,
+                deliveryRate: discountedDeliveryRate,
+                promoCode: finalPromoCode,
+                promoCodeDiscount: discount,
+                total: total,
+                price: price,
                 variant: selectedVariant,
                 product: product._id,
                 quantity,
@@ -684,15 +687,16 @@ export const BuyNowSheet = ({
               value={paymentMode}
               onValueChange={(val) => setPaymentMode(val as "COD" | "Prepaid")}
             >
+              
+              <div className="flex items-center space-x-2">
+                <RadioGroupItem value="Prepaid" id="prepaid" />
+                <Label htmlFor="prepaid">
+                  Pay with Razorpay 
+                </Label>
+              </div>
               <div className="flex items-center space-x-2">
                 <RadioGroupItem value="COD" id="cod" />
                 <Label htmlFor="cod">Cash on Delivery</Label>
-              </div>
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem disabled value="Prepaid" id="prepaid" />
-                <Label htmlFor="prepaid">
-                  Pay with Razorpay (NOT AVAILABLE FOR NOW)
-                </Label>
               </div>
             </RadioGroup>
           </div>
