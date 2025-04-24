@@ -5,6 +5,7 @@ import { Footer } from '@/components/Footer';
 import { WhatsAppFloatingButton } from '@/components/FloatingWhatsappIcon';
 import Script from 'next/script';
 import { Metadata } from 'next';
+import { SessionProvider } from 'next-auth/react';
 
 const poppins = Poppins({ 
   subsets: ['latin'],
@@ -29,10 +30,12 @@ export default function RootLayout({
     <html lang="en">
       <Script src="https://checkout.razorpay.com/v1/checkout.js"></Script>
       <div className={`${poppins.variable} font-poppins`}>
-        {children}
-        <Toaster />
-        <Footer />
-        <WhatsAppFloatingButton />
+        <SessionProvider>
+          {children}
+          <Toaster />
+          <Footer />
+          <WhatsAppFloatingButton />
+        </SessionProvider>
       </div>
       
     </html>

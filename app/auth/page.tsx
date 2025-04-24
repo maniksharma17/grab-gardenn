@@ -14,6 +14,8 @@ import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import axios from "axios";
 import { Checkbox } from "@/components/ui/checkbox";
+import { signIn, signOut, useSession } from "next-auth/react";
+import { sign } from "node:crypto";
 
 interface RegisterDataTypes {
   name: string;
@@ -253,10 +255,10 @@ export default function AuthPage() {
             <TabsContent value="login">
               <div className="bg-card p-8 rounded-lg shadow-sm">
                 <h2 className="text-2xl font-bold mb-6">Welcome Back</h2>
-                {/* <Button
+                <Button
                   variant="outline"
                   className="w-full flex items-center justify-center gap-2 mb-4"
-                  onClick={() => console.log("Handle Google Auth here")}
+                  onClick={() => signIn("google", {callbackUrl: "/auth/social-redirect"})}
                 >
                   <Image
                     src="/google-icon.svg"
@@ -265,13 +267,13 @@ export default function AuthPage() {
                     height={20}
                   />
                   Continue with Google
-                </Button> */}
+                </Button> 
 
-                {/* <div className="flex flex-row items-center justify-center gap-2 px-8">
+                <div className="flex flex-row items-center justify-center gap-2 px-8">
                   <div className="border-t w-full"></div>
                   <p className="text-gray-400 text-sm">OR</p>
                   <div className="w-full border-t"></div>
-                </div> */}
+                </div>
 
                 <form
                   onSubmit={(e) => handleSubmit(e, "login")}
