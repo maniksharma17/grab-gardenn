@@ -310,7 +310,7 @@ export const UserProfileSheet = () => {
                   placeholder="Zip Code"
                   value={address.zipCode}
                   onChange={(e) =>
-                    setAddress({ ...address, zipCode: e.target.value })
+                    setAddress({ ...address, zipCode: e.target.value.trim() })
                   }
                 />
                 <Input
