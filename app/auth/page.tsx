@@ -297,7 +297,7 @@ export default function AuthPage() {
                 toast({ title: "Success", description: "Logged in with Google!" });
   
                 // ✅ Conditional redirect
-                if (!data.user.phone || !data.user.address?.length) {
+                if (!data.user.phone.length || !data.user.address?.length) {
                   router.replace("/complete-profile");
                 } else {
                   router.replace("/products");
