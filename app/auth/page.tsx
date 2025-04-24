@@ -492,6 +492,35 @@ export default function AuthPage() {
             <TabsContent value="register">
               <div className="bg-card p-8 rounded-lg shadow-sm">
                 <h2 className="text-2xl font-bold mb-6">Create Account</h2>
+                <Button
+                  variant="outline"
+                  className="w-full flex items-center justify-center gap-2 mb-4"
+                  onClick={() => {
+                    if (window.google && window.google.accounts) {
+                      window.google.accounts.id.prompt();
+                    } else {
+                      toast({
+                        title: "Google Sign-In Not Ready",
+                        description: "Try again in a few seconds",
+                      });
+                    }
+                  }}
+                  
+                >
+                  <Image
+                    src="/google-icon.svg"
+                    alt="Google"
+                    width={20}
+                    height={20}
+                  />
+                  Continue with Google
+                </Button>
+
+                <div className="flex flex-row items-center justify-center gap-2 px-8">
+                  <div className="border-t w-full"></div>
+                  <p className="text-gray-400 text-sm">OR</p>
+                  <div className="w-full border-t"></div>
+                </div>
 
                 <form
                   onSubmit={(e) => handleSubmit(e, "register")}
