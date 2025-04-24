@@ -65,7 +65,7 @@ export default function AuthPage() {
   const [useEmail, setUseEmail] = useState<boolean|"indeterminate">(false);
 
   function validateRegisterData(data: RegisterDataTypes): string | null {
-    const { name, email, password, address } = data;
+    const { name, phone, email, password, address } = data;
 
     // Name
     if (!name.trim()) return "Name is required";
@@ -74,6 +74,9 @@ export default function AuthPage() {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!email.trim()) return "Email is required";
     if (!emailRegex.test(email)) return "Invalid email format";
+
+    // Phone
+    if (phone.trim().length < 13) return "Phone number must be 10 digits";
 
     // Password
     if (password.length < 6) return "Password must be at least 6 characters";
@@ -84,7 +87,10 @@ export default function AuthPage() {
 
     if (!addr.name.trim()) return "Shipping name is required";
     if (!addr.phone) return "Shipping phone number is required";
+    if (addr.phone.trim().length < 13) return "Phone number must be 10 digits";
 
+
+    if (!addr.country.trim()) return "Country is required"
     if (!addr.street.trim()) return "Street address is required";
     if (!addr.city.trim()) return "City is required";
     if (!addr.state.trim()) return "State is required";

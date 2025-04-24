@@ -58,6 +58,10 @@ export const localStorageEffect = (key: string) =>
     if (!address.street.trim()) {
       return { isValid: false, message: "Street is required." };
     }
+
+    if (!address.phone.trim()) {
+      return { isValid: false, message: "Phone is invalid." };
+    }
   
     if (!address.city.trim()) {
       return { isValid: false, message: "City is required." };
