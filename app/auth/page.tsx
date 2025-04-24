@@ -15,7 +15,23 @@ import "react-phone-input-2/lib/style.css";
 import axios from "axios";
 import { Checkbox } from "@/components/ui/checkbox";
 import { signIn, signOut, useSession } from "next-auth/react";
-import { sign } from "node:crypto";
+import Script from "next/script";
+
+declare global {
+  interface Window {
+    google: {
+      accounts: {
+        id: {
+          prompt(): unknown;
+          initialize: (config: {
+            client_id: string;
+            callback: (response: any) => void;
+          }) => void;
+        };
+      };
+    };
+  }
+}
 
 interface RegisterDataTypes {
   name: string;
@@ -64,7 +80,7 @@ export default function AuthPage() {
   const setUser = useSetRecoilState(userState);
   const user = useRecoilValue(userState);
   const router = useRouter();
-  const [useEmail, setUseEmail] = useState<boolean|"indeterminate">(false);
+  const [useEmail, setUseEmail] = useState<boolean | "indeterminate">(false);
 
   function validateRegisterData(data: RegisterDataTypes): string | null {
     const { name, phone, email, password, address } = data;
@@ -91,8 +107,7 @@ export default function AuthPage() {
     if (!addr.phone) return "Shipping phone number is required";
     if (addr.phone.trim().length < 13) return "Phone number must be 10 digits";
 
-
-    if (!addr.country.trim()) return "Country is required"
+    if (!addr.country.trim()) return "Country is required";
     if (!addr.street.trim()) return "Street address is required";
     if (!addr.city.trim()) return "City is required";
     if (!addr.state.trim()) return "State is required";
@@ -227,10 +242,78 @@ export default function AuthPage() {
     }
   };
 
+  useEffect(() => {
+    if (typeof window !== "undefined" && window.google && !user?.isLoggedIn) {
+      window.google.accounts.id.initialize({
+        client_id: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID!,
+        callback: async (response: any) => {
+          setIsLoading(true);
+          try {
+            const decoded = JSON.parse(atob(response.credential.split(".")[1]));
+            const { name, email } = decoded;
+
+            const res = await fetch(
+              `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/oauth-login`,
+              {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ name, email }),
+                credentials: "include",
+              }
+            );
+
+            const data = await res.json();
+
+            if (!res.ok || data.error) {
+              throw new Error(data.message || "Google login failed");
+            }
+
+            const userData = {
+              _id: data.user._id,
+              name: data.user.name,
+              email: data.user.email,
+              phone: data.user.phone,
+              address: data.user.address,
+              token: data.token,
+              isLoggedIn: true,
+              createdAt: data.user.createdAt,
+              updatedAt: data.user.updatedAt,
+            };
+
+            setUser({ ...userData, primaryAddress: 0 });
+            localStorage.setItem("user", JSON.stringify(userData));
+            localStorage.setItem("token", data.token);
+
+            toast({ title: "Success", description: "Logged in with Google!" });
+
+            // ✅ Conditional redirect
+            if (!data.user.phone || !data.user.address?.length) {
+              router.replace("/complete-profile");
+            } else {
+              router.replace("/products");
+            }
+          } catch (err) {
+            toast({
+              title: "Google Sign In Failed",
+              description: "Please try again",
+              variant: "destructive",
+            });
+          } finally {
+            setIsLoading(false);
+          }
+        },
+      });
+
+      window.google.accounts.id.prompt();
+    }
+  }, [user, router, setUser, toast]);
+
   return (
     <div className="min-h-screen flex flex-col">
+      <Script src="https://accounts.google.com/gsi/client" async defer />
       <div className="flex-1 container mx-auto py-12">
-      
         <div className="max-w-md mx-auto">
           <div className="text-center mb-8">
             <Image
@@ -258,7 +341,9 @@ export default function AuthPage() {
                 <Button
                   variant="outline"
                   className="w-full flex items-center justify-center gap-2 mb-4"
-                  onClick={() => signIn("google", {callbackUrl: "/auth/social-redirect"})}
+                  onClick={() =>
+                    signIn("google", { callbackUrl: "/auth/social-redirect" })
+                  }
                 >
                   <Image
                     src="/google-icon.svg"
@@ -267,7 +352,7 @@ export default function AuthPage() {
                     height={20}
                   />
                   Continue with Google
-                </Button> 
+                </Button>
 
                 <div className="flex flex-row items-center justify-center gap-2 px-8">
                   <div className="border-t w-full"></div>
@@ -321,7 +406,10 @@ export default function AuthPage() {
                     </div>
                   )}
                   <div className="flex items-center gap-2">
-                    <Checkbox checked={useEmail} onCheckedChange={setUseEmail} />
+                    <Checkbox
+                      checked={useEmail}
+                      onCheckedChange={setUseEmail}
+                    />
                     <label className="text-sm font-normal">
                       Login using Email
                     </label>
@@ -359,16 +447,18 @@ export default function AuthPage() {
                       </div>{" "}
                     </div>
                   </div>
-                  {useEmail && <div className="flex items-center justify-between">
-                    <label className="flex items-center space-x-2"></label>
-                    <a
-                      href="#"
-                      className="text-sm text-primary hover:underline"
-                      onClick={handlePasswordReset}
-                    >
-                      Forgot password?
-                    </a>
-                  </div>}
+                  {useEmail && (
+                    <div className="flex items-center justify-between">
+                      <label className="flex items-center space-x-2"></label>
+                      <a
+                        href="#"
+                        className="text-sm text-primary hover:underline"
+                        onClick={handlePasswordReset}
+                      >
+                        Forgot password?
+                      </a>
+                    </div>
+                  )}
                   <Button className="w-full" type="submit" disabled={isLoading}>
                     {isLoading ? "Logging in..." : "Login"}
                   </Button>
