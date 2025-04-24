@@ -328,6 +328,8 @@ export default function AuthPage() {
   useEffect(() => {
     if (user?.isLoggedIn && (!user.phone || user.address?.length === 0)) {
       router.replace("/complete-profile");
+    } else if (user?.isLoggedIn) {
+      router.replace("/products");
     }
   }, [user, router]);
   
