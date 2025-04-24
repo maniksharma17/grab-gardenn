@@ -352,7 +352,17 @@ export const CheckoutSheet = ({
         toast({ title: "Payment failed", variant: "destructive" });
       } finally {
         setLoading(false);
+        setOpen(false);
+        setCart(false);
         setCartRefresh((prev) => prev + 1);
+        setCartRefresh((prev) => prev + 1);
+        setOpen(false);
+        setCart(false);
+        setLoading(false);
+        setDiscount(0);
+        setPromoCode("");
+        setPromoName("");
+        setFinalAmount((prev) => prev + discount);
       }
     } else {
       try {
@@ -384,6 +394,10 @@ export const CheckoutSheet = ({
         setOpen(false);
         setCart(false);
         setLoading(false);
+        setDiscount(0);
+        setPromoCode("");
+        setPromoName("");
+        setFinalAmount((prev) => prev + discount);
       }
     }
   };

@@ -305,7 +305,12 @@ export const BuyNowSheet = ({
         console.log("Razorpay error", err);
         toast({ title: "Payment failed", variant: "destructive" });
       } finally {
+        setOpen(false);
         setLoading(false);
+        setFinalPromoCode("")
+        setPromoCode("")
+        setFinalAmount((prev) => prev + discount);
+        setDiscount(0)
       }
     } else {
       try {
@@ -353,7 +358,6 @@ export const BuyNowSheet = ({
         setPromoCode("")
         setFinalAmount((prev) => prev + discount);
         setDiscount(0)
-        
       }
     }
   };
