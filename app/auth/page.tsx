@@ -245,7 +245,7 @@ export default function AuthPage() {
   useEffect(() => {
     const clientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
     console.log("Google client ID:", clientId);
-  
+
     const loadGoogleScript = () => {
       const script = document.createElement("script");
       script.src = "https://accounts.google.com/gsi/client";
@@ -257,9 +257,11 @@ export default function AuthPage() {
             callback: async (response: any) => {
               setIsLoading(true);
               try {
-                const decoded = JSON.parse(atob(response.credential.split(".")[1]));
+                const decoded = JSON.parse(
+                  atob(response.credential.split(".")[1])
+                );
                 const { name, email } = decoded;
-  
+
                 const res = await fetch(
                   `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/oauth-login`,
                   {
@@ -271,13 +273,13 @@ export default function AuthPage() {
                     credentials: "include",
                   }
                 );
-  
+
                 const data = await res.json();
-  
+
                 if (!res.ok || data.error) {
                   throw new Error(data.message || "Google login failed");
                 }
-  
+
                 const userData = {
                   _id: data.user._id,
                   name: data.user.name,
@@ -289,19 +291,35 @@ export default function AuthPage() {
                   createdAt: data.user.createdAt,
                   updatedAt: data.user.updatedAt,
                 };
-  
+
                 setUser({ ...userData, primaryAddress: 0 });
                 localStorage.setItem("user", JSON.stringify(userData));
                 localStorage.setItem("token", data.token);
-  
-                toast({ title: "Success", description: "Logged in with Google!" });
-  
-                if (!data.user.phone || !data.user.address || data.user.address.length === 0) {
+
+                toast({
+                  title: "Success",
+                  description: "Logged in with Google!",
+                });
+
+                console.log("User after Google login:", data.user);
+                console.log(
+                  "Redirect condition check:",
+                  !data.user.phone,
+                  !Array.isArray(data.user.address),
+                  data.user.address?.length === 0
+                );
+
+                if (
+                  !data.user.phone ||
+                  !Array.isArray(data.user.address) ||
+                  data.user.address.length === 0
+                ) {
+                  console.log("Redirecting to /complete-profile");
                   router.replace("/complete-profile");
                 } else {
+                  console.log("Redirecting to /products");
                   router.replace("/products");
                 }
-                
               } catch (err) {
                 toast({
                   title: "Google Sign In Failed",
@@ -313,18 +331,17 @@ export default function AuthPage() {
               }
             },
           });
-  
+
           window.google.accounts.id.prompt();
         }
       };
       document.body.appendChild(script);
     };
-  
+
     if (typeof window !== "undefined" && !user?.isLoggedIn) {
       loadGoogleScript();
     }
   }, [user, router, setUser, toast]);
-  
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -366,7 +383,6 @@ export default function AuthPage() {
                       });
                     }
                   }}
-                  
                 >
                   <Image
                     src="/google-icon.svg"
@@ -505,7 +521,6 @@ export default function AuthPage() {
                       });
                     }
                   }}
-                  
                 >
                   <Image
                     src="/google-icon.svg"
