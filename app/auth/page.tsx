@@ -301,25 +301,7 @@ export default function AuthPage() {
                   description: "Logged in with Google!",
                 });
 
-                console.log("User after Google login:", data.user);
-                console.log(
-                  "Redirect condition check:",
-                  !data.user.phone,
-                  !Array.isArray(data.user.address),
-                  data.user.address?.length === 0
-                );
-
-                if (
-                  !data.user.phone ||
-                  !Array.isArray(data.user.address) ||
-                  data.user.address.length === 0
-                ) {
-                  console.log("Redirecting to /complete-profile");
-                  router.replace("/complete-profile");
-                } else {
-                  console.log("Redirecting to /products");
-                  router.replace("/products");
-                }
+                
               } catch (err) {
                 toast({
                   title: "Google Sign In Failed",
@@ -342,6 +324,13 @@ export default function AuthPage() {
       loadGoogleScript();
     }
   }, [user, router, setUser, toast]);
+
+  useEffect(() => {
+    if (user?.isLoggedIn && (!user.phone || user.address?.length === 0)) {
+      router.replace("/complete-profile");
+    }
+  }, [user, router]);
+  
 
   return (
     <div className="min-h-screen flex flex-col">
