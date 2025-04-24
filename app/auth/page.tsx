@@ -341,9 +341,17 @@ export default function AuthPage() {
                 <Button
                   variant="outline"
                   className="w-full flex items-center justify-center gap-2 mb-4"
-                  onClick={() =>
-                    signIn("google", { callbackUrl: "/auth/social-redirect" })
-                  }
+                  onClick={() => {
+                    if (window.google && window.google.accounts) {
+                      window.google.accounts.id.prompt();
+                    } else {
+                      toast({
+                        title: "Google Sign-In Not Ready",
+                        description: "Try again in a few seconds",
+                      });
+                    }
+                  }}
+                  
                 >
                   <Image
                     src="/google-icon.svg"
