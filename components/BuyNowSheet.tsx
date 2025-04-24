@@ -560,7 +560,7 @@ export const BuyNowSheet = ({
               <span className="text-green-800 font-bold">
                 ₹
                 {(
-                  discount + ((total < 1000 && deliveryRate > DELIVERY_DISCOUNT) ? DELIVERY_DISCOUNT : deliveryRate)
+                  discount + ((total < 1000 && deliveryRate > DELIVERY_DISCOUNT) ? DELIVERY_DISCOUNT : 0)
                 ).toFixed(2)}
               </span>
               on your order! 🎉
