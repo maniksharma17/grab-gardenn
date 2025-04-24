@@ -380,21 +380,11 @@ export const BuyNowSheet = ({
     streetOptional: "",
   });
   const handleAddNewAddress = () => {
-    const { name, phone, city, state, country, zipCode, street } = newAddress;
-
-    if (!name || !phone || !city || !state || !country || !zipCode || !street) {
-      toast({
-        title: "Please fill in all required fields.",
-        variant: "destructive",
-      });
+    const result = validateAddress(newAddress);
+    if (!result.isValid) {
+      toast({ title: result.message, variant: "destructive" });
       return;
     }
-
-    if (!/^[6-9]\d{9}$/.test(phone)) {
-      toast({ title: "Invalid Phone Number", variant: "destructive" });
-      return;
-    }
-
     // Everything is valid, so now set the address
     setSelectedAddress(newAddress);
     toast({ title: "New Address Selected", variant: "default" });
