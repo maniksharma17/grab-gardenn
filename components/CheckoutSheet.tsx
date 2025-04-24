@@ -37,6 +37,8 @@ import { Input } from "@/components/ui/input";
 import { validateAddress } from "@/lib/utils";
 import { DELIVERY_DISCOUNT } from "@/lib/config";
 import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css";
+
 
 export const CheckoutSheet = ({
   setCart,
@@ -655,7 +657,7 @@ export const CheckoutSheet = ({
                 placeholder="Zip Code"
                 value={newAddress.zipCode}
                 onChange={(e) =>
-                  setNewAddress({ ...newAddress, zipCode: e.target.value })
+                  setNewAddress({ ...newAddress, zipCode: e.target.value.trim() })
                 }
               />
               <Input
