@@ -73,7 +73,8 @@ export default function CompleteProfile() {
       router.push('/products');
     } catch (err) {
       console.error('Failed to update profile:', err);
-      alert('Something went wrong. Try again.');
+      toast({description: 'Failed to update profile', variant: 'destructive'});
+      router.push('/login');
     }
   };
 
