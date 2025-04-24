@@ -28,6 +28,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <Script src="https://checkout.razorpay.com/v1/checkout.js"></Script>
+      <Script
+        src="https://accounts.google.com/gsi/client"
+        async
+        defer
+        strategy="afterInteractive"
+      />
       <div className={`${poppins.variable} font-poppins`}>
           {children}
           <Toaster />
