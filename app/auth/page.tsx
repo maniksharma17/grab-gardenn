@@ -296,12 +296,12 @@ export default function AuthPage() {
   
                 toast({ title: "Success", description: "Logged in with Google!" });
   
-                // ✅ Conditional redirect
-                if (!data.user.phone || !data.user.address) {
+                if (!data.user.phone || !data.user.address || data.user.address.length === 0) {
                   router.replace("/complete-profile");
                 } else {
                   router.replace("/products");
                 }
+                
               } catch (err) {
                 toast({
                   title: "Google Sign In Failed",
