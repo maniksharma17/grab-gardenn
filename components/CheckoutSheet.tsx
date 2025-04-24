@@ -275,12 +275,6 @@ export const CheckoutSheet = ({
       return;
     }
 
-    const result = validateAddress(newAddress);
-    if (!result.isValid) {
-      toast({ title: result.message, variant: "destructive" });
-      setLoading(false);
-      return;
-    }
 
     if (paymentMethod === "razorpay") {
       try {
