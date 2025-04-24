@@ -20,6 +20,7 @@ import {
   Heart,
   LogOut,
   PackageSearch,
+  Phone,
   Plus,
   Settings,
   ShoppingBag,
@@ -33,6 +34,7 @@ import { use, useEffect, useState } from "react";
 import { Input } from "./ui/input";
 import { validateAddress } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
+import PhoneInput from "react-phone-input-2";
 
 export const UserProfileSheet = () => {
   const [user, setUser] = useRecoilState(userState);
@@ -259,13 +261,23 @@ export const UserProfileSheet = () => {
                     setAddress({ ...address, name: e.target.value })
                   }
                 />
-                <Input
-                  placeholder="Phone"
+                
+                <div className="relative">
+                <Phone className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                <PhoneInput
+                  country={"in"}
                   value={address.phone}
-                  onChange={(e) =>
-                    setAddress({ ...address, phone: e.target.value })
-                  }
+                  onChange={(e) => {
+                    setAddress({
+                      ...address,
+                      phone: "+" + e,
+                    });
+                  }}
+                  inputClass="!w-full !h-12 !text-md"
+                  inputStyle={{ borderRadius: "8px", width: "100%" }}
+                  placeholder="Enter your phone number"
                 />
+              </div>
                 <Input
                   placeholder="Street"
                   value={address.street}
