@@ -60,7 +60,7 @@ export const localStorageEffect = (key: string) =>
     }
 
     if (!address.phone.trim() || address.phone.length < 13) {
-      return { isValid: false, message: "Phone is invalid." };
+      return { isValid: false, message: "Phone number is invalid." };
     }
   
     if (!address.city.trim()) {

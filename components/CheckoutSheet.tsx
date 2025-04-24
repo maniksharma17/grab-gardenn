@@ -131,6 +131,19 @@ export const CheckoutSheet = ({
     country: "",
   });
 
+  const handleAddNewAddress = () => {
+    const result = validateAddress(newAddress);
+    if (!result.isValid) {
+      toast({ title: result.message, variant: "destructive" });
+      return;
+    }
+    // Everything is valid, so now set the address
+    setSelectedAddress(newAddress);
+    toast({ title: "New Address Selected", variant: "default" });
+
+    setShowForm(false); 
+  };
+
   const token =
     typeof window !== "undefined" ? localStorage.getItem("token") : null;
 
@@ -668,11 +681,7 @@ export const CheckoutSheet = ({
                 }
               />
               <Button
-                onClick={() => {
-                  setSelectedAddress(newAddress);
-                  setShowForm(false);
-                  toast({ title: "Address added" });
-                }}
+                onClick={handleAddNewAddress}
                 className="w-full"
               >
                 Use This Address
