@@ -43,7 +43,7 @@ export default function CompleteProfile() {
     try {
       const token = localStorage.getItem('token');
       const res = await axios.patch(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/complete-profile`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/complete-profile/${user._id}`,
         {
           phone,
           address,
