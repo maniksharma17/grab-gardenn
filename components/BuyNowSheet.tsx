@@ -14,7 +14,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Table, TableBody, TableCell, TableHead, TableRow } from "@/components/ui/table";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+} from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Button } from "@/components/ui/button";
@@ -26,11 +32,14 @@ import axios from "axios";
 import { Product } from "@/lib/types";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
-import { CircleAlert } from "lucide-react";
+import { CircleAlert, Phone } from "lucide-react";
 import Image from "next/image";
 import { validateAddress } from "@/lib/utils";
 import { DELIVERY_DISCOUNT } from "@/lib/config";
 import { Input } from "./ui/input";
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css";
+
 
 interface Variant {
   display: string;
@@ -81,24 +90,26 @@ export const BuyNowSheet = ({
   const [finalAmount, setFinalAmount] = useState(0);
   const [promoCode, setPromoCode] = useState("");
   const [discount, setDiscount] = useState(0);
-  const [promoName, setPromoName] = useState("")
+  const [promoName, setPromoName] = useState("");
   const [promoError, setPromoError] = useState("");
   const [finalPromoCode, setFinalPromoCode] = useState("");
 
   const [promoCodes, setPromoCodes] = useState([]);
 
-  useEffect(()=>{
+  useEffect(() => {
     const fetchPromos = async () => {
-      const res = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/promo-code/`, {
-        headers: {
-          'Authorization': 'Bearer ' + user.token
+      const res = await axios.get(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/promo-code/`,
+        {
+          headers: {
+            Authorization: "Bearer " + user.token,
+          },
         }
-      });
+      );
       setPromoCodes(res.data);
-    }
-    fetchPromos()
-  }, [])
-
+    };
+    fetchPromos();
+  }, []);
 
   const selectedIndex = product.variants.findIndex(
     (v) => v.value === selectedVariant.value
@@ -123,7 +134,7 @@ export const BuyNowSheet = ({
   useEffect(() => {
     const applyPromo = async () => {
       if (!finalPromoCode) return;
-  
+
       try {
         const res = await axios.post(
           `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/promo-code/apply`,
@@ -139,29 +150,25 @@ export const BuyNowSheet = ({
           }
         );
 
-       
         setDiscount(res.data.discountAmount);
         setPromoName(res.data.code);
 
-        const amount = Math.max(total - res.data.discountAmount, 0)
-        const final = total>=1000 ? amount : amount + discountedDeliveryRate
+        const amount = Math.max(total - res.data.discountAmount, 0);
+        const final = total >= 1000 ? amount : amount + discountedDeliveryRate;
         setFinalAmount(final);
-
-        
       } catch (err: any) {
         if (err.response && err.response.status === 400) {
-          setPromoError(err.response.data.error); 
+          setPromoError(err.response.data.error);
         } else {
           setPromoError("Something went wrong. Please try again.");
         }
-  
+
         setDiscount(0);
       }
     };
-  
+
     applyPromo();
   }, [total, finalPromoCode, discountedDeliveryRate, user]);
-  
 
   useEffect(() => {
     if (!selectedAddress) return;
@@ -219,7 +226,7 @@ export const BuyNowSheet = ({
           {
             deliveryRate: discountedDeliveryRate,
             total: total,
-            promoCodeDiscount: discount
+            promoCodeDiscount: discount,
           },
           {
             headers: {
@@ -307,10 +314,10 @@ export const BuyNowSheet = ({
       } finally {
         setOpen(false);
         setLoading(false);
-        setFinalPromoCode("")
-        setPromoCode("")
+        setFinalPromoCode("");
+        setPromoCode("");
         setFinalAmount((prev) => prev + discount);
-        setDiscount(0)
+        setDiscount(0);
       }
     } else {
       try {
@@ -326,7 +333,7 @@ export const BuyNowSheet = ({
             dimensions: dimensions,
             courierId: courierId,
             promoCode: promoCode,
-            promoCodeDiscount: discount
+            promoCodeDiscount: discount,
           },
           {
             headers: { Authorization: `Bearer ${user.token}` },
@@ -354,10 +361,10 @@ export const BuyNowSheet = ({
       } finally {
         setOpen(false);
         setLoading(false);
-        setFinalPromoCode("")
-        setPromoCode("")
+        setFinalPromoCode("");
+        setPromoCode("");
         setFinalAmount((prev) => prev + discount);
-        setDiscount(0)
+        setDiscount(0);
       }
     }
   };
@@ -441,7 +448,6 @@ export const BuyNowSheet = ({
 
           {/* Order Summary */}
           <div className="shadow-sm space-y-4">
-
             <Table className="w-full border rounded-lg text-sm">
               <TableBody>
                 <TableRow>
@@ -498,17 +504,18 @@ export const BuyNowSheet = ({
                   </TableCell>
                 </TableRow>
 
-                {(total < 1000 && deliveryRate > DELIVERY_DISCOUNT) && 
-                <TableRow>
-                  <TableCell className="text-sm text-primary">
-                    Shipping Discount
-                  </TableCell>
-                  <TableCell className="text-right">
+                {total < 1000 && deliveryRate > DELIVERY_DISCOUNT && (
+                  <TableRow>
+                    <TableCell className="text-sm text-primary">
+                      Shipping Discount
+                    </TableCell>
+                    <TableCell className="text-right">
                       <span className="text-muted-foreground mr-1">
                         -₹{DELIVERY_DISCOUNT.toFixed(2)}
                       </span>
-                  </TableCell>
-                </TableRow>}
+                    </TableCell>
+                  </TableRow>
+                )}
 
                 <TableRow>
                   <TableCell className="text-sm font-semibold">Total</TableCell>
@@ -516,7 +523,6 @@ export const BuyNowSheet = ({
                     ₹{finalAmount.toFixed(2)}
                   </TableCell>
                 </TableRow>
-              
               </TableBody>
             </Table>
           </div>
@@ -526,14 +532,16 @@ export const BuyNowSheet = ({
             <Input
               placeholder="Enter promo code"
               value={promoCode}
-              disabled={discount>0}
+              disabled={discount > 0}
               autoFocus={false}
               onChange={(e) => setPromoCode(e.target.value)}
             />
             <Button
               variant="outline"
               disabled={discount > 0}
-              onClick={(e)=>{setFinalPromoCode(promoCode)}}
+              onClick={(e) => {
+                setFinalPromoCode(promoCode);
+              }}
             >
               Apply
             </Button>
@@ -541,17 +549,24 @@ export const BuyNowSheet = ({
 
           <div className="flex flex-row gap-2 flex-wrap w-full">
             {promoCodes.map((item: any) => {
-              return <div onClick={()=>{
-                setPromoCode(item.code)
-                setFinalPromoCode(item.code)
-              }}
-              key={item._id} className="cursor-pointer text-sm px-3 py-1 font-semibold text-gray-500 bg-slate-50 border border-gray-300 rounded-md w-fit flex-wrap">
-                {item.code}
-              </div>
+              return (
+                <div
+                  onClick={() => {
+                    setPromoCode(item.code);
+                    setFinalPromoCode(item.code);
+                  }}
+                  key={item._id}
+                  className="cursor-pointer text-sm px-3 py-1 font-semibold text-gray-500 bg-slate-50 border border-gray-300 rounded-md w-fit flex-wrap"
+                >
+                  {item.code}
+                </div>
+              );
             })}
           </div>
 
-          {promoError && <p className="px-2 text-xs text-red-500">{promoError}</p>}
+          {promoError && (
+            <p className="px-2 text-xs text-red-500">{promoError}</p>
+          )}
 
           {/* Total Savings */}
           {(discount > 0 || total <= 1000) && (
@@ -560,7 +575,10 @@ export const BuyNowSheet = ({
               <span className="text-green-800 font-bold">
                 ₹
                 {(
-                  discount + ((total < 1000 && deliveryRate > DELIVERY_DISCOUNT) ? DELIVERY_DISCOUNT : 0)
+                  discount +
+                  (total < 1000 && deliveryRate > DELIVERY_DISCOUNT
+                    ? DELIVERY_DISCOUNT
+                    : 0)
                 ).toFixed(2)}
               </span>
               on your order! 🎉
@@ -569,15 +587,16 @@ export const BuyNowSheet = ({
 
           {/* Estimated Delivery */}
           {deliveryMessage.length > 0 ? (
-              <div className="flex items-center gap-2 text-sm bg-red-100 border border-red-200 text-red-700 px-3 py-2 rounded-md">
-                <CircleAlert className="w-4 h-4" />
-                <span>{deliveryMessage}</span>
-              </div>
-            ) : (
-              <div className="text-center flex items-center gap-2 text-sm bg-green-50 border border-green-300 text-primary font-medium px-3 py-4 rounded-md w-full">
-                Estimated Delivery: <span className="font-semibold">{estDelivery}</span>
-              </div>
-            )}
+            <div className="flex items-center gap-2 text-sm bg-red-100 border border-red-200 text-red-700 px-3 py-2 rounded-md">
+              <CircleAlert className="w-4 h-4" />
+              <span>{deliveryMessage}</span>
+            </div>
+          ) : (
+            <div className="text-center flex items-center gap-2 text-sm bg-green-50 border border-green-300 text-primary font-medium px-3 py-4 rounded-md w-full">
+              Estimated Delivery:{" "}
+              <span className="font-semibold">{estDelivery}</span>
+            </div>
+          )}
 
           <div>
             <Label className="mb-2 block">Choose Address</Label>
@@ -607,6 +626,26 @@ export const BuyNowSheet = ({
               </SelectContent>
             </Select>
 
+            {selectedAddress && (
+              <div className="border border-gray-200 rounded-md p-4 mt-3 text-sm text-gray-700 space-y-1 bg-gray-50">
+                <p className="font-medium">{selectedAddress.name}</p>
+                <p>
+                  {selectedAddress.street}
+                  {selectedAddress.streetOptional
+                    ? `, ${selectedAddress.streetOptional}`
+                    : ""}
+                </p>
+                <p>
+                  {selectedAddress.city}, {selectedAddress.state} -{" "}
+                  {selectedAddress.zipCode}
+                </p>
+                <p>{selectedAddress.country}</p>
+                <p className="text-xs text-gray-500">
+                  📞 {selectedAddress.phone}
+                </p>
+              </div>
+            )}
+
             <Button
               variant="outline"
               className="mt-4 w-full text-sm font-medium border-dashed border-gray-300 hover:border-primary hover:text-primary transition"
@@ -615,26 +654,6 @@ export const BuyNowSheet = ({
               ➕ Use a New Address
             </Button>
           </div>
-
-          {selectedAddress && (
-            <div className="border border-gray-200 rounded-md p-4 mt-3 text-sm text-gray-700 space-y-1 bg-gray-50">
-              <p className="font-medium">{selectedAddress.name}</p>
-              <p>
-                {selectedAddress.street}
-                {selectedAddress.streetOptional
-                  ? `, ${selectedAddress.streetOptional}`
-                  : ""}
-              </p>
-              <p>
-                {selectedAddress.city}, {selectedAddress.state} -{" "}
-                {selectedAddress.zipCode}
-              </p>
-              <p>{selectedAddress.country}</p>
-              <p className="text-xs text-gray-500">
-                📞 {selectedAddress.phone}
-              </p>
-            </div>
-          )}
 
           {showNewAddressForm && (
             <div className="border-t pt-4 mt-4 space-y-3">
@@ -649,22 +668,40 @@ export const BuyNowSheet = ({
                 { label: "State", key: "state" },
                 { label: "Country", key: "country" },
                 { label: "Pin Code", key: "zipCode", type: "number" },
-              ].map((field) => (
-                <div key={field.key} className="grid gap-1">
-                  <Label className="text-sm">{field.label}</Label>
-                  <input
-                    type={field.type || "text"}
-                    className="w-full rounded-md border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary border-gray-200"
-                    value={newAddress[field.key as keyof typeof newAddress]}
-                    onChange={(e) =>
-                      setNewAddress((prev) => ({
-                        ...prev,
-                        [field.key]: e.target.value,
-                      }))
-                    }
-                  />
-                </div>
-              ))}
+              ].map((field) =>
+                (field.label === "Phone") ? (
+                  <div key={field.key} className="relative">
+                    <Phone className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                    <PhoneInput
+                      country={"in"}
+                      value={newAddress.phone}
+                      onChange={(e) => {
+                        setNewAddress({
+                          ...newAddress,
+                          phone: "+" + e,
+                        });
+                      }}
+                      inputClass="!w-full !h-12 !text-md"
+                      inputStyle={{ borderRadius: "8px", width: "100%" }}
+                      placeholder="Enter your phone number"
+                    />
+                  </div>
+                ) : (
+                  <div key={field.key}>
+                    <Input
+                      type={field.type || "text"}
+                      placeholder={field.label}
+                      value={newAddress[field.key as keyof typeof newAddress]}
+                      onChange={(e) =>
+                        setNewAddress((prev) => ({
+                          ...prev,
+                          [field.key]: e.target.value,
+                        }))
+                      }
+                    />
+                  </div>
+                )
+              )}
 
               <div className="flex gap-2">
                 <Button
@@ -691,12 +728,9 @@ export const BuyNowSheet = ({
               value={paymentMode}
               onValueChange={(val) => setPaymentMode(val as "COD" | "Prepaid")}
             >
-              
               <div className="flex items-center space-x-2">
                 <RadioGroupItem value="Prepaid" id="prepaid" />
-                <Label htmlFor="prepaid">
-                  Pay with Razorpay 
-                </Label>
+                <Label htmlFor="prepaid">Pay with Razorpay</Label>
               </div>
               <div className="flex items-center space-x-2">
                 <RadioGroupItem value="COD" id="cod" />
@@ -705,7 +739,6 @@ export const BuyNowSheet = ({
             </RadioGroup>
           </div>
 
-          
           <Button
             className="w-full"
             disabled={loading}
