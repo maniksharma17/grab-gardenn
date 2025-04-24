@@ -245,7 +245,7 @@ export default function AuthPage() {
   useEffect(() => {
     if (typeof window !== "undefined" && window.google && !user?.isLoggedIn) {
       window.google.accounts.id.initialize({
-        client_id: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID!,
+        client_id: "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",
         callback: async (response: any) => {
           setIsLoading(true);
           try {
