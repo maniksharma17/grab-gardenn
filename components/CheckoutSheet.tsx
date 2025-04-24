@@ -32,10 +32,11 @@ import {
   SelectContent,
   SelectItem,
 } from "@/components/ui/select";
-import { CircleAlert, CreditCard, Truck } from "lucide-react";
+import { CircleAlert, CreditCard, Mail, Phone, Truck } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { validateAddress } from "@/lib/utils";
 import { DELIVERY_DISCOUNT } from "@/lib/config";
+import PhoneInput from "react-phone-input-2";
 
 export const CheckoutSheet = ({
   setCart,
@@ -591,7 +592,7 @@ export const CheckoutSheet = ({
             className="w-full"
             onClick={() => setShowForm(!showForm)}
           >
-            {showForm ? "Cancel" : "Add New Address"}
+            {showForm ? "Cancel" : "Use New Address"}
           </Button>
 
           {showForm && (
@@ -603,13 +604,22 @@ export const CheckoutSheet = ({
                   setNewAddress({ ...newAddress, name: e.target.value })
                 }
               />
-              <Input
-                placeholder="Phone"
-                value={newAddress.phone}
-                onChange={(e) =>
-                  setNewAddress({ ...newAddress, phone: e.target.value })
-                }
-              />
+              <div className="relative">
+                <Phone className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                <PhoneInput
+                  country={"in"}
+                  value={newAddress.phone}
+                  onChange={(e) => {
+                    setNewAddress({
+                      ...newAddress,
+                      phone: "+" + e,
+                    });
+                  }}
+                  inputClass="!w-full !h-12 !text-md"
+                  inputStyle={{ borderRadius: "8px", width: "100%" }}
+                  placeholder="Enter your phone number"
+                />
+              </div>
               <Input
                 placeholder="Street"
                 value={newAddress.street}
