@@ -1,7 +1,7 @@
 // pages/auth/social-redirect.tsx
 "use client";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import axios from "axios";
 import { useSetRecoilState } from "recoil";
