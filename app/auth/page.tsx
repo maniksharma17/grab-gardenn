@@ -16,6 +16,7 @@ import axios from "axios";
 import { Checkbox } from "@/components/ui/checkbox";
 import { signIn, signOut, useSession } from "next-auth/react";
 import Script from "next/script";
+import GoogleLoginButton from "@/components/GoogleLoginButton";
 
 declare global {
   interface Window {
@@ -325,6 +326,17 @@ export default function AuthPage() {
     }
   }, [user, router, setUser, toast]);
 
+  const handleGoogleLogin = () => {
+    if (window.google && window.google.accounts) {
+      window.google.accounts.id.prompt();
+    } else {
+      toast({
+        title: "Google Sign-In Not Ready",
+        description: "Try again in a few seconds",
+      });
+    }
+  };
+
   useEffect(() => {
     if (user?.isLoggedIn && (!user.phone || user.address?.length === 0)) {
       router.replace("/complete-profile");
@@ -361,28 +373,7 @@ export default function AuthPage() {
             <TabsContent value="login">
               <div className="bg-card p-8 rounded-lg shadow-sm">
                 <h2 className="text-2xl font-bold mb-6">Welcome Back</h2>
-                <Button
-                  variant="outline"
-                  className="w-full flex items-center justify-center gap-2 mb-4"
-                  onClick={() => {
-                    if (window.google && window.google.accounts) {
-                      window.google.accounts.id.prompt();
-                    } else {
-                      toast({
-                        title: "Google Sign-In Not Ready",
-                        description: "Try again in a few seconds",
-                      });
-                    }
-                  }}
-                >
-                  <Image
-                    src="/google-icon.svg"
-                    alt="Google"
-                    width={20}
-                    height={20}
-                  />
-                  Continue with Google
-                </Button>
+                <GoogleLoginButton />
 
                 <div className="flex flex-row items-center justify-center gap-2 px-8">
                   <div className="border-t w-full"></div>
@@ -499,28 +490,7 @@ export default function AuthPage() {
             <TabsContent value="register">
               <div className="bg-card p-8 rounded-lg shadow-sm">
                 <h2 className="text-2xl font-bold mb-6">Create Account</h2>
-                <Button
-                  variant="outline"
-                  className="w-full flex items-center justify-center gap-2 mb-4"
-                  onClick={() => {
-                    if (window.google && window.google.accounts) {
-                      window.google.accounts.id.prompt();
-                    } else {
-                      toast({
-                        title: "Google Sign-In Not Ready",
-                        description: "Try again in a few seconds",
-                      });
-                    }
-                  }}
-                >
-                  <Image
-                    src="/google-icon.svg"
-                    alt="Google"
-                    width={20}
-                    height={20}
-                  />
-                  Continue with Google
-                </Button>
+                <GoogleLoginButton />
 
                 <div className="flex flex-row items-center justify-center gap-2 px-8">
                   <div className="border-t w-full"></div>
