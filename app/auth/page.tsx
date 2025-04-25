@@ -326,16 +326,6 @@ export default function AuthPage() {
     }
   }, [user, router, setUser, toast]);
 
-  const handleGoogleLogin = () => {
-    if (window.google && window.google.accounts) {
-      window.google.accounts.id.prompt();
-    } else {
-      toast({
-        title: "Google Sign-In Not Ready",
-        description: "Try again in a few seconds",
-      });
-    }
-  };
 
   useEffect(() => {
     if (user?.isLoggedIn && (!user.phone || user.address?.length === 0)) {

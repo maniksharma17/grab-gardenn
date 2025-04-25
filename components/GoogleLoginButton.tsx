@@ -3,6 +3,8 @@ import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { useToast } from "@/hooks/use-toast"; // Adjust this to your actual toast import
 import { useRouter } from "next/navigation";
+import { useRecoilValue } from "recoil";
+import { userState } from "@/store/atoms/user";
 
 export default function GoogleLoginButton() {
   const [googleScriptLoaded, setGoogleScriptLoaded] = useState(false);
@@ -56,11 +58,6 @@ export default function GoogleLoginButton() {
               throw new Error(data.message || "Google login failed");
             }
 
-            // Handle successful login here, e.g., update state, navigate
-            toast({ title: "Logged in successfully", description: "Welcome!" });
-
-            // Redirect to appropriate page
-            router.replace("/products");
           } catch (err) {
             toast({
               title: "Google Sign In Failed",
@@ -81,6 +78,15 @@ export default function GoogleLoginButton() {
       });
     }
   };
+
+  const user = useRecoilValue(userState);
+  useEffect(() => {
+    if (user?.isLoggedIn && (!user.phone || user.address?.length === 0)) {
+      router.replace("/complete-profile");
+    } else if (user?.isLoggedIn) {
+      router.replace("/products");
+    }
+  }, [user, router]);
 
   return (
     <Button
