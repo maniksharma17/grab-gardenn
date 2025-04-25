@@ -3,13 +3,14 @@ import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { useToast } from "@/hooks/use-toast"; // Adjust this to your actual toast import
 import { useRouter } from "next/navigation";
-import { useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
 import { userState } from "@/store/atoms/user";
 
 export default function GoogleLoginButton() {
   const [googleScriptLoaded, setGoogleScriptLoaded] = useState(false);
   const { toast } = useToast();
   const router = useRouter();
+  const [user, setUser] = useRecoilState(userState);
 
   useEffect(() => {
     // Load the Google Identity API script if not already loaded
@@ -54,6 +55,27 @@ export default function GoogleLoginButton() {
 
             const data = await res.json();
 
+            const userData = {
+              _id: data.user._id,
+              name: data.user.name,
+              email: data.user.email,
+              phone: data.user.phone,
+              address: data.user.address,
+              token: data.token,
+              isLoggedIn: true,
+              createdAt: data.user.createdAt,
+              updatedAt: data.user.updatedAt,
+            };
+
+            setUser({ ...userData, primaryAddress: 0 });
+            localStorage.setItem("user", JSON.stringify(userData));
+            localStorage.setItem("token", data.token);
+
+            toast({
+              title: "Success",
+              description: "Logged in with Google!",
+            });
+
             if (!res.ok || data.error) {
               throw new Error(data.message || "Google login failed");
             }
@@ -79,7 +101,6 @@ export default function GoogleLoginButton() {
     }
   };
 
-  const user = useRecoilValue(userState);
   useEffect(() => {
     if (user?.isLoggedIn && (!user.phone || user.address?.length === 0)) {
       router.replace("/complete-profile");
