@@ -25,7 +25,7 @@ const ImageMagnifierLens = ({ src, zoom = 2 }: ImageMagnifierLensProps) => {
   };
 
   return (
-    <div className="flex gap-8">
+    <div className="flex w-screen gap-8">
       <div
         className="relative w-[500px] h-[500px] overflow-hidden"
         onMouseEnter={() => setShowZoom(true)}
