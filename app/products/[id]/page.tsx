@@ -534,17 +534,17 @@ export default function ProductPage() {
               </>
             ) : (
               // Zoomed Image Section
-              <div className="max-md:hidden relative w-auto h-[500px] overflow-hidden border-dashed border-gray-500 shadow-lg">
+              <div className="max-md:hidden relative w-full h-[500px] overflow-hidden border-dashed border-gray-500 shadow-lg">
                 <div
                   className="absolute w-[120%] h-[150%]"
                   style={{
                     backgroundImage: `url(${product.images[selectedImage]})`,
                     backgroundSize: "cover",
-                    backgroundPosition: `${zoomPosition.x * 100}% ${
-                      zoomPosition.y * 100
+                    backgroundPosition: `${zoomPosition.x * 50}% ${
+                      zoomPosition.y * 50
                     }%`,
                     transform: "translate(-25%, -25%)",
-                    transition: "background-position 0.2s ease-out", // Faster transition for smoother effect
+                    transition: "background-position 0.5s ease-out", // Faster transition for smoother effect
                   }}
                 />
               </div>
