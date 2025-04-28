@@ -342,7 +342,7 @@ export default function ProductPage() {
 
           {/* Product Info */}
           <div className="relative overflow-y-scroll top-2 max-md:space-y-8 md:space-y-12">
-            {(!isHoveringImage || window.innerWidth > 768) ? (
+            {(!isHoveringImage || window.innerWidth < 768) ? (
               // Product Section
               <>
                 <div
