@@ -69,12 +69,12 @@ export default function CompleteProfile() {
           address: res.data.address,
         })
       );
-
+      toast({ title: 'Profile updated successfully' });
       router.push('/products');
-    } catch (err) {
-      console.error('Failed to update profile:', err);
-      toast({description: 'Failed to update profile', variant: 'destructive'});
-      router.push('/login');
+    } catch (err: any) {
+      const errorMessage =
+        err?.response?.data?.message || err.message || "Something went wrong";
+      toast({ title: errorMessage });
     }
   };
 
