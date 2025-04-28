@@ -6,53 +6,68 @@ import React, { useRef, useState } from 'react';
 interface ImageMagnifierLensProps {
   src: string;
   zoom?: number;
-  lensSize?: number;
 }
 
-const ImageMagnifierLens = ({ src, zoom = 2, lensSize = 150 }: ImageMagnifierLensProps) => {
-  const [showLens, setShowLens] = useState(false);
-  const [lensPosition, setLensPosition] = useState({ x: 0, y: 0 });
+const ImageMagnifierLens = ({ src, zoom = 2 }: ImageMagnifierLensProps) => {
+  const [showZoom, setShowZoom] = useState(false);
+  const [position, setPosition] = useState({ x: 0, y: 0 });
   const imgRef = useRef<HTMLImageElement>(null);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    const bounds = imgRef.current!.getBoundingClientRect();
+    if (!imgRef.current) return;
+
+    const bounds = imgRef.current.getBoundingClientRect();
     const x = e.clientX - bounds.left;
     const y = e.clientY - bounds.top;
 
-    const lensX = Math.max(0, Math.min(x, bounds.width));
-    const lensY = Math.max(0, Math.min(y, bounds.height));
+    const xPercent = Math.min(Math.max(x / bounds.width, 0), 1);
+    const yPercent = Math.min(Math.max(y / bounds.height, 0), 1);
 
-    setLensPosition({ x: lensX, y: lensY });
+    setPosition({ x: xPercent, y: yPercent });
   };
 
   return (
     <div
-      className="relative w-full h-full overflow-hidden"
-      onMouseEnter={() => setShowLens(true)}
-      onMouseLeave={() => setShowLens(false)}
+      className={`relative ${showZoom ? 'fixed inset-0 bg-black/80 flex items-center justify-center z-50' : ''}`}
+      onMouseEnter={() => setShowZoom(true)}
+      onMouseLeave={() => setShowZoom(false)}
       onMouseMove={handleMouseMove}
     >
-      <Image
-        ref={imgRef}
-        src={src}
-        alt="Zoomable"
-        className="object-cover w-full h-full rounded-lg"
-      />
-      {showLens && (
-        <div
-          className="absolute rounded-full pointer-events-none border-2 border-gray-300 shadow-md"
-          style={{
-            width: `${lensSize}px`,
-            height: `${lensSize}px`,
-            top: `${lensPosition.y - lensSize / 2}px`,
-            left: `${lensPosition.x - lensSize / 2}px`,
-            backgroundImage: `url(${src})`,
-            backgroundSize: `${imgRef.current!.width * zoom}px ${imgRef.current!.height * zoom}px`,
-            backgroundPosition: `-${lensPosition.x * zoom - lensSize / 2}px -${lensPosition.y * zoom - lensSize / 2}px`,
-            backgroundRepeat: 'no-repeat',
-            zIndex: 10,
-          }}
+      <div className="relative">
+        <Image
+          ref={imgRef}
+          src={src}
+          alt="Zoomable"
+          width={500}
+          height={500}
+          className="object-contain rounded-lg max-h-[80vh]"
         />
+        {showZoom && (
+          <div
+            className="absolute border-2 border-white/70 bg-white/10 backdrop-blur-sm pointer-events-none"
+            style={{
+              width: '100px',
+              height: '100px',
+              top: `${position.y * imgRef.current!.height - 50}px`,
+              left: `${position.x * imgRef.current!.width - 50}px`,
+            }}
+          />
+        )}
+      </div>
+
+      {showZoom && (
+        <div className="ml-10 w-[400px] h-[400px] overflow-hidden rounded-lg border-2 border-white/20 relative">
+          <Image
+            src={src}
+            alt="Zoomed"
+            width={imgRef.current ? imgRef.current.width * zoom : 1000}
+            height={imgRef.current ? imgRef.current.height * zoom : 1000}
+            style={{
+              transform: `translate(-${position.x * (imgRef.current?.width || 0) * (zoom - 1)}px, -${position.y * (imgRef.current?.height || 0) * (zoom - 1)}px)`,
+            }}
+            className="absolute top-0 left-0 object-cover"
+          />
+        </div>
       )}
     </div>
   );
