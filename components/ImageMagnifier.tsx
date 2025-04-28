@@ -1,6 +1,5 @@
 'use client';
 
-import Image from 'next/image';
 import React, { useRef, useState } from 'react';
 
 interface ImageMagnifierLensProps {
@@ -33,23 +32,22 @@ const ImageMagnifierLens = ({ src, zoom = 2 }: ImageMagnifierLensProps) => {
         onMouseLeave={() => setShowZoom(false)}
         onMouseMove={handleMouseMove}
       >
-        <Image
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
           ref={imgRef}
           src={src}
           alt="Zoomable"
-          width={500}
-          height={500}
           className="object-cover w-full h-full rounded-lg"
         />
       </div>
 
       {/* Zoomed Section */}
-      {showZoom && (
+      {showZoom && imgRef.current && (
         <div
           className="w-[500px] h-[500px] border border-gray-300 overflow-hidden rounded-lg shadow-md bg-white"
           style={{
             backgroundImage: `url(${src})`,
-            backgroundSize: `${imgRef.current!.width * zoom}px ${imgRef.current!.height * zoom}px`,
+            backgroundSize: `${imgRef.current.width * zoom}px ${imgRef.current.height * zoom}px`,
             backgroundPosition: `-${lensPosition.x * zoom - 250}px -${lensPosition.y * zoom - 250}px`,
             backgroundRepeat: 'no-repeat',
           }}
