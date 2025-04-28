@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ShoppingCart, User, Menu, Search, PackageSearch } from "lucide-react";
+import { ShoppingCart, User, Menu, Search, PackageSearch, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
@@ -40,6 +40,30 @@ export function Navbar() {
   const [products, setProducts] = useState<Product[]>([]);
   const user = useRecoilValue(userState);
   const [isMounted, setIsMounted] = useState(false);
+  const [wishlistItems, setWishlistItems] = useState<number>(0);
+
+  
+  useEffect(()=>{
+    const fetchWishlist = async () => {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/wishlist/${user._id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        }
+      );
+      const data = await res.json();
+      if (data?.wishlist?.items?.length > 0) {
+        setWishlistItems(data.wishlist.items.length);
+      } else {
+        setWishlistItems(0);
+      }
+    };
+    
+    fetchWishlist();
+
+  }, [user]);
 
   useEffect(() => setIsMounted(true), []);
 
@@ -194,6 +218,15 @@ export function Navbar() {
           )}
 
           <CartSheet />
+
+          <Link href="/wishlist">
+            <Button variant="ghost" size="icon">
+              <span className="absolute top-1 right-1 bg-red-500 text-white text-[10px] w-4 h-4 flex items-center justify-center rounded-full">
+                {wishlistItems}
+              </span>
+              <Heart className="h-5 w-5" />
+            </Button>
+          </Link>
           
         </div>
 
