@@ -24,35 +24,36 @@ const ImageMagnifierLens = ({ src, zoom = 2 }: ImageMagnifierLensProps) => {
   };
 
   return (
-    <div className="flex w-screen justify-center items-center gap-8 p-8 box-border">
-      {/* Main Image */}
+    <div className="w-screen h-screen flex justify-center items-center p-8 box-border">
+      {/* Outer Relative Container */}
       <div
-        className="relative w-[500px] h-[500px] overflow-hidden"
+        className="relative"
         onMouseEnter={() => setShowZoom(true)}
         onMouseLeave={() => setShowZoom(false)}
         onMouseMove={handleMouseMove}
       >
+        {/* Main Image */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           ref={imgRef}
           src={src}
           alt="Zoomable"
-          className="object-cover w-full h-full rounded-lg"
+          className="w-[500px] h-[500px] object-cover rounded-lg"
         />
-      </div>
 
-      {/* Zoomed Section */}
-      {showZoom && imgRef.current && (
-        <div
-          className="w-[500px] h-[500px] border border-gray-300 overflow-hidden rounded-lg shadow-md bg-white"
-          style={{
-            backgroundImage: `url(${src})`,
-            backgroundSize: `${imgRef.current.width * zoom}px ${imgRef.current.height * zoom}px`,
-            backgroundPosition: `-${lensPosition.x * zoom - 250}px -${lensPosition.y * zoom - 250}px`,
-            backgroundRepeat: 'no-repeat',
-          }}
-        />
-      )}
+        {/* Zoomed Section - Absolutely Positioned */}
+        {showZoom && imgRef.current && (
+          <div
+            className="absolute top-0 left-full ml-8 w-[500px] h-[500px] border border-gray-300 overflow-hidden rounded-lg shadow-md bg-white"
+            style={{
+              backgroundImage: `url(${src})`,
+              backgroundSize: `${imgRef.current.width * zoom}px ${imgRef.current.height * zoom}px`,
+              backgroundPosition: `-${lensPosition.x * zoom - 250}px -${lensPosition.y * zoom - 250}px`,
+              backgroundRepeat: 'no-repeat',
+            }}
+          />
+        )}
+      </div>
     </div>
   );
 };
