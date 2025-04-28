@@ -18,6 +18,7 @@ import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { cartRefreshState, userState } from "@/store/atoms/user";
 import Link from "next/link";
 import { CheckoutSheet } from "./CheckoutSheet";
+import { useRouter } from "next/navigation";
 const FREE_SHIPPING_THRESHOLD = 1000;
 
 export const CartSheet = () => {
@@ -27,9 +28,16 @@ export const CartSheet = () => {
   const user = useRecoilValue(userState);
   const [cartRefresh, setCartRefresh] = useRecoilState(cartRefreshState);
   const [open, setOpen] = useState(false);
+  const router = useRouter();
 
   const token =
     typeof window !== "undefined" ? localStorage.getItem("token") : null;
+
+  useEffect(()=>{
+    if(!user.isLoggedIn){
+      router.push("/auth");
+    }
+  }, [user, router])
 
   useEffect(() => {
     const fetchCart = async () => {

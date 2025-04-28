@@ -1,7 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { ShoppingCart, User, Menu, Search, PackageSearch, Heart } from "lucide-react";
+import {
+  ShoppingCart,
+  User,
+  Menu,
+  Search,
+  PackageSearch,
+  Heart,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
@@ -23,7 +30,6 @@ import Loading from "./Loading";
 const items = [
   { name: "Home", href: "/" },
   { name: "Products", href: "products" },
-  { name: "Orders", href: "orders" },
   { name: "About", href: "about" },
   { name: "News & Blog", href: "content" },
   { name: "Your Choice", href: "choice" },
@@ -43,8 +49,7 @@ export function Navbar() {
   const [isMounted, setIsMounted] = useState(false);
   const [wishlistItems, setWishlistItems] = useState<number>(0);
 
-  
-  useEffect(()=>{
+  useEffect(() => {
     const fetchWishlist = async () => {
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/wishlist/${user._id}`,
@@ -61,9 +66,8 @@ export function Navbar() {
         setWishlistItems(0);
       }
     };
-    
-    fetchWishlist();
 
+    fetchWishlist();
   }, [user]);
 
   useEffect(() => setIsMounted(true), []);
@@ -174,7 +178,9 @@ export function Navbar() {
               align="start"
               className="bg-white w-[300px] max-h-[300px] overflow-y-auto p-2 mx-2 my-2"
             >
-              <h3 className="text-gray-600 font-semibold text-sm mb-2">Products</h3>
+              <h3 className="text-gray-600 font-semibold text-sm mb-2">
+                Products
+              </h3>
               {filteredProducts.length > 0 ? (
                 filteredProducts.map((product) => (
                   <div
@@ -220,20 +226,25 @@ export function Navbar() {
 
           <CartSheet />
 
-          <Link href="/wishlist">
+          <Link href={user.isLoggedIn ? "/wishlist" : "/auth"}>
             <Button variant="ghost" size="icon" className="relative">
-              <span className="absolute top-1 right-0 bg-red-500 text-white text-[10px] w-4 h-4 flex items-center justify-center rounded-full">
-                {wishlistItems}
-              </span>
+              {wishlistItems > 0 && (
+                <span className="absolute top-1 right-0 bg-red-500 text-white text-[10px] w-4 h-4 flex items-center justify-center rounded-full">
+                  {wishlistItems}
+                </span>
+              )}
               <Heart className="h-5 w-5" />
             </Button>
           </Link>
-          
         </div>
 
         {/* Mobile Menu Toggle */}
         <div className="md:hidden flex items-center">
-          <Button variant="ghost" size="icon" onClick={() => setIsOpen(!isOpen)}>
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => setIsOpen(!isOpen)}
+          >
             <Menu className="h-6 w-6" />
           </Button>
         </div>
@@ -308,15 +319,16 @@ export function Navbar() {
               <UserProfileSheet />
             )}
             <CartSheet />
-            <Link href="/wishlist">
-            <Button variant="ghost" size="icon" className="relative">
-              <span className="absolute top-1 right-0 bg-red-500 text-white text-[10px] w-4 h-4 flex items-center justify-center rounded-full">
-                {wishlistItems}
-              </span>
-              <Heart className="h-5 w-5" />
-            </Button>
-          </Link>
-            
+            <Link href={user.isLoggedIn ? "/wishlist" : "/auth"}>
+              <Button variant="ghost" size="icon" className="relative">
+                {wishlistItems > 0 && (
+                  <span className="absolute top-1 right-0 bg-red-500 text-white text-[10px] w-4 h-4 flex items-center justify-center rounded-full">
+                    {wishlistItems}
+                  </span>
+                )}
+                <Heart className="h-5 w-5" />
+              </Button>
+            </Link>
           </div>
         </div>
       )}
