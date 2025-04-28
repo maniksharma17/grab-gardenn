@@ -329,7 +329,7 @@ export default function ProductPage() {
                 const rect = e.currentTarget.getBoundingClientRect();
                 const x = (e.clientX - rect.left) / rect.width;
                 const y = (e.clientY - rect.top) / rect.height;
-                setZoomPosition({ x, y });
+                setZoomPosition({x, y});
               }}
             >
               <Image
