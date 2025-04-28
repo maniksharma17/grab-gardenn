@@ -25,9 +25,10 @@ const ImageMagnifierLens = ({ src, zoom = 2 }: ImageMagnifierLensProps) => {
   };
 
   return (
-    <div className="flex w-screen gap-8">
+    <div className="flex w-screen justify-center items-center gap-8 p-8 box-border">
+      {/* Main Image */}
       <div
-        className="relative w-screen h-[500px] overflow-hidden"
+        className="relative w-[500px] h-[500px] overflow-hidden"
         onMouseEnter={() => setShowZoom(true)}
         onMouseLeave={() => setShowZoom(false)}
         onMouseMove={handleMouseMove}
@@ -38,17 +39,18 @@ const ImageMagnifierLens = ({ src, zoom = 2 }: ImageMagnifierLensProps) => {
           alt="Zoomable"
           width={500}
           height={500}
-          className="object-cover w-[500px] h-[500px] rounded-lg"
+          className="object-cover w-full h-full rounded-lg"
         />
       </div>
 
+      {/* Zoomed Section */}
       {showZoom && (
         <div
-          className="w-[300px] h-[300px] border border-gray-300 overflow-hidden rounded-lg shadow-md"
+          className="w-[500px] h-[500px] border border-gray-300 overflow-hidden rounded-lg shadow-md bg-white"
           style={{
             backgroundImage: `url(${src})`,
             backgroundSize: `${imgRef.current!.width * zoom}px ${imgRef.current!.height * zoom}px`,
-            backgroundPosition: `-${lensPosition.x * zoom - 150}px -${lensPosition.y * zoom - 150}px`,
+            backgroundPosition: `-${lensPosition.x * zoom - 250}px -${lensPosition.y * zoom - 250}px`,
             backgroundRepeat: 'no-repeat',
           }}
         />
