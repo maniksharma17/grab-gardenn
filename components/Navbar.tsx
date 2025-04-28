@@ -221,7 +221,7 @@ export function Navbar() {
 
           <Link href="/wishlist">
             <Button variant="ghost" size="icon">
-              <span className="absolute top-1 right-1 bg-red-500 text-white text-[10px] w-4 h-4 flex items-center justify-center rounded-full">
+              <span className="absolute top-0 right-0 bg-red-500 text-white text-[10px] w-4 h-4 flex items-center justify-center rounded-full">
                 {wishlistItems}
               </span>
               <Heart className="h-5 w-5" />
