@@ -545,7 +545,7 @@ export default function ProductPage() {
                       imgRef.current!.height * 2
                     }px`, // 2x zoom effect
                     backgroundPosition: `${zoomPosition.x * 100}% ${
-                      zoomPosition.y * 60
+                      zoomPosition.y * 100
                     }%`,
                     transform: "translate(-25%, -25%)",
                     transition: "background-position 0.2s ease-out", // Smooth transition
