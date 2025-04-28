@@ -344,8 +344,8 @@ export default function ProductPage() {
 
           {/* Product Info */}
           <div className="relative overflow-y-scroll top-2 max-md:space-y-8 md:space-y-12">
-            {!isHoveringImage || window.innerWidth < 768 ? (
-              // Product Section
+            
+              
               <>
                 <div
                   className="md:hidden w-fit z-10 bg-white p-2 rounded-full shadow transition cursor-pointer"
@@ -534,11 +534,10 @@ export default function ProductPage() {
                   )}
                 </div>
               </>
-            ) : (
-              // Zoomed Image Section
-              <div className="max-md:hidden w-full h-[300px] relative">
+            
+              <div className="max-md:hidden w-full h-[500px] relative">
                 <div
-                  className="absolute w-[100%] h-[100%] shadow-lg border border-gray-300 border-dashed"
+                  className="absolute w-[100%] h-[100%] shadow-md border border-gray-300 border-dashed"
                   style={{
                     backgroundImage: `url(${product.images[selectedImage]})`,
                     backgroundSize: `${imgRef.current!.width * 2.5}px ${
@@ -552,7 +551,7 @@ export default function ProductPage() {
                   }}
                 />
               </div>
-            )}
+           
 
             <ProductDetails
               product={product}
