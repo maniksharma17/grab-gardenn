@@ -23,10 +23,11 @@ import Loading from "./Loading";
 const items = [
   { name: "Home", href: "/" },
   { name: "Products", href: "products" },
+  { name: "Orders", href: "orders" },
   { name: "About", href: "about" },
   { name: "News & Blog", href: "content" },
   { name: "Your Choice", href: "choice" },
-  { name: "Contact", href: "contact" },
+  { name: "Contact us", href: "contact" },
 ];
 
 export function Navbar() {
