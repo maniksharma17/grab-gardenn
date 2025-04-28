@@ -432,7 +432,7 @@ export default function ProductPage() {
                         fetchDeliveryRatePrepaid();
                       }}
                     >
-                      Check Delivery
+                      Check Delivery 
                     </Button>
                   </div>
 
