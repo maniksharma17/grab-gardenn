@@ -33,12 +33,6 @@ export const CartSheet = () => {
   const token =
     typeof window !== "undefined" ? localStorage.getItem("token") : null;
 
-  useEffect(()=>{
-    if(!user.isLoggedIn){
-      router.push("/auth");
-    }
-  }, [user, router])
-
   useEffect(() => {
     const fetchCart = async () => {
       if (!token || !user?._id) return;
@@ -196,7 +190,11 @@ export const CartSheet = () => {
         {cartItems.length === 0 ? (
           <div className="h-full flex flex-col justify-center items-center text-center py-16">
             <ShoppingCart className="w-12 h-12 mb-4 text-muted-foreground" />
-            <p className="text-muted-foreground text-sm">Your cart is empty</p>
+            {user.isLoggedIn 
+            ? <p className="text-muted-foreground text-sm">Your cart is empty</p>
+            : <p className="text-muted-foreground text-sm"><Link href={"/auth"} className="text-blue-500 hover:underline">Sign in</Link> to create cart.</p>
+           }
+            
           </div>
         ) : (
           <div className={`grid gap-6 h-full py-4 transition-all duration-300 ${suggestions.length > 0
