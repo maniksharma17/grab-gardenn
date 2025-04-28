@@ -415,7 +415,7 @@ export default function Home() {
 
       <Certifications />
 
-      {window.innerWidth < 800 ? <DiscountBoxMobile open={open} setOpen={setOpen} /> : <DiscountBox open={open} setOpen={setOpen} /> }
+      {screenWidth < 800 ? <DiscountBoxMobile open={open} setOpen={setOpen} /> : <DiscountBox open={open} setOpen={setOpen} /> }
     </div>
   );
 }
