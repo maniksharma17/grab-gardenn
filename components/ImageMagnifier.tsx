@@ -1,14 +1,16 @@
 'use client';
 
+import Image from 'next/image';
 import React, { useRef, useState } from 'react';
 
 interface ImageMagnifierLensProps {
   src: string;
   zoom?: number;
+  lensSize?: number;
 }
 
-const ImageMagnifierLens = ({ src, zoom = 2 }: ImageMagnifierLensProps) => {
-  const [showZoom, setShowZoom] = useState(false);
+const ImageMagnifierLens = ({ src, zoom = 2, lensSize = 150 }: ImageMagnifierLensProps) => {
+  const [showLens, setShowLens] = useState(false);
   const [lensPosition, setLensPosition] = useState({ x: 0, y: 0 });
   const imgRef = useRef<HTMLImageElement>(null);
 
@@ -24,36 +26,34 @@ const ImageMagnifierLens = ({ src, zoom = 2 }: ImageMagnifierLensProps) => {
   };
 
   return (
-    <div className="w-screen h-screen flex justify-center items-center p-8 box-border">
-      {/* Outer Relative Container */}
-      <div
-        className="relative"
-        onMouseEnter={() => setShowZoom(true)}
-        onMouseLeave={() => setShowZoom(false)}
-        onMouseMove={handleMouseMove}
-      >
-        {/* Main Image */}
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          ref={imgRef}
-          src={src}
-          alt="Zoomable"
-          className="w-[500px] h-[500px] object-cover rounded-lg"
+    <div
+      className="relative w-full h-full overflow-hidden"
+      onMouseEnter={() => setShowLens(true)}
+      onMouseLeave={() => setShowLens(false)}
+      onMouseMove={handleMouseMove}
+    >
+      <Image
+        ref={imgRef}
+        src={src}
+        alt="Zoomable"
+        className="object-cover w-full h-full rounded-lg"
+      />
+      {showLens && (
+        <div
+          className="absolute rounded-full pointer-events-none border-2 border-gray-300 shadow-md"
+          style={{
+            width: `${lensSize}px`,
+            height: `${lensSize}px`,
+            top: `${lensPosition.y - lensSize / 2}px`,
+            left: `${lensPosition.x - lensSize / 2}px`,
+            backgroundImage: `url(${src})`,
+            backgroundSize: `${imgRef.current!.width * zoom}px ${imgRef.current!.height * zoom}px`,
+            backgroundPosition: `-${lensPosition.x * zoom - lensSize / 2}px -${lensPosition.y * zoom - lensSize / 2}px`,
+            backgroundRepeat: 'no-repeat',
+            zIndex: 10,
+          }}
         />
-
-        {/* Zoomed Section - Absolutely Positioned */}
-        {showZoom && imgRef.current && (
-          <div
-            className="absolute top-0 left-full ml-8 w-[500px] h-[500px] border border-gray-300 overflow-hidden rounded-lg shadow-md bg-white"
-            style={{
-              backgroundImage: `url(${src})`,
-              backgroundSize: `${imgRef.current.width * zoom}px ${imgRef.current.height * zoom}px`,
-              backgroundPosition: `-${lensPosition.x * zoom - 250}px -${lensPosition.y * zoom - 250}px`,
-              backgroundRepeat: 'no-repeat',
-            }}
-          />
-        )}
-      </div>
+      )}
     </div>
   );
 };
