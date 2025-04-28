@@ -55,8 +55,9 @@ export default function ProductPage() {
   const [reviews, setReviews] = useState<
     { rating: number; comment: string; user?: { name: string } }[]
   >([]);
+  const [isHoveringImage, setIsHoveringImage] = useState(false);
+  const [zoomPosition, setZoomPosition] = useState({ x: 0, y: 0 });
 
-  
   useEffect(() => {
     const fetchReviews = async () => {
       try {
@@ -71,8 +72,6 @@ export default function ProductPage() {
     fetchReviews();
   }, [product]);
 
-  
-  
   const fetchWishlist = async () => {
     if (!user.isLoggedIn) return;
     const res = await fetch(
@@ -316,49 +315,51 @@ export default function ProductPage() {
                       className="rounded-lg object-cover aspect-square"
                       unoptimized
                     />
-                    
                   </button>
                 ))}
               </div>
             )}
 
-            <div className="w-full max-h-[500px] shadow-sm aspect-square overflow-hidden rounded-xl">
-              
-              <ImageMagnifier src={product.images[selectedImage]}  />
+            <div
+              className="relative w-full max-h-[500px] aspect-square overflow-hidden rounded-xl"
+              onMouseEnter={() => setIsHoveringImage(true)}
+              onMouseLeave={() => setIsHoveringImage(false)}
+              onMouseMove={(e) => {
+                const rect = e.currentTarget.getBoundingClientRect();
+                const x = (e.clientX - rect.left) / rect.width;
+                const y = (e.clientY - rect.top) / rect.height;
+                setZoomPosition({ x, y });
+              }}
+            >
+              <Image
+                src={product.images[selectedImage]}
+                alt="Product"
+                fill
+                className="object-cover"
+              />
             </div>
           </div>
 
           {/* Product Info */}
           <div className="relative overflow-y-scroll top-2 max-md:space-y-8 md:space-y-12">
-            <div
-              className="max-md:hidden absolute top-10 right-10 z-10 bg-white p-2 rounded-full shadow hover:scale-110 transition cursor-pointer"
-              onClick={(e) => {
-                e.stopPropagation(); // Prevent routing to product detail
-                toggleWishlist(product._id);
-              }}
-            >
-              {wishlist.includes(product._id) ? (
-                <Heart className="text-red-500 fill-red-500 w-7 h-7" />
-              ) : (
-                <Heart className="text-gray-400 w-7 h-7" />
-              )}
-            </div>
+            {!isHoveringImage ? (
+              // Product Section
+              <>
+                <div
+                  className="md:hidden w-fit z-10 bg-white p-2 rounded-full shadow transition cursor-pointer"
+                  onClick={(e) => {
+                    e.stopPropagation(); // Prevent routing to product detail
+                    toggleWishlist(product._id);
+                  }}
+                >
+                  {wishlist.includes(product._id) ? (
+                    <Heart className="text-red-500 fill-red-500 w-7 h-7" />
+                  ) : (
+                    <Heart className="text-gray-400 w-7 h-7" />
+                  )}
+                </div>
 
-            <div
-              className="md:hidden w-fit z-10 bg-white p-2 rounded-full shadow transition cursor-pointer"
-              onClick={(e) => {
-                e.stopPropagation(); // Prevent routing to product detail
-                toggleWishlist(product._id);
-              }}
-            >
-              {wishlist.includes(product._id) ? (
-                <Heart className="text-red-500 fill-red-500 w-7 h-7" />
-              ) : (
-                <Heart className="text-gray-400 w-7 h-7" />
-              )}
-            </div>
-
-            <h1 className="text-4xl max-md:text-2xl font-medium capitalize leading-tight">
+                <h1 className="text-4xl max-md:text-2xl font-medium capitalize leading-tight">
               {/* Breadcrumbs */}
               <div className="text-sm flex flex-wrap gap-2">
                 <Link className="hover:underline" href={"/products"}>
@@ -529,6 +530,25 @@ export default function ProductPage() {
               )}
             </div>
 
+              </>
+            ) : (
+              // Zoomed Image Section
+              <div className="relative w-full h-[500px] overflow-hidden rounded-xl border border-gray-200">
+                <div
+                  className="absolute w-[200%] h-[200%]"
+                  style={{
+                    backgroundImage: `url(${product.images[selectedImage]})`,
+                    backgroundSize: "cover",
+                    backgroundPosition: `${zoomPosition.x * 100}% ${
+                      zoomPosition.y * 100
+                    }%`,
+                    transform: "translate(-25%, -25%)",
+                  }}
+                />
+              </div>
+            )}
+
+            
             <ProductDetails
               product={product}
               selectedVariant={selectedVariant}
@@ -537,8 +557,11 @@ export default function ProductPage() {
         </div>
       </div>
       {/* Reviews Section */}
-      <ReviewSection reviews={reviews} currentUser={user} productId={product._id}/>
-      
+      <ReviewSection
+        reviews={reviews}
+        currentUser={user}
+        productId={product._id}
+      />
     </div>
   );
 }
@@ -616,32 +639,33 @@ const ReviewSection = ({ reviews, currentUser, productId }: any) => {
       toast({ title: "Review submitted!" });
       setUserRating(0);
       setUserReview("");
-      
     } catch (err) {
       console.error("Submit review error:", err);
       let errorMessage = "Failed to submit review";
-    
+
       if (err && typeof err === "object" && "response" in err) {
         const response = (err as any).response;
         if (response?.data?.message) {
           errorMessage = response.data.message;
         }
       }
-    
+
       toast({ title: errorMessage, variant: "destructive" });
     } finally {
       fetchReviews();
     }
   };
 
-
   const deleteReview = async () => {
     try {
-      await axios.delete(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/reviews/${productId}/${user._id}`, {
-        headers: {
-          Authorization: `Bearer ${user.token}`,
-        },
-      });
+      await axios.delete(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/reviews/${productId}/${user._id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        }
+      );
       setAllReviews(otherReviews);
       toast({ title: "Review deleted!" });
     } catch (err) {
@@ -722,7 +746,9 @@ const ReviewSection = ({ reviews, currentUser, productId }: any) => {
                     {rev.user?.name || "Anonymous"}
                   </span>
                 </div>
-                <p className="text-md max-md:text-sm mt-2 text-gray-700">{rev.comment}</p>
+                <p className="text-md max-md:text-sm mt-2 text-gray-700">
+                  {rev.comment}
+                </p>
               </div>
             ))}
           </>
@@ -730,7 +756,7 @@ const ReviewSection = ({ reviews, currentUser, productId }: any) => {
       </div>
     </div>
   );
-}
+};
 
 const ProductDetails = ({
   product,
