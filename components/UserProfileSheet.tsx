@@ -338,7 +338,7 @@ export const UserProfileSheet = () => {
             
             
             <Button
-              className="border w-full bg-transparent hover:bg-transparent text-red-500 flex justify-between items-center"
+              className="w-full bg-transparent hover:bg-transparent text-red-500 flex justify-start gap-4 items-center"
               onClick={handleLogout}
             >
               Logout <LogOut className="h-4 w-4 text-red-500" />
