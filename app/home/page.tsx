@@ -1062,7 +1062,8 @@ const DiscountBox = ({
           variant={"outline"}
           onClick={() => {
             window.navigator.clipboard.writeText("LAUNCH5");
-            toast({title: "Copied.", description: "LAUNCH5"})
+            toast({title: "Copied.", description: "LAUNCH5"});
+            setOpen(false);
           }}
         >
           COPY LAUNCH5
@@ -1106,6 +1107,7 @@ const DiscountBoxMobile = ({
           onClick={() => {
             window.navigator.clipboard.writeText("LAUNCH5");
             toast({title: "Copied.", description: "LAUNCH5"})
+            setOpen(false);
           }}
         >
           COPY LAUNCH5
