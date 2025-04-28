@@ -736,9 +736,9 @@ const ReviewSection = ({ reviews, currentUser, productId }: any) => {
                     strokeWidth={1.2}
                   />
                 </div>
-                <p className="text-md max-md:text-sm mt-2 text-gray-700">
+                {currentUserReview.comment && <p className="text-md max-md:text-sm mt-2 text-gray-700">
                   {currentUserReview.comment}
-                </p>
+                </p>}
               </div>
             )}
 
@@ -751,9 +751,9 @@ const ReviewSection = ({ reviews, currentUser, productId }: any) => {
                     {rev.user?.name || "Anonymous"}
                   </span>
                 </div>
-                <p className="text-md max-md:text-sm mt-2 text-gray-700">
+                {reviews.comment && <p className="text-md max-md:text-sm mt-2 text-gray-700">
                   {rev.comment}
-                </p>
+                </p>}
               </div>
             ))}
           </>
