@@ -11,12 +11,13 @@ interface ImageMagnifierLensProps {
 const ImageMagnifierLens = ({ src, zoom = 2 }: ImageMagnifierLensProps) => {
   const [showZoom, setShowZoom] = useState(false);
   const [position, setPosition] = useState({ x: 0, y: 0 });
+  const imgContainerRef = useRef<HTMLDivElement>(null);
   const imgRef = useRef<HTMLImageElement>(null);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    if (!imgRef.current) return;
+    if (!imgRef.current || !imgContainerRef.current) return;
 
-    const bounds = imgRef.current.getBoundingClientRect();
+    const bounds = imgContainerRef.current.getBoundingClientRect();
     const x = e.clientX - bounds.left;
     const y = e.clientY - bounds.top;
 
@@ -27,49 +28,72 @@ const ImageMagnifierLens = ({ src, zoom = 2 }: ImageMagnifierLensProps) => {
   };
 
   return (
-    <div
-      className={`relative ${showZoom ? 'fixed inset-0 bg-black/80 flex items-center justify-center z-50' : ''}`}
-      onMouseEnter={() => setShowZoom(true)}
-      onMouseLeave={() => setShowZoom(false)}
-      onMouseMove={handleMouseMove}
-    >
-      <div className="relative">
+    <>
+      {/* This is the normal non-fullscreen image */}
+      <div
+        className="relative cursor-zoom-in"
+        onMouseEnter={() => setShowZoom(true)}
+      >
         <Image
-          ref={imgRef}
           src={src}
-          alt="Zoomable"
+          alt="Product Image"
           width={500}
           height={500}
-          className="object-contain rounded-lg max-h-[80vh]"
+          className="object-cover rounded-lg"
         />
-        {showZoom && (
-          <div
-            className="absolute border-2 border-white/70 bg-white/10 backdrop-blur-sm pointer-events-none"
-            style={{
-              width: '100px',
-              height: '100px',
-              top: `${position.y * imgRef.current!.height - 50}px`,
-              left: `${position.x * imgRef.current!.width - 50}px`,
-            }}
-          />
-        )}
       </div>
 
+      {/* Fullscreen gallery with zoom */}
       {showZoom && (
-        <div className="ml-10 w-[400px] h-[400px] overflow-hidden rounded-lg border-2 border-white/20 relative">
-          <Image
-            src={src}
-            alt="Zoomed"
-            width={imgRef.current ? imgRef.current.width * zoom : 1000}
-            height={imgRef.current ? imgRef.current.height * zoom : 1000}
-            style={{
-              transform: `translate(-${position.x * (imgRef.current?.width || 0) * (zoom - 1)}px, -${position.y * (imgRef.current?.height || 0) * (zoom - 1)}px)`,
-            }}
-            className="absolute top-0 left-0 object-cover"
-          />
+        <div
+          className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center"
+          onMouseLeave={() => setShowZoom(false)}
+          onMouseMove={handleMouseMove}
+        >
+          <div className="flex max-w-7xl w-full h-full items-center justify-center gap-10 px-10">
+            {/* Main image with highlight */}
+            <div
+              ref={imgContainerRef}
+              className="relative flex-1 flex items-center justify-center"
+            >
+              <Image
+                ref={imgRef}
+                src={src}
+                alt="Main Image"
+                width={800}
+                height={800}
+                className="object-contain max-h-[90vh] rounded-lg"
+              />
+              {/* Highlight box */}
+              <div
+                className="absolute border-2 border-white/70 bg-white/10 backdrop-blur-sm pointer-events-none"
+                style={{
+                  width: '150px',
+                  height: '150px',
+                  top: `calc(${position.y * 100}% - 75px)`,
+                  left: `calc(${position.x * 100}% - 75px)`,
+                  transform: 'translate(-50%, -50%)',
+                }}
+              />
+            </div>
+
+            {/* Zoomed image */}
+            <div className="relative w-[500px] h-[500px] overflow-hidden border-2 border-white/30 rounded-lg">
+              <Image
+                src={src}
+                alt="Zoomed Image"
+                width={imgRef.current ? imgRef.current.width * zoom : 1600}
+                height={imgRef.current ? imgRef.current.height * zoom : 1600}
+                style={{
+                  transform: `translate(-${position.x * (imgRef.current?.width || 0) * (zoom - 1)}px, -${position.y * (imgRef.current?.height || 0) * (zoom - 1)}px)`,
+                }}
+                className="absolute top-0 left-0 object-cover"
+              />
+            </div>
+          </div>
         </div>
       )}
-    </div>
+    </>
   );
 };
 
