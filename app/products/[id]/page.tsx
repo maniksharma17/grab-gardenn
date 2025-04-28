@@ -324,7 +324,7 @@ export default function ProductPage() {
 
             <div className="w-full max-h-[500px] shadow-sm aspect-square overflow-hidden rounded-xl">
               
-              <ImageMagnifier src={product.images[selectedImage]} zoom={2.5} lensSize={200} />
+              <ImageMagnifier src={product.images[selectedImage]}  />
             </div>
           </div>
 
