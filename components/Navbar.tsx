@@ -307,6 +307,14 @@ export function Navbar() {
               <UserProfileSheet />
             )}
             <CartSheet />
+            <Link href="/wishlist">
+            <Button variant="ghost" size="icon">
+              <span className="absolute top-0 right-0 bg-red-500 text-white text-[10px] w-4 h-4 flex items-center justify-center rounded-full">
+                {wishlistItems}
+              </span>
+              <Heart className="h-5 w-5" />
+            </Button>
+          </Link>
             
           </div>
         </div>
