@@ -540,7 +540,7 @@ export default function ProductPage() {
                   style={{
                     backgroundImage: `url(${product.images[selectedImage]})`,
                     backgroundSize: "cover",
-                    backgroundPosition: `${zoomPosition.x * 50}% ${
+                    backgroundPosition: `${zoomPosition.x * 60}% ${
                       zoomPosition.y * 50
                     }%`,
                     transform: "translate(-25%, -25%)",
