@@ -342,7 +342,7 @@ export default function ProductPage() {
 
           {/* Product Info */}
           <div className="relative overflow-y-scroll top-2 max-md:space-y-8 md:space-y-12">
-            {!isHoveringImage ? (
+            {(!isHoveringImage || window.innerWidth > 768) ? (
               // Product Section
               <>
                 <div
@@ -533,7 +533,7 @@ export default function ProductPage() {
               </>
             ) : (
               // Zoomed Image Section
-              <div className="max-md:hidden relative w-full h-[400px] overflow-hidden border-dashed rshadow-lg border border-gray-200">
+              <div className="max-md:hidden relative w-full h-[400px] overflow-hidden border-dashed border-black shadow-lg border-2">
                 <div
                   className="absolute w-[200%] h-[200%]"
                   style={{
