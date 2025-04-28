@@ -138,10 +138,13 @@ export default function AuthPage() {
         }
       );
       toast({ title: res.data.message });
-    } catch (e) {
-      toast({ title: "Some error occured" });
+    } catch (error: any) {
+      const errorMessage =
+        error?.response?.data?.message || error.message || "Something went wrong";
+      toast({ title: errorMessage });
     }
   };
+  
 
   const handleSubmit = async (
     e: React.FormEvent,
@@ -458,18 +461,18 @@ export default function AuthPage() {
                       </div>{" "}
                     </div>
                   </div>
-                  {useEmail && (
-                    <div className="flex items-center justify-between">
-                      <label className="flex items-center space-x-2"></label>
-                      <a
-                        href="#"
-                        className="text-sm text-primary hover:underline"
-                        onClick={handlePasswordReset}
-                      >
-                        Forgot password?
-                      </a>
-                    </div>
-                  )}
+                  
+                  <div className="flex items-center justify-between">
+                    <label className="flex items-center space-x-2"></label>
+                    <a
+                      href="#"
+                      className="text-sm text-primary hover:underline"
+                      onClick={handlePasswordReset}
+                    >
+                      Forgot password?
+                    </a>
+                  </div>
+                  
                   <Button className="w-full" type="submit" disabled={isLoading}>
                     {isLoading ? "Logging in..." : "Login"}
                   </Button>
