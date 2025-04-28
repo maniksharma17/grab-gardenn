@@ -342,7 +342,7 @@ export default function ProductPage() {
 
           {/* Product Info */}
           <div className="relative overflow-y-scroll top-2 max-md:space-y-8 md:space-y-12">
-            {(!isHoveringImage || window.innerWidth < 768) ? (
+            {!isHoveringImage || window.innerWidth < 768 ? (
               // Product Section
               <>
                 <div
@@ -360,188 +360,191 @@ export default function ProductPage() {
                 </div>
 
                 <h1 className="text-4xl max-md:text-2xl font-medium capitalize leading-tight">
-              {/* Breadcrumbs */}
-              <div className="text-sm flex flex-wrap gap-2">
-                <Link className="hover:underline" href={"/products"}>
-                  <p>All Products</p>
-                </Link>
-                {">"}
-                <Link
-                  className="hover:underline"
-                  href={`/products/collection/${product.category?.name.toLowerCase()}`}
-                >
-                  <p>{product.category?.name}</p>
-                </Link>
-                {">"}
-                <p>{product.name}</p>
-              </div>
-              {product.name}{" "}
-              {product.hindiName && (
-                <p className="text-lg text-gray-600">({product.hindiName})</p>
-              )}
-            </h1>
-
-            <div className="space-y-2">
-              <div className="text-3xl font-normal text-primary flex items-center flex-wrap gap-2">
-                ₹{discounted}
-                <span className="text-gray-500 line-through ml-2 text-lg">
-                  ₹{original}
-                </span>
-                <span className="bg-gray-700 rounded-full text-sm text-white font-normal px-2 py-1">
-                  {discountPercent}% OFF
-                </span>
-                <p className="text-sm text-gray-700">
-                  MRP (Inclusive of all taxes)
-                </p>
-              </div>
-
-              <div className="flex flex-wrap gap-2">
-                {product.variants.map((variant, idx) => {
-                  return (
-                    <button
-                      key={idx}
-                      onClick={() => setSelectedVariant(idx)}
-                      className={`w-fit text-left px-8 py-2 rounded-full shadow-sm transition duration-200 ${
-                        selectedVariant === idx
-                          ? "bg-primary text-white"
-                          : "bg-white"
-                      }`}
+                  {/* Breadcrumbs */}
+                  <div className="text-sm flex flex-wrap gap-2">
+                    <Link className="hover:underline" href={"/products"}>
+                      <p>All Products</p>
+                    </Link>
+                    {">"}
+                    <Link
+                      className="hover:underline"
+                      href={`/products/collection/${product.category?.name.toLowerCase()}`}
                     >
-                      <div className="font-medium">{variant.display}</div>
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
+                      <p>{product.category?.name}</p>
+                    </Link>
+                    {">"}
+                    <p>{product.name}</p>
+                  </div>
+                  {product.name}{" "}
+                  {product.hindiName && (
+                    <p className="text-lg text-gray-600">
+                      ({product.hindiName})
+                    </p>
+                  )}
+                </h1>
 
-            <div className="space-y-4">
-              <div className="flex items-center gap-4 w-fit px-1">
-                <Input
-                  placeholder="City Pincode"
-                  value={zipCode}
-                  onChange={(e) => setZipCode(e.target.value)}
-                />
-                <Button
-                  variant="outline"
-                  onClick={() => {
-                    fetchDeliveryRateCOD();
-                    fetchDeliveryRatePrepaid();
-                  }}
-                >
-                  Check Delivery
-                </Button>
-              </div>
+                <div className="space-y-2">
+                  <div className="text-3xl font-normal text-primary flex items-center flex-wrap gap-2">
+                    ₹{discounted}
+                    <span className="text-gray-500 line-through ml-2 text-lg">
+                      ₹{original}
+                    </span>
+                    <span className="bg-gray-700 rounded-full text-sm text-white font-normal px-2 py-1">
+                      {discountPercent}% OFF
+                    </span>
+                    <p className="text-sm text-gray-700">
+                      MRP (Inclusive of all taxes)
+                    </p>
+                  </div>
 
-              {(deliveryRateCod > 0 ||
-                deliveryRatePrepaid > 0 ||
-                estDelivery ||
-                deliveryMessage) && (
-                <Table className="w-fit text-sm border border-muted rounded-md">
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>Type</TableHead>
-                      <TableHead>Details</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {deliveryRateCod > 0 && (
-                      <TableRow>
-                        <TableCell>Shipping Cost (COD)</TableCell>
-                        <TableCell>₹{deliveryRateCod}</TableCell>
-                      </TableRow>
-                    )}
-                    {deliveryRatePrepaid > 0 && (
-                      <TableRow>
-                        <TableCell>Shipping Cost (Prepaid)</TableCell>
-                        <TableCell>₹{deliveryRatePrepaid}</TableCell>
-                      </TableRow>
-                    )}
-                    {estDelivery && (
-                      <TableRow>
-                        <TableCell>Estimated Delivery</TableCell>
-                        <TableCell>{estDelivery}</TableCell>
-                      </TableRow>
-                    )}
-                    {deliveryMessage && (
-                      <TableRow>
-                        <TableCell className="text-red-600 font-medium">
-                          Error
-                        </TableCell>
-                        <TableCell className="text-red-600">
-                          {deliveryMessage}
-                        </TableCell>
-                      </TableRow>
-                    )}
-                  </TableBody>
-                </Table>
-              )}
-            </div>
-
-            <div className="flex flex-col items-center gap-4 w-full">
-              <div className="flex flex-row items-center w-full gap-4">
-                <div className="flex items-center space-x-4">
-                  <Button
-                    variant="outline"
-                    size="icon"
-                    onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                  >
-                    <Minus className="h-4 w-4" />
-                  </Button>
-                  <span className="text-lg font-medium">{quantity}</span>
-                  <Button
-                    variant="outline"
-                    size="icon"
-                    onClick={() => setQuantity(quantity + 1)}
-                  >
-                    <Plus className="h-4 w-4" />
-                  </Button>
+                  <div className="flex flex-wrap gap-2">
+                    {product.variants.map((variant, idx) => {
+                      return (
+                        <button
+                          key={idx}
+                          onClick={() => setSelectedVariant(idx)}
+                          className={`w-fit text-left px-8 py-2 rounded-full shadow-sm transition duration-200 ${
+                            selectedVariant === idx
+                              ? "bg-primary text-white"
+                              : "bg-white"
+                          }`}
+                        >
+                          <div className="font-medium">{variant.display}</div>
+                        </button>
+                      );
+                    })}
+                  </div>
                 </div>
-                <Button
-                  className="w-full cursor-pointer border border-primary bg-transparent hover:bg-primary/90 hover:text-white text-primary text-md py-5"
-                  onClick={() => {
-                    if (user.isLoggedIn) {
-                      addToCart();
-                    } else {
-                      router.push("/auth");
-                    }
-                  }}
-                >
-                  <ShoppingBagIcon className="mr-4" strokeWidth={1.2} /> ADD TO
-                  CART
-                </Button>
-              </div>
-              {product.stock == 0 ? (
-                <Button
-                  disabled
-                  className="w-full bg-red-700 text-white hover:bg-red-600 hover:text-white"
-                >
-                  OUT OF STOCK
-                </Button>
-              ) : (
-                <BuyNowSheet
-                  open={buyNowOpen}
-                  setOpen={setBuyNowOpen}
-                  product={product}
-                  selectedVariant={product.variants[selectedVariant]}
-                  dimensions={product.dimensions[selectedVariant]}
-                  quantity={quantity}
-                  price={product.price[selectedVariant]}
-                />
-              )}
-            </div>
 
+                <div className="space-y-4">
+                  <div className="flex items-center gap-4 w-fit px-1">
+                    <Input
+                      placeholder="City Pincode"
+                      value={zipCode}
+                      onChange={(e) => setZipCode(e.target.value)}
+                    />
+                    <Button
+                      variant="outline"
+                      onClick={() => {
+                        fetchDeliveryRateCOD();
+                        fetchDeliveryRatePrepaid();
+                      }}
+                    >
+                      Check Delivery
+                    </Button>
+                  </div>
+
+                  {(deliveryRateCod > 0 ||
+                    deliveryRatePrepaid > 0 ||
+                    estDelivery ||
+                    deliveryMessage) && (
+                    <Table className="w-fit text-sm border border-muted rounded-md">
+                      <TableHeader>
+                        <TableRow>
+                          <TableHead>Type</TableHead>
+                          <TableHead>Details</TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                        {deliveryRateCod > 0 && (
+                          <TableRow>
+                            <TableCell>Shipping Cost (COD)</TableCell>
+                            <TableCell>₹{deliveryRateCod}</TableCell>
+                          </TableRow>
+                        )}
+                        {deliveryRatePrepaid > 0 && (
+                          <TableRow>
+                            <TableCell>Shipping Cost (Prepaid)</TableCell>
+                            <TableCell>₹{deliveryRatePrepaid}</TableCell>
+                          </TableRow>
+                        )}
+                        {estDelivery && (
+                          <TableRow>
+                            <TableCell>Estimated Delivery</TableCell>
+                            <TableCell>{estDelivery}</TableCell>
+                          </TableRow>
+                        )}
+                        {deliveryMessage && (
+                          <TableRow>
+                            <TableCell className="text-red-600 font-medium">
+                              Error
+                            </TableCell>
+                            <TableCell className="text-red-600">
+                              {deliveryMessage}
+                            </TableCell>
+                          </TableRow>
+                        )}
+                      </TableBody>
+                    </Table>
+                  )}
+                </div>
+
+                <div className="flex flex-col items-center gap-4 w-full">
+                  <div className="flex flex-row items-center w-full gap-4">
+                    <div className="flex items-center space-x-4">
+                      <Button
+                        variant="outline"
+                        size="icon"
+                        onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                      >
+                        <Minus className="h-4 w-4" />
+                      </Button>
+                      <span className="text-lg font-medium">{quantity}</span>
+                      <Button
+                        variant="outline"
+                        size="icon"
+                        onClick={() => setQuantity(quantity + 1)}
+                      >
+                        <Plus className="h-4 w-4" />
+                      </Button>
+                    </div>
+                    <Button
+                      className="w-full cursor-pointer border border-primary bg-transparent hover:bg-primary/90 hover:text-white text-primary text-md py-5"
+                      onClick={() => {
+                        if (user.isLoggedIn) {
+                          addToCart();
+                        } else {
+                          router.push("/auth");
+                        }
+                      }}
+                    >
+                      <ShoppingBagIcon className="mr-4" strokeWidth={1.2} /> ADD
+                      TO CART
+                    </Button>
+                  </div>
+                  {product.stock == 0 ? (
+                    <Button
+                      disabled
+                      className="w-full bg-red-700 text-white hover:bg-red-600 hover:text-white"
+                    >
+                      OUT OF STOCK
+                    </Button>
+                  ) : (
+                    <BuyNowSheet
+                      open={buyNowOpen}
+                      setOpen={setBuyNowOpen}
+                      product={product}
+                      selectedVariant={product.variants[selectedVariant]}
+                      dimensions={product.dimensions[selectedVariant]}
+                      quantity={quantity}
+                      price={product.price[selectedVariant]}
+                    />
+                  )}
+                </div>
               </>
             ) : (
               // Zoomed Image Section
               <div className="max-md:hidden relative w-auto h-[500px] overflow-hidden border-dashed border-gray-500 shadow-lg">
                 <div
-                  className="absolute w-[200%] h-[300%]"  
+                  className="absolute w-[120%] h-[150%]"
                   style={{
                     backgroundImage: `url(${product.images[selectedImage]})`,
                     backgroundSize: "cover",
-                    backgroundPosition: `${zoomPosition.x * 100}% ${zoomPosition.y * 100}%`,  
+                    backgroundPosition: `${zoomPosition.x * 100}% ${
+                      zoomPosition.y * 100
+                    }%`,
                     transform: "translate(-25%, -25%)",
-                    transition: "background-position 0.5s ease-out", // Optional smooth transition
+                    transition: "background-position 0.2s ease-out", // Faster transition for smoother effect
                   }}
                 />
               </div>
