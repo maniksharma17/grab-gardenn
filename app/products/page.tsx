@@ -38,7 +38,8 @@ export default function ProductsPage() {
   const [wishlist, setWishlist] = useState<string[]>([]);
 
   useEffect(()=>{
-    if(user._id && user.phone == ""){
+    if(!user) return;
+    if(user?._id && user?.phone == ""){
       router.push("/complete-profile");
     }
   }, [user, router])
