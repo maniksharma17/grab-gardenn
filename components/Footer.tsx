@@ -1,7 +1,7 @@
 "use client"
 import Link from "next/link";
 import Image from "next/image";
-import { Facebook, Instagram, Twitter, Youtube } from "lucide-react";
+import { Facebook, Instagram, Linkedin, Twitter, Youtube } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useState } from "react";
 
@@ -112,6 +112,9 @@ export function Footer() {
               </Link>
               <Link href="https://youtube.com/@grabgardenn?si=QBKa8gfdN5ZtHf5f" target="_blank">
                 <Youtube className="h-5 w-5 text-gray-600 hover:text-green-600 transition" />
+              </Link>
+              <Link href="https://www.linkedin.com/company/grab-gardenn/?viewAsMember=true" target="_blank">
+                <Linkedin className="h-5 w-5 text-gray-600 hover:text-green-600 transition" />
               </Link>
             </div>
             <h4 className="text-lg font-semibold text-gray-800 mt-6">Subscribe</h4>
