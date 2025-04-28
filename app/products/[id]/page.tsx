@@ -533,9 +533,9 @@ export default function ProductPage() {
               </>
             ) : (
               // Zoomed Image Section
-              <div className="max-md:hidden relative w-[400px] h-[600px] overflow-hidden border-dashed border-gray-500 shadow-lg">
+              <div className="max-md:hidden relative w-[400px] h-[500px] overflow-hidden border-dashed border-gray-500 shadow-lg">
                 <div
-                  className="absolute w-[150%] h-[250%]"  
+                  className="absolute w-[50%] h-[150%]"  
                   style={{
                     backgroundImage: `url(${product.images[selectedImage]})`,
                     backgroundSize: "cover",
@@ -547,7 +547,6 @@ export default function ProductPage() {
               </div>
             )}
 
-            
             <ProductDetails
               product={product}
               selectedVariant={selectedVariant}
