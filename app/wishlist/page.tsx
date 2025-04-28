@@ -149,9 +149,9 @@ const WishlistPage = () => {
   };
 
   return (
-    <main className="min-h-screen py-8 md:py-16 bg-gray-50">
+    <main className="min-h-screen py-16 bg-gray-50">
       <Navbar />
-      <div className="md:mt-16 mt-6 container mx-auto">
+      <div className="md:mt-16 mt-10 container mx-auto">
         {wishlistProducts.length === 0 ? (
           <div className="text-center mt-10">
             <p className="text-xl">Your wishlist is empty.</p>
