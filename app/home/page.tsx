@@ -1094,7 +1094,7 @@ const DiscountBoxMobile = ({
   const {toast} = useToast();
   return (
     <Drawer open={open} onOpenChange={setOpen}>
-      <DrawerContent className="sm:max-w-[425px]">
+      <DrawerContent className="">
         <DrawerHeader>
           <DrawerHeader>CONGRATULATIONS 🎉</DrawerHeader>
           <DrawerDescription>
