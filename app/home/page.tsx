@@ -415,7 +415,7 @@ export default function Home() {
 
       <Certifications />
 
-      <DiscountBox open={open} setOpen={setOpen} />
+      {window.innerWidth < 800 ? <DiscountBoxMobile open={open} setOpen={setOpen} /> : <DiscountBox open={open} setOpen={setOpen} /> }
     </div>
   );
 }
@@ -1039,7 +1039,6 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { useWindowWidth } from "@/lib/utils";
-import { toast } from "sonner";
 import { useToast } from "@/hooks/use-toast";
 
 const DiscountBox = ({
@@ -1070,5 +1069,48 @@ const DiscountBox = ({
         </Button>
       </DialogContent>
     </Dialog>
+  );
+};
+
+
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer"
+
+const DiscountBoxMobile = ({
+  open,
+  setOpen,
+}: {
+  open: boolean;
+  setOpen: (x: boolean) => void;
+}) => {
+  const {toast} = useToast();
+  return (
+    <Drawer open={open} onOpenChange={setOpen}>
+      <DrawerContent className="sm:max-w-[425px]">
+        <DrawerHeader>
+          <DrawerHeader>CONGRATULATIONS 🎉</DrawerHeader>
+          <DrawerDescription>
+            We are offering an extra 5% OFF for our first 100 Orders. ORDER NOW with promo code <strong>LAUNCH5</strong>. 
+          </DrawerDescription>
+        </DrawerHeader>
+        <Button
+          variant={"outline"}
+          onClick={() => {
+            window.navigator.clipboard.writeText("LAUNCH5");
+            toast({title: "Copied.", description: "LAUNCH5"})
+          }}
+        >
+          COPY LAUNCH5
+        </Button>
+      </DrawerContent>
+    </Drawer>
   );
 };
