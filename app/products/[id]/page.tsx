@@ -295,7 +295,7 @@ export default function ProductPage() {
       <div className="container mt-20 max-md:mt-12 mx-auto px-4 py-10">
         <div className="grid grid-cols-1 md:grid-cols-2 md:gap-12 max-md:gap-4">
           {/* Image Gallery */}
-          <div className="md:sticky md:top-32 max-h-[70vh] flex md:flex-row flex-col-reverse gap-4 overflow-hidden">
+          <div className="md:sticky md:top-32 max-h-[80vh] flex md:flex-row flex-col-reverse gap-4 overflow-hidden">
             {product.images.length > 1 && (
               <div className="flex md:flex-col flex-row gap-2 md:min-w-[100px] md:max-h-[500px] overflow-auto">
                 {product.images.map((img, idx) => (
