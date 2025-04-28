@@ -542,7 +542,7 @@ export default function ProductPage() {
                   style={{
                     backgroundImage: `url(${product.images[selectedImage]})`,
                     backgroundSize: `${imgRef.current!.width * 2}px ${
-                      imgRef.current!.height * 2.2
+                      imgRef.current!.height * 2
                     }px`, // 2x zoom effect
                     backgroundPosition: `${zoomPosition.x * 100}% ${
                       zoomPosition.y * 100
