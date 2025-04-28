@@ -548,7 +548,7 @@ export default function ProductPage() {
                       zoomPosition.y * 100
                     }%`,
                     transform: "translate(-25%, -25%)",
-                    transition: "background-position 0.2s ease-out", // Smooth transition
+                    transition: "background-position 0.1s ease-out", 
                   }}
                 />
               </div>
