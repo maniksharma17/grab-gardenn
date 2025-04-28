@@ -322,7 +322,7 @@ export default function ProductPage() {
             )}
 
             <div
-              className="relative w-full max-h-[500px] aspect-square overflow-hidden rounded-xl"
+              className="relative w-full max-h-[500px] overflow-hidden rounded-xl"
               onMouseEnter={() => setIsHoveringImage(true)}
               onMouseLeave={() => setIsHoveringImage(false)}
               onMouseMove={(e) => {
@@ -536,9 +536,9 @@ export default function ProductPage() {
               </>
             ) : (
               // Zoomed Image Section
-              <div className="max-md:hidden w-full h-[500px] relative">
+              <div className="max-md:hidden w-full h-full relative">
                 <div
-                  className="absolute w-[100%] h-full shadow-md border border-gray-300 border-dashed"
+                  className="absolute w-[100%] h-[100%] shadow-md border border-gray-300 border-dashed"
                   style={{
                     backgroundImage: `url(${product.images[selectedImage]})`,
                     backgroundSize: `${imgRef.current!.width * 2}px ${
