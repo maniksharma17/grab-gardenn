@@ -336,18 +336,12 @@ export const UserProfileSheet = () => {
         <SheetFooter>
           <div className="w-full flex flex-col gap-1">
             
+            
             <Button
-              variant="outline"
-              className="w-full flex justify-between items-center"
-            >
-              Settings <Settings className="w-4 h-4 ml-2" />
-            </Button>
-            <Button
-              variant="destructive"
-              className="w-full flex justify-between items-center"
+              className="w-full bg-transparent text-red-500 flex justify-between items-center"
               onClick={handleLogout}
             >
-              Logout <LogOut className="w-4 h-4 ml-2" />
+              Logout 
             </Button>
           </div>
         </SheetFooter>
