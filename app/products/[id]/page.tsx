@@ -534,7 +534,7 @@ export default function ProductPage() {
               </>
             ) : (
               // Zoomed Image Section
-              <div className="max-md:hidden relative w-full h-[500px] overflow-hidden border-dashed border-gray-500 shadow-lg">
+              <div className="max-md:hidden relative w-fit h-fit overflow-hidden border-dashed border-gray-500 shadow-lg">
               <div
                 className="absolute w-[120%] h-[120%]" 
                 style={{
