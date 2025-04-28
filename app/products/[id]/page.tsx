@@ -57,6 +57,7 @@ export default function ProductPage() {
   >([]);
   const [isHoveringImage, setIsHoveringImage] = useState(false);
   const [zoomPosition, setZoomPosition] = useState({ x: 0, y: 0 });
+  const imgRef = useRef<HTMLImageElement>(null); 
 
   useEffect(() => {
     const fetchReviews = async () => {
@@ -336,6 +337,7 @@ export default function ProductPage() {
                 alt="Product"
                 fill
                 className="object-cover"
+                ref={imgRef}
               />
             </div>
           </div>
@@ -535,18 +537,21 @@ export default function ProductPage() {
             ) : (
               // Zoomed Image Section
               <div className="max-md:hidden w-full h-[400px] relative overflow-hidden">
-              <div
-                className="absolute w-[100%] h-[200%] border-dashed border-gray-500 border shadow-lg" 
-                style={{
-                  backgroundImage: `url(${product.images[selectedImage]})`,
-                  backgroundSize: "cover",
-                  backgroundPosition: `${zoomPosition.x * 100}% ${zoomPosition.y * 60}%`,  
-                  transform: "translate(-25%, -25%)",
-                  transition: "background-position 0.2s ease-out",  // Smooth transition for better effect
-                }}
-              />
-            </div>
-
+                <div
+                  className="absolute w-[120%] h-[150%] border-dashed border-gray-500 border shadow-lg"
+                  style={{
+                    backgroundImage: `url(${product.images[selectedImage]})`,
+                    backgroundSize: `${imgRef.current!.width * 2}px ${
+                      imgRef.current!.height * 2
+                    }px`, // 2x zoom effect
+                    backgroundPosition: `${zoomPosition.x * 100}% ${
+                      zoomPosition.y * 60
+                    }%`,
+                    transform: "translate(-25%, -25%)",
+                    transition: "background-position 0.2s ease-out", // Smooth transition
+                  }}
+                />
+              </div>
             )}
 
             <ProductDetails
