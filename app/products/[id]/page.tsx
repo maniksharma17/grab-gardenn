@@ -538,7 +538,7 @@ export default function ProductPage() {
               // Zoomed Image Section
               <div className="max-md:hidden w-full h-[300px] relative">
                 <div
-                  className="absolute w-[100%] h-[100%] shadow-lg"
+                  className="absolute w-[100%] h-[100%] shadow-lg border border-gray-300 border-dashed"
                   style={{
                     backgroundImage: `url(${product.images[selectedImage]})`,
                     backgroundSize: `${imgRef.current!.width * 2.5}px ${
