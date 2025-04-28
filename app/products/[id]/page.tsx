@@ -617,9 +617,9 @@ const ReviewSection = ({ reviews, currentUser, productId }: any) => {
       return;
     }
 
-    if (userRating === 0 || userReview.trim() === "") {
+    if (userRating === 0) {
       toast({
-        title: "Please give a rating and write a review",
+        title: "Please give a rating.",
         variant: "destructive",
       });
       return;
