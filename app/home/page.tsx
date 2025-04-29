@@ -47,7 +47,7 @@ export default function Home() {
 
   const carouselImagesMobile = [
     {
-      src: "https://grabgardenn-storage.s3.ap-south-1.amazonaws.com/banners/home-banner-2.png",
+      src: "https://grabgardenn-storage.s3.ap-south-1.amazonaws.com/banners/home-banner-2.jpg",
       href: "/products",
       heading: "The Taste of Culture, The Purity of Nature",
       text: "Experience Himalayan ingredients passed down through generations—pure, local, and full of natural nourishment.",
