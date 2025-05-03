@@ -26,7 +26,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" className={`${poppins.variable} font-poppins`}>
       <Script src="https://checkout.razorpay.com/v1/checkout.js"></Script>
       <Script
         src="https://accounts.google.com/gsi/client"
