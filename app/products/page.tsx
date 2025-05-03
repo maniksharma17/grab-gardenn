@@ -341,7 +341,7 @@ export default function ProductsPage() {
             return (
               <div
                 key={product._id}
-                className={`rounded-lg bg-white border-none overflow-hidden hover:shadow-md transition ${
+                className={`rounded-lg border bg-white border-none overflow-hidden hover:shadow-md transition ${
                   isHorizontal ? "flex md:flex-row flex-col" : ""
                 } ${product.stock == 0 ? "opacity-50" : "opacity-100"}`}
               >
