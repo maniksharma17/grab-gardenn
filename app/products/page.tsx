@@ -39,7 +39,7 @@ export default function ProductsPage() {
 
   useEffect(()=>{
     if(!user) return;
-    if(user?._id && user?.phone == ""){
+    if(user.phone === ""){
       router.push("/complete-profile");
     }
   }, [user, router])
