@@ -478,6 +478,39 @@ export const CheckoutSheet = ({
           })}
         </div>
 
+        {/* Payment Method */}
+        <div className="space-y-2 my-4">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 mt-4">
+              {[
+                {
+                  value: "razorpay",
+                  label: "Pay with Razorpay",
+                  icon: <CreditCard className="w-5 h-5" />,
+                },
+                {
+                  value: "cod",
+                  label: "Cash on Delivery",
+                  icon: <Truck className="w-5 h-5" />,
+                },
+              ].map((option) => (
+                <div
+                  key={option.value}
+                  onClick={() => setPaymentMethod(option.value)}
+                  className={`border rounded-xl p-4 cursor-pointer flex items-center gap-3 transition-all
+        ${
+          paymentMethod === option.value
+            ? "border-primary shadow-md bg-primary/10"
+            : "border-gray-300"
+        }
+      `}
+                >
+                  {option.icon}
+                  <span className="font-medium">{option.label}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
         <div className="space-y-4 mt-4 pb-10">
           <Table className="w-full border rounded-lg text-sm">
             <TableHeader>
@@ -750,38 +783,7 @@ export const CheckoutSheet = ({
             </div>
           )}
 
-          {/* Payment Method */}
-          <div className="space-y-2 mt-4">
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 mt-4">
-              {[
-                {
-                  value: "razorpay",
-                  label: "Pay with Razorpay",
-                  icon: <CreditCard className="w-5 h-5" />,
-                },
-                {
-                  value: "cod",
-                  label: "Cash on Delivery",
-                  icon: <Truck className="w-5 h-5" />,
-                },
-              ].map((option) => (
-                <div
-                  key={option.value}
-                  onClick={() => setPaymentMethod(option.value)}
-                  className={`border rounded-xl p-4 cursor-pointer flex items-center gap-3 transition-all
-        ${
-          paymentMethod === option.value
-            ? "border-primary shadow-md bg-primary/10"
-            : "border-gray-300"
-        }
-      `}
-                >
-                  {option.icon}
-                  <span className="font-medium">{option.label}</span>
-                </div>
-              ))}
-            </div>
-          </div>
+          
 
           <Button
             disabled={deliveryMessage?.length > 0 || loading}

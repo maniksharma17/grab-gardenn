@@ -32,7 +32,7 @@ import axios from "axios";
 import { Product } from "@/lib/types";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
-import { CircleAlert, Phone } from "lucide-react";
+import { CircleAlert, CreditCard, Phone, Truck } from "lucide-react";
 import Image from "next/image";
 import { validateAddress } from "@/lib/utils";
 import { DELIVERY_DISCOUNT } from "@/lib/config";
@@ -460,6 +460,39 @@ export const BuyNowSheet = ({
             </div>
           </div>
 
+          {/* Payment Method */}
+          <div className="space-y-2 mt-4">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 mt-4">
+              {[
+                {
+                  value: "Prepaid",
+                  label: "Pay with Razorpay",
+                  icon: <CreditCard className="w-5 h-5" />,
+                },
+                {
+                  value: "COD",
+                  label: "Cash on Delivery",
+                  icon: <Truck className="w-5 h-5" />,
+                },
+              ].map((option) => (
+                <div
+                  key={option.value}
+                  onClick={() => setPaymentMode(option.value as 'Prepaid'|'COD')}
+                  className={`border rounded-xl p-4 cursor-pointer flex items-center gap-3 transition-all
+        ${
+          paymentMode === option.value
+            ? "border-primary shadow-md bg-primary/10"
+            : "border-gray-300"
+        }
+      `}
+                >
+                  {option.icon}
+                  <span className="font-medium">{option.label}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
           {/* Order Summary */}
           <div className="shadow-sm space-y-4">
             <Table className="w-full border rounded-lg text-sm">
@@ -738,22 +771,7 @@ export const BuyNowSheet = ({
             </div>
           )}
 
-          <div className="mt-4 space-y-2">
-            <h3 className="text-lg font-semibold">Payment Method</h3>
-            <RadioGroup
-              value={paymentMode}
-              onValueChange={(val) => setPaymentMode(val as "COD" | "Prepaid")}
-            >
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem value="Prepaid" id="prepaid" />
-                <Label htmlFor="prepaid">Pay with Razorpay</Label>
-              </div>
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem value="COD" id="cod" />
-                <Label htmlFor="cod">Cash on Delivery</Label>
-              </div>
-            </RadioGroup>
-          </div>
+          
 
           <Button
             className="w-full"
@@ -763,7 +781,7 @@ export const BuyNowSheet = ({
             {loading
               ? "Processing..."
               : paymentMode === "COD"
-              ? "Place Order"
+              ? "Pay on Delivery"
               : "Pay Now"}
           </Button>
         </div>
