@@ -702,7 +702,7 @@ export default function AuthPage() {
                           type="text"
                           value={address.zipCode}
                           onChange={(e) => {
-                            fetchLocation()
+                            
                             setAddress({
                               ...address,
                               zipCode: e.target.value.trim(),
@@ -711,6 +711,7 @@ export default function AuthPage() {
                               ...registerData,
                               address: [address],
                             });
+                            fetchLocation()
                           }}
                           placeholder=""
                           className=""
