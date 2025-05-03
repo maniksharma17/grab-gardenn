@@ -459,7 +459,7 @@ export const CheckoutSheet = ({
                 width={100}
                 height={100}
               />
-              <div className="flex flex-row justify-between items-center">
+              <div className="w-full flex flex-row justify-between items-center">
                 <div className="flex flex-col">
                   <p className="font-medium">{item.product.name}</p>
                   <p className="text-sm text-gray-500">{item.variant.display}</p>
