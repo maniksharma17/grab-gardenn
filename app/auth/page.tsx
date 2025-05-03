@@ -245,22 +245,26 @@ export default function AuthPage() {
     }
   };
 
-  const fetchLocation = async () => {
-    try {
-      const response = await fetch(`https://api.postalpincode.in/pincode/${address.zipCode}`);
-      const data = await response.json();
-      if (data[0].Status === "Success") {
-        const postOffice = data[0].PostOffice[0];
-        setAddress({...address, city: postOffice.Block})
-        setAddress({...address, state: postOffice.Circle})
-        setAddress({...address, country: postOffice.Country})
-      } else {
-        console.log('Invalid Pincode')
+  useEffect(()=>{
+    const fetchLocation = async () => {
+      try {
+        const response = await fetch(`https://api.postalpincode.in/pincode/${address.zipCode}`);
+        const data = await response.json();
+        if (data[0].Status === "Success") {
+          const postOffice = data[0].PostOffice[0];
+          setAddress({...address, city: postOffice.Block})
+          setAddress({...address, state: postOffice.Circle})
+          setAddress({...address, country: postOffice.Country})
+        } else {
+          console.log('Invalid Pincode')
+        }
+      } catch (err) {
+        console.log(err)
       }
-    } catch (err) {
-      console.log(err)
-    }
-  };
+    };
+
+  }, [address])
+  
 
   useEffect(() => {
     const clientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
@@ -702,7 +706,6 @@ export default function AuthPage() {
                           type="text"
                           value={address.zipCode}
                           onChange={(e) => {
-                            
                             setAddress({
                               ...address,
                               zipCode: e.target.value.trim(),
@@ -711,7 +714,6 @@ export default function AuthPage() {
                               ...registerData,
                               address: [address],
                             });
-                            fetchLocation()
                           }}
                           placeholder=""
                           className=""
