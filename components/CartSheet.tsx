@@ -179,9 +179,9 @@ export const CartSheet = () => {
 
       <SheetContent
         side="right"
-        className={`w-[90vw] overflow-y-auto transition-all duration-300 ${suggestions.length > 0
-          ? "sm:max-w-[700px]"
-          : "sm:max-w-[400px]"}`}
+        className={`w-full overflow-y-auto transition-all duration-300 ${suggestions.length > 0
+          ? "sm:max-w-2xl"
+          : "sm:max-w-xl"}`}
       >
         <SheetHeader>
           <SheetTitle>Shopping Cart</SheetTitle>
