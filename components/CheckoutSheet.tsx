@@ -40,7 +40,6 @@ import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import Image from "next/image";
 
-
 export const CheckoutSheet = ({
   setCart,
 }: {
@@ -142,7 +141,7 @@ export const CheckoutSheet = ({
     setSelectedAddress(newAddress);
     toast({ title: "New Address Selected", variant: "default" });
 
-    setShowForm(false); 
+    setShowForm(false);
   };
 
   const token =
@@ -276,7 +275,6 @@ export const CheckoutSheet = ({
       return;
     }
 
-
     if (paymentMethod === "razorpay") {
       try {
         const res = await axios.post(
@@ -305,11 +303,12 @@ export const CheckoutSheet = ({
             toast({ title: "Payment Successful" });
             const res = await axios.post(
               `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/checkout/verify-payment/${user._id}`,
-              { ...response, 
+              {
+                ...response,
                 shippingAddress: selectedAddress,
                 deliveryRate: discountedDeliveryRate,
                 promoCode: promoCode,
-                promoCodeDiscount: discount
+                promoCodeDiscount: discount,
               },
               { headers: { Authorization: `Bearer ${user.token}` } }
             );
@@ -416,24 +415,26 @@ export const CheckoutSheet = ({
   useEffect(() => {
     const fetchLocation = async () => {
       try {
-        const response = await fetch(`https://api.postalpincode.in/pincode/${newAddress.zipCode}`);
+        const response = await fetch(
+          `https://api.postalpincode.in/pincode/${newAddress.zipCode}`
+        );
         const data = await response.json();
         if (data[0].Status === "Success") {
           const postOffice = data[0].PostOffice[0];
-          setNewAddress(prev => ({
+          setNewAddress((prev) => ({
             ...prev,
             city: postOffice.Block || postOffice.District,
             state: postOffice.Circle,
-            country: postOffice.Country
+            country: postOffice.Country,
           }));
         } else {
-          toast({description: "Invalid Pincode"})
+          toast({ description: "Invalid Pincode" });
         }
       } catch (err) {
         console.log(err);
       }
     };
-  
+
     if (newAddress.zipCode.length === 6) {
       fetchLocation();
     }
@@ -450,28 +451,31 @@ export const CheckoutSheet = ({
         </SheetHeader>
 
         <div className="w-full flex flex-col gap-2 my-4">
-          {cartItems.map(item => {
-            return <div key={item._id} className="flex items-center gap-4">
-              <Image
-                src={item.product.images[0]}
-                alt={item.product.name}
-                className="w-20 h-20 object-cover rounded"
-                width={100}
-                height={100}
-              />
-              <div className="w-full flex flex-row justify-between items-center">
-                <div className="flex flex-col">
-                  <p className="font-medium">{item.product.name}</p>
-                  <p className="text-sm text-gray-500">{item.variant.display}</p>
-                </div>
-                <div className="flex flex-col">
-                  <p className="font-semibold text-lg">₹{item.price}</p>
-                  <div>QTY: {item.quantity}</div>
+          {cartItems.map((item) => {
+            return (
+              <div key={item._id} className="flex items-center gap-4">
+                <Image
+                  src={item.product.images[0]}
+                  alt={item.product.name}
+                  className="w-20 h-20 object-cover rounded"
+                  width={100}
+                  height={100}
+                />
+                <div className="w-full flex flex-row justify-between items-center">
+                  <div className="flex flex-col">
+                    <p className="font-medium">{item.product.name}</p>
+                    <p className="text-sm text-gray-500">
+                      {item.variant.display}
+                    </p>
+                  </div>
+                  <div className="flex flex-col">
+                    <p className="font-semibold text-lg">₹{item.price}</p>
+                    <div>QTY: {item.quantity}</div>
+                  </div>
                 </div>
               </div>
-            </div>
+            );
           })}
-
         </div>
 
         <div className="space-y-4 mt-4 pb-10">
@@ -516,7 +520,7 @@ export const CheckoutSheet = ({
                 </TableCell>
               </TableRow>
 
-              {(subtotal <= 1000 && deliveryRate > DELIVERY_DISCOUNT) && (
+              {subtotal <= 1000 && deliveryRate > DELIVERY_DISCOUNT && (
                 <TableRow>
                   <TableCell className="text-green-600">
                     Shipping Discount
@@ -581,7 +585,10 @@ export const CheckoutSheet = ({
               <span className="text-green-800 font-bold">
                 ₹
                 {(
-                  discount + ((subtotal < 1000 && deliveryRate > DELIVERY_DISCOUNT) ? DELIVERY_DISCOUNT : 0)
+                  discount +
+                  (subtotal < 1000 && deliveryRate > DELIVERY_DISCOUNT
+                    ? DELIVERY_DISCOUNT
+                    : 0)
                 ).toFixed(2)}
               </span>
               on your order! 🎉
@@ -631,27 +638,26 @@ export const CheckoutSheet = ({
 
           {/* Delivery Address */}
           {selectedAddress ? (
-              <div className="border border-gray-200 rounded-md p-4 mt-3 text-sm text-gray-700 space-y-1 bg-gray-50">
-                <p className="font-medium">{selectedAddress.name}</p>
-                <p>
-                  {selectedAddress.street}
-                  {selectedAddress.streetOptional
-                    ? `, ${selectedAddress.streetOptional}`
-                    : ""}
-                </p>
-                <p>
-                  {selectedAddress.city}, {selectedAddress.state} -{" "}
-                  {selectedAddress.zipCode}
-                </p>
-                <p>{selectedAddress.country}</p>
-                <p className="text-xs text-gray-500">
-                  📞 {selectedAddress.phone}
-                </p>
-              </div>
-            ): <>
-            No address selected
-            </>
-          }
+            <div className="border border-gray-200 rounded-md p-4 mt-3 text-sm text-gray-700 space-y-1 bg-gray-50">
+              <p className="font-medium">{selectedAddress.name}</p>
+              <p>
+                {selectedAddress.street}
+                {selectedAddress.streetOptional
+                  ? `, ${selectedAddress.streetOptional}`
+                  : ""}
+              </p>
+              <p>
+                {selectedAddress.city}, {selectedAddress.state} -{" "}
+                {selectedAddress.zipCode}
+              </p>
+              <p>{selectedAddress.country}</p>
+              <p className="text-xs text-gray-500">
+                📞 {selectedAddress.phone}
+              </p>
+            </div>
+          ) : (
+            <>No address selected</>
+          )}
 
           {/* Add New Address */}
           <Button
@@ -709,7 +715,10 @@ export const CheckoutSheet = ({
                 placeholder="Pin Code"
                 value={newAddress.zipCode}
                 onChange={(e) =>
-                  setNewAddress({ ...newAddress, zipCode: e.target.value.trim() })
+                  setNewAddress({
+                    ...newAddress,
+                    zipCode: e.target.value.trim(),
+                  })
                 }
               />
 
@@ -727,7 +736,7 @@ export const CheckoutSheet = ({
                   setNewAddress({ ...newAddress, state: e.target.value })
                 }
               />
-              
+
               <Input
                 placeholder="Country"
                 value={newAddress.country}
@@ -735,10 +744,7 @@ export const CheckoutSheet = ({
                   setNewAddress({ ...newAddress, country: e.target.value })
                 }
               />
-              <Button
-                onClick={handleAddNewAddress}
-                className="w-full"
-              >
+              <Button onClick={handleAddNewAddress} className="w-full">
                 Use This Address
               </Button>
             </div>
@@ -746,27 +752,35 @@ export const CheckoutSheet = ({
 
           {/* Payment Method */}
           <div className="space-y-2 mt-4">
-            <h3 className="text-lg font-semibold">Payment Method</h3>
-            <RadioGroup
-              defaultValue={paymentMethod}
-              onValueChange={setPaymentMethod}
-              className="space-y-2"
-            >
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem value="razorpay" id="razorpay" />
-                <Label htmlFor="razorpay" className="flex items-center gap-2">
-                  <CreditCard className="w-4 h-4" />
-                  Pay with Razorpay 
-                </Label>
-              </div>
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem value="cod" id="cod" />
-                <Label htmlFor="cod" className="flex items-center gap-2">
-                  <Truck className="w-4 h-4" />
-                  Cash on Delivery
-                </Label>
-              </div>
-            </RadioGroup>
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 mt-4">
+              {[
+                {
+                  value: "razorpay",
+                  label: "Pay with Razorpay",
+                  icon: <CreditCard className="w-5 h-5" />,
+                },
+                {
+                  value: "cod",
+                  label: "Cash on Delivery",
+                  icon: <Truck className="w-5 h-5" />,
+                },
+              ].map((option) => (
+                <div
+                  key={option.value}
+                  onClick={() => setPaymentMethod(option.value)}
+                  className={`border rounded-xl p-4 cursor-pointer flex items-center gap-3 transition-all
+        ${
+          paymentMethod === option.value
+            ? "border-primary shadow-md bg-primary/10"
+            : "border-gray-300"
+        }
+      `}
+                >
+                  {option.icon}
+                  <span className="font-medium">{option.label}</span>
+                </div>
+              ))}
+            </div>
           </div>
 
           <Button
