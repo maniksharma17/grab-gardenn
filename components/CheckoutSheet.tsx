@@ -449,7 +449,7 @@ export const CheckoutSheet = ({
           <SheetTitle className="text-2xl font-bold">Checkout</SheetTitle>
         </SheetHeader>
 
-        <div className="flex flex-col gap-2 my-4">
+        <div className="w-full flex flex-col gap-2 my-4">
           {cartItems.map(item => {
             return <div key={item._id} className="flex items-center gap-4">
               <Image
