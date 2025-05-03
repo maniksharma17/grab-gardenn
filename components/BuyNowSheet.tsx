@@ -439,6 +439,8 @@ export const BuyNowSheet = ({
         </SheetHeader>
 
         <div className="py-4 space-y-4">
+
+          {/** Product Info */}
           <div className="flex items-center gap-4">
             <Image
               src={product.images[0]}

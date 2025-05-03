@@ -38,6 +38,7 @@ import { validateAddress } from "@/lib/utils";
 import { DELIVERY_DISCOUNT } from "@/lib/config";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
+import Image from "next/image";
 
 
 export const CheckoutSheet = ({
@@ -447,6 +448,29 @@ export const CheckoutSheet = ({
         <SheetHeader>
           <SheetTitle className="text-2xl font-bold">Checkout</SheetTitle>
         </SheetHeader>
+
+        <div className="flex flex-col gap-2">
+          {cartItems.map(item => {
+            return <div key={item._id} className="flex items-center gap-4">
+              <Image
+                src={item.product.images[0]}
+                alt={item.product.name}
+                className="w-20 h-20 object-cover rounded"
+                width={100}
+                height={100}
+              />
+              <div>
+                <p className="font-medium">{item.product.name}</p>
+                <p className="text-sm text-gray-500">{item.variant.display}</p>
+                <div className="flex items-center gap-2">
+                  <p className="font-semibold text-lg">₹{item.price}</p>
+                </div>
+                <div>QTY: {item.quantity}</div>
+              </div>
+            </div>
+          })}
+
+        </div>
 
         <div className="space-y-4 mt-4 pb-10">
           <Table className="w-full border rounded-lg text-sm">
