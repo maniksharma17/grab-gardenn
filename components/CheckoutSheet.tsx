@@ -445,7 +445,7 @@ export const CheckoutSheet = ({
       <SheetTrigger asChild>
         <Button className="w-full">Go to Checkout</Button>
       </SheetTrigger>
-      <SheetContent className="w-full md:max-w-xl overflow-y-scroll">
+      <SheetContent className="font-poppins w-full md:max-w-xl overflow-y-scroll">
         <SheetHeader>
           <SheetTitle className="text-2xl font-bold">Checkout</SheetTitle>
         </SheetHeader>

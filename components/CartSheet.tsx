@@ -179,7 +179,7 @@ export const CartSheet = () => {
 
       <SheetContent
         side="right"
-        className={`w-full overflow-y-auto transition-all duration-300 ${suggestions.length > 0
+        className={`font-poppins w-full overflow-y-auto transition-all duration-300 ${suggestions.length > 0
           ? "sm:max-w-2xl"
           : "sm:max-w-xl"}`}
       >

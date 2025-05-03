@@ -433,7 +433,7 @@ export const BuyNowSheet = ({
       >
         BUY IT NOW
       </SheetTrigger>
-      <SheetContent className="w-full md:max-w-xl overflow-y-scroll">
+      <SheetContent className="font-poppins w-full md:max-w-xl overflow-y-scroll">
         <SheetHeader>
           <SheetTitle className="text-2xl font-bold">Checkout</SheetTitle>
         </SheetHeader>
