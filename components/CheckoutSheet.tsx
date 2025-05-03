@@ -604,30 +604,36 @@ export const CheckoutSheet = ({
           </div>
 
           {/* Delivery Address */}
-          <h2 className="text-xl font-semibold">Delivery Address</h2>
           {selectedAddress ? (
-            <div className="border rounded-xl p-4 space-y-1 bg-gray-50 text-sm">
-              <p className="font-medium">{selectedAddress.name}</p>
-              <p>{selectedAddress.phone}</p>
-              <p>{selectedAddress.street}</p>
-              <p>{selectedAddress.streetOptional ?? "--"}</p>
-              <p>
-                {selectedAddress.city}, {selectedAddress.state} -{" "}
-                {selectedAddress.zipCode}
-              </p>
-              <p>{selectedAddress.country}</p>
-            </div>
-          ) : (
-            <p className="text-sm text-gray-500">No address selected</p>
-          )}
+              <div className="border border-gray-200 rounded-md p-4 mt-3 text-sm text-gray-700 space-y-1 bg-gray-50">
+                <p className="font-medium">{selectedAddress.name}</p>
+                <p>
+                  {selectedAddress.street}
+                  {selectedAddress.streetOptional
+                    ? `, ${selectedAddress.streetOptional}`
+                    : ""}
+                </p>
+                <p>
+                  {selectedAddress.city}, {selectedAddress.state} -{" "}
+                  {selectedAddress.zipCode}
+                </p>
+                <p>{selectedAddress.country}</p>
+                <p className="text-xs text-gray-500">
+                  📞 {selectedAddress.phone}
+                </p>
+              </div>
+            ): <>
+            No address selected
+            </>
+          }
 
           {/* Add New Address */}
           <Button
             variant="outline"
-            className="w-full"
+            className="mt-4 w-full text-sm font-medium border-dashed border-gray-300 hover:border-primary hover:text-primary transition"
             onClick={() => setShowForm(!showForm)}
           >
-            {showForm ? "Cancel" : "Use New Address"}
+            {showForm ? "Cancel" : "Use new address"}
           </Button>
 
           {showForm && (
@@ -713,7 +719,7 @@ export const CheckoutSheet = ({
           )}
 
           {/* Payment Method */}
-          <div className="space-y-2">
+          <div className="space-y-2 mt-4">
             <h3 className="text-lg font-semibold">Payment Method</h3>
             <RadioGroup
               defaultValue={paymentMethod}

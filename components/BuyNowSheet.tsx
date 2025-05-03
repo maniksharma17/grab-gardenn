@@ -435,7 +435,7 @@ export const BuyNowSheet = ({
       </SheetTrigger>
       <SheetContent className="w-full md:max-w-xl overflow-y-scroll">
         <SheetHeader>
-          <SheetTitle className="text-xl">Buy Now</SheetTitle>
+          <SheetTitle className="text-2xl font-bold">Checkout</SheetTitle>
         </SheetHeader>
 
         <div className="py-4 space-y-4">
@@ -642,7 +642,7 @@ export const BuyNowSheet = ({
               </SelectContent>
             </Select>
 
-            {selectedAddress && (
+            {selectedAddress ? (
               <div className="border border-gray-200 rounded-md p-4 mt-3 text-sm text-gray-700 space-y-1 bg-gray-50">
                 <p className="font-medium">{selectedAddress.name}</p>
                 <p>
@@ -660,14 +660,15 @@ export const BuyNowSheet = ({
                   📞 {selectedAddress.phone}
                 </p>
               </div>
-            )}
+            ) : <>No Address Selected</>
+            }
 
             <Button
               variant="outline"
               className="mt-4 w-full text-sm font-medium border-dashed border-gray-300 hover:border-primary hover:text-primary transition"
               onClick={() => setShowNewAddressForm(true)}
             >
-              ➕ Use a New Address
+              Use new address
             </Button>
           </div>
 
@@ -739,8 +740,8 @@ export const BuyNowSheet = ({
             </div>
           )}
 
-          <div>
-            <Label className="mb-2 block">Payment Mode</Label>
+          <div className="mt-4 space-y-2">
+            <h3 className="text-lg font-semibold">Payment Method</h3>
             <RadioGroup
               value={paymentMode}
               onValueChange={(val) => setPaymentMode(val as "COD" | "Prepaid")}
