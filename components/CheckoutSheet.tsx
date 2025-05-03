@@ -449,7 +449,7 @@ export const CheckoutSheet = ({
           <SheetTitle className="text-2xl font-bold">Checkout</SheetTitle>
         </SheetHeader>
 
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2 my-4">
           {cartItems.map(item => {
             return <div key={item._id} className="flex items-center gap-4">
               <Image
@@ -459,13 +459,15 @@ export const CheckoutSheet = ({
                 width={100}
                 height={100}
               />
-              <div>
-                <p className="font-medium">{item.product.name}</p>
-                <p className="text-sm text-gray-500">{item.variant.display}</p>
-                <div className="flex items-center gap-2">
-                  <p className="font-semibold text-lg">₹{item.price}</p>
+              <div className="flex flex-row justify-between items-center">
+                <div className="flex flex-col">
+                  <p className="font-medium">{item.product.name}</p>
+                  <p className="text-sm text-gray-500">{item.variant.display}</p>
                 </div>
-                <div>QTY: {item.quantity}</div>
+                <div className="flex flex-col">
+                  <p className="font-semibold text-lg">₹{item.price}</p>
+                  <div>QTY: {item.quantity}</div>
+                </div>
               </div>
             </div>
           })}

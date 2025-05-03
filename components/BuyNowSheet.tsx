@@ -454,11 +454,7 @@ export const BuyNowSheet = ({
               <p className="text-sm text-gray-500">{selectedVariant.display}</p>
               <div className="flex items-center gap-2">
                 <p className="font-semibold text-lg">₹{price}</p>
-                {cutoffPrice && (
-                  <p className="line-through text-sm text-gray-400">
-                    ₹{cutoffPrice}
-                  </p>
-                )}
+                
               </div>
               <div>QTY: {quantity}</div>
             </div>
