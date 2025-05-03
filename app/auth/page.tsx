@@ -157,7 +157,6 @@ export default function AuthPage() {
       ...registerData,
       address: [address],
     };
-    console.log(finalRegisterData);
 
     if (type === "register") {
       const error = validateRegisterData(finalRegisterData);
@@ -252,8 +251,8 @@ export default function AuthPage() {
       const data = await response.json();
       if (data[0].Status === "Success") {
         const postOffice = data[0].PostOffice[0];
-        setAddress({...address, city: postOffice.District})
-        setAddress({...address, state: postOffice.State})
+        setAddress({...address, city: postOffice.Block})
+        setAddress({...address, state: postOffice.Circle})
         setAddress({...address, country: postOffice.Country})
       } else {
         console.log('Invalid Pincode')
