@@ -673,27 +673,6 @@ export const BuyNowSheet = ({
               </SelectContent>
             </Select>
 
-            {selectedAddress ? (
-              <div className="border border-gray-200 rounded-md p-4 mt-3 text-sm text-gray-700 space-y-1 bg-gray-50">
-                <p className="font-medium">{selectedAddress.name}</p>
-                <p>
-                  {selectedAddress.street}
-                  {selectedAddress.streetOptional
-                    ? `, ${selectedAddress.streetOptional}`
-                    : ""}
-                </p>
-                <p>
-                  {selectedAddress.city}, {selectedAddress.state} -{" "}
-                  {selectedAddress.zipCode}
-                </p>
-                <p>{selectedAddress.country}</p>
-                <p className="text-xs text-gray-500">
-                  📞 {selectedAddress.phone}
-                </p>
-              </div>
-            ) : <>No Address Selected</>
-            }
-
             <Button
               variant="outline"
               className="mt-4 w-full text-sm font-medium border-dashed border-gray-300 hover:border-primary hover:text-primary transition"
@@ -701,9 +680,8 @@ export const BuyNowSheet = ({
             >
               Use new address
             </Button>
-          </div>
 
-          {showNewAddressForm && (
+            {showNewAddressForm && (
             <div className="border-t pt-4 mt-4 space-y-3">
               <Label className="text-base font-medium">New Address</Label>
 
@@ -771,10 +749,33 @@ export const BuyNowSheet = ({
             </div>
           )}
 
-          
+            {selectedAddress ? (
+              <div className="border border-gray-200 rounded-md p-4 mt-3 text-sm text-gray-700 space-y-1 bg-gray-50">
+                <p className="font-medium">{selectedAddress.name}</p>
+                <p>
+                  {selectedAddress.street}
+                  {selectedAddress.streetOptional
+                    ? `, ${selectedAddress.streetOptional}`
+                    : ""}
+                </p>
+                <p>
+                  {selectedAddress.city}, {selectedAddress.state} -{" "}
+                  {selectedAddress.zipCode}
+                </p>
+                <p>{selectedAddress.country}</p>
+                <p className="text-xs text-gray-500">
+                  📞 {selectedAddress.phone}
+                </p>
+              </div>
+            ) : <>No Address Selected</>
+            }
 
+            
+          </div>
+
+          
           <Button
-            className="w-full"
+            className="w-full h-16 font-bold text-lg"
             disabled={loading}
             onClick={handleCheckout}
           >
