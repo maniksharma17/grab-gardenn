@@ -38,10 +38,12 @@ export default function ProductsPage() {
   const [wishlist, setWishlist] = useState<string[]>([]);
 
   useEffect(()=>{
-    if(!user) return;
-    if(user.phone === ""){
-      router.push("/complete-profile");
-    }
+    const completeProfile = setTimeout(()=>{
+      if(!user) return;
+      if(user.phone === ""){
+        router.push("/complete-profile");
+      }
+    }, 3000)
   }, [user, router])
 
   const fetchWishlist = async () => {
