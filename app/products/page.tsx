@@ -322,7 +322,7 @@ export default function ProductsPage() {
           className={
             isHorizontal
               ? "flex flex-col justify-center gap-6"
-              : "grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-x-2 gap-y-6 md:gap-x-4 md:gap-y-12"
+              : "grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-x-2 gap-y-6 md:gap-x-4 md:gap-y-8"
           }
         >
           {" "}
@@ -341,7 +341,7 @@ export default function ProductsPage() {
             return (
               <div
                 key={product._id}
-                className={`rounded-lg bg-white border overflow-hidden hover:shadow-md transition ${
+                className={`rounded-lg bg-white border-none overflow-hidden hover:shadow-md transition ${
                   isHorizontal ? "flex md:flex-row flex-col" : ""
                 } ${product.stock == 0 ? "opacity-50" : "opacity-100"}`}
               >

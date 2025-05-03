@@ -443,7 +443,7 @@ export const CheckoutSheet = ({
       <SheetTrigger asChild>
         <Button className="w-full">Go to Checkout</Button>
       </SheetTrigger>
-      <SheetContent className="w-full sm:max-w-lg overflow-y-scroll">
+      <SheetContent className="w-full md:max-w-xl overflow-y-scroll">
         <SheetHeader>
           <SheetTitle className="text-2xl font-bold">Checkout</SheetTitle>
         </SheetHeader>
@@ -672,7 +672,7 @@ export const CheckoutSheet = ({
                   })
                 }
               />
-              
+
               <Input
                 placeholder="Pin Code"
                 value={newAddress.zipCode}
