@@ -262,7 +262,7 @@ export default function AuthPage() {
         console.log(err)
       }
     };
-
+    fetchLocation();
   }, [address])
   
 
