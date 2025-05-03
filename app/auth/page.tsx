@@ -245,25 +245,32 @@ export default function AuthPage() {
     }
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     const fetchLocation = async () => {
       try {
         const response = await fetch(`https://api.postalpincode.in/pincode/${address.zipCode}`);
         const data = await response.json();
         if (data[0].Status === "Success") {
           const postOffice = data[0].PostOffice[0];
-          setAddress({...address, city: postOffice.Block})
-          setAddress({...address, state: postOffice.Circle})
-          setAddress({...address, country: postOffice.Country})
+          setAddress(prev => ({
+            ...prev,
+            city: postOffice.Block || postOffice.District,
+            state: postOffice.Circle,
+            country: postOffice.Country
+          }));
         } else {
-          console.log('Invalid Pincode')
+          console.log('Invalid Pincode');
         }
       } catch (err) {
-        console.log(err)
+        console.log(err);
       }
     };
-    fetchLocation();
-  }, [address])
+  
+    if (address.zipCode.length === 6) {
+      fetchLocation();
+    }
+  }, [address.zipCode]);
+  
   
 
   useEffect(() => {
