@@ -499,7 +499,7 @@ export const CheckoutSheet = ({
                   className={`border rounded-xl p-4 cursor-pointer flex items-center gap-3 transition-all
         ${
           paymentMethod === option.value
-            ? "border-primary shadow-md bg-primary/10"
+            ? "border-primary bg-primary/10"
             : "border-gray-300"
         }
       `}
@@ -669,29 +669,6 @@ export const CheckoutSheet = ({
             </Select>
           </div>
 
-          {/* Delivery Address */}
-          {selectedAddress ? (
-            <div className="border border-gray-200 rounded-md p-4 mt-3 text-sm text-gray-700 space-y-1 bg-gray-50">
-              <p className="font-medium">{selectedAddress.name}</p>
-              <p>
-                {selectedAddress.street}
-                {selectedAddress.streetOptional
-                  ? `, ${selectedAddress.streetOptional}`
-                  : ""}
-              </p>
-              <p>
-                {selectedAddress.city}, {selectedAddress.state} -{" "}
-                {selectedAddress.zipCode}
-              </p>
-              <p>{selectedAddress.country}</p>
-              <p className="text-xs text-gray-500">
-                📞 {selectedAddress.phone}
-              </p>
-            </div>
-          ) : (
-            <>No address selected</>
-          )}
-
           {/* Add New Address */}
           <Button
             variant="outline"
@@ -783,11 +760,38 @@ export const CheckoutSheet = ({
             </div>
           )}
 
+          {/* Delivery Address */}
+          {selectedAddress ? (
+            <div className="border border-gray-200 rounded-md p-4 mt-3 text-sm text-gray-700 space-y-1 bg-gray-50">
+              <p className="font-medium">{selectedAddress.name}</p>
+              <p>
+                {selectedAddress.street}
+                {selectedAddress.streetOptional
+                  ? `, ${selectedAddress.streetOptional}`
+                  : ""}
+              </p>
+              <p>
+                {selectedAddress.city}, {selectedAddress.state} -{" "}
+                {selectedAddress.zipCode}
+              </p>
+              <p>{selectedAddress.country}</p>
+              <p className="text-xs text-gray-500">
+                📞 {selectedAddress.phone}
+              </p>
+            </div>
+          ) : (
+            <>No address selected</>
+          )}
+
+          
+
+          
+
           
 
           <Button
             disabled={deliveryMessage?.length > 0 || loading}
-            className="w-full mt-2"
+            className="mt-4 w-full h-12 font-semibold text-lg"
             onClick={handleCheckout}
           >
             {loading ? "Processing..." : "Place Order"}

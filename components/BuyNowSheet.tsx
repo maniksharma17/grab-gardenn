@@ -481,7 +481,7 @@ export const BuyNowSheet = ({
                   className={`border rounded-xl p-4 cursor-pointer flex items-center gap-3 transition-all
         ${
           paymentMode === option.value
-            ? "border-primary shadow-md bg-primary/10"
+            ? "border-primary bg-primary/10"
             : "border-gray-300"
         }
       `}
@@ -775,7 +775,7 @@ export const BuyNowSheet = ({
 
           
           <Button
-            className="w-full h-16 font-bold text-lg"
+            className="mt-4 w-full h-12 font-semibold text-lg"
             disabled={loading}
             onClick={handleCheckout}
           >
