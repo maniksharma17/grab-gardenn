@@ -259,7 +259,7 @@ export default function AuthPage() {
             country: postOffice.Country
           }));
         } else {
-          console.log('Invalid Pincode');
+          toast({description: "Invalid Pincode"})
         }
       } catch (err) {
         console.log(err);
@@ -269,7 +269,7 @@ export default function AuthPage() {
     if (address.zipCode.length === 6) {
       fetchLocation();
     }
-  }, [address.zipCode]);
+  }, [address.zipCode, toast]);
   
   
 
@@ -359,7 +359,7 @@ export default function AuthPage() {
 
   useEffect(() => {
     if (user?.isLoggedIn && (!user.phone || user.address?.length === 0)) {
-      router.replace("/complete-profile");
+      router.push("/complete-profile");
     } else if (user?.isLoggedIn) {
       router.replace("/products");
     }

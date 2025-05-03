@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import { useRecoilState } from 'recoil';
@@ -13,6 +13,8 @@ import { validateAddress } from '@/lib/utils';
 import { useToast } from '@/hooks/use-toast';
 
 export default function CompleteProfile() {
+  const {toast} = useToast();
+
   const [user, setUser] = useRecoilState(userState);
   const router = useRouter();
   const [phone, setPhone] = useState(user?.phone || '');
@@ -27,11 +29,37 @@ export default function CompleteProfile() {
     zipCode: '',
   });
 
+
+  useEffect(() => {
+      const fetchLocation = async () => {
+        try {
+          const response = await fetch(`https://api.postalpincode.in/pincode/${address.zipCode}`);
+          const data = await response.json();
+          if (data[0].Status === "Success") {
+            const postOffice = data[0].PostOffice[0];
+            setAddress(prev => ({
+              ...prev,
+              city: postOffice.Block || postOffice.District,
+              state: postOffice.Circle,
+              country: postOffice.Country
+            }));
+          } else {
+            toast({description: "Invalid Pincode"})
+          }
+        } catch (err) {
+          console.log(err);
+        }
+      };
+    
+      if (address.zipCode.length === 6) {
+        fetchLocation();
+      }
+    }, [address.zipCode, toast]);
+
   const handleChange = (field: string, value: string) => {
     setAddress((prev) => ({ ...prev, [field]: value }));
   };
 
-  const {toast} = useToast();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
