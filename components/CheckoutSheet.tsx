@@ -672,6 +672,15 @@ export const CheckoutSheet = ({
                   })
                 }
               />
+              
+              <Input
+                placeholder="Pin Code"
+                value={newAddress.zipCode}
+                onChange={(e) =>
+                  setNewAddress({ ...newAddress, zipCode: e.target.value.trim() })
+                }
+              />
+
               <Input
                 placeholder="City"
                 value={newAddress.city}
@@ -686,13 +695,7 @@ export const CheckoutSheet = ({
                   setNewAddress({ ...newAddress, state: e.target.value })
                 }
               />
-              <Input
-                placeholder="Zip Code"
-                value={newAddress.zipCode}
-                onChange={(e) =>
-                  setNewAddress({ ...newAddress, zipCode: e.target.value.trim() })
-                }
-              />
+              
               <Input
                 placeholder="Country"
                 value={newAddress.country}

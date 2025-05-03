@@ -433,7 +433,7 @@ export const BuyNowSheet = ({
       >
         BUY IT NOW
       </SheetTrigger>
-      <SheetContent className="w-full max-w-lg overflow-y-scroll">
+      <SheetContent className="w-full md:max-w-xl overflow-y-scroll">
         <SheetHeader>
           <SheetTitle className="text-xl">Buy Now</SheetTitle>
         </SheetHeader>
@@ -680,10 +680,11 @@ export const BuyNowSheet = ({
                 { label: "Phone", key: "phone", type: "tel" },
                 { label: "Street", key: "street" },
                 { label: "Street (Optional)", key: "streetOptional" },
+                { label: "Pin Code", key: "zipCode", type: "number" },
                 { label: "City", key: "city" },
                 { label: "State", key: "state" },
                 { label: "Country", key: "country" },
-                { label: "Pin Code", key: "zipCode", type: "number" },
+                
               ].map((field) =>
                 (field.label === "Phone") ? (
                   <div key={field.key} className="relative">
