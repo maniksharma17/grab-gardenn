@@ -246,6 +246,23 @@ export default function AuthPage() {
     }
   };
 
+  const fetchLocation = async () => {
+    try {
+      const response = await fetch(`https://api.postalpincode.in/pincode/${pincode}`);
+      const data = await response.json();
+      if (data[0].Status === "Success") {
+        const postOffice = data[0].PostOffice[0];
+        setAddress({...address, city: postOffice.District})
+        setAddress({...address, state: postOffice.State})
+        setAddress({...address, country: postOffice.Country})
+      } else {
+        console.log('Invalid Pincode')
+      }
+    } catch (err) {
+      console.log(err)
+    }
+  };
+
   useEffect(() => {
     const clientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
     console.log("Google client ID:", clientId);
@@ -677,6 +694,30 @@ export default function AuthPage() {
                         />
                       </div>
                     </div>
+                    <div className="">
+                      <label className="text-xs font-medium ml-1">
+                        Pin Code
+                      </label>
+                      <div className="relative">
+                        <Input
+                          type="text"
+                          value={address.zipCode}
+                          onChange={(e) => {
+                            fetchLocation()
+                            setAddress({
+                              ...address,
+                              zipCode: e.target.value.trim(),
+                            });
+                            setRegisterData({
+                              ...registerData,
+                              address: [address],
+                            });
+                          }}
+                          placeholder=""
+                          className=""
+                        />
+                      </div>
+                    </div>
 
                     <div className="flex flex-row gap-2">
                       <div className="">
@@ -718,29 +759,7 @@ export default function AuthPage() {
                         </div>
                       </div>
                     </div>
-                    <div className="">
-                      <label className="text-xs font-medium ml-1">
-                        Pin Code
-                      </label>
-                      <div className="relative">
-                        <Input
-                          type="text"
-                          value={address.zipCode}
-                          onChange={(e) => {
-                            setAddress({
-                              ...address,
-                              zipCode: e.target.value.trim(),
-                            });
-                            setRegisterData({
-                              ...registerData,
-                              address: [address],
-                            });
-                          }}
-                          placeholder=""
-                          className=""
-                        />
-                      </div>
-                    </div>
+                    
                     <div className="">
                       <label className="text-xs font-medium ml-1">
                         Country

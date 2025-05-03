@@ -1055,7 +1055,7 @@ const DiscountBox = ({
         <DialogHeader>
           <DialogTitle>CONGRATULATIONS 🎉</DialogTitle>
           <DialogDescription>
-            We are offering an extra 5% OFF for our first 100 Orders. ORDER NOW with promo code <strong>LAUNCH5</strong>. 
+            We are offering an extra 5% OFF for this summer. ORDER NOW with promo code <strong>LAUNCH5</strong>. 
           </DialogDescription>
         </DialogHeader>
         <Button
@@ -1099,7 +1099,7 @@ const DiscountBoxMobile = ({
         <DrawerHeader>
           <DrawerHeader>CONGRATULATIONS 🎉</DrawerHeader>
           <DrawerDescription>
-            We are offering an extra 5% OFF for our first 100 Orders. ORDER NOW with promo code <strong>LAUNCH5</strong>. 
+            We are offering an extra 5% OFF for this summer. ORDER NOW with promo code <strong>LAUNCH5</strong>. 
           </DrawerDescription>
         </DrawerHeader>
         <Button
