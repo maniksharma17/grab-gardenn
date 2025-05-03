@@ -169,6 +169,17 @@ export default function CompleteProfile() {
             />
           </div>
 
+          <div>
+            <label className="text-xs font-medium ml-1">Pin Code</label>
+            <Input
+              type="text"
+              value={address.zipCode}
+              onChange={(e) => handleChange('zipCode', e.target.value)}
+              required
+            />
+          </div>
+
+
           <div className="flex gap-2">
             <div className="flex-1">
               <label className="text-xs font-medium ml-1">City</label>
@@ -190,16 +201,7 @@ export default function CompleteProfile() {
             </div>
           </div>
 
-          <div>
-            <label className="text-xs font-medium ml-1">Pin Code</label>
-            <Input
-              type="text"
-              value={address.zipCode}
-              onChange={(e) => handleChange('zipCode', e.target.value)}
-              required
-            />
-          </div>
-
+          
           <div>
             <label className="text-xs font-medium ml-1">Country</label>
             <Input

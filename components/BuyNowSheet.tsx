@@ -392,6 +392,32 @@ export const BuyNowSheet = ({
     setShowNewAddressForm(false); // Optional: hide the form after adding
   };
 
+  useEffect(() => {
+    const fetchLocation = async () => {
+      try {
+        const response = await fetch(`https://api.postalpincode.in/pincode/${newAddress.zipCode}`);
+        const data = await response.json();
+        if (data[0].Status === "Success") {
+          const postOffice = data[0].PostOffice[0];
+          setNewAddress(prev => ({
+            ...prev,
+            city: postOffice.Block || postOffice.District,
+            state: postOffice.Circle,
+            country: postOffice.Country
+          }));
+        } else {
+          toast({description: "Invalid Pincode"})
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    };
+  
+    if (newAddress.zipCode.length === 6) {
+      fetchLocation();
+    }
+  }, [newAddress.zipCode, toast]);
+
   const [showNewAddressForm, setShowNewAddressForm] = useState(false);
 
   const router = useRouter();
@@ -407,7 +433,7 @@ export const BuyNowSheet = ({
       >
         BUY IT NOW
       </SheetTrigger>
-      <SheetContent className="w-full max-w-md overflow-y-scroll">
+      <SheetContent className="w-full max-w-lg overflow-y-scroll">
         <SheetHeader>
           <SheetTitle className="text-xl">Buy Now</SheetTitle>
         </SheetHeader>

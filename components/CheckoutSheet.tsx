@@ -412,6 +412,32 @@ export const CheckoutSheet = ({
     }
   };
 
+  useEffect(() => {
+    const fetchLocation = async () => {
+      try {
+        const response = await fetch(`https://api.postalpincode.in/pincode/${newAddress.zipCode}`);
+        const data = await response.json();
+        if (data[0].Status === "Success") {
+          const postOffice = data[0].PostOffice[0];
+          setNewAddress(prev => ({
+            ...prev,
+            city: postOffice.Block || postOffice.District,
+            state: postOffice.Circle,
+            country: postOffice.Country
+          }));
+        } else {
+          toast({description: "Invalid Pincode"})
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    };
+  
+    if (newAddress.zipCode.length === 6) {
+      fetchLocation();
+    }
+  }, [newAddress.zipCode, toast]);
+
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
