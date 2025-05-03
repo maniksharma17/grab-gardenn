@@ -248,7 +248,7 @@ export default function AuthPage() {
 
   const fetchLocation = async () => {
     try {
-      const response = await fetch(`https://api.postalpincode.in/pincode/${pincode}`);
+      const response = await fetch(`https://api.postalpincode.in/pincode/${address.zipCode}`);
       const data = await response.json();
       if (data[0].Status === "Success") {
         const postOffice = data[0].PostOffice[0];
@@ -362,7 +362,7 @@ export default function AuthPage() {
         <div className="max-w-md mx-auto">
           <div className="text-center mb-8">
             <Image
-              src="/logo.jpeg"
+              src="https://grabgardenn-storage.s3.ap-south-1.amazonaws.com/logos/grab-gardenn-logo.png"
               alt="Grab Garden"
               width={40}
               height={40}
