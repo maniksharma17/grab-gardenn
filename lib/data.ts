@@ -430,6 +430,25 @@ export const cart = [
 
 export const news = [
   {
+    id: 0,
+    date: 'May 3, 2025',
+    image: "https://tegaorganictea.com/cdn/shop/products/BluePeaflowerTea_2_900x.png?v=1736732694",
+    title: "Health Benefits of Drinking Bue Tea",
+    summary: "Benefits of Butterfly pea flower tea explained.",
+    content: `
+    Blue tea, also known as butterfly pea flower tea, offers several health benefits.
+Blue tea is an herbal infusion made from butterfly pea flowers, which are rich in anthocyanins.
+Anthocyanins give the tea its bright blue color and medical properties.
+Drinking blue tea may boost your heart health by improving blood pressure and cholesterol levels.
+Blue tea is rich in antioxidants, particularly anthocyanins. Antioxidants can help protect the body from oxidative stress and free radicals.
+Some studies suggest that the compounds in butterfly pea flower tea may have anti-inflammatory properties.
+The flavonoids in blue tea may have neuroprotective properties that could support brain health and cognitive function.
+It shows antibacterial and antifungal properties,which can be beneficial for maintaining overall health and preventing infections.
+
+    `
+  },
+
+  {
     id: 1,
     date: "April 24, 2025",
     image: "https://devbhoomikhabar.com/wp-content/uploads/2025/04/IMG-20250422-WA0021.jpg",
