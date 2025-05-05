@@ -643,7 +643,7 @@ export const CheckoutSheet = ({
           )}
 
           {/* Address Selection */}
-          <div className="space-y-2 my-12 py-8 border-t">
+          <div className="space-y-2 mt-12 pt-8 border-t">
             <h3 className="text-lg font-semibold">Shipping Address</h3>
             <Select
               onValueChange={(val) => {
