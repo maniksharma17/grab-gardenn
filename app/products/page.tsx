@@ -96,8 +96,6 @@ export default function ProductsPage() {
                   title: "Success",
                   description: "Logged in with Google!",
                 });
-
-                
               } catch (err) {
                 toast({
                   title: "Google Sign In Failed",
@@ -108,7 +106,6 @@ export default function ProductsPage() {
                 setIsLoading(false);
               }
             },
-            
           });
 
           window.google.accounts.id.prompt();
@@ -122,7 +119,6 @@ export default function ProductsPage() {
     }
   }, [user, router, setUser, toast]);
 
-
   useEffect(() => {
     if (user?.isLoggedIn && (!user.phone || user.address?.length === 0)) {
       router.push("/complete-profile");
@@ -131,14 +127,14 @@ export default function ProductsPage() {
     }
   }, [user, router]);
 
-  useEffect(()=>{
-    setTimeout(()=>{
-      if(user.name==="") return;
-      if(user.phone === "" || user.address.length===0){
+  useEffect(() => {
+    setTimeout(() => {
+      if (user.name === "") return;
+      if (user.phone === "" || user.address.length === 0) {
         router.push("/complete-profile");
       }
-    }, 3000)
-  }, [user, router])
+    }, 3000);
+  }, [user, router]);
 
   const fetchWishlist = async () => {
     if (!user.isLoggedIn) return;
@@ -151,7 +147,7 @@ export default function ProductsPage() {
       }
     );
     const data = await res.json();
-    if(data.wishlist.length==0) setWishlist([]);
+    if (data.wishlist.length == 0) setWishlist([]);
     else setWishlist(data.wishlist.items);
   };
 
@@ -201,7 +197,7 @@ export default function ProductsPage() {
         variant: "destructive",
       });
     } finally {
-      fetchWishlist()
+      fetchWishlist();
     }
   };
 
@@ -462,15 +458,12 @@ export default function ProductsPage() {
                       <Heart className="text-gray-400 w-5 h-5" />
                     )}
                   </div>
-                  
+
                   {product.stock == 0 && (
-                    <div
-                    className="absolute left-2 top-2 z-10 text-xs px-2 bg-red-500 text-white shadow rounded-full w-fit"
-                    >
+                    <div className="absolute left-2 top-2 z-10 text-xs px-2 bg-red-500 text-white shadow rounded-full w-fit">
                       Out of stock
                     </div>
                   )}
-                  
 
                   <Image
                     src={product.images[0]}
@@ -498,7 +491,6 @@ export default function ProductsPage() {
                     isHorizontal ? "md:w-3/4" : ""
                   } p-4 max-md:p-2 flex flex-col gap-2`}
                 >
-                  
                   <h3
                     className={`text-gray-800 font-semibold ${
                       isHorizontal ? "text-xl" : "text-md"

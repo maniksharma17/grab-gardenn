@@ -264,6 +264,12 @@ export default function ProductsPage() {
                     )}
                   </div>
 
+                  {product.stock == 0 && (
+                    <div className="absolute left-2 top-2 z-10 text-xs px-2 bg-red-500 text-white shadow rounded-full w-fit">
+                      Out of stock
+                    </div>
+                  )}
+
                   <Image
                     src={product.images[0]}
                     alt={product.name}
@@ -286,9 +292,7 @@ export default function ProductsPage() {
                     isHorizontal ? "md:w-3/4 p-4" : ""
                   } md:p-4 p-2 flex flex-col gap-2`}
                 >
-                  {product.stock == 0 && (
-                    <p className="text-red-500 text-left">Out of stock</p>
-                  )}
+                  
                   <h3
                     className={`text-gray-800 font-semibold ${
                       isHorizontal ? "text-xl" : "text-md"
