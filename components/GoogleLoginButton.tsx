@@ -73,8 +73,7 @@ export default function GoogleLoginButton() {
               localStorage.setItem("token", data.token);
   
               toast({
-                title: "Success",
-                description: "Logged in with Google!",
+                description: "You are welcome!",
               });
   
               if (!res.ok || data.error) {
