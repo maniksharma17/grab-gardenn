@@ -640,7 +640,7 @@ export const BuyNowSheet = ({
               <span>{deliveryMessage}</span>
             </div>
           ) : (
-            <div className="text-center flex items-center gap-2 text-sm bg-green-50 border border-green-300 text-primary font-medium px-3 py-4 rounded-md w-full">
+            <div className="text-center flex justify-center items-center gap-2 text-sm bg-green-50 border border-green-300 text-primary font-medium px-3 py-4 rounded-md w-full">
               Estimated Delivery:{" "}
               <span className="font-semibold">{estDelivery}</span>
             </div>
