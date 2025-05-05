@@ -513,7 +513,7 @@ export const CheckoutSheet = ({
         </div>
 
         {/* Order Summary */}
-        <div className="space-y-4 pb-10">
+        <div className="space-y-4 mt-4 pb-10">
           <Table className="w-full border rounded-lg text-sm">
             <TableHeader>
               <TableRow>
