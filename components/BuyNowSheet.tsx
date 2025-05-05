@@ -461,7 +461,8 @@ export const BuyNowSheet = ({
           </div>
 
           {/* Payment Method */}
-          <div className="space-y-2 mt-4">
+          <div className="space-y-2 my-8">
+            <h3 className="text-lg font-semibold">Select Payment Method</h3>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 mt-4">
               {[
                 {
@@ -482,7 +483,7 @@ export const BuyNowSheet = ({
         ${
           paymentMode === option.value
             ? "border-primary bg-primary/10"
-            : "border-gray-300"
+            : "border-gray-300 bg-white"
         }
       `}
                 >
@@ -645,8 +646,9 @@ export const BuyNowSheet = ({
             </div>
           )}
 
-          <div>
-            <Label className="mb-2 block">Choose Address</Label>
+          {/** Shipping Address */}
+          <div className="space-y-2 mt-12 pt-8 border-t">
+            <h3 className="text-lg font-semibold">Shipping Address</h3>
             <Select
               value={JSON.stringify(selectedAddress)}
               onValueChange={(val) => {
@@ -782,7 +784,7 @@ export const BuyNowSheet = ({
             {loading
               ? "Processing..."
               : paymentMode === "COD"
-              ? "Pay on Delivery"
+              ? "Place Order"
               : "Pay Now"}
           </Button>
         </div>
