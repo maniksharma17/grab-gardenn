@@ -630,14 +630,14 @@ export const CheckoutSheet = ({
             </p>
           )}
 
-          {/* Delivery Info */}
+          {/* Estimated Delivery */}
           {deliveryMessage.length > 0 ? (
-            <div className="bg-red-100 text-center text-red-700 mt-4 p-3 rounded-md flex items-start gap-2 text-sm">
-              <CircleAlert className="w-4 h-4 mt-0.5" />
-              <p>{deliveryMessage}</p>
+            <div className="flex items-center gap-2 text-sm bg-red-100 border border-red-200 text-red-700 px-3 py-2 rounded-md">
+              <CircleAlert className="w-4 h-4" />
+              <span>{deliveryMessage}</span>
             </div>
           ) : (
-            <div className="mt-4 p-3 text-center bg-green-50 border border-green-200 rounded-md text-green-800 text-sm font-medium">
+            <div className="text-center flex items-center gap-2 text-sm bg-green-50 border border-green-300 text-primary font-medium px-3 py-4 rounded-md w-full">
               Estimated Delivery:{" "}
               <span className="font-semibold">{estDelivery}</span>
             </div>
