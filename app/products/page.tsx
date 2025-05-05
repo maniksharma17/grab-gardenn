@@ -465,7 +465,7 @@ export default function ProductsPage() {
                   
                   {product.stock == 0 && (
                     <div
-                    className="absolute left-0 top-2 z-10 text-xs px-2 bg-red-500 text-white shadow rounded-full w-fit"
+                    className="absolute left-2 top-2 z-10 text-xs px-2 bg-red-500 text-white shadow rounded-full w-fit"
                     >
                       Out of stock
                     </div>
