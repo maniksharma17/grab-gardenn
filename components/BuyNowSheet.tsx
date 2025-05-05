@@ -482,7 +482,7 @@ export const BuyNowSheet = ({
                   className={`border rounded-xl p-4 cursor-pointer flex items-center gap-3 transition-all
         ${
           paymentMode === option.value
-            ? "bg-primary text-white"
+            ? "bg-primary text-white border-none"
             : "border-gray-300 bg-white"
         }
       `}

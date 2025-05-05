@@ -497,11 +497,11 @@ export const CheckoutSheet = ({
               <div
                 key={option.value}
                 onClick={() => setPaymentMethod(option.value)}
-                className={`border bg-white rounded-xl p-4 cursor-pointer flex flex-row items-center gap-3 transition-all
+                className={`border rounded-xl p-4 cursor-pointer flex flex-row items-center gap-3 transition-all
         ${
           paymentMethod === option.value
-            ? "bg-primary text-primary"
-            : "border-gray-300"
+            ? "bg-primary text-white border-none"
+            : "border-gray-300 bg-white"
         }
       `}
               >
