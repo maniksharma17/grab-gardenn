@@ -38,8 +38,6 @@ import { DELIVERY_DISCOUNT } from "@/lib/config";
 import { Input } from "./ui/input";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
-import { Accordion } from "./ui/accordion";
-import { AccordionItem, AccordionTrigger, AccordionContent } from "./ui/accordion"
 import { Card, CardContent } from "./ui/card";
 
 
@@ -777,7 +775,7 @@ export const BuyNowSheet = ({
 };
 
 function PromoCodeSection({ promoCodes, promoCode, setPromoCode, setFinalPromoCode, removePromoCode }: any) {
-  const [showCoupons, setShowCoupons] = useState(false)
+  const [showCoupons, setShowCoupons] = useState(true)
 
   const handleApply = (code: string) => {
     setPromoCode(code)
@@ -786,9 +784,6 @@ function PromoCodeSection({ promoCodes, promoCode, setPromoCode, setFinalPromoCo
 
   return (
     <div className="w-full space-y-4">
-      <Button variant="outline" className="w-full" onClick={() => setShowCoupons(!showCoupons)}>
-        {showCoupons ? "Hide Offers" : "View Offers"}
-      </Button>
 
       {showCoupons && (
         <div className="grid grid-cols-1 gap-4">
@@ -821,7 +816,7 @@ function PromoCodeSection({ promoCodes, promoCode, setPromoCode, setFinalPromoCo
                     ) : (
                       <PlusCircle
                         size={20}
-                        className="text-blue-500 cursor-pointer hover:opacity-80"
+                        className="text-primary cursor-pointer hover:opacity-80"
                         onClick={() => handleApply(item.code)}
                       />
                     )}

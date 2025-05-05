@@ -15,7 +15,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-
+import { Card, CardContent } from "./ui/card";
+import { Badge } from "./ui/badge";
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
@@ -23,8 +24,6 @@ import { cartRefreshState, userState } from "@/store/atoms/user";
 import { CartItem } from "@/lib/types";
 import axios from "axios";
 import { useToast } from "@/hooks/use-toast";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectTrigger,
@@ -32,7 +31,7 @@ import {
   SelectContent,
   SelectItem,
 } from "@/components/ui/select";
-import { CircleAlert, CreditCard, Mail, Phone, Truck } from "lucide-react";
+import { CheckCircle2, CircleAlert, CreditCard, Mail, MinusCircle, Phone, PlusCircle, Truck } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { validateAddress } from "@/lib/utils";
 import { DELIVERY_DISCOUNT } from "@/lib/config";
@@ -203,6 +202,13 @@ export const CheckoutSheet = ({
       setDiscount(0);
     }
   };
+
+  const removePromoCode = () => {
+    setPromoCode("");
+
+    setFinalAmount(prev => prev + discount);
+    setDiscount(0);
+  }
 
   useEffect(() => {
     const reapplyPromo = async () => {
@@ -593,21 +599,12 @@ export const CheckoutSheet = ({
             </Button>
           </div>
 
-          <div className="flex flex-row gap-2 flex-wrap w-full">
-            {promoCodes.map((item: any) => {
-              return (
-                <div
-                  onClick={() => {
-                    setPromoCode(item.code);
-                  }}
-                  key={item._id}
-                  className="cursor-pointer text-sm px-3 py-1 font-semibold text-gray-500 bg-slate-50 border border-gray-300 rounded-md w-fit flex-wrap"
-                >
-                  {item.code}
-                </div>
-              );
-            })}
-          </div>
+          <PromoCodeSection
+            promoCodes={promoCodes}
+            setPromoCode={setPromoCode}
+            promoCode={promoCode}
+            removePromoCode={removePromoCode}
+          />
 
           {promoError && (
             <p className="px-2 text-xs text-red-500">{promoError}</p>
@@ -797,3 +794,60 @@ export const CheckoutSheet = ({
     </Sheet>
   );
 };
+
+function PromoCodeSection({ promoCodes, promoCode, setPromoCode, setFinalPromoCode, removePromoCode }: any) {
+  const [showCoupons, setShowCoupons] = useState(true)
+
+  const handleApply = (code: string) => {
+    setPromoCode(code)
+    setFinalPromoCode(code)
+  }
+
+  return (
+    <div className="w-full space-y-4">
+
+      {showCoupons && (
+        <div className="grid grid-cols-1 gap-4">
+          {promoCodes.map((item: any) => {
+            const isApplied = promoCode === item.code
+
+            return (
+              <Card key={item._id} className="border border-gray-300 shadow-sm">
+                <CardContent className="py-4 px-5 flex justify-between items-start">
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-sm font-semibold">{item.code}</span>
+                      {isApplied && (
+                        <Badge variant="outline" className="text-green-600 border-green-600 flex items-center gap-1">
+                          <CheckCircle2 size={14} />
+                          Applied
+                        </Badge>
+                      )}
+                    </div>
+                    <p className="text-xs text-gray-500 mt-1">{item.description}</p>
+                  </div>
+
+                  <div className="ml-4 mt-1">
+                    {isApplied ? (
+                      <MinusCircle
+                        size={20}
+                        className="text-red-500 cursor-pointer hover:opacity-80"
+                        onClick={removePromoCode}
+                      />
+                    ) : (
+                      <PlusCircle
+                        size={20}
+                        className="text-primary cursor-pointer hover:opacity-80"
+                        onClick={() => handleApply(item.code)}
+                      />
+                    )}
+                  </div>
+                </CardContent>
+              </Card>
+            )
+          })}
+        </div>
+      )}
+    </div>
+  )
+}
