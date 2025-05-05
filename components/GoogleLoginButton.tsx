@@ -121,20 +121,10 @@ export default function GoogleLoginButton() {
   }, [user, router]);
 
   return (
-    <Button
-      variant="outline"
+    <div
       id="google-button-container"
-      className="w-full flex items-center justify-center gap-2 mb-4"
       onClick={handleGoogleSignIn}
-      disabled={!googleScriptLoaded} // Disable button until the script is loaded
     >
-      <Image
-        src="/google-icon.svg"
-        alt="Google"
-        width={20}
-        height={20}
-      />
-      Continue with Google
-    </Button>
+    </div>
   );
 }
