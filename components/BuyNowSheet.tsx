@@ -597,7 +597,7 @@ export const BuyNowSheet = ({
             </Button>
           </div>
 
-          <PromoCodeAccordion
+          <PromoCodeSection
           promoCodes={promoCodes}
           setPromoCode={setPromoCode}
           setFinalPromoCode={setFinalPromoCode}
