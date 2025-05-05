@@ -18,7 +18,7 @@ import { Product } from "@/lib/types";
 import { useRouter } from "next/navigation";
 import { PlusCircle } from "lucide-react";
 import { CartHandle } from "@/components/CartHandle";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { cartRefreshState, userState } from "@/store/atoms/user";
 import { Grid, List } from "lucide-react";
 import { Heart, HeartOff } from "lucide-react";
@@ -31,11 +31,104 @@ export default function ProductsPage() {
   const [categories, setCategories] = useState<any[]>([]);
   const [products, setProducts] = useState<Product[]>([]);
   const router = useRouter();
-  const user = useRecoilValue(userState);
+  const [user, setUser] = useRecoilState(userState);
   const setCartRefresh = useSetRecoilState(cartRefreshState);
   const [isHorizontal, setIsHorizontal] = useState(false);
 
   const [wishlist, setWishlist] = useState<string[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    const clientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
+    console.log("Google client ID:", clientId);
+
+    const loadGoogleScript = () => {
+      const script = document.createElement("script");
+      script.src = "https://accounts.google.com/gsi/client";
+      script.async = true;
+      script.onload = () => {
+        if (window.google) {
+          window.google.accounts.id.initialize({
+            client_id: clientId!,
+            callback: async (response: any) => {
+              setIsLoading(true);
+              try {
+                const decoded = JSON.parse(
+                  atob(response.credential.split(".")[1])
+                );
+                const { name, email } = decoded;
+
+                const res = await fetch(
+                  `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/oauth-login`,
+                  {
+                    method: "POST",
+                    headers: {
+                      "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ name, email }),
+                    credentials: "include",
+                  }
+                );
+
+                const data = await res.json();
+
+                if (!res.ok || data.error) {
+                  throw new Error(data.message || "Google login failed");
+                }
+
+                const userData = {
+                  _id: data.user._id,
+                  name: data.user.name,
+                  email: data.user.email,
+                  phone: data.user.phone,
+                  address: data.user.address,
+                  token: data.token,
+                  isLoggedIn: true,
+                  createdAt: data.user.createdAt,
+                  updatedAt: data.user.updatedAt,
+                };
+
+                setUser({ ...userData, primaryAddress: 0 });
+                localStorage.setItem("user", JSON.stringify(userData));
+                localStorage.setItem("token", data.token);
+
+                toast({
+                  title: "Success",
+                  description: "Logged in with Google!",
+                });
+
+                
+              } catch (err) {
+                toast({
+                  title: "Google Sign In Failed",
+                  description: "Please try again",
+                  variant: "destructive",
+                });
+              } finally {
+                setIsLoading(false);
+              }
+            },
+          });
+
+          window.google.accounts.id.prompt();
+        }
+      };
+      document.body.appendChild(script);
+    };
+
+    if (typeof window !== "undefined" && !user?.isLoggedIn) {
+      loadGoogleScript();
+    }
+  }, [user, router, setUser, toast]);
+
+
+  useEffect(() => {
+    if (user?.isLoggedIn && (!user.phone || user.address?.length === 0)) {
+      router.push("/complete-profile");
+    } else if (user?.isLoggedIn) {
+      router.replace("/products");
+    }
+  }, [user, router]);
 
   useEffect(()=>{
     setTimeout(()=>{

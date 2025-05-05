@@ -444,7 +444,6 @@ Blue tea is rich in antioxidants, particularly anthocyanins. Antioxidants can he
 Some studies suggest that the compounds in butterfly pea flower tea may have anti-inflammatory properties.
 The flavonoids in blue tea may have neuroprotective properties that could support brain health and cognitive function.
 It shows antibacterial and antifungal properties,which can be beneficial for maintaining overall health and preventing infections.
-
     `
   },
 
