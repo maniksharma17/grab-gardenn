@@ -90,6 +90,17 @@ export default function GoogleLoginButton() {
         },
       });
 
+      // Render the button
+      window.google.accounts.id.renderButton(
+        document.getElementById("google-button-container"),
+        {
+          theme: "outline",
+          size: "large",
+          shape: "pill",
+          logo_alignment: "left",
+        }
+      );
+
       // Trigger the One Tap prompt
       window.google.accounts.id.prompt();
     } else {
@@ -112,6 +123,7 @@ export default function GoogleLoginButton() {
   return (
     <Button
       variant="outline"
+      id="google-button-container"
       className="w-full flex items-center justify-center gap-2 mb-4"
       onClick={handleGoogleSignIn}
       disabled={!googleScriptLoaded} // Disable button until the script is loaded

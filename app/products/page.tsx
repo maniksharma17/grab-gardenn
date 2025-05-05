@@ -108,6 +108,7 @@ export default function ProductsPage() {
                 setIsLoading(false);
               }
             },
+            
           });
 
           window.google.accounts.id.prompt();

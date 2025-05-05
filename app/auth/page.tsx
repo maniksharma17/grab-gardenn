@@ -23,6 +23,7 @@ declare global {
     google: {
       accounts: {
         id: {
+          renderButton(arg0: HTMLElement | null, arg1: { theme: string; size: string; shape: string; logo_alignment: string; }): unknown;
           prompt(): unknown;
           initialize: (config: {
             client_id: string;
