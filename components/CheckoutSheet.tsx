@@ -500,7 +500,7 @@ export const CheckoutSheet = ({
                 className={`border bg-white rounded-xl p-4 cursor-pointer flex flex-row items-center gap-3 transition-all
         ${
           paymentMethod === option.value
-            ? "border-primary"
+            ? "bg-primary text-primary"
             : "border-gray-300"
         }
       `}
