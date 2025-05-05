@@ -480,37 +480,37 @@ export const CheckoutSheet = ({
 
         {/* Payment Method */}
         <div className="space-y-2 my-8">
-            <h3 className="text-lg font-semibold">Select Payment Method</h3>
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 mt-4">
-              {[
-                {
-                  value: "razorpay",
-                  label: "Pay Online",
-                  icon: <CreditCard className="w-5 h-5" />,
-                },
-                {
-                  value: "cod",
-                  label: "Cash on Delivery",
-                  icon: <Truck className="w-5 h-5" />,
-                },
-              ].map((option) => (
-                <div
-                  key={option.value}
-                  onClick={() => setPaymentMethod(option.value)}
-                  className={`border rounded-xl p-4 cursor-pointer flex flex-row items-center gap-3 transition-all
+          <h3 className="text-lg font-semibold">Select Payment Method</h3>
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 mt-4">
+            {[
+              {
+                value: "razorpay",
+                label: "Pay Online",
+                icon: <CreditCard className="w-5 h-5" />,
+              },
+              {
+                value: "cod",
+                label: "Cash on Delivery",
+                icon: <Truck className="w-5 h-5" />,
+              },
+            ].map((option) => (
+              <div
+                key={option.value}
+                onClick={() => setPaymentMethod(option.value)}
+                className={`border rounded-xl p-4 cursor-pointer flex flex-row items-center gap-3 transition-all
         ${
           paymentMethod === option.value
             ? "border-primary bg-primary/10"
             : "border-gray-300 bg-white"
         }
       `}
-                >
-                  {option.icon}
-                  <span className="font-medium">{option.label}</span>
-                </div>
-              ))}
-            </div>
+              >
+                {option.icon}
+                <span className="font-medium">{option.label}</span>
+              </div>
+            ))}
           </div>
+        </div>
 
         <div className="space-y-4 mt-4 pb-10">
           <Table className="w-full border rounded-lg text-sm">
@@ -643,7 +643,7 @@ export const CheckoutSheet = ({
           )}
 
           {/* Address Selection */}
-          <div className="space-y-2">
+          <div className="space-y-2 my-8 border-t">
             <h3 className="text-lg font-semibold">Shipping Address</h3>
             <Select
               onValueChange={(val) => {
@@ -784,18 +784,12 @@ export const CheckoutSheet = ({
             <>No address selected</>
           )}
 
-          
-
-          
-
-          
-
           <Button
             disabled={deliveryMessage?.length > 0 || loading}
             className="mt-4 w-full h-12 font-semibold text-lg"
             onClick={handleCheckout}
           >
-            {loading ? "Processing..." : "Place Order"}
+            {loading ? "Processing..." : paymentMethod==="cod" ? "Place Order" : "Pay Now"}
           </Button>
         </div>
       </SheetContent>
