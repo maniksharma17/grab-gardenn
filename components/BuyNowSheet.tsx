@@ -172,6 +172,14 @@ export const BuyNowSheet = ({
     applyPromo();
   }, [total, finalPromoCode, discountedDeliveryRate, user]);
 
+  const removePromoCode = () => {
+    setPromoCode("");
+    setFinalPromoCode("");
+
+    setFinalAmount(prev => prev + discount);
+    setDiscount(0);
+  }
+
   useEffect(() => {
     if (!selectedAddress) return;
     const fetchDeliveryRate = async () => {
@@ -578,30 +586,13 @@ export const BuyNowSheet = ({
           </div>
 
           {/* Promo Input */}
-          <div className="flex items-center gap-2 mt-2">
-            <Input
-              placeholder="Enter promo code"
-              value={promoCode}
-              disabled={discount > 0}
-              autoFocus={false}
-              onChange={(e) => setPromoCode(e.target.value)}
-            />
-            <Button
-              variant="outline"
-              disabled={discount > 0}
-              onClick={(e) => {
-                setFinalPromoCode(promoCode);
-              }}
-            >
-              Apply
-            </Button>
-          </div>
 
           <PromoCodeSection
           promoCodes={promoCodes}
           setPromoCode={setPromoCode}
           setFinalPromoCode={setFinalPromoCode}
           promoCode={promoCode}
+          removePromoCode={removePromoCode}
           />
 
           {promoError && (
@@ -785,7 +776,7 @@ export const BuyNowSheet = ({
   );
 };
 
-function PromoCodeSection({ promoCodes, promoCode, setPromoCode, setFinalPromoCode }: any) {
+function PromoCodeSection({ promoCodes, promoCode, setPromoCode, setFinalPromoCode, removePromoCode }: any) {
   const [showCoupons, setShowCoupons] = useState(false)
 
   const handleApply = (code: string) => {
@@ -793,15 +784,10 @@ function PromoCodeSection({ promoCodes, promoCode, setPromoCode, setFinalPromoCo
     setFinalPromoCode(code)
   }
 
-  const handleRemove = () => {
-    setPromoCode("")
-    setFinalPromoCode("")
-  }
-
   return (
     <div className="w-full space-y-4">
-      <Button variant="outline" onClick={() => setShowCoupons(!showCoupons)}>
-        {showCoupons ? "Hide Coupons" : "Apply Coupon"}
+      <Button variant="outline" className="w-full" onClick={() => setShowCoupons(!showCoupons)}>
+        {showCoupons ? "Hide Offers" : "View Offers"}
       </Button>
 
       {showCoupons && (
@@ -830,7 +816,7 @@ function PromoCodeSection({ promoCodes, promoCode, setPromoCode, setFinalPromoCo
                       <MinusCircle
                         size={20}
                         className="text-red-500 cursor-pointer hover:opacity-80"
-                        onClick={handleRemove}
+                        onClick={removePromoCode}
                       />
                     ) : (
                       <PlusCircle
