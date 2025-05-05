@@ -479,12 +479,13 @@ export const CheckoutSheet = ({
         </div>
 
         {/* Payment Method */}
-        <div className="space-y-2 my-4">
+        <div className="space-y-2 my-8">
+            <h3 className="text-lg font-semibold">Select Payment Method</h3>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 mt-4">
               {[
                 {
                   value: "razorpay",
-                  label: "Pay with Razorpay",
+                  label: "Pay Online",
                   icon: <CreditCard className="w-5 h-5" />,
                 },
                 {
@@ -496,11 +497,11 @@ export const CheckoutSheet = ({
                 <div
                   key={option.value}
                   onClick={() => setPaymentMethod(option.value)}
-                  className={`border rounded-xl p-4 cursor-pointer flex items-center gap-3 transition-all
+                  className={`border rounded-xl p-4 cursor-pointer flex flex-row items-center gap-3 transition-all
         ${
           paymentMethod === option.value
             ? "border-primary bg-primary/10"
-            : "border-gray-300"
+            : "border-gray-300 bg-white"
         }
       `}
                 >
