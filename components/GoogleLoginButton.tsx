@@ -31,86 +31,90 @@ export default function GoogleLoginButton() {
     }
   }, []);
 
-  const handleGoogleSignIn = () => {
-    if (window.google && window.google.accounts) {
-      // Initialize the Google accounts API
-      window.google.accounts.id.initialize({
-        client_id: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID!,
-        callback: async (response: any) => {
-          try {
-            const decoded = JSON.parse(atob(response.credential.split(".")[1]));
-            const { name, email } = decoded;
-
-            const res = await fetch(
-              `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/oauth-login`,
-              {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ name, email }),
-                credentials: "include",
+  useEffect(()=>{
+    const handleGoogleSignIn = () => {
+      if (window.google && window.google.accounts) {
+        // Initialize the Google accounts API
+        window.google.accounts.id.initialize({
+          client_id: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID!,
+          callback: async (response: any) => {
+            try {
+              const decoded = JSON.parse(atob(response.credential.split(".")[1]));
+              const { name, email } = decoded;
+  
+              const res = await fetch(
+                `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/oauth-login`,
+                {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify({ name, email }),
+                  credentials: "include",
+                }
+              );
+  
+              const data = await res.json();
+  
+              const userData = {
+                _id: data.user._id,
+                name: data.user.name,
+                email: data.user.email,
+                phone: data.user.phone,
+                address: data.user.address,
+                token: data.token,
+                isLoggedIn: true,
+                createdAt: data.user.createdAt,
+                updatedAt: data.user.updatedAt,
+              };
+  
+              setUser({ ...userData, primaryAddress: 0 });
+              localStorage.setItem("user", JSON.stringify(userData));
+              localStorage.setItem("token", data.token);
+  
+              toast({
+                title: "Success",
+                description: "Logged in with Google!",
+              });
+  
+              if (!res.ok || data.error) {
+                throw new Error(data.message || "Google login failed");
               }
-            );
-
-            const data = await res.json();
-
-            const userData = {
-              _id: data.user._id,
-              name: data.user.name,
-              email: data.user.email,
-              phone: data.user.phone,
-              address: data.user.address,
-              token: data.token,
-              isLoggedIn: true,
-              createdAt: data.user.createdAt,
-              updatedAt: data.user.updatedAt,
-            };
-
-            setUser({ ...userData, primaryAddress: 0 });
-            localStorage.setItem("user", JSON.stringify(userData));
-            localStorage.setItem("token", data.token);
-
-            toast({
-              title: "Success",
-              description: "Logged in with Google!",
-            });
-
-            if (!res.ok || data.error) {
-              throw new Error(data.message || "Google login failed");
+  
+            } catch (err) {
+              toast({
+                title: "Google Sign In Failed",
+                description: "Please try again",
+                variant: "destructive",
+              });
             }
-
-          } catch (err) {
-            toast({
-              title: "Google Sign In Failed",
-              description: "Please try again",
-              variant: "destructive",
-            });
+          },
+        });
+  
+        // Render the button
+        window.google.accounts.id.renderButton(
+          document.getElementById("google-button-container"),
+          {
+            theme: "outline",
+            size: "large",
+            shape: "pill",
+            logo_alignment: "left",
           }
-        },
-      });
+        );
+  
+        // Trigger the One Tap prompt
+        window.google.accounts.id.prompt();
+      } else {
+        toast({
+          title: "Google Sign-In Not Ready",
+          description: "Please try again in a few seconds.",
+          variant: "destructive",
+        });
+      }
+    };
 
-      // Render the button
-      window.google.accounts.id.renderButton(
-        document.getElementById("google-button-container"),
-        {
-          theme: "outline",
-          size: "large",
-          shape: "pill",
-          logo_alignment: "left",
-        }
-      );
-
-      // Trigger the One Tap prompt
-      window.google.accounts.id.prompt();
-    } else {
-      toast({
-        title: "Google Sign-In Not Ready",
-        description: "Please try again in a few seconds.",
-        variant: "destructive",
-      });
-    }
-  };
+    handleGoogleSignIn()
+  }, [googleScriptLoaded, setUser, toast])
 
   useEffect(() => {
     if (user?.isLoggedIn && (!user.phone || user.address?.length === 0)) {
@@ -121,19 +125,10 @@ export default function GoogleLoginButton() {
   }, [user, router]);
 
   return (
-    <Button
+    <div
       id="google-button-container"
-      className="w-full flex items-center rounded-full justify-center gap-2 mb-4"
-      onClick={handleGoogleSignIn}
-      disabled={!googleScriptLoaded}
     >
-      <Image
-        src="/google-icon.svg"
-        alt="Google"
-        width={20}
-        height={20}
-      />
-      Continue with Google
-    </Button>
+      
+    </div>
   );
 }
