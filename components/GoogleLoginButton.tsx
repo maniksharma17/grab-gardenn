@@ -121,10 +121,10 @@ export default function GoogleLoginButton() {
   }, [user, router]);
 
   return (
-    <div
+    <button
       id="google-button-container"
       onClick={handleGoogleSignIn}
     >
-    </div>
+    </button>
   );
 }
