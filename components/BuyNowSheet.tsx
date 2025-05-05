@@ -479,7 +479,7 @@ export const BuyNowSheet = ({
                 <div
                   key={option.value}
                   onClick={() => setPaymentMode(option.value as 'Prepaid'|'COD')}
-                  className={`border bg-slate-50 rounded-xl p-4 cursor-pointer flex items-center gap-3 transition-all
+                  className={`border bg-white rounded-xl p-4 cursor-pointer flex items-center gap-3 transition-all
         ${
           paymentMode === option.value
             ? "border-primary"
