@@ -138,11 +138,11 @@ export default function AuthPage() {
           },
         }
       );
-      toast({ title: res.data.message });
+      toast({ description: res.data.message });
     } catch (error: any) {
       const errorMessage =
         error?.response?.data?.message || error.message || "Something went wrong";
-      toast({ title: errorMessage });
+      toast({ description: errorMessage });
     }
   };
   
@@ -191,7 +191,6 @@ export default function AuthPage() {
 
       if (data.error) {
         toast({
-          title: "Error",
           description: data.message,
         });
         return;
@@ -227,7 +226,6 @@ export default function AuthPage() {
       localStorage.setItem("token", data.token);
 
       toast({
-        title: "Success",
         description:
           type === "login"
             ? "You have been logged in successfully"
@@ -237,7 +235,6 @@ export default function AuthPage() {
       router.replace("/products");
     } catch (err: any) {
       toast({
-        title: "Error",
         description: "Some error occured",
         variant: "destructive",
       });
@@ -329,8 +326,7 @@ export default function AuthPage() {
                 localStorage.setItem("token", data.token);
 
                 toast({
-                  title: "Success",
-                  description: "Logged in with Google!",
+                  description: "You are welcome!",
                 });
 
                 
