@@ -461,7 +461,7 @@ export const BuyNowSheet = ({
           </div>
 
           {/* Payment Method */}
-          <div className="space-y-2 my-4 py-4 border-b border-t">
+          <div className="space-y-2 my-4 py-4 border-t">
             <h3 className="text-lg font-semibold">Select Payment Method</h3>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 mt-4">
               {[
@@ -495,7 +495,7 @@ export const BuyNowSheet = ({
           </div>
 
           {/* Order Summary */}
-          <div className="shadow-sm space-y-4 py-6">
+          <div className="shadow-sm space-y-4">
             <Table className="w-full border rounded-lg text-sm">
               <TableBody>
                 <TableRow>
