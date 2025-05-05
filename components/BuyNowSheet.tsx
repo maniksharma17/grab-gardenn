@@ -31,7 +31,7 @@ import axios from "axios";
 import { Product } from "@/lib/types";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
-import { CheckCircle2, CircleAlert, CreditCard, Phone, Trash2, Truck } from "lucide-react";
+import { CheckCircle2, CircleAlert, CreditCard, MinusCircle, Phone, PlusCircle, Trash2, Truck } from "lucide-react";
 import Image from "next/image";
 import { validateAddress } from "@/lib/utils";
 import { DELIVERY_DISCOUNT } from "@/lib/config";
@@ -40,6 +40,7 @@ import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import { Accordion } from "./ui/accordion";
 import { AccordionItem, AccordionTrigger, AccordionContent } from "./ui/accordion"
+import { Card, CardContent } from "./ui/card";
 
 
 interface Variant {
@@ -784,64 +785,67 @@ export const BuyNowSheet = ({
   );
 };
 
-function PromoCodeAccordion({ promoCodes, promoCode, setPromoCode, setFinalPromoCode }: any) {
+function PromoCodeSection({ promoCodes, promoCode, setPromoCode, setFinalPromoCode }: any) {
+  const [showCoupons, setShowCoupons] = useState(false)
+
+  const handleApply = (code: string) => {
+    setPromoCode(code)
+    setFinalPromoCode(code)
+  }
+
+  const handleRemove = () => {
+    setPromoCode("")
+    setFinalPromoCode("")
+  }
+
   return (
-    <Accordion type="single" collapsible className="w-full border rounded-md">
-      {promoCodes.map((item: any) => {
-        const isApplied = promoCode === item.code;
+    <div className="w-full space-y-4">
+      <Button variant="outline" onClick={() => setShowCoupons(!showCoupons)}>
+        {showCoupons ? "Hide Coupons" : "Apply Coupon"}
+      </Button>
 
-        return (
-          <AccordionItem value={item._id} key={item._id} className="border-b px-4">
-            <AccordionTrigger className="text-sm flex justify-between items-center">
-              <div className="flex flex-col text-left">
-                <span className="font-semibold">{item.code}</span>
-                <span className="text-xs text-gray-500">{item.description}</span>
-              </div>
+      {showCoupons && (
+        <div className="grid grid-cols-1 gap-4">
+          {promoCodes.map((item: any) => {
+            const isApplied = promoCode === item.code
 
-              {isApplied && (
-                <Badge variant="outline" className="text-green-600 border-green-600 flex items-center gap-1">
-                  <CheckCircle2 size={14} />
-                  Applied
-                </Badge>
-              )}
-            </AccordionTrigger>
+            return (
+              <Card key={item._id} className="border border-gray-300 shadow-sm">
+                <CardContent className="py-4 px-5 flex justify-between items-start">
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-sm font-semibold">{item.code}</span>
+                      {isApplied && (
+                        <Badge variant="outline" className="text-green-600 border-green-600 flex items-center gap-1">
+                          <CheckCircle2 size={14} />
+                          Applied
+                        </Badge>
+                      )}
+                    </div>
+                    <p className="text-xs text-gray-500 mt-1">{item.description}</p>
+                  </div>
 
-            <AccordionContent className="pb-4">
-              <div className="text-sm text-gray-700 space-y-2">
-                <div><strong>Type:</strong> {item.type} ({item.value}{item.type === "percent" ? "%" : "₹"} off)</div>
-                <div><strong>Expires:</strong> {new Date(item.expiryDate).toLocaleDateString()}</div>
-                <div><strong>Minimum Order:</strong> ₹{item.minimumOrder}</div>
-              </div>
-
-              <div className="flex gap-3 mt-4">
-                {!isApplied ? (
-                  <Button
-                    onClick={() => {
-                      setPromoCode(item.code);
-                      setFinalPromoCode(item.code);
-                    }}
-                    size="sm"
-                  >
-                    Apply
-                  </Button>
-                ) : (
-                  <Button
-                    variant="destructive"
-                    onClick={() => {
-                      setPromoCode("");
-                      setFinalPromoCode("");
-                    }}
-                    size="sm"
-                  >
-                    <Trash2 size={14} className="mr-1" />
-                    Remove
-                  </Button>
-                )}
-              </div>
-            </AccordionContent>
-          </AccordionItem>
-        );
-      })}
-    </Accordion>
-  );
+                  <div className="ml-4 mt-1">
+                    {isApplied ? (
+                      <MinusCircle
+                        size={20}
+                        className="text-red-500 cursor-pointer hover:opacity-80"
+                        onClick={handleRemove}
+                      />
+                    ) : (
+                      <PlusCircle
+                        size={20}
+                        className="text-blue-500 cursor-pointer hover:opacity-80"
+                        onClick={() => handleApply(item.code)}
+                      />
+                    )}
+                  </div>
+                </CardContent>
+              </Card>
+            )
+          })}
+        </div>
+      )}
+    </div>
+  )
 }
