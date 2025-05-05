@@ -479,7 +479,7 @@ export const CheckoutSheet = ({
         </div>
 
         {/* Payment Method */}
-        <div className="space-y-2 my-8">
+        <div className="space-y-2 my-12 py-4 border-b">
           <h3 className="text-lg font-semibold">Select Payment Method</h3>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 mt-4">
             {[

@@ -461,13 +461,13 @@ export const BuyNowSheet = ({
           </div>
 
           {/* Payment Method */}
-          <div className="space-y-2 my-8">
+          <div className="space-y-2 my-12 py-4 border-b">
             <h3 className="text-lg font-semibold">Select Payment Method</h3>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 mt-4">
               {[
                 {
                   value: "Prepaid",
-                  label: "Pay with Razorpay",
+                  label: "Pay Online",
                   icon: <CreditCard className="w-5 h-5" />,
                 },
                 {
@@ -647,7 +647,7 @@ export const BuyNowSheet = ({
           )}
 
           {/** Shipping Address */}
-          <div className="space-y-2 mt-12 pt-8 border-t">
+          <div className="space-y-4 mt-12 pt-8 border-t">
             <h3 className="text-lg font-semibold">Shipping Address</h3>
             <Select
               value={JSON.stringify(selectedAddress)}
