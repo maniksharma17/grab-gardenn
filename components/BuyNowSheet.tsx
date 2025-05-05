@@ -22,7 +22,6 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { useRecoilValue } from "recoil";
@@ -32,13 +31,15 @@ import axios from "axios";
 import { Product } from "@/lib/types";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
-import { CircleAlert, CreditCard, Phone, Truck } from "lucide-react";
+import { CheckCircle2, CircleAlert, CreditCard, Phone, Trash2, Truck } from "lucide-react";
 import Image from "next/image";
 import { validateAddress } from "@/lib/utils";
 import { DELIVERY_DISCOUNT } from "@/lib/config";
 import { Input } from "./ui/input";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
+import { Accordion } from "./ui/accordion";
+import { AccordionItem, AccordionTrigger, AccordionContent } from "./ui/accordion"
 
 
 interface Variant {
@@ -595,22 +596,12 @@ export const BuyNowSheet = ({
             </Button>
           </div>
 
-          <div className="flex flex-row gap-2 flex-wrap w-full">
-            {promoCodes.map((item: any) => {
-              return (
-                <div
-                  onClick={() => {
-                    setPromoCode(item.code);
-                    setFinalPromoCode(item.code);
-                  }}
-                  key={item._id}
-                  className="cursor-pointer text-sm px-3 py-1 font-semibold text-gray-500 bg-slate-50 border border-gray-300 rounded-md w-fit flex-wrap"
-                >
-                  {item.code}
-                </div>
-              );
-            })}
-          </div>
+          <PromoCodeAccordion
+          promoCodes={promoCodes}
+          setPromoCode={setPromoCode}
+          setFinalPromoCode={setFinalPromoCode}
+          promoCode={promoCode}
+          />
 
           {promoError && (
             <p className="px-2 text-xs text-red-500">{promoError}</p>
@@ -792,3 +783,65 @@ export const BuyNowSheet = ({
     </Sheet>
   );
 };
+
+function PromoCodeAccordion({ promoCodes, promoCode, setPromoCode, setFinalPromoCode }: any) {
+  return (
+    <Accordion type="single" collapsible className="w-full border rounded-md">
+      {promoCodes.map((item: any) => {
+        const isApplied = promoCode === item.code;
+
+        return (
+          <AccordionItem value={item._id} key={item._id} className="border-b px-4">
+            <AccordionTrigger className="text-sm flex justify-between items-center">
+              <div className="flex flex-col text-left">
+                <span className="font-semibold">{item.code}</span>
+                <span className="text-xs text-gray-500">{item.description}</span>
+              </div>
+
+              {isApplied && (
+                <Badge variant="outline" className="text-green-600 border-green-600 flex items-center gap-1">
+                  <CheckCircle2 size={14} />
+                  Applied
+                </Badge>
+              )}
+            </AccordionTrigger>
+
+            <AccordionContent className="pb-4">
+              <div className="text-sm text-gray-700 space-y-2">
+                <div><strong>Type:</strong> {item.type} ({item.value}{item.type === "percent" ? "%" : "₹"} off)</div>
+                <div><strong>Expires:</strong> {new Date(item.expiryDate).toLocaleDateString()}</div>
+                <div><strong>Minimum Order:</strong> ₹{item.minimumOrder}</div>
+              </div>
+
+              <div className="flex gap-3 mt-4">
+                {!isApplied ? (
+                  <Button
+                    onClick={() => {
+                      setPromoCode(item.code);
+                      setFinalPromoCode(item.code);
+                    }}
+                    size="sm"
+                  >
+                    Apply
+                  </Button>
+                ) : (
+                  <Button
+                    variant="destructive"
+                    onClick={() => {
+                      setPromoCode("");
+                      setFinalPromoCode("");
+                    }}
+                    size="sm"
+                  >
+                    <Trash2 size={14} className="mr-1" />
+                    Remove
+                  </Button>
+                )}
+              </div>
+            </AccordionContent>
+          </AccordionItem>
+        );
+      })}
+    </Accordion>
+  );
+}
