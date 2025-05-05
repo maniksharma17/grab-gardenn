@@ -479,7 +479,7 @@ export const CheckoutSheet = ({
         </div>
 
         {/* Payment Method */}
-        <div className="space-y-2 my-12 py-4 border-b">
+        <div className="space-y-2 mt-4 pt-4 border-t">
           <h3 className="text-lg font-semibold">Select Payment Method</h3>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 mt-4">
             {[
@@ -497,11 +497,11 @@ export const CheckoutSheet = ({
               <div
                 key={option.value}
                 onClick={() => setPaymentMethod(option.value)}
-                className={`border rounded-xl p-4 cursor-pointer flex flex-row items-center gap-3 transition-all
+                className={`border bg-white rounded-xl p-4 cursor-pointer flex flex-row items-center gap-3 transition-all
         ${
           paymentMethod === option.value
-            ? "border-primary bg-primary/10"
-            : "border-gray-300 bg-white"
+            ? "border-primary"
+            : "border-gray-300"
         }
       `}
               >
@@ -512,7 +512,8 @@ export const CheckoutSheet = ({
           </div>
         </div>
 
-        <div className="space-y-4 mt-4 pb-10">
+        {/* Order Summary */}
+        <div className="space-y-4 pb-10">
           <Table className="w-full border rounded-lg text-sm">
             <TableHeader>
               <TableRow>
