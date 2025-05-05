@@ -375,8 +375,8 @@ export default function AuthPage() {
             <Image
               src="https://grabgardenn-storage.s3.ap-south-1.amazonaws.com/logos/grab-gardenn-logo.png"
               alt="Grab Garden"
-              width={40}
-              height={40}
+              width={100}
+              height={100}
               className="mx-auto mb-4"
             />
             <h2 className="text-2xl font-bold mb-2">Welcome to Grab Gardenn</h2>
@@ -394,7 +394,8 @@ export default function AuthPage() {
             <TabsContent value="login">
               <div className="bg-card p-8 md:rounded-lg md:shadow-sm">
                 <h2 className="text-2xl font-bold mb-6">Welcome Back</h2>
-                <GoogleLoginButton />
+
+                <div className="w-full mx-auto"><GoogleLoginButton /></div>
 
                 <div className="my-4 flex flex-row items-center justify-center gap-2 px-8">
                   <div className="border-t w-full"></div>
@@ -511,7 +512,8 @@ export default function AuthPage() {
             <TabsContent value="register">
               <div className="bg-card p-8 md:rounded-lg md:shadow-sm">
                 <h2 className="text-2xl font-bold mb-6">Create Account</h2>
-                <GoogleLoginButton />
+
+                <div className="w-full mx-auto"><GoogleLoginButton /></div>
 
                 <div className="my-4 flex flex-row items-center justify-center gap-2 px-8">
                   <div className="border-t w-full"></div>
