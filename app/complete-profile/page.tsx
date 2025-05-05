@@ -107,7 +107,7 @@ export default function CompleteProfile() {
   };
 
   return (
-    <div className="max-w-2xl mx-auto my-16 p-6 shadow-md rounded-lg border border-gray-200">
+    <div className="max-w-2xl container mx-auto my-6 md:my-16 p-6 md:shadow-md md:rounded-lg md:border border-gray-200">
       <h1 className="text-2xl font-semibold mb-6">Complete Your Profile</h1>
       <form onSubmit={handleSubmit} className="space-y-6">
         <h4 className="text-gray-600 text-sm font-medium">PERSONAL INFORMATION</h4>
