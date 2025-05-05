@@ -382,7 +382,7 @@ export default function AuthPage() {
           </div>
 
           <Tabs defaultValue="login" className="w-full">
-            <TabsList className="grid w-full px-4 grid-cols-2 mb-8">
+            <TabsList className="grid w-full max-sm:w-[90vw] mx-auto grid-cols-2 mb-8">
               <TabsTrigger value="login">Login</TabsTrigger>
               <TabsTrigger value="register">Register</TabsTrigger>
             </TabsList>
