@@ -39,6 +39,7 @@ export default function ProductsPage() {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
+    if(user) return;
     const clientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
     console.log("Google client ID:", clientId);
 
