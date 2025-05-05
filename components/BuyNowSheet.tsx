@@ -461,7 +461,7 @@ export const BuyNowSheet = ({
           </div>
 
           {/* Payment Method */}
-          <div className="space-y-2 my-4 py-4 border-t">
+          <div className="space-y-2 mt-4 pt-4 border-t">
             <h3 className="text-lg font-semibold">Select Payment Method</h3>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 mt-4">
               {[
