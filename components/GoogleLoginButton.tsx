@@ -127,6 +127,7 @@ export default function GoogleLoginButton() {
   return (
     <div
       id="google-button-container"
+      className="mx-auto"
     >
       
     </div>

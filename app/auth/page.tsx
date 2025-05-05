@@ -392,11 +392,11 @@ export default function AuthPage() {
             </TabsList>
 
             <TabsContent value="login">
-              <div className="bg-card p-8 rounded-lg shadow-sm">
+              <div className="bg-card p-8 md:rounded-lg md:shadow-sm">
                 <h2 className="text-2xl font-bold mb-6">Welcome Back</h2>
                 <GoogleLoginButton />
 
-                <div className="flex flex-row items-center justify-center gap-2 px-8">
+                <div className="my-4 flex flex-row items-center justify-center gap-2 px-8">
                   <div className="border-t w-full"></div>
                   <p className="text-gray-400 text-sm">OR</p>
                   <div className="w-full border-t"></div>
@@ -509,11 +509,11 @@ export default function AuthPage() {
             </TabsContent>
 
             <TabsContent value="register">
-              <div className="bg-card p-8 rounded-lg shadow-sm">
+              <div className="bg-card p-8 md:rounded-lg md:shadow-sm">
                 <h2 className="text-2xl font-bold mb-6">Create Account</h2>
                 <GoogleLoginButton />
 
-                <div className="flex flex-row items-center justify-center gap-2 px-8">
+                <div className="my-4 flex flex-row items-center justify-center gap-2 px-8">
                   <div className="border-t w-full"></div>
                   <p className="text-gray-400 text-sm">OR</p>
                   <div className="w-full border-t"></div>
