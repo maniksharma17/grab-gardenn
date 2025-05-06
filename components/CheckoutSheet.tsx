@@ -581,24 +581,6 @@ export const CheckoutSheet = ({
             </TableBody>
           </Table>
 
-          {/* Promo Input */}
-          <div className="flex items-center gap-2 mt-2">
-            <Input
-              placeholder="Enter promo code"
-              value={promoCode}
-              autoFocus={false}
-              disabled={discount > 0}
-              onChange={(e) => setPromoCode(e.target.value)}
-            />
-            <Button
-              variant="outline"
-              onClick={handleApplyPromo}
-              disabled={discount > 0}
-            >
-              Apply
-            </Button>
-          </div>
-
           <PromoCodeSection
             promoCodes={promoCodes}
             setPromoCode={setPromoCode}
