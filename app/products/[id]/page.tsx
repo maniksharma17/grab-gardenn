@@ -32,7 +32,6 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Textarea } from "@/components/ui/textarea";
-import ImageMagnifier from "@/components/ImageMagnifier";
 
 export default function ProductPage() {
   const [quantity, setQuantity] = useState(1);
@@ -58,6 +57,10 @@ export default function ProductPage() {
   const [isHoveringImage, setIsHoveringImage] = useState(false);
   const [zoomPosition, setZoomPosition] = useState({ x: 0, y: 0 });
   const imgRef = useRef<HTMLImageElement>(null); 
+
+  useEffect(()=>{
+    if(!id) window.location.reload();
+  }, [id])
 
   useEffect(() => {
     const fetchReviews = async () => {
