@@ -241,7 +241,9 @@ export const CheckoutSheet = ({
       } catch (error) {
         console.log("Promo reapply error", error);
         setDiscount(0);
-        const message = error instanceof Error ? error.message : "Something went wrong";
+        const message =
+          (error as any)?.response?.data?.message ||
+          (error instanceof Error ? error.message : "Something went wrong");
         setPromoError(message);
       }
     };
