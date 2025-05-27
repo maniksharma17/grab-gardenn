@@ -238,9 +238,11 @@ export const CheckoutSheet = ({
         setFinalAmount(final);
 
         setPromoError("");
-      } catch (err: any) {
-        console.log("Promo reapply error", err);
+      } catch (error) {
+        console.log("Promo reapply error", error);
         setDiscount(0);
+        const message = error instanceof Error ? error.message : "Something went wrong";
+        setPromoError(message);
       }
     };
 
