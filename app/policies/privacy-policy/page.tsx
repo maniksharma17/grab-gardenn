@@ -23,12 +23,12 @@ const PrivacyPolicy = () => {
           <div className="max-w-4xl mx-auto bg-white shadow-md rounded-lg p-6 border border-gray-200 space-y-6 text-gray-700 text-md">
             <p>
               Grab Gardenn recognize the importance of maintaining the privacy
-              and confidentiality of our users' personal information. By
+              and confidentiality of our users&apos; personal information. By
               providing the contact details, you give us the consent to use this
               information for marketing and promotional purposes, including the
               sending of emails, SMS, phone calls, and messages via WhatsApp.
               These communications pertain only to the products and services
-              offered under the "Grab Gardenn". Your contact information shall
+              offered under the &quot;Grab Gardenn&quot;. Your contact information shall
               not be disclosed to third parties for marketing purposes.
             </p>
           </div>

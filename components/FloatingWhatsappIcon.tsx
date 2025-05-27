@@ -9,11 +9,10 @@ interface WhatsAppFloatingButtonProps {
 }
 
 export const WhatsAppFloatingButton = ({
-  phoneNumber = "919258125550", // Default phone number
   message = "Hello! I have a question.",
 }: WhatsAppFloatingButtonProps) => {
   const encodedMessage = encodeURIComponent(message);
-  const whatsappLink = `https://wa.me/${919258125550}?text=${encodedMessage}`;
+  const whatsappLink = `https://wa.me/${919286686912}?text=${encodedMessage}`;
 
   return (
     <Link
