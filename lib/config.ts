@@ -1,1 +1,1 @@
-export const DELIVERY_DISCOUNT = 40;
+export const DELIVERY_DISCOUNT = 0;

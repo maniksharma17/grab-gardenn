@@ -561,7 +561,7 @@ export const CheckoutSheet = ({
                 </TableCell>
               </TableRow>
 
-              {subtotal <= 1000 && deliveryRate > DELIVERY_DISCOUNT && (
+              {subtotal <= 1000 && deliveryRate > DELIVERY_DISCOUNT && DELIVERY_DISCOUNT && (
                 <TableRow>
                   <TableCell className="text-green-600">
                     Shipping Discount
