@@ -369,7 +369,7 @@ export default function AuthPage() {
         <div className="max-w-md mx-auto">
           <div className="text-center mb-8">
             <Image
-              src="https://grabgardenn-storage.s3.ap-south-1.amazonaws.com/logos/grab-gardenn-logo.png"
+              src="new-logo.png"
               alt="Grab Garden"
               width={100}
               height={100}
