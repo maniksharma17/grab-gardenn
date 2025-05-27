@@ -159,49 +159,6 @@ export const CheckoutSheet = ({
     }
   }, [subtotal, discountedDeliveryRate]);
 
-  const handleApplyPromo = async () => {
-    if (!promoCode) return;
-
-    try {
-      const res = await axios.post(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/promo-code/apply`,
-        {
-          code: promoCode,
-          total: subtotal,
-          userId: user._id,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      if (res.data.error) {
-        setPromoError(res.data.message);
-        return;
-      }
-
-      setDiscount(res.data.discountAmount);
-      setPromoName(res.data.code);
-
-      const amount = Math.max(subtotal - res.data.discountAmount, 0);
-      const final = subtotal >= 1000 ? amount : amount + discountedDeliveryRate;
-      setFinalAmount(final);
-
-      toast({
-        title: "Promo code applied 🎉",
-        description: `You saved ₹${res.data.discountAmount}`,
-      });
-      setPromoError("");
-    } catch (err: any) {
-      console.log("Promo code error", err);
-      setPromoError(
-        err?.response?.data?.message || "Invalid or expired promo code"
-      );
-      setDiscount(0);
-    }
-  };
 
   const removePromoCode = () => {
     setPromoCode("");
@@ -596,6 +553,7 @@ export const CheckoutSheet = ({
             setPromoCode={setPromoCode}
             promoCode={promoCode}
             removePromoCode={removePromoCode}
+            promoError={promoError}
           />
 
           {promoError && (
@@ -787,7 +745,7 @@ export const CheckoutSheet = ({
   );
 };
 
-function PromoCodeSection({ promoCodes, promoCode, setPromoCode, setFinalPromoCode, removePromoCode }: any) {
+function PromoCodeSection({ promoCodes, promoCode, setPromoCode, setFinalPromoCode, removePromoCode, promoError }: any) {
   const [showCoupons, setShowCoupons] = useState(true)
 
   const handleApply = (code: string) => {
@@ -809,7 +767,7 @@ function PromoCodeSection({ promoCodes, promoCode, setPromoCode, setFinalPromoCo
                   <div>
                     <div className="flex items-center gap-2">
                       <span className="text-sm font-semibold">{item.code}</span>
-                      {isApplied && (
+                      {isApplied && promoError=="" && (
                         <Badge variant="outline" className="text-green-600 border-green-600 flex items-center gap-1">
                           <CheckCircle2 size={14} />
                           Applied
