@@ -229,6 +229,12 @@ export const CheckoutSheet = ({
           }
         );
 
+        if(res.data.error) {
+          setPromoError(res.data.error);
+          setDiscount(0);
+          return;
+        }
+
         setDiscount(res.data.discountAmount);
         setPromoName(res.data.code);
 
@@ -242,7 +248,7 @@ export const CheckoutSheet = ({
         console.log("Promo reapply error", error);
         setDiscount(0);
         const message =
-          (error as any)?.response?.data?.message ||
+          (error as any)?.response?.data?.error ||
           (error instanceof Error ? error.message : "Something went wrong");
         setPromoError(message);
       }
