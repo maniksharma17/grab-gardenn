@@ -402,7 +402,6 @@ export default function Home() {
 
       <Certifications />
 
-      {screenWidth < 800 ? <DiscountBoxMobile open={open} setOpen={setOpen} /> : <DiscountBox open={open} setOpen={setOpen} /> }
     </div>
   );
 }
