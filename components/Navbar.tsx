@@ -136,7 +136,7 @@ export function Navbar() {
             alt="Grab Gardenn"
             width={200}
             height={100}
-            className="object-contain max-md:h-4 max-md:w-auto max-md:ml-2"
+            className="object-contain max-md:h-6 max-md:w-auto max-md:ml-2"
           />
         </Link>
 
