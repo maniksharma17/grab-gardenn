@@ -123,9 +123,9 @@ export default function Home() {
               <Image
                 src={"/new-logo.png"}
                 alt="LOGO"
-                height={400}
+                height={200}
                 priority
-                width={400}
+                width={200}
                 unoptimized
                 className="mx-auto object-contain"
               />
