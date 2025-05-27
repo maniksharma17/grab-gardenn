@@ -134,9 +134,9 @@ export function Navbar() {
           <Image
             src="new-logo.png"
             alt="Grab Gardenn"
-            width={95}
-            height={95}
-            className="md:w-24 md:h-24 w-16 h-16"
+            width={200}
+            height={100}
+            className="object-contain"
           />
         </Link>
 
