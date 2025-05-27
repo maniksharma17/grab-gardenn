@@ -127,7 +127,7 @@ export default function Home() {
                 priority
                 width={200}
                 unoptimized
-                className="fill md:w-32 md:h-32 mx-auto object-contain"
+                className="fill mx-auto object-contain"
               />
             </div>
 
