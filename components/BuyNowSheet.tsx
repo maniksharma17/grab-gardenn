@@ -560,7 +560,7 @@ export const BuyNowSheet = ({
                   </TableCell>
                 </TableRow>
 
-                {total < 1000 && deliveryRate > DELIVERY_DISCOUNT && (
+                {DELIVERY_DISCOUNT>0 && total <= 1000 && deliveryRate > DELIVERY_DISCOUNT && (
                   <TableRow>
                     <TableCell className="text-sm text-primary">
                       Shipping Discount
@@ -598,7 +598,7 @@ export const BuyNowSheet = ({
           )}
 
           {/* Total Savings */}
-          {(discount > 0 || total <= 1000) && (
+          {(discount > 0) && (
             <p className="text-center mx-auto justify-center text-sm text-green-700 font-semibold flex items-center gap-1">
               You saved
               <span className="text-green-800 font-bold">
