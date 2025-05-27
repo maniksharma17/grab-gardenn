@@ -156,6 +156,7 @@ export const BuyNowSheet = ({
         const amount = Math.max(total - res.data.discountAmount, 0);
         const final = total >= 1000 ? amount : amount + discountedDeliveryRate;
         setFinalAmount(final);
+        setPromoError("");
       } catch (err: any) {
         if (err.response && err.response.status === 400) {
           setPromoError(err.response.data.error);
@@ -591,6 +592,7 @@ export const BuyNowSheet = ({
           setFinalPromoCode={setFinalPromoCode}
           promoCode={promoCode}
           removePromoCode={removePromoCode}
+          promoError={promoError}
           />
 
           {promoError && (
@@ -774,7 +776,7 @@ export const BuyNowSheet = ({
   );
 };
 
-function PromoCodeSection({ promoCodes, promoCode, setPromoCode, setFinalPromoCode, removePromoCode }: any) {
+function PromoCodeSection({ promoCodes, promoCode, setPromoCode, setFinalPromoCode, removePromoCode, promoError }: any) {
   const [showCoupons, setShowCoupons] = useState(true)
 
   const handleApply = (code: string) => {
@@ -796,7 +798,7 @@ function PromoCodeSection({ promoCodes, promoCode, setPromoCode, setFinalPromoCo
                   <div>
                     <div className="flex items-center gap-2">
                       <span className="text-sm font-semibold">{item.code}</span>
-                      {isApplied && (
+                      {isApplied && promoError != "" && (
                         <Badge variant="outline" className="text-green-600 border-green-600 flex items-center gap-1">
                           <CheckCircle2 size={14} />
                           Applied
