@@ -127,8 +127,8 @@ export function Navbar() {
   if (!isMounted) return <Loading />;
 
   return (
-    <nav className="fixed md:left-20 md:right-20 left-2 right-2 md:top-4 top-1 mx-auto z-40 md:shadow-md rounded-xl bg-white border border-gray-300 max-w-full">
-      <div className="px-4 flex h-16 items-center justify-between">
+    <nav className="fixed md:left-20 md:right-20 left-2 right-2 md:top-4 top-1 mx-auto z-40 md:shadow-sm rounded-xl bg-white border border-gray-300 max-w-full">
+      <div className="px-4 flex h-20 items-center justify-between">
         {/* Logo */}
         <Link href="/">
           <Image
@@ -136,7 +136,7 @@ export function Navbar() {
             alt="Grab Gardenn"
             width={200}
             height={100}
-            className="object-contain max-md:h-10 max-md:w-auto max-md:ml-2"
+            className="object-contain max-md:h-4 max-md:w-auto max-md:ml-2"
           />
         </Link>
 
