@@ -119,7 +119,7 @@ export default function Home() {
         {/* Text Overlay */}
         <div className="absolute inset-0 flex items-center justify-end">
           <div className="relative z-10 p-10 max-w-3xl text-center px-6">
-            <div className="mx-auto">
+            <div className="mx-auto mb-8">
               <Image
                 src={"/new-logo.png"}
                 alt="LOGO"
