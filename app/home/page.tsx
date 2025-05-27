@@ -123,11 +123,11 @@ export default function Home() {
               <Image
                 src={"/new-logo.png"}
                 alt="LOGO"
-                height={200}
+                height={400}
                 priority
-                width={200}
+                width={400}
                 unoptimized
-                className="fill mx-auto object-contain"
+                className="mx-auto object-contain"
               />
             </div>
 
