@@ -121,7 +121,7 @@ export default function Home() {
           <div className="relative z-10 p-10 max-w-3xl text-center px-6">
             <div className="md:w-36 md:h-36 mx-auto">
               <Image
-                src={"/grab-gardenn-logo.png"}
+                src={"/new-logo.png"}
                 alt="LOGO"
                 height={100}
                 priority
