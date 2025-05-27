@@ -371,8 +371,8 @@ export default function AuthPage() {
             <Image
               src="new-logo.png"
               alt="Grab Garden"
-              width={100}
-              height={100}
+              width={300}
+              height={300}
               className="mx-auto mb-4"
             />
             <h2 className="text-2xl font-bold mb-2">Welcome to Grab Gardenn</h2>
