@@ -25,34 +25,38 @@ export default function YourChoicePage() {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
-    type: "suggestion", 
+    type: "suggestion",
     product: "",
     details: "",
   });
 
   useEffect(() => {
-      const fetchProducts = async () => {
-        try {
-          
-          const response = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/products`, {
-            withCredentials: true
-          });
-    
-          setProducts(response.data.products); 
-        } catch (error) {
-          console.log("Error fetching cart:", error);
-        }
-      }
-      fetchProducts();
-    }, []);
+    const fetchProducts = async () => {
+      try {
+        const response = await axios.get(
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/products`,
+          {
+            withCredentials: true,
+          }
+        );
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        setProducts(response.data.products);
+      } catch (error) {
+        console.log("Error fetching cart:", error);
+      }
+    };
+    fetchProducts();
+  }, []);
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-  
+
     if (!formData.name || !formData.email || !formData.details) {
       toast({
         title: "Error",
@@ -61,120 +65,141 @@ export default function YourChoicePage() {
       });
       return;
     }
-  
+
     try {
-      const url = "https://script.google.com/macros/s/AKfycbzNQXQN6UlZwVo_BYTBGgDcoXLFC_0jJnCX-qQUPa-wi_I6bXJrRCSylBOM9J_c77RU/exec"
+      const url =
+        "https://script.google.com/macros/s/AKfycbzNQXQN6UlZwVo_BYTBGgDcoXLFC_0jJnCX-qQUPa-wi_I6bXJrRCSylBOM9J_c77RU/exec";
       await fetch(url, {
         method: "POST",
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
         },
-        body: (`Name=${formData.name}&Email=${formData.email}&Type=${formData.type}&Product=${formData.product}&Details=${formData.details}`),
+        body: `Name=${formData.name}&Email=${formData.email}&Type=${formData.type}&Product=${formData.product}&Details=${formData.details}`,
       });
-  
+
       toast({
         title: "Suggestion Sent",
         description: "Thank you! We value your input.",
       });
-  
-      setFormData({ name: "", email: "", type: "suggestion", product: "", details: "" });
+
+      setFormData({
+        name: "",
+        email: "",
+        type: "suggestion",
+        product: "",
+        details: "",
+      });
     } catch (error) {
       console.log("Submission failed:", error);
-      
     }
   };
-  
 
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
 
-      {/* Hero Section */}
-      <section className="mt-28 relative flex flex-col items-center w-full text-center pt-12 px-6">
-        <h1 className="text-2xl md:text-3xl font-medium mb-4 text-black">
-          Your Choice Matters!
-        </h1>
-        <p className="text-md text-muted-foreground max-w-xl">
-          Suggest a new product or request modifications to existing ones. <br></br>Your feedback helps us grow!
-        </p>
+      <section className="flex items-center justify-center relative bg-primary mt-20 h-[200px]">
+        <div>
+          <h1 className="text-4xl font-semibold text-white text-center">
+            Your Choice Matters!
+          </h1>
+          <p className="text-center text-sm text-gray-100 mt-2">
+            Suggest a new product or request modifications to existing ones.
+            Your feedback helps us grow!
+          </p>
+        </div>
       </section>
 
-      {/* Form Section */}
       <div className="container mx-auto py-12 px-6">
-        <div className="bg-card border p-8 rounded-lg shadow-md max-w-lg mx-auto">
+        <div className="p-8 rounded-lg max-w-5xl mx-auto">
+          <form
+            onSubmit={handleSubmit}
+            className="flex flex-col md:flex-row gap-8"
+          >
+            {/* Left Column */}
+            <div className="flex-1 space-y-4">
+              <Input
+                type="text"
+                placeholder="Your Name"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                className="bg-white h-12 text-lg text-primary placeholder:text-gray-500 focus:ring-2 focus:ring-green-600 focus:border-transparent"
+              />
+              <Input
+                type="email"
+                placeholder="Your Email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                className="bg-white h-12 text-lg text-primary placeholder:text-gray-500 focus:ring-2 focus:ring-green-600 focus:border-transparent"
+              />
 
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <Input
-              type="text"
-              placeholder="Your Name"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-            />
-            <Input
-              type="email"
-              placeholder="Your Email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-            />
+              {/* Suggestion Type */}
+              <div className="flex gap-4">
+                <div
+                  onClick={() =>
+                    setFormData({ ...formData, type: "suggestion" })
+                  }
+                  className={`cursor-pointer px-4 py-2 rounded-md border transition-colors duration-200 text-sm font-medium ${
+                    formData.type === "suggestion"
+                      ? "bg-green-100 border-green-600 text-green-800"
+                      : "bg-muted border-muted-foreground text-muted-foreground"
+                  }`}
+                >
+                  New Product Suggestion
+                </div>
 
-            {/* Suggestion Type */}
-            <div className="flex gap-4">
-              <label className="flex items-center gap-2 text-primary text-sm">
-                <input
-                  type="radio"
-                  name="type"
-                  value="suggestion"
-                  checked={formData.type === "suggestion"}
-                  onChange={handleChange}
-                  className="accent-green-600"
-                />
-                <span>New Product Suggestion</span>
-              </label>
-              <label className="flex items-center gap-2 text-primary text-sm">
-                <input
-                  type="radio"
-                  name="type"
-                  value="modification"
-                  checked={formData.type === "modification"}
-                  onChange={handleChange}
-                  className="accent-green-600"
-                />
-                <span>Modify Existing Product</span>
-              </label>
+                <div
+                  onClick={() =>
+                    setFormData({ ...formData, type: "modification" })
+                  }
+                  className={`cursor-pointer px-4 py-2 rounded-md border transition-colors duration-200 text-sm font-medium ${
+                    formData.type === "modification"
+                      ? "bg-green-100 border-green-600 text-green-800"
+                      : "bg-muted border-muted-foreground text-muted-foreground"
+                  }`}
+                >
+                  Modify Existing Product
+                </div>
+              </div>
+
+              {formData.type === "modification" && (
+                <Select
+                  onValueChange={(value) =>
+                    setFormData({ ...formData, product: value })
+                  }
+                >
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Select a Product" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {products.map((product) => (
+                      <SelectItem key={product._id} value={product.name}>
+                        {product.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              )}
             </div>
 
-            {/* Select Product if modifying */}
-            {formData.type === "modification" && (
-              <Select
-                onValueChange={(value) => setFormData({ ...formData, product: value })}
-              >
-                <SelectTrigger className="w-full">
-                  <SelectValue placeholder="Select a Product" />
-                </SelectTrigger>
-                <SelectContent>
-                  {products.map((product) => (
-                    <SelectItem key={product._id} value={product.name}>
-                      {product.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            )}
+            {/* Right Column */}
+            <div className="flex-1 flex flex-col space-y-4">
+              <Textarea
+                placeholder="Describe your suggestion or modification..."
+                name="details"
+                rows={6}
+                value={formData.details}
+                onChange={handleChange}
+                className="bg-white text-lg text-primary placeholder:text-gray-500 focus:ring-2 focus:ring-green-600 focus:border-transparent"
+              />
 
-            <Textarea
-              placeholder="Describe your suggestion or modification..."
-              name="details"
-              rows={4}
-              value={formData.details}
-              onChange={handleChange}
-            />
-
-            <Button type="submit" className="w-full flex items-center gap-2">
-              <Send className="h-4 w-4" />
-              Submit Suggestion
-            </Button>
+              <Button type="submit" className="w-full flex items-center gap-2">
+                <Send className="h-4 w-4" />
+                Submit Suggestion
+              </Button>
+            </div>
           </form>
         </div>
       </div>

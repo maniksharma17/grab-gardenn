@@ -58,7 +58,7 @@ export default function ContactPage() {
       <Navbar />
       <div className="mt-20 container mx-auto py-12 px-6 text-center">
         <div className="mb-8">
-          <Image src="/logo.jpeg" alt="Company Logo" width={50} height={50} className="mx-auto" />
+          <Image src="/new-logo.png" alt="Company Logo" width={200} height={200} className="mx-auto" />
         </div>
 
         <h2 className="text-3xl font-medium mb-4">Get in Touch</h2>
@@ -66,7 +66,7 @@ export default function ContactPage() {
           Have any questions? We&apos;d love to hear from you! Reach out via the form below or contact us directly.
         </p>
 
-        <div className="bg-card p-8 rounded-lg shadow-lg max-w-2xl mx-auto mb-8">
+        <div className="bg-card p-8 border rounded-lg shadow-lg max-w-2xl mx-auto mb-8">
           <h3 className="text-lg font-semibold mb-4 text-left">Send Us a Message</h3>
           <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <Input type="text" placeholder="Your Name" name="name" value={formData.name} onChange={handleChange} className="col-span-1" />

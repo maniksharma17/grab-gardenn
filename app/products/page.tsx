@@ -4,7 +4,10 @@ import { Navbar } from "@/components/Navbar";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Pagination, Autoplay } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/pagination";
 import {
   Select,
   SelectContent,
@@ -320,13 +323,17 @@ export default function ProductsPage() {
       <CartHandle />
 
       <div className="mt-16 max-md:mt-24 w-full h-[130px] sm:h-[500px] relative overflow-hidden">
-        {carouselImages.map((image, index) =>
-          index === currentSlide ? (
-            <Link
-              key={image.src}
-              href={`products/collection/${image.href}`}
-              className="absolute inset-0 w-full h-full"
-            >
+        <Swiper
+        modules={[Pagination, Autoplay]}
+        slidesPerView={1}
+        loop={true}
+        pagination={{ clickable: true, el: ".custom-pagination" }}
+        autoplay={{ delay: 4000, disableOnInteraction: false }}
+        className="w-full h-full"
+      >
+        {carouselImages.map((image, index) => (
+          <SwiperSlide key={image.src} className="relative w-full h-full">
+            <Link href={`products/collection/${image.href}`} className="absolute inset-0 w-full h-full">
               <Image
                 src={image.src}
                 alt={`Banner ${index + 1}`}
@@ -336,22 +343,12 @@ export default function ProductsPage() {
                 className="object-cover transition-opacity duration-1000 opacity-100"
               />
             </Link>
-          ) : null
-        )}
+          </SwiperSlide>
+        ))}
+      </Swiper>
 
-        <div className="absolute bottom-4 w-full flex justify-center gap-2 z-10">
-          {carouselImages.map((_, index) => (
-            <div
-              key={index}
-              onClick={() => {
-                setCurrentSlide(index);
-              }}
-              className={`hover:scale-105 cursor-pointer h-3 w-3 rounded-full transition-all duration-300 ${
-                index === currentSlide ? "bg-white" : "bg-white/50"
-              }`}
-            />
-          ))}
-        </div>
+      {/* Custom pagination container for dots */}
+      <div className="custom-pagination absolute bottom-4 w-full flex justify-center gap-2 z-10" />
       </div>
 
       {/* Category Bar */}
