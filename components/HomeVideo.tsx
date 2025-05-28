@@ -28,7 +28,7 @@ const HomeVideoSection = () => {
         {/* Right: Text */}
         <motion.div
           className="w-full md:w-1/2"
-          initial={{ opacity: 0, x: 50 }}
+          initial={{ opacity: 0, x: 0 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true, amount: 0.5 }}
           transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
