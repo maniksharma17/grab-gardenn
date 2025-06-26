@@ -386,12 +386,12 @@ export default function ProductPage({id}: {id: string}) {
                 <div className="space-y-2">
                   <div className="text-3xl font-normal text-primary flex items-center flex-wrap gap-2">
                     ₹{discounted}
-                    {/* <span className="text-gray-500 line-through ml-2 text-lg">
+                    <span className="text-gray-500 line-through ml-2 text-lg">
                       ₹{original}
                     </span>
                     <span className="bg-gray-700 rounded-full text-sm text-white font-normal px-2 py-1">
                       {discountPercent}% OFF
-                    </span> */}
+                    </span>
                     <p className="text-sm text-gray-700">
                       MRP (Inclusive of all taxes)
                     </p>
