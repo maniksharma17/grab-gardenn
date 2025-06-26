@@ -16,7 +16,7 @@ const HomeVideoSection = () => {
           transition={{ duration: 0.8, ease: "easeOut" }}
         >
           <video
-            src="https://grabgardenn-storage.s3.ap-south-1.amazonaws.com/videos/story.mp4"
+            src="https://grabgardenn-storage-bucket.s3.ap-south-1.amazonaws.com/story.mp4"
             autoPlay
             muted
             loop
