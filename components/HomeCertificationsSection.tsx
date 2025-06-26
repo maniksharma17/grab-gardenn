@@ -6,10 +6,10 @@ import { motion } from "framer-motion";
 
 const Certifications = () => {
   const images = [
-    "https://grabgardenn-storage.s3.ap-south-1.amazonaws.com/logos/fssai.png",
-    "https://grabgardenn-storage.s3.ap-south-1.amazonaws.com/logos/msme.png",
-    "https://grabgardenn-storage.s3.ap-south-1.amazonaws.com/logos/swach-bharat.png",
-    "https://grabgardenn-storage.s3.ap-south-1.amazonaws.com/logos/make-in-india.webp",
+    "https://grabgardenn-storage-bucket.s3.ap-south-1.amazonaws.com/fssai.png",
+    "https://grabgardenn-storage-bucket.s3.ap-south-1.amazonaws.com/msme.png",
+    "https://grabgardenn-storage-bucket.s3.ap-south-1.amazonaws.com/swach-bharat.png",
+    "https://grabgardenn-storage-bucket.s3.ap-south-1.amazonaws.com/make-in-india.webp",
   ];
 
   // Animation variants for container and items
