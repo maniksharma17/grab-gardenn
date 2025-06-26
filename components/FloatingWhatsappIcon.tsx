@@ -23,7 +23,7 @@ export const WhatsAppFloatingButton = ({
     >
       <div className="bg-green-500 hover:bg-green-600 text-white p-3 rounded-full shadow-xl transition-all duration-300">
         <Image 
-        src="https://grabgardenn-storage.s3.ap-south-1.amazonaws.com/icons/whatsapp.png"
+        src="https://grabgardenn-storage-bucket.s3.ap-south-1.amazonaws.com/whatsapp.png"
         alt="WhatsApp Icon"
         width={40}
         height={40}
