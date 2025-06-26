@@ -282,27 +282,27 @@ export default function ProductsPage() {
 
   const carouselImages = [
     {
-      src: "https://grabgardenn-storage.s3.ap-south-1.amazonaws.com/banners/millets-banner.png",
+      src: "https://grabgardenn-storage-bucket.s3.ap-south-1.amazonaws.com/banners/millets-banner.png",
       href: "/millets",
     },
     {
-      src: "https://grabgardenn-storage.s3.ap-south-1.amazonaws.com/banners/pulses-banner-2.png",
+      src: "https://grabgardenn-storage-bucket.s3.ap-south-1.amazonaws.com/banners/pulses-banner-2.png",
       href: "/pulses",
     },
     {
-      src: "https://grabgardenn-storage.s3.ap-south-1.amazonaws.com/banners/sweeteners-banner-2.png",
+      src: "https://grabgardenn-storage-bucket.s3.ap-south-1.amazonaws.com/banners/sweeteners-banner-2.png",
       href: "/sweeteners",
     },
     {
-      src: "https://grabgardenn-storage.s3.ap-south-1.amazonaws.com/banners/seeds-banner.jpeg",
+      src: "https://grabgardenn-storage-bucket.s3.ap-south-1.amazonaws.com/banners/seeds-banner.jpeg",
       href: "/seeds",
     },
     {
-      src: "https://grabgardenn-storage.s3.ap-south-1.amazonaws.com/banners/rice-banner-2.png",
+      src: "https://grabgardenn-storage-bucket.s3.ap-south-1.amazonaws.com/banners/rice-banner-2.png",
       href: "/rice",
     },
     {
-      src: "https://grabgardenn-storage.s3.ap-south-1.amazonaws.com/banners/tea-banner-2.png",
+      src: "https://grabgardenn-storage-bucket.s3.ap-south-1.amazonaws.com/banners/tea-banner-2.png",
       href: "/tea",
     },
   ];

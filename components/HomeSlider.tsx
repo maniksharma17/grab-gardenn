@@ -18,19 +18,19 @@ const HomeSlider = () => {
 
   const carouselImages = [
     {
-      src: "https://grabgardenn-storage.s3.ap-south-1.amazonaws.com/banners/home-banner-1.jpg",
+      src: "https://grabgardenn-storage-bucket.s3.ap-south-1.amazonaws.com/banners/home-banner-1.jpg",
       href: "/products",
       heading: "Purity Rooted in Tradition",
       text: "Pure, local, and nourishing ingredients passed down through generations.",
     },
     {
-      src: "https://grabgardenn-storage.s3.ap-south-1.amazonaws.com/banners/home-banner-7.png",
+      src: "https://grabgardenn-storage-bucket.s3.ap-south-1.amazonaws.com/banners/home-banner-7.png",
       href: "/products",
       heading: "Nature’s Finest, Packed with Care",
       text: "Every product is a promise of purity, nutrition, and the rich heritage of the mountains.",
     },
     {
-      src: "https://grabgardenn-storage.s3.ap-south-1.amazonaws.com/banners/home-banner-4.jpeg",
+      src: "https://grabgardenn-storage-bucket.s3.ap-south-1.amazonaws.com/banners/home-banner-4.jpeg",
       href: "/products",
       heading: "Goodness from the Hills",
       text: "Naturally grown ingredients, rich in purity and Himalayan tradition.",
@@ -39,7 +39,7 @@ const HomeSlider = () => {
 
   const carouselImagesMobile = [
     {
-      src: "https://grabgardenn-storage.s3.ap-south-1.amazonaws.com/banners/home-banner-2.jpg",
+      src: "https://grabgardenn-storage-bucket.s3.ap-south-1.amazonaws.com/banners/home-banner-2.jpg",
       href: "/products",
       heading: "The Taste of Culture, The Purity of Nature",
       text: "Experience Himalayan ingredients passed down through generations—pure, local, and full of natural nourishment.",
