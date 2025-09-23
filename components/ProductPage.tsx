@@ -311,7 +311,7 @@ export default function ProductPage({id}: {id: string}) {
                       alt={`thumb-${idx}`}
                       width={80}
                       height={80}
-                      className="rounded-lg object-cover aspect-square"
+                      className="rounded-lg object-cover"
                       unoptimized
                     />
                   </button>
@@ -320,7 +320,7 @@ export default function ProductPage({id}: {id: string}) {
             )}
 
             <div
-              className="relative w-full max-h-[500px] aspect-square overflow-hidden rounded-xl"
+              className="relative w-full max-h-[500px] overflow-hidden rounded-xl"
               onMouseEnter={() => setIsHoveringImage(true)}
               onMouseLeave={() => setIsHoveringImage(false)}
               onMouseMove={(e) => {
