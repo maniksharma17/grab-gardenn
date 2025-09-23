@@ -274,7 +274,9 @@ export default function ProductsPage() {
                     src={product.images[0]}
                     alt={product.name}
                     fill
-                    className="object-cover hover:opacity-0 transition-all duration-300"
+                    className={`object-cover ${
+                      product.images.length > 1 && "hover:opacity-0"
+                    } transition-all duration-300`}
                   />
 
                   {product.images.length > 1 && (

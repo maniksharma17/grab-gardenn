@@ -328,7 +328,7 @@ export const CartSheet = () => {
                         />
                         <div className="flex flex-col flex-1 gap-2">
                           <div className="flex-1 flex flex-col gap-1">
-                            <h4 className="text-sm font-medium">
+                            <h4 className="text-sm line-clamp-2 font-medium">
                               {product.name}
                             </h4>
                             <p className="text-xs text-muted-foreground">
