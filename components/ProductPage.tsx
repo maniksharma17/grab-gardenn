@@ -538,7 +538,7 @@ export default function ProductPage({id}: {id: string}) {
                 <div
                   className="absolute w-[90%] h-[90%] shadow-md border border-gray-300 border-dashed"
                   style={{
-                    backgroundImage: `url(${product.images[selectedImage]})`,
+                    backgroundImage: `url(${product.images.length>1 ? product.images[selectedImage]:product.images[0]})`,
                     backgroundSize: `${imgRef.current!.width * 2.5}px ${
                       imgRef.current!.height * 2.5
                     }px`, // 2x zoom effect
