@@ -321,7 +321,7 @@ export default function ProductPage({id}: {id: string}) {
 
             <div
               className="relative w-full max-md:h-[60vh] overflow-hidden rounded-xl"
-              onMouseEnter={() => setIsHoveringImage(true)}
+              onMouseEnter={() => setIsHoveringImage(false)}
               onMouseLeave={() => setIsHoveringImage(false)}
               onMouseMove={(e) => {
                 const rect = e.currentTarget.getBoundingClientRect();
