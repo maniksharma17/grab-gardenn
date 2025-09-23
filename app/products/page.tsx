@@ -364,7 +364,7 @@ export default function ProductsPage() {
         <h3 className="text-center text-gray-700 max-md:text-sm font-semibold my-2">
           EXPLORE OUR NATURAL CATEGORIES
         </h3>
-        <div className="flex md:justify-center py-2 gap-6 max-md:gap-1 overflow-x-scroll relative">
+        <div className="flex md:justify-center py-2 gap-2 max-md:gap-1 overflow-x-scroll relative">
           {categories.map((category) => (
             <Link
               href={`products/collection/${category.name.toLowerCase()}`}
