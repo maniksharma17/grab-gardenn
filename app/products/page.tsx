@@ -497,7 +497,7 @@ export default function ProductsPage() {
                   } p-4 max-md:p-2 flex flex-col gap-2`}
                 >
                   <h3
-                    className={`text-gray-800 font-semibold ${
+                    className={`text-gray-800 line-clamp-2 font-semibold ${
                       isHorizontal ? "text-xl" : "text-md"
                     }`}
                   >
