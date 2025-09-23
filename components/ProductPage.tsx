@@ -320,7 +320,7 @@ export default function ProductPage({id}: {id: string}) {
             )}
 
             <div
-              className="relative w-full max-md:h-full overflow-hidden rounded-xl"
+              className="relative w-full max-md:h-[60vh] overflow-hidden rounded-xl"
               onMouseEnter={() => setIsHoveringImage(true)}
               onMouseLeave={() => setIsHoveringImage(false)}
               onMouseMove={(e) => {
