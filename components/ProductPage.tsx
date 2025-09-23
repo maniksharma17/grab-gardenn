@@ -295,7 +295,7 @@ export default function ProductPage({id}: {id: string}) {
           {/* Image Gallery */}
           <div className="md:sticky md:top-32 max-h-[80vh] flex md:flex-row flex-col-reverse gap-4 overflow-hidden">
             {product.images.length > 1 && (
-              <div className="flex md:flex-col flex-row gap-2 md:min-w-[100px] md:max-h-[500px] overflow-auto">
+              <div className="flex md:flex-col flex-row gap-2 md:min-w-[100px] overflow-auto">
                 {product.images.map((img, idx) => (
                   <button
                     key={idx}
@@ -320,7 +320,7 @@ export default function ProductPage({id}: {id: string}) {
             )}
 
             <div
-              className="relative w-full max-h-[500px] overflow-hidden rounded-xl"
+              className="relative w-full overflow-hidden rounded-xl"
               onMouseEnter={() => setIsHoveringImage(true)}
               onMouseLeave={() => setIsHoveringImage(false)}
               onMouseMove={(e) => {
