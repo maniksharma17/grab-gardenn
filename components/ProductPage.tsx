@@ -373,7 +373,7 @@ export default function ProductPage({id}: {id: string}) {
                       <p>{product.category?.name}</p>
                     </Link>
                     {">"}
-                    <p>{product.name}</p>
+                    
                   </div>
                   {product.name}{" "}
                   {product.hindiName && (
