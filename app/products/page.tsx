@@ -205,15 +205,23 @@ export default function ProductsPage() {
   };
 
   useEffect(() => {
-    const fetchCategories = async () => {
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/categories`
-      );
-      const data = await res.json();
-      setCategories(data);
-    };
-    fetchCategories();
-  }, []);
+  const fetchCategories = async () => {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/categories`
+    );
+    const data = await res.json();
+
+    // Sort categories by createdAt (newest first)
+    const sorted = [...data].sort(
+      (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+    );
+
+    setCategories(sorted);
+  };
+
+  fetchCategories();
+}, []);
+
 
   useEffect(() => {
     const fetchProducts = async () => {
