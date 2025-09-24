@@ -221,10 +221,15 @@ export const CheckoutSheet = ({
         const res = await axios.get(
           `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/cart`,
           {
-            headers: { Authorization: `Bearer ${token}` },
+            headers: {
+              ...(token ? { Authorization: `Bearer ${token}` } : {}),
+            },
+            withCredentials: true,
           }
         );
-        setCartItems(res.data.cart.items);
+
+        const cart = res.data?.cart;
+        setCartItems(cart?.items ?? []);
       } catch (err) {
         console.log("Cart fetch error", err);
       }
