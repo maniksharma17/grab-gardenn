@@ -17,13 +17,22 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { signIn, signOut, useSession } from "next-auth/react";
 import Script from "next/script";
 import GoogleLoginButton from "@/components/GoogleLoginButton";
+import { checkoutOpenState } from "@/store/atoms/checkout";
 
 declare global {
   interface Window {
     google: {
       accounts: {
         id: {
-          renderButton(arg0: HTMLElement | null, arg1: { theme: string; size: string; shape: string; logo_alignment: string; }): unknown;
+          renderButton(
+            arg0: HTMLElement | null,
+            arg1: {
+              theme: string;
+              size: string;
+              shape: string;
+              logo_alignment: string;
+            }
+          ): unknown;
           prompt(): unknown;
           initialize: (config: {
             client_id: string;
@@ -55,6 +64,7 @@ type Address = {
 };
 
 export default function AuthPage() {
+  const setCheckoutOpen = useSetRecoilState(checkoutOpenState);
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -141,11 +151,12 @@ export default function AuthPage() {
       toast({ description: res.data.message });
     } catch (error: any) {
       const errorMessage =
-        error?.response?.data?.message || error.message || "Something went wrong";
+        error?.response?.data?.message ||
+        error.message ||
+        "Something went wrong";
       toast({ description: errorMessage });
     }
   };
-  
 
   const handleSubmit = async (
     e: React.FormEvent,
@@ -232,7 +243,37 @@ export default function AuthPage() {
             : "Account created successfully",
       });
 
-      router.replace("/products");
+      const intent =
+        typeof window !== "undefined"
+          ? localStorage.getItem("postAuthIntent")
+          : null;
+
+      if (intent === "openCheckout") {
+        // remove the flag so it doesn't persist
+        try {
+          localStorage.removeItem("postAuthIntent");
+        } catch (e) {}
+
+        // If user profile is incomplete and you redirect to /complete-profile for Google signups:
+        if (
+          !data.user.phone ||
+          !data.user.address ||
+          data.user.address.length === 0
+        ) {
+          // send them to the complete-profile page — keep intent in storage OR re-set it (we already removed it, so set again)
+          try {
+            localStorage.setItem("postAuthIntent", "openCheckout");
+          } catch (e) {}
+          router.push("/complete-profile");
+          return;
+        }
+
+        // user profile is complete -> open cart sheet and redirect to a page where sheet is in layout
+        setCheckoutOpen(true);
+        router.replace("/products"); // or router.back() if you prefer to return to last page
+        return;
+      }
+      router.push("/products");
     } catch (err: any) {
       toast({
         description: "Some error occured",
@@ -246,30 +287,30 @@ export default function AuthPage() {
   useEffect(() => {
     const fetchLocation = async () => {
       try {
-        const response = await fetch(`https://api.postalpincode.in/pincode/${address.zipCode}`);
+        const response = await fetch(
+          `https://api.postalpincode.in/pincode/${address.zipCode}`
+        );
         const data = await response.json();
         if (data[0].Status === "Success") {
           const postOffice = data[0].PostOffice[0];
-          setAddress(prev => ({
+          setAddress((prev) => ({
             ...prev,
             city: postOffice.Block || postOffice.District,
             state: postOffice.Circle,
-            country: postOffice.Country
+            country: postOffice.Country,
           }));
         } else {
-          toast({description: "Invalid Pincode"})
+          toast({ description: "Invalid Pincode" });
         }
       } catch (err) {
         console.log(err);
       }
     };
-  
+
     if (address.zipCode.length === 6) {
       fetchLocation();
     }
   }, [address.zipCode, toast]);
-  
-  
 
   useEffect(() => {
     const clientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
@@ -328,8 +369,6 @@ export default function AuthPage() {
                 toast({
                   description: "You are welcome!",
                 });
-
-                
               } catch (err) {
                 toast({
                   title: "Google Sign In Failed",
@@ -353,7 +392,6 @@ export default function AuthPage() {
     }
   }, [user, router, setUser, toast]);
 
-
   useEffect(() => {
     if (user?.isLoggedIn && (!user.phone || user.address?.length === 0)) {
       router.push("/complete-profile");
@@ -361,7 +399,6 @@ export default function AuthPage() {
       router.replace("/products");
     }
   }, [user, router]);
-  
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -391,7 +428,9 @@ export default function AuthPage() {
               <div className="bg-card p-8 md:rounded-lg md:shadow-sm">
                 <h2 className="text-2xl font-bold mb-6">Welcome Back</h2>
 
-                <div className="w-full mx-auto"><GoogleLoginButton /></div>
+                <div className="w-full mx-auto">
+                  <GoogleLoginButton />
+                </div>
 
                 <div className="my-4 flex flex-row items-center justify-center gap-2 px-8">
                   <div className="border-t w-full"></div>
@@ -486,7 +525,7 @@ export default function AuthPage() {
                       </div>{" "}
                     </div>
                   </div>
-                  
+
                   <div className="flex items-center justify-between">
                     <label className="flex items-center space-x-2"></label>
                     <a
@@ -497,7 +536,7 @@ export default function AuthPage() {
                       Forgot password?
                     </a>
                   </div>
-                  
+
                   <Button className="w-full" type="submit" disabled={isLoading}>
                     {isLoading ? "Logging in..." : "Login"}
                   </Button>
@@ -509,7 +548,9 @@ export default function AuthPage() {
               <div className="bg-card p-8 md:rounded-lg md:shadow-sm">
                 <h2 className="text-2xl font-bold mb-6">Create Account</h2>
 
-                <div className="w-full mx-auto"><GoogleLoginButton /></div>
+                <div className="w-full mx-auto">
+                  <GoogleLoginButton />
+                </div>
 
                 <div className="my-4 flex flex-row items-center justify-center gap-2 px-8">
                   <div className="border-t w-full"></div>
@@ -767,7 +808,7 @@ export default function AuthPage() {
                         </div>
                       </div>
                     </div>
-                    
+
                     <div className="">
                       <label className="text-xs font-medium ml-1">
                         Country

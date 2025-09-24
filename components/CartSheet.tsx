@@ -19,6 +19,7 @@ import { cartRefreshState, userState } from "@/store/atoms/user";
 import Link from "next/link";
 import { CheckoutSheet } from "./CheckoutSheet";
 import { useRouter } from "next/navigation";
+import { checkoutOpenState } from "@/store/atoms/checkout";
 const FREE_SHIPPING_THRESHOLD = 1000;
 
 export const CartSheet = () => {
@@ -29,6 +30,14 @@ export const CartSheet = () => {
   const [cartRefresh, setCartRefresh] = useRecoilState(cartRefreshState);
   const [open, setOpen] = useState(false);
   const router = useRouter();
+
+  const [checkoutOpen, setCheckoutOpen] = useRecoilState(checkoutOpenState);
+  useEffect(() => {
+    if (checkoutOpen) {
+      setOpen(true); // open local sheet state
+      setCheckoutOpen(false); // reset global flag
+    }
+  }, [checkoutOpen, setCheckoutOpen]);
 
   const token =
     typeof window !== "undefined" ? localStorage.getItem("token") : null;
@@ -203,7 +212,9 @@ export const CartSheet = () => {
           <div className="h-full flex flex-col justify-center items-center text-center py-16">
             <ShoppingCart className="w-12 h-12 mb-4 text-muted-foreground" />
             {user.isLoggedIn ? (
-              <p className="text-muted-foreground text-sm">Your cart is empty</p>
+              <p className="text-muted-foreground text-sm">
+                Your cart is empty
+              </p>
             ) : (
               <p className="text-muted-foreground text-sm">
                 <Link href={"/auth"} className="text-blue-500 hover:underline">
@@ -216,7 +227,9 @@ export const CartSheet = () => {
         ) : (
           <div
             className={`grid gap-6 h-full py-4 transition-all duration-300 ${
-              suggestions.length > 0 ? "lg:grid-cols-[2fr_1.5fr]" : "lg:grid-cols-1"
+              suggestions.length > 0
+                ? "lg:grid-cols-[2fr_1.5fr]"
+                : "lg:grid-cols-1"
             }`}
           >
             {/* Cart Items */}
@@ -296,15 +309,17 @@ export const CartSheet = () => {
                     </div>
                   ) : (
                     <div className="text-sm text-muted-foreground mb-1">
-                      Add ₹{(FREE_SHIPPING_THRESHOLD - subtotal).toFixed(0)} more
-                      to unlock free shipping
+                      Add ₹{(FREE_SHIPPING_THRESHOLD - subtotal).toFixed(0)}{" "}
+                      more to unlock free shipping
                     </div>
                   )}
 
                   <div className="w-full bg-gray-200 rounded-full h-2 overflow-hidden">
                     <div
                       className={`h-2 rounded-full transition-all duration-300 ${
-                        subtotal >= FREE_SHIPPING_THRESHOLD ? "bg-green-500" : "bg-yellow-500"
+                        subtotal >= FREE_SHIPPING_THRESHOLD
+                          ? "bg-green-500"
+                          : "bg-yellow-500"
                       }`}
                       style={{ width: `${progress}%` }}
                     />
@@ -315,7 +330,18 @@ export const CartSheet = () => {
                   <span className="font-medium">₹{subtotal.toFixed(2)}</span>
                 </div>
                 <div>
-                  <CheckoutSheet setCart={setOpen} />
+                  <Button
+                    className="w-full"
+                    onClick={() => {
+                      try {
+                        localStorage.setItem("postAuthIntent", "openCheckout");
+                      } catch (e) {}
+                      // redirect to auth page (full page)
+                      router.push("/auth");
+                    }}
+                  >
+                    Sign in to continue
+                  </Button>
                 </div>
               </div>
             </div>
@@ -323,7 +349,9 @@ export const CartSheet = () => {
             {/* Suggestions */}
             {suggestions.length > 0 && (
               <div className="mt-2 max-md:py-4 lg:mt-0 border-t lg:border-t-0 lg:border-l lg:pl-4 overflow-y-auto max-h-[75vh]">
-                <h4 className="text-sm font-semibold mb-3">You may also like</h4>
+                <h4 className="text-sm font-semibold mb-3">
+                  You may also like
+                </h4>
                 <div className="flex flex-col gap-3">
                   {suggestions.slice(0, 5).map((product) => (
                     <Link
@@ -345,7 +373,8 @@ export const CartSheet = () => {
                               {product.name}
                             </h4>
                             <p className="text-xs text-muted-foreground">
-                              ₹{product.price[0]} • {product.variants[0].display}
+                              ₹{product.price[0]} •{" "}
+                              {product.variants[0].display}
                             </p>
                           </div>
 

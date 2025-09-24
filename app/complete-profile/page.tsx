@@ -1,75 +1,76 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import axios from 'axios';
-import { useRecoilState } from 'recoil';
-import { userState } from '@/store/atoms/user';
-import PhoneInput from 'react-phone-input-2';
-import 'react-phone-input-2/lib/style.css';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
-import { validateAddress } from '@/lib/utils';
-import { useToast } from '@/hooks/use-toast';
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import axios from "axios";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import { userState } from "@/store/atoms/user";
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { validateAddress } from "@/lib/utils";
+import { useToast } from "@/hooks/use-toast";
+import { checkoutOpenState } from "@/store/atoms/checkout";
 
 export default function CompleteProfile() {
-  const {toast} = useToast();
-
+  const { toast } = useToast();
+  const setCheckoutOpen = useSetRecoilState(checkoutOpenState);
   const [user, setUser] = useRecoilState(userState);
   const router = useRouter();
-  const [phone, setPhone] = useState(user?.phone || '');
+  const [phone, setPhone] = useState(user?.phone || "");
   const [address, setAddress] = useState({
-    name: '',
-    phone: '',
-    street: '',
-    streetOptional: '',
-    city: '',
-    state: '',
-    country: '',
-    zipCode: '',
+    name: "",
+    phone: "",
+    street: "",
+    streetOptional: "",
+    city: "",
+    state: "",
+    country: "",
+    zipCode: "",
   });
 
-
   useEffect(() => {
-      const fetchLocation = async () => {
-        try {
-          const response = await fetch(`https://api.postalpincode.in/pincode/${address.zipCode}`);
-          const data = await response.json();
-          if (data[0].Status === "Success") {
-            const postOffice = data[0].PostOffice[0];
-            setAddress(prev => ({
-              ...prev,
-              city: postOffice.Block || postOffice.District,
-              state: postOffice.Circle,
-              country: postOffice.Country
-            }));
-          } else {
-            toast({description: "Invalid Pincode"})
-          }
-        } catch (err) {
-          console.log(err);
+    const fetchLocation = async () => {
+      try {
+        const response = await fetch(
+          `https://api.postalpincode.in/pincode/${address.zipCode}`
+        );
+        const data = await response.json();
+        if (data[0].Status === "Success") {
+          const postOffice = data[0].PostOffice[0];
+          setAddress((prev) => ({
+            ...prev,
+            city: postOffice.Block || postOffice.District,
+            state: postOffice.Circle,
+            country: postOffice.Country,
+          }));
+        } else {
+          toast({ description: "Invalid Pincode" });
         }
-      };
-    
-      if (address.zipCode.length === 6) {
-        fetchLocation();
+      } catch (err) {
+        console.log(err);
       }
-    }, [address.zipCode, toast]);
+    };
+
+    if (address.zipCode.length === 6) {
+      fetchLocation();
+    }
+  }, [address.zipCode, toast]);
 
   const handleChange = (field: string, value: string) => {
     setAddress((prev) => ({ ...prev, [field]: value }));
   };
 
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const result = validateAddress(address);
     if (!result.isValid) {
-      toast({description: result.message, variant: 'destructive'});
+      toast({ description: result.message, variant: "destructive" });
       return;
     }
     try {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem("token");
       const res = await axios.patch(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/complete-profile/${user._id}`,
         {
@@ -90,15 +91,31 @@ export default function CompleteProfile() {
       }));
 
       localStorage.setItem(
-        'user',
+        "user",
         JSON.stringify({
           ...user,
           phone: res.data.phone,
           address: res.data.address,
         })
       );
-      toast({ title: 'Profile updated successfully' });
-      router.push('/products');
+      toast({ title: "Profile updated successfully" });
+      try {
+        const intent =
+          typeof window !== "undefined"
+            ? localStorage.getItem("postAuthIntent")
+            : null;
+        if (intent === "openCheckout") {
+          try {
+            localStorage.removeItem("postAuthIntent");
+          } catch (e) {}
+          setCheckoutOpen(true); // cart sheet will open via CartSheet effect
+          router.push("/products"); // show page with sheet
+          return;
+        }
+      } catch (e) {
+        console.error("complete-profile redirect check failed:", e);
+      }
+      router.push("/products");
     } catch (err: any) {
       const errorMessage =
         err?.response?.data?.message || err.message || "Something went wrong";
@@ -110,30 +127,34 @@ export default function CompleteProfile() {
     <div className="max-w-2xl container mx-auto my-6 md:my-16 p-6 md:shadow-md md:rounded-lg md:border border-gray-200">
       <h1 className="text-2xl font-semibold mb-6">Complete Your Profile</h1>
       <form onSubmit={handleSubmit} className="space-y-6">
-        <h4 className="text-gray-600 text-sm font-medium">PERSONAL INFORMATION</h4>
+        <h4 className="text-gray-600 text-sm font-medium">
+          PERSONAL INFORMATION
+        </h4>
 
         <div>
           <label className="text-sm font-medium">Phone Number</label>
           <div className="my-2">
             <PhoneInput
-              country={'in'}
+              country={"in"}
               value={phone}
-              onChange={(e) => setPhone('+' + e)}
+              onChange={(e) => setPhone("+" + e)}
               inputClass="!w-full !h-12 !text-md"
-              inputStyle={{ borderRadius: '8px', width: '100%' }}
+              inputStyle={{ borderRadius: "8px", width: "100%" }}
               placeholder="Enter your phone number"
             />
           </div>
         </div>
 
-        <h4 className="border-t pt-4 mt-4 text-gray-600 text-sm font-medium">SHIPPING INFO</h4>
+        <h4 className="border-t pt-4 mt-4 text-gray-600 text-sm font-medium">
+          SHIPPING INFO
+        </h4>
         <div className="space-y-4">
           <div>
             <label className="text-xs font-medium ml-1">Name</label>
             <Input
               type="text"
               value={address.name}
-              onChange={(e) => handleChange('name', e.target.value)}
+              onChange={(e) => handleChange("name", e.target.value)}
               required
             />
           </div>
@@ -141,11 +162,11 @@ export default function CompleteProfile() {
           <div>
             <label className="text-xs font-medium ml-1">Phone</label>
             <PhoneInput
-              country={'in'}
+              country={"in"}
               value={address.phone}
-              onChange={(e) => handleChange('phone', '+' + e)}
+              onChange={(e) => handleChange("phone", "+" + e)}
               inputClass="!w-full !h-12 !text-md"
-              inputStyle={{ borderRadius: '8px', width: '100%' }}
+              inputStyle={{ borderRadius: "8px", width: "100%" }}
               placeholder="Enter phone number"
             />
           </div>
@@ -155,17 +176,19 @@ export default function CompleteProfile() {
             <Input
               type="text"
               value={address.street}
-              onChange={(e) => handleChange('street', e.target.value)}
+              onChange={(e) => handleChange("street", e.target.value)}
               required
             />
           </div>
 
           <div>
-            <label className="text-xs font-medium ml-1">Street 2 <span className="text-xs">(Optional)</span></label>
+            <label className="text-xs font-medium ml-1">
+              Street 2 <span className="text-xs">(Optional)</span>
+            </label>
             <Input
               type="text"
               value={address.streetOptional}
-              onChange={(e) => handleChange('streetOptional', e.target.value)}
+              onChange={(e) => handleChange("streetOptional", e.target.value)}
             />
           </div>
 
@@ -174,11 +197,10 @@ export default function CompleteProfile() {
             <Input
               type="text"
               value={address.zipCode}
-              onChange={(e) => handleChange('zipCode', e.target.value)}
+              onChange={(e) => handleChange("zipCode", e.target.value)}
               required
             />
           </div>
-
 
           <div className="flex gap-2">
             <div className="flex-1">
@@ -186,7 +208,7 @@ export default function CompleteProfile() {
               <Input
                 type="text"
                 value={address.city}
-                onChange={(e) => handleChange('city', e.target.value)}
+                onChange={(e) => handleChange("city", e.target.value)}
                 required
               />
             </div>
@@ -195,19 +217,18 @@ export default function CompleteProfile() {
               <Input
                 type="text"
                 value={address.state}
-                onChange={(e) => handleChange('state', e.target.value)}
+                onChange={(e) => handleChange("state", e.target.value)}
                 required
               />
             </div>
           </div>
 
-          
           <div>
             <label className="text-xs font-medium ml-1">Country</label>
             <Input
               type="text"
               value={address.country}
-              onChange={(e) => handleChange('country', e.target.value)}
+              onChange={(e) => handleChange("country", e.target.value)}
               required
             />
           </div>
