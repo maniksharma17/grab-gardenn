@@ -16,19 +16,19 @@ export function CartHandle() {
   useEffect(() => {
     const fetchCart = async () => {
       try {
-        const token = localStorage.getItem("token");
-        if (!token || !user?._id) return;
+        const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
 
         const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/cart/${user._id}`,
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/cart`,
           {
             headers: {
-              Authorization: `Bearer ${token}`,
+              ...(token ? { Authorization: `Bearer ${token}` } : {}),
             },
+            withCredentials: true,
           }
         );
 
-        setCartItems(response.data.cart.items);
+        setCartItems(response.data?.cart?.items ?? []);
       } catch (error) {
         console.error("Error fetching cart:", error);
       }
@@ -54,25 +54,21 @@ export function CartHandle() {
         </div>
 
         <div className="flex flex-col gap-1 items-center">
-        <div className="w-[200px] bg-gray-700 rounded-full h-1 relative overflow-hidden">
-          <div
-            className="bg-green-400 h-full transition-all duration-300"
-            style={{ width: `${progress}%` }}
-          />
-          
+          <div className="w-[200px] bg-gray-700 rounded-full h-1 relative overflow-hidden">
+            <div
+              className="bg-green-400 h-full transition-all duration-300"
+              style={{ width: `${progress}%` }}
+            />
+          </div>
+          <div className="text-xs text-gray-800">
+            {subtotal >= FREE_SHIPPING_THRESHOLD
+              ? "🎉 You're eligible for free shipping!"
+              : `₹${FREE_SHIPPING_THRESHOLD - subtotal} away from free shipping`}
+          </div>
         </div>
-        <div className="text-xs text-gray-800">
-          {subtotal >= FREE_SHIPPING_THRESHOLD
-            ? "🎉 You're eligible for free shipping!"
-            : `₹${FREE_SHIPPING_THRESHOLD - subtotal} away from free shipping`}
-        </div>
-        </div>
-        
 
         <CartSheet />
       </div>
-
-      
     </>
   );
 }
