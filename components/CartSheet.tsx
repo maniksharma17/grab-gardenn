@@ -14,7 +14,7 @@ import { CartItem, Product } from "@/lib/types";
 import Image from "next/image";
 import axios from "axios";
 import { useToast } from "@/hooks/use-toast";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { cartRefreshState, userState } from "@/store/atoms/user";
 import Link from "next/link";
 import { CheckoutSheet } from "./CheckoutSheet";
@@ -35,16 +35,20 @@ export const CartSheet = () => {
 
   useEffect(() => {
     const fetchCart = async () => {
-      if (!token || !user?._id) return;
       try {
         const res = await axios.get(
-          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/cart/${user._id}`,
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/cart`,
           {
-            headers: { Authorization: `Bearer ${token}` },
+            headers: {
+              ...(token ? { Authorization: `Bearer ${token}` } : {}),
+            },
+            withCredentials: true,
           }
         );
-        setCartItems(res.data.cart.items);
-        const items = res.data.cart.items;
+
+        const cart = res.data?.cart;
+        setCartItems(cart?.items ?? []);
+        const items = cart?.items ?? [];
 
         // Extract unique category IDs
         const categoryIds = [
@@ -75,7 +79,7 @@ export const CartSheet = () => {
 
         setSuggestions(filteredSuggestions);
       } catch (err) {
-        console.log(err)
+        console.log(err);
       }
     };
 
@@ -83,26 +87,25 @@ export const CartSheet = () => {
   }, [user, token, cartRefresh]);
 
   const addToCart = async (product: Product) => {
-    if (!token || !user?._id) {
-      toast({ title: "Please login to add items", variant: "destructive" });
-      return;
-    }
-
     try {
       await axios.post(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/cart/add/${user._id}`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/cart/add`,
         {
           productId: product._id,
-          variant: product.variants[0], 
+          variant: product.variants[0],
           quantity: 1,
-          dimensions: product.dimensions[0], 
-          priceIndex: 0, 
+          dimensions: product.dimensions[0],
+          priceIndex: 0,
         },
         {
-          headers: { Authorization: `Bearer ${token}` },
+          headers: {
+            ...(token ? { Authorization: `Bearer ${token}` } : {}),
+          },
+          withCredentials: true,
         }
       );
 
+      toast({ title: "Added to cart" });
     } catch (err) {
       console.log("Add to cart failed:", err);
       toast({ title: "Failed to add", variant: "destructive" });
@@ -115,11 +118,13 @@ export const CartSheet = () => {
     setCartItems((prev) => prev.filter((item) => item._id !== id));
 
     try {
-      if (!token) return;
       await axios.delete(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/cart/${user._id}/${id}`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/cart/${id}`,
         {
-          headers: { Authorization: `Bearer ${token}` },
+          headers: {
+            ...(token ? { Authorization: `Bearer ${token}` } : {}),
+          },
+          withCredentials: true,
         }
       );
     } catch (error) {
@@ -141,20 +146,22 @@ export const CartSheet = () => {
     setCartItems(updated);
 
     try {
-      if (!token) return;
       await axios.put(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/cart/${user._id}/${id}`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/cart/${id}`,
         {
           action: type,
         },
         {
-          headers: { Authorization: `Bearer ${token}` },
+          headers: {
+            ...(token ? { Authorization: `Bearer ${token}` } : {}),
+          },
+          withCredentials: true,
         }
       );
     } catch (err) {
       console.log("Quantity update failed", err);
     } finally {
-      setCartRefresh(prev => prev+1)
+      setCartRefresh((prev) => prev + 1);
     }
   };
 
@@ -166,7 +173,12 @@ export const CartSheet = () => {
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
-      <SheetTrigger asChild onClick={()=>{setCartRefresh((prev) => prev + 1);}}>
+      <SheetTrigger
+        asChild
+        onClick={() => {
+          setCartRefresh((prev) => prev + 1);
+        }}
+      >
         <Button variant="ghost" className="relative">
           <ShoppingCart className="h-5 w-5" />
           {cartItems.length > 0 && (
@@ -179,9 +191,9 @@ export const CartSheet = () => {
 
       <SheetContent
         side="right"
-        className={`font-poppins w-full overflow-y-auto transition-all duration-300 ${suggestions.length > 0
-          ? "sm:max-w-2xl"
-          : "sm:max-w-xl"}`}
+        className={`font-poppins w-full overflow-y-auto transition-all duration-300 ${
+          suggestions.length > 0 ? "sm:max-w-2xl" : "sm:max-w-xl"
+        }`}
       >
         <SheetHeader>
           <SheetTitle>Shopping Cart</SheetTitle>
@@ -190,16 +202,23 @@ export const CartSheet = () => {
         {cartItems.length === 0 ? (
           <div className="h-full flex flex-col justify-center items-center text-center py-16">
             <ShoppingCart className="w-12 h-12 mb-4 text-muted-foreground" />
-            {user.isLoggedIn 
-            ? <p className="text-muted-foreground text-sm">Your cart is empty</p>
-            : <p className="text-muted-foreground text-sm"><Link href={"/auth"} className="text-blue-500 hover:underline">Sign in</Link> to create cart.</p>
-           }
-            
+            {user.isLoggedIn ? (
+              <p className="text-muted-foreground text-sm">Your cart is empty</p>
+            ) : (
+              <p className="text-muted-foreground text-sm">
+                <Link href={"/auth"} className="text-blue-500 hover:underline">
+                  Sign in
+                </Link>{" "}
+                to create cart.
+              </p>
+            )}
           </div>
         ) : (
-          <div className={`grid gap-6 h-full py-4 transition-all duration-300 ${suggestions.length > 0
-            ? "lg:grid-cols-[2fr_1.5fr]"
-            : "lg:grid-cols-1"}`}>
+          <div
+            className={`grid gap-6 h-full py-4 transition-all duration-300 ${
+              suggestions.length > 0 ? "lg:grid-cols-[2fr_1.5fr]" : "lg:grid-cols-1"
+            }`}
+          >
             {/* Cart Items */}
             <div className="flex flex-col justify-between h-full pr-2">
               <div className="space-y-4 max-h-[60vh] overflow-y-auto pr-1">
@@ -277,17 +296,15 @@ export const CartSheet = () => {
                     </div>
                   ) : (
                     <div className="text-sm text-muted-foreground mb-1">
-                      Add ₹{(FREE_SHIPPING_THRESHOLD - subtotal).toFixed(0)}{" "}
-                      more to unlock free shipping
+                      Add ₹{(FREE_SHIPPING_THRESHOLD - subtotal).toFixed(0)} more
+                      to unlock free shipping
                     </div>
                   )}
 
                   <div className="w-full bg-gray-200 rounded-full h-2 overflow-hidden">
                     <div
                       className={`h-2 rounded-full transition-all duration-300 ${
-                        subtotal >= FREE_SHIPPING_THRESHOLD
-                          ? "bg-green-500"
-                          : "bg-yellow-500"
+                        subtotal >= FREE_SHIPPING_THRESHOLD ? "bg-green-500" : "bg-yellow-500"
                       }`}
                       style={{ width: `${progress}%` }}
                     />
@@ -298,9 +315,7 @@ export const CartSheet = () => {
                   <span className="font-medium">₹{subtotal.toFixed(2)}</span>
                 </div>
                 <div>
-                <CheckoutSheet setCart={setOpen}/>
-
-
+                  <CheckoutSheet setCart={setOpen} />
                 </div>
               </div>
             </div>
@@ -308,9 +323,7 @@ export const CartSheet = () => {
             {/* Suggestions */}
             {suggestions.length > 0 && (
               <div className="mt-2 max-md:py-4 lg:mt-0 border-t lg:border-t-0 lg:border-l lg:pl-4 overflow-y-auto max-h-[75vh]">
-                <h4 className="text-sm font-semibold mb-3">
-                  You may also like
-                </h4>
+                <h4 className="text-sm font-semibold mb-3">You may also like</h4>
                 <div className="flex flex-col gap-3">
                   {suggestions.slice(0, 5).map((product) => (
                     <Link
@@ -332,8 +345,7 @@ export const CartSheet = () => {
                               {product.name}
                             </h4>
                             <p className="text-xs text-muted-foreground">
-                              ₹{product.price[0]} •{" "}
-                              {product.variants[0].display}
+                              ₹{product.price[0]} • {product.variants[0].display}
                             </p>
                           </div>
 
