@@ -330,18 +330,26 @@ export const CartSheet = () => {
                   <span className="font-medium">₹{subtotal.toFixed(2)}</span>
                 </div>
                 <div>
-                  <Button
-                    className="w-full"
-                    onClick={() => {
-                      try {
-                        localStorage.setItem("postAuthIntent", "openCheckout");
-                      } catch (e) {}
-                      // redirect to auth page (full page)
-                      router.push("/auth");
-                    }}
-                  >
-                    Sign in to continue
-                  </Button>
+                  {user?.isLoggedIn ? (
+                    // Logged in → show checkout
+                    <CheckoutSheet setCart={setOpen} />
+                  ) : (
+                    // Not logged in → show sign in button
+                    <Button
+                      className="w-full"
+                      onClick={() => {
+                        try {
+                          localStorage.setItem(
+                            "postAuthIntent",
+                            "openCheckout"
+                          );
+                        } catch (e) {}
+                        router.push("/auth");
+                      }}
+                    >
+                      Sign in to continue
+                    </Button>
+                  )}
                 </div>
               </div>
             </div>
