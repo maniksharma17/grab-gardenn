@@ -38,12 +38,14 @@ import { DELIVERY_DISCOUNT } from "@/lib/config";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import Image from "next/image";
+import { checkoutOpenState } from "@/store/atoms/checkout";
 
 export const CheckoutSheet = ({
   setCart,
 }: {
   setCart: (x: boolean) => void;
 }) => {
+  const checkoutOpen = useRecoilValue(checkoutOpenState);
   const user = useRecoilValue(userState);
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [selectedAddress, setSelectedAddress] = useState<any>(null);
@@ -419,7 +421,7 @@ export const CheckoutSheet = ({
   }, [newAddress.zipCode, toast]);
 
   return (
-    <Sheet open={open} onOpenChange={setOpen}>
+    <Sheet open={open||checkoutOpen} onOpenChange={setOpen}>
       <SheetTrigger asChild>
         <Button className="w-full">Go to Checkout</Button>
       </SheetTrigger>
