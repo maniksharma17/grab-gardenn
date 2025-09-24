@@ -356,7 +356,7 @@ export const CartSheet = () => {
 
             {/* Suggestions */}
             {suggestions.length > 0 && (
-              <div className="mt-2 lg:mt-0 border-t lg:border-t-0 lg:border-l lg:pl-4">
+              <div className="mt-2 lg:mt-0 lg:border-l lg:pl-4">
                 <h4 className="text-sm font-semibold mb-3">
                   You may also like
                 </h4>
