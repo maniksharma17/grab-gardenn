@@ -396,6 +396,22 @@ export default function AuthPage() {
     if (user?.isLoggedIn && (!user.phone || user.address?.length === 0)) {
       router.push("/complete-profile");
     } else if (user?.isLoggedIn) {
+      try {
+        const intent =
+          typeof window !== "undefined"
+            ? localStorage.getItem("postAuthIntent")
+            : null;
+        if (intent === "openCheckout") {
+          try {
+            localStorage.removeItem("postAuthIntent");
+          } catch (e) {}
+          setCheckoutOpen(true); // cart sheet will open via CartSheet effect
+          router.push("/products"); // show page with sheet
+          return;
+        }
+      } catch (e) {
+        console.error("complete-profile redirect check failed:", e);
+      }
       router.replace("/products");
     }
   }, [user, router]);
