@@ -557,7 +557,7 @@ export default function ProductsPage() {
                       }
                     >
                       <SelectTrigger
-                        className={`h-10 text-sm ${
+                        className={`h-10 w-full text-sm ${
                           isHorizontal ? "w-full" : "w-fit"
                         }`}
                       >
