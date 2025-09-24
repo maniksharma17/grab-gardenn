@@ -234,7 +234,7 @@ export const CartSheet = () => {
           >
             {/* Cart Items */}
             <div className="flex flex-col justify-between h-full pr-2">
-              <div className="space-y-4 max-h-[60vh] overflow-y-auto pr-1">
+              <div className="space-y-4 md:max-h-[60vh] overflow-y-auto pr-1">
                 {cartItems.map((item) => (
                   <div
                     key={item._id}
@@ -356,7 +356,7 @@ export const CartSheet = () => {
 
             {/* Suggestions */}
             {suggestions.length > 0 && (
-              <div className="mt-2 max-md:py-4 lg:mt-0 border-t lg:border-t-0 lg:border-l lg:pl-4 overflow-y-auto max-h-[75vh]">
+              <div className="mt-2 max-md:py-4 lg:mt-0 border-t lg:border-t-0 lg:border-l lg:pl-4 overflow-y-auto md:max-h-[75vh]">
                 <h4 className="text-sm font-semibold mb-3">
                   You may also like
                 </h4>
