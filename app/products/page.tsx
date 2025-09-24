@@ -544,10 +544,10 @@ export default function ProductsPage() {
                   </div>
 
                   <div
-                    className={`flex items-center gap-2 mt-2 ${
+                    className={`flex flex-col justify-center items-center gap-2 mt-2 ${
                       isHorizontal
-                        ? "md:w-1/2 flex-col justify-start"
-                        : "flex-row"
+                        ? "md:w-1/2"
+                        : "flex-row w-full"
                     }`}
                   >
                     <Select
