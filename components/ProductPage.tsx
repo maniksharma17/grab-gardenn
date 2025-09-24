@@ -503,13 +503,7 @@ export default function ProductPage({ id }: { id: string }) {
                     </div>
                     <Button
                       className="w-full cursor-pointer border border-primary bg-transparent hover:bg-primary/90 hover:text-white text-primary text-md py-5"
-                      onClick={() => {
-                        if (user.isLoggedIn) {
-                          addToCart();
-                        } else {
-                          router.push("/auth");
-                        }
-                      }}
+                      onClick={addToCart}
                     >
                       <ShoppingBagIcon className="mr-4" strokeWidth={1.2} /> ADD
                       TO CART
