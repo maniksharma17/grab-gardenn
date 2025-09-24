@@ -573,13 +573,7 @@ export default function ProductsPage() {
                     </Select>
                     <Button
                       className={`w-full text-sm`}
-                      onClick={() => {
-                        if (user.isLoggedIn) {
-                          addToCart(product._id);
-                        } else {
-                          router.push("/auth");
-                        }
-                      }}
+                      onClick={()=>addToCart(product._id)}
                     >
                       Add <PlusCircle className="h-4 w-4 ml-2" />
                     </Button>
