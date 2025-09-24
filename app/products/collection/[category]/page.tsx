@@ -137,18 +137,24 @@ export default function ProductsPage() {
       variant,
       dimensions,
     };
+
+    const token =
+      typeof window !== "undefined" ? localStorage.getItem("token") : null;
+
     try {
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/cart/add/${user._id}`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/cart/add`,
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            ...(token ? { Authorization: `Bearer ${token}` } : {}),
           },
+          credentials: "include",
           body: JSON.stringify(payload),
         }
       );
+
       if (res.ok) {
         const data = await res.json();
         toast({
@@ -294,7 +300,6 @@ export default function ProductsPage() {
                     isHorizontal ? "md:w-3/4 p-4" : ""
                   } md:p-4 p-2 flex flex-col gap-2`}
                 >
-                  
                   <h3
                     className={`text-gray-800 line-clamp-2 font-semibold ${
                       isHorizontal ? "text-xl" : "text-md"
@@ -362,13 +367,7 @@ export default function ProductsPage() {
                     </Select>
                     <Button
                       className={`w-full text-sm`}
-                      onClick={() => {
-                        if (user.isLoggedIn) {
-                          addToCart(product._id);
-                        } else {
-                          router.push("/auth");
-                        }
-                      }}
+                      onClick={() => addToCart(product._id)}
                     >
                       Add <PlusCircle className="h-4 w-4 ml-2" />
                     </Button>

@@ -33,14 +33,14 @@ import {
 } from "@/components/ui/table";
 import { Textarea } from "@/components/ui/textarea";
 
-export default function ProductPage({id}: {id: string}) {
+export default function ProductPage({ id }: { id: string }) {
   const [quantity, setQuantity] = useState(1);
   const [buyNowOpen, setBuyNowOpen] = useState(false);
   const [selectedVariant, setSelectedVariant] = useState(0);
   const [selectedImage, setSelectedImage] = useState(0);
   const [product, setProduct] = useState<Product | null>(null);
   const { toast } = useToast();
-  
+
   const user = useRecoilValue(userState);
   const setCartRefresh = useSetRecoilState(cartRefreshState);
   const [zipCode, setZipCode] = useState("");
@@ -55,7 +55,7 @@ export default function ProductPage({id}: {id: string}) {
   >([]);
   const [isHoveringImage, setIsHoveringImage] = useState(false);
   const [zoomPosition, setZoomPosition] = useState({ x: 0, y: 0 });
-  const imgRef = useRef<HTMLImageElement>(null); 
+  const imgRef = useRef<HTMLImageElement>(null);
 
   useEffect(() => {
     const fetchReviews = async () => {
@@ -234,6 +234,9 @@ export default function ProductPage({id}: {id: string}) {
   const addToCart = async () => {
     if (!product) return;
 
+    const token =
+      typeof window !== "undefined" ? localStorage.getItem("token") : null;
+
     try {
       const payload = {
         productId: product._id,
@@ -244,13 +247,14 @@ export default function ProductPage({id}: {id: string}) {
       };
 
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/cart/add/${user._id}`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/cart/add`,
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            ...(token ? { Authorization: `Bearer ${token}` } : {}),
           },
+          credentials: "include",
           body: JSON.stringify(payload),
         }
       );
@@ -270,7 +274,7 @@ export default function ProductPage({id}: {id: string}) {
       console.error("Add to cart error:", error);
       toast({
         title: "Failed to add to cart",
-        description: error.message,
+        description: error?.message ?? "Something went wrong",
         variant: "destructive",
       });
     } finally {
@@ -327,7 +331,7 @@ export default function ProductPage({id}: {id: string}) {
                 const rect = e.currentTarget.getBoundingClientRect();
                 const x = (e.clientX - rect.left) / rect.width;
                 const y = (e.clientY - rect.top) / rect.height;
-                setZoomPosition({x, y});
+                setZoomPosition({ x, y });
               }}
             >
               <Image
@@ -373,7 +377,6 @@ export default function ProductPage({id}: {id: string}) {
                       <p>{product.category?.name}</p>
                     </Link>
                     {">"}
-                    
                   </div>
                   {product.name}{" "}
                   {product.hindiName && (
@@ -430,7 +433,7 @@ export default function ProductPage({id}: {id: string}) {
                         fetchDeliveryRatePrepaid();
                       }}
                     >
-                      Check Delivery 
+                      Check Delivery
                     </Button>
                   </div>
 
@@ -538,7 +541,11 @@ export default function ProductPage({id}: {id: string}) {
                 <div
                   className="absolute w-[90%] h-[90%] shadow-md border border-gray-300"
                   style={{
-                    backgroundImage: `url(${product.images.length>1 ? product.images[selectedImage]:product.images[0]})`,
+                    backgroundImage: `url(${
+                      product.images.length > 1
+                        ? product.images[selectedImage]
+                        : product.images[0]
+                    })`,
                     backgroundSize: `${imgRef.current!.width * 2.5}px ${
                       imgRef.current!.height * 2.5
                     }px`, // 2x zoom effect
@@ -546,7 +553,7 @@ export default function ProductPage({id}: {id: string}) {
                       zoomPosition.y * 100
                     }%`,
                     transform: "translate(-25%, -25%)",
-                    transition: "background-position 0.1s ease-out", 
+                    transition: "background-position 0.1s ease-out",
                   }}
                 />
               </div>
@@ -734,9 +741,11 @@ const ReviewSection = ({ reviews, currentUser, productId }: any) => {
                     strokeWidth={1.2}
                   />
                 </div>
-                {currentUserReview.comment && <p className="text-md max-md:text-sm mt-2 text-gray-700">
-                  {currentUserReview.comment}
-                </p>}
+                {currentUserReview.comment && (
+                  <p className="text-md max-md:text-sm mt-2 text-gray-700">
+                    {currentUserReview.comment}
+                  </p>
+                )}
               </div>
             )}
 
@@ -749,9 +758,11 @@ const ReviewSection = ({ reviews, currentUser, productId }: any) => {
                     {rev.user?.name || "Anonymous"}
                   </span>
                 </div>
-                {reviews.comment && <p className="text-md max-md:text-sm mt-2 text-gray-700">
-                  {rev.comment}
-                </p>}
+                {reviews.comment && (
+                  <p className="text-md max-md:text-sm mt-2 text-gray-700">
+                    {rev.comment}
+                  </p>
+                )}
               </div>
             ))}
           </>
