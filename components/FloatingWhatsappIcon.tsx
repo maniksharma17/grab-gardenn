@@ -19,7 +19,7 @@ export const WhatsAppFloatingButton = ({
       href={whatsappLink}
       target="_blank"
       rel="noopener noreferrer"
-      className="fixed bottom-3 right-2 z-50"
+      className="fixed bottom-3 right-3 z-50"
     >
       <div className="bg-green-500 hover:bg-green-600 text-white p-3 rounded-full shadow-xl transition-all duration-300">
         <Image 
