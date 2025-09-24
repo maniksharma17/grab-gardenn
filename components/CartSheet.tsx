@@ -226,12 +226,12 @@ export const CartSheet = () => {
           </div>
         ) : (
           <div
-            className={`flex flex-col gap-6 h-full py-4 transition-all duration-300 lg:grid ${
-              suggestions.length > 0
-                ? "lg:grid-cols-[2fr_1.5fr]"
-                : "lg:grid-cols-1"
-            }`}
-          >
+  className={`flex flex-col gap-6 py-4 transition-all duration-300 lg:grid ${
+    suggestions.length > 0
+      ? "lg:grid-cols-[2fr_1.5fr]"
+      : "lg:grid-cols-1"
+  }`}
+>
             {/* Cart Items */}
             <div className="flex flex-col justify-between h-full pr-2">
               <div className="space-y-4 md:max-h-[60vh] overflow-y-auto pr-1">
@@ -356,7 +356,7 @@ export const CartSheet = () => {
 
             {/* Suggestions */}
             {suggestions.length > 0 && (
-              <div className="mt-2 lg:mt-0 border-t lg:border-t-0 lg:border-l lg:pl-4 overflow-y-scroll flex-1 md:max-h-[75vh]">
+              <div className="mt-2 lg:mt-0 border-t lg:border-t-0 lg:border-l lg:pl-4">
                 <h4 className="text-sm font-semibold mb-3">
                   You may also like
                 </h4>
