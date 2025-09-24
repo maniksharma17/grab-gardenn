@@ -563,7 +563,7 @@ export default function ProductsPage() {
                       >
                         <SelectValue placeholder="Select" />
                       </SelectTrigger>
-                      <SelectContent>
+                      <SelectContent className="w-full">
                         {product.variants.map((variant: any, index: number) => (
                           <SelectItem key={index} value={index.toString()}>
                             {variant.display}
