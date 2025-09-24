@@ -5,7 +5,7 @@ const Loading = () => {
   return (
     <div className='flex h-screen w-screen justify-center items-center'>
       <Image 
-      src={"https://grabgardenn-storage.s3.ap-south-1.amazonaws.com/logos/grab-gardenn-logo.png"}
+      src={"/new-logo.png"}
       alt='logo'
       height={200}
       width={200}
