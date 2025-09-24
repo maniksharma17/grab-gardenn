@@ -205,23 +205,23 @@ export default function ProductsPage() {
   };
 
   useEffect(() => {
-  const fetchCategories = async () => {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/categories`
-    );
-    const data = await res.json();
+    const fetchCategories = async () => {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/categories`
+      );
+      const data = await res.json();
 
-    // Sort categories by createdAt (newest first)
-    const sorted = [...data].sort(
-      (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-    );
+      // Sort categories by createdAt (newest first)
+      const sorted = [...data].sort(
+        (a, b) =>
+          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+      );
 
-    setCategories(sorted);
-  };
+      setCategories(sorted);
+    };
 
-  fetchCategories();
-}, []);
-
+    fetchCategories();
+  }, []);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -237,10 +237,12 @@ export default function ProductsPage() {
   const addToCart = async (productId: string) => {
     const product = products.find((p) => p._id === productId);
     if (!product) return;
+
     const variantIndex = selectedVariants[productId] ?? 0;
     const variant = product.variants[Number(variantIndex)];
     const price = product.price[Number(variantIndex)];
     const dimensions = product.dimensions[Number(variantIndex)];
+
     const payload = {
       productId,
       quantity: 1,
@@ -248,23 +250,28 @@ export default function ProductsPage() {
       variant,
       dimensions,
     };
+
     try {
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/cart/add/${user._id}`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/cart/add`,
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            ...(localStorage.getItem("token") && {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            }),
           },
+          credentials: "include", 
           body: JSON.stringify(payload),
         }
       );
+
       if (res.ok) {
         const data = await res.json();
-        toast({
-          title: "Added to cart",
-        });
+        toast({ title: "Added to cart" });
+        // optionally: update cart state directly
+        // setCart(data.cart)
       } else {
         const errorData = await res.json();
         toast({
@@ -332,31 +339,34 @@ export default function ProductsPage() {
 
       <div className="mt-16 max-md:mt-24 w-full h-[130px] sm:h-[500px] relative overflow-hidden">
         <Swiper
-        modules={[Pagination, Autoplay]}
-        slidesPerView={1}
-        loop={true}
-        pagination={{ clickable: true, el: ".custom-pagination" }}
-        autoplay={{ delay: 4000, disableOnInteraction: false }}
-        className="w-full h-full"
-      >
-        {carouselImages.map((image, index) => (
-          <SwiperSlide key={image.src} className="relative w-full h-full">
-            <Link href={`products/collection/${image.href}`} className="absolute inset-0 w-full h-full">
-              <Image
-                src={image.src}
-                alt={`Banner ${index + 1}`}
-                fill
-                unoptimized
-                priority={index === 0}
-                className="object-cover transition-opacity duration-1000 opacity-100"
-              />
-            </Link>
-          </SwiperSlide>
-        ))}
-      </Swiper>
+          modules={[Pagination, Autoplay]}
+          slidesPerView={1}
+          loop={true}
+          pagination={{ clickable: true, el: ".custom-pagination" }}
+          autoplay={{ delay: 4000, disableOnInteraction: false }}
+          className="w-full h-full"
+        >
+          {carouselImages.map((image, index) => (
+            <SwiperSlide key={image.src} className="relative w-full h-full">
+              <Link
+                href={`products/collection/${image.href}`}
+                className="absolute inset-0 w-full h-full"
+              >
+                <Image
+                  src={image.src}
+                  alt={`Banner ${index + 1}`}
+                  fill
+                  unoptimized
+                  priority={index === 0}
+                  className="object-cover transition-opacity duration-1000 opacity-100"
+                />
+              </Link>
+            </SwiperSlide>
+          ))}
+        </Swiper>
 
-      {/* Custom pagination container for dots */}
-      <div className="custom-pagination absolute bottom-4 w-full flex justify-center gap-2 z-10" />
+        {/* Custom pagination container for dots */}
+        <div className="custom-pagination absolute bottom-4 w-full flex justify-center gap-2 z-10" />
       </div>
 
       {/* Category Bar */}
@@ -526,7 +536,7 @@ export default function ProductsPage() {
                       ₹{price}
                       <span className="text-gray-400 line-through text-xs ml-1">
                         ₹{cutoffPrice}
-                      </span> 
+                      </span>
                       <span className="text-green-600 text-xs ml-2">
                         ({discount}% OFF)
                       </span>
