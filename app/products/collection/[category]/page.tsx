@@ -338,9 +338,9 @@ export default function ProductsPage() {
                   </div>
 
                   <div
-                    className={`flex items-center gap-2 mt-2 ${
+                    className={`flex flex-col items-center gap-2 mt-2 ${
                       isHorizontal
-                        ? "md:w-1/2 flex-col justify-start"
+                        ? "md:w-1/2"
                         : "flex-row"
                     }`}
                   >
@@ -351,13 +351,13 @@ export default function ProductsPage() {
                       }
                     >
                       <SelectTrigger
-                        className={`h-10 text-sm ${
-                          isHorizontal ? "w-full" : "w-24"
+                        className={`h-10 w-full text-sm ${
+                          isHorizontal ? "w-full" : "w-full"
                         }`}
                       >
                         <SelectValue placeholder="Select" />
                       </SelectTrigger>
-                      <SelectContent>
+                      <SelectContent className="w-full">
                         {product.variants.map((variant: any, index: number) => (
                           <SelectItem key={index} value={index.toString()}>
                             {variant.display}
