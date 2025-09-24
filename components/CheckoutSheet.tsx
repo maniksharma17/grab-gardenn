@@ -219,7 +219,7 @@ export const CheckoutSheet = ({
       if (!token || !user?._id) return;
       try {
         const res = await axios.get(
-          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/cart/${user._id}`,
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/cart`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }
