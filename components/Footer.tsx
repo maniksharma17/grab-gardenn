@@ -47,13 +47,15 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 text-gray-700">
           {/* Brand Info */}
           <div>
-            <Image
-              src="/grab-gardenn-logo.png"
-              alt="Organic Haven Logo"
-              width={100}
-              height={100}
-              className="mb-4"
-            />
+            <Link href="/">
+          <Image
+            src="/new-logo.png"
+            alt="Grab Gardenn"
+            width={200}
+            height={100}
+            className="object-contain max-md:h-6 max-md:w-auto max-md:ml-2"
+          />
+        </Link>
             <p className="mt-2 text-sm">
               Fresh, natural, and eco-friendly products delivered with love.  
             </p>
