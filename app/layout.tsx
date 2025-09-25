@@ -18,6 +18,28 @@ export const metadata: Metadata = {
   icons: {
     icon: '/logo.jpeg',
   },
+  openGraph: {
+    title: 'GrabGardenn - Live Now!',
+    description: 'Healthy & Natural Foods',
+    url: 'https://grabgardenn.com',
+    siteName: 'GrabGardenn',
+    images: [
+      {
+        url: 'https://grabgardenn.com/logo.jpeg',
+        width: 1200,
+        height: 630,
+        alt: 'GrabGardenn Logo',
+      },
+    ],
+    locale: 'en_US',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'GrabGardenn - Live Now!',
+    description: 'Healthy & Natural Foods',
+    images: ['https://grabgardenn.com/logo.jpeg'],
+  },
 };
 
 export default function RootLayout({
