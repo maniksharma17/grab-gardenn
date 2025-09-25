@@ -108,7 +108,7 @@ export default function ProductsPage() {
   useEffect(() => {
     const fetchCategoryData = async () => {
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/categories/${category}`
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/categories/${decodeURI(category)}`
       );
       const data = await res.json();
       setCategoryData(data.category[0]);
