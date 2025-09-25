@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     siteName: 'GrabGardenn',
     images: [
       {
-        url: 'https://grabgardenn.com/logo.jpeg',
+        url: 'https://grabgardenn.com/new-logo.png',
         width: 1200,
         height: 630,
         alt: 'GrabGardenn Logo',
@@ -38,7 +38,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'GrabGardenn - Live Now!',
     description: 'Healthy & Natural Foods',
-    images: ['https://grabgardenn.com/logo.jpeg'],
+    images: ['https://grabgardenn.com/new-logo.png',],
   },
 };
 
