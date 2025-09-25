@@ -99,7 +99,7 @@ export default function ProductsPage() {
   };
 
   const toTitleCase = (str: string) =>
-  str
+  decodeURIComponent(str)
     .split(" ")
     .map(word =>
       word.length > 0 ? word[0].toUpperCase() + word.slice(1).toLowerCase() : ""
