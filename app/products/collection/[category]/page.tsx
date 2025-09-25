@@ -98,9 +98,15 @@ export default function ProductsPage() {
     }
   };
 
-  const capitalize = (str: string) =>
-    str.charAt(0).toUpperCase() + str.slice(1);
-  const category = capitalize(params.category as string);
+  const toTitleCase = (str: string) =>
+  str
+    .split(" ")
+    .map(word =>
+      word.length > 0 ? word[0].toUpperCase() + word.slice(1).toLowerCase() : ""
+    )
+    .join(" ");
+
+  const category = toTitleCase(params.category as string);
 
   const [categoryData, setCategoryData] = useState<any>(null);
   const setCartRefresh = useSetRecoilState(cartRefreshState);
