@@ -377,7 +377,7 @@ export default function ProductsPage() {
         <div className="flex md:justify-center py-2 gap-2 max-md:gap-0 overflow-x-scroll relative">
           {categories.map((category) => (
             <Link
-              href={`products/collection/${category.name.toLowerCase()}`}
+              href={`products/collection/${encodeURI(category.name.toLowerCase())}`}
               key={category.name}
               className="flex flex-col items-center group px-2"
             >
