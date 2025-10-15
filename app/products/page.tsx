@@ -534,12 +534,12 @@ export default function ProductsPage() {
                       }`}
                     >
                       ₹{price}
-                      <span className="text-gray-400 line-through text-xs ml-1">
+                      {price!=cutoffPrice && <span className="text-gray-400 line-through text-xs ml-1">
                         ₹{cutoffPrice}
-                      </span>
-                      <span className="text-green-600 text-xs ml-2">
+                      </span>}
+                      {discount>0 && <span className="text-green-600 text-xs ml-2">
                         ({discount}% OFF)
-                      </span>
+                      </span>}
                     </div>
                   </div>
 
