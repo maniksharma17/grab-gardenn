@@ -77,89 +77,177 @@ export default async function Home() {
 
       {/* Certifications Section */}
       <Certifications />
+
+      <DiscountBox open={true} setOpen={function (x: boolean): void {
+        throw new Error("Function not implemented.");
+      } } />
+      <DiscountBoxMobile open={true} setOpen={function (x: boolean): void {
+        throw new Error("Function not implemented.");
+      } } />
     </div>
   );
 }
 
 
-// import {
-//   Dialog,
-//   DialogContent,
-//   DialogDescription,
-//   DialogHeader,
-//   DialogTitle,
-// } from "@/components/ui/dialog";
 
-// const DiscountBox = ({
-//   open,
-//   setOpen,
-// }: {
-//   open: boolean;
-//   setOpen: (x: boolean) => void;
-// }) => {
-//   const { toast } = useToast();
-//   return (
-//     <Dialog open={open} onOpenChange={setOpen}>
-//       <DialogContent className="sm:max-w-[425px]">
-//         <DialogHeader>
-//           <DialogTitle>CONGRATULATIONS 🎉</DialogTitle>
-//           <DialogDescription>
-//             We are offering an extra 5% OFF for this summer. ORDER NOW with
-//             promo code <strong>LAUNCH5</strong>.
-//           </DialogDescription>
-//         </DialogHeader>
-//         <Button
-//           variant={"outline"}
-//           onClick={() => {
-//             window.navigator.clipboard.writeText("LAUNCH5");
-//             toast({ title: "Copied.", description: "LAUNCH5" });
-//             setOpen(false);
-//           }}
-//         >
-//           COPY LAUNCH5
-//         </Button>
-//       </DialogContent>
-//     </Dialog>
-//   );
-// };
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
-// import {
-//   Drawer,
-//   DrawerContent,
-//   DrawerDescription,
-//   DrawerHeader,
-// } from "@/components/ui/drawer";
-// import { useToast } from "@/hooks/use-toast";
+export const DiscountBox = ({
+  open,
+  setOpen,
+}: {
+  open: boolean;
+  setOpen: (x: boolean) => void;
+}) => {
+  const { toast } = useToast();
 
-// const DiscountBoxMobile = ({
-//   open,
-//   setOpen,
-// }: {
-//   open: boolean;
-//   setOpen: (x: boolean) => void;
-// }) => {
-//   const { toast } = useToast();
-//   return (
-//     <Drawer open={open} onOpenChange={setOpen}>
-//       <DrawerContent className="">
-//         <DrawerHeader>
-//           <DrawerHeader>CONGRATULATIONS 🎉</DrawerHeader>
-//           <DrawerDescription>
-//             We are offering an extra 5% OFF for this summer. ORDER NOW with
-//             promo code <strong>LAUNCH5</strong>.
-//           </DrawerDescription>
-//         </DrawerHeader>
-//         <Button
-//           variant={"outline"}
-//           onClick={() => {
-//             window.navigator.clipboard.writeText("LAUNCH5");
-//             toast({ title: "Copied.", description: "LAUNCH5" });
-//             setOpen(false);
-//           }}
-//         >
-//           COPY LAUNCH5
-//         </Button>
-//       </DrawerContent>
-//     </Drawer>
-//   );
-// };
+  const copyCode = (code: string) => {
+    navigator.clipboard.writeText(code);
+    toast({
+      title: "Copied 🎉",
+      description: `${code} copied to clipboard`,
+    });
+    setOpen(false);
+  };
+
+  return (
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogContent className="sm:max-w-[450px]">
+        <DialogHeader>
+          <DialogTitle className="text-xl">
+            🎄 CHRISTMAS MEGA SALE 🎄
+          </DialogTitle>
+          <DialogDescription className="space-y-3 text-sm">
+            <p>
+              Celebrate Christmas with pure, natural & healthy goodness 🌿
+            </p>
+
+            <div className="bg-green-50 border border-green-200 rounded-md p-3">
+              <p className="font-semibold text-green-800">
+                🎁 Offer 1
+              </p>
+              <p>
+                <strong>CHRISTMAS3</strong> — Buy any <strong>3 products</strong>{" "}
+                for just <strong>₹599</strong>
+              </p>
+            </div>
+
+            <div className="bg-green-50 border border-green-200 rounded-md p-3">
+              <p className="font-semibold text-green-800">
+                🎁 Offer 2
+              </p>
+              <p>
+                <strong>CHRISTMAS4</strong> — Buy any <strong>4 products</strong>{" "}
+                for just <strong>₹699</strong>
+              </p>
+            </div>
+
+            <p className="text-xs text-muted-foreground">
+              Valid on selected products only · Limited-time Christmas offer
+            </p>
+          </DialogDescription>
+        </DialogHeader>
+
+        <div className="flex gap-3 mt-2">
+          <Button
+            variant="outline"
+            className="w-full"
+            onClick={() => copyCode("CHRISTMAS3")}
+          >
+            COPY CHRISTMAS3
+          </Button>
+          <Button
+            variant="outline"
+            className="w-full"
+            onClick={() => copyCode("CHRISTMAS4")}
+          >
+            COPY CHRISTMAS4
+          </Button>
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
+};
+
+
+import {
+  Drawer,
+  DrawerContent,
+  DrawerDescription,
+  DrawerHeader,
+  DrawerTitle,
+} from "@/components/ui/drawer";
+import { useToast } from "@/hooks/use-toast";
+
+export const DiscountBoxMobile = ({
+  open,
+  setOpen,
+}: {
+  open: boolean;
+  setOpen: (x: boolean) => void;
+}) => {
+  const { toast } = useToast();
+
+  const copyCode = (code: string) => {
+    navigator.clipboard.writeText(code);
+    toast({
+      title: "Copied 🎉",
+      description: `${code} copied to clipboard`,
+    });
+    setOpen(false);
+  };
+
+  return (
+    <Drawer open={open} onOpenChange={setOpen}>
+      <DrawerContent className="p-4">
+        <DrawerHeader>
+          <DrawerTitle>🎄 CHRISTMAS MEGA SALE 🎄</DrawerTitle>
+          <DrawerDescription className="space-y-3 text-sm">
+            <p>
+              Stock up on healthy goodness this Christmas 🌿
+            </p>
+
+            <div className="bg-green-50 border border-green-200 rounded-md p-3">
+              <p className="font-semibold text-green-800">
+                🎁 CHRISTMAS3
+              </p>
+              <p>Buy any 3 products for ₹599</p>
+            </div>
+
+            <div className="bg-green-50 border border-green-200 rounded-md p-3">
+              <p className="font-semibold text-green-800">
+                🎁 CHRISTMAS4
+              </p>
+              <p>Buy any 4 products for ₹699</p>
+            </div>
+
+            <p className="text-xs text-muted-foreground">
+              Limited-time Christmas offer
+            </p>
+          </DrawerDescription>
+        </DrawerHeader>
+
+        <div className="flex flex-col gap-2">
+          <Button
+            variant="outline"
+            onClick={() => copyCode("CHRISTMAS3")}
+          >
+            COPY CHRISTMAS3
+          </Button>
+          <Button
+            variant="outline"
+            onClick={() => copyCode("CHRISTMAS4")}
+          >
+            COPY CHRISTMAS4
+          </Button>
+        </div>
+      </DrawerContent>
+    </Drawer>
+  );
+};
