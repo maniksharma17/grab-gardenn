@@ -20,6 +20,18 @@ import {
   DrawerTitle,
 } from "@/components/ui/drawer";
 
+const ELIGIBLE_PRODUCTS = [
+  "Chamomile Tea",
+  "Herbal Tea",
+  "Tea Masala",
+  "Blue Pea Tea",
+  "Moringa Powder",
+  "Finger Millet",
+  "Hand Grounded Salt",
+  "Litchi Honey",
+  "Sundarban Honey",
+];
+
 /**
  * Client-only entry for Christmas discount UI
  * Handles both desktop (Dialog) and mobile (Drawer)
@@ -50,7 +62,14 @@ export default function ChristmasDiscountEntry() {
     <>
       {/* -------------------- DESKTOP (Dialog) -------------------- */}
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="hidden md:block sm:max-w-[450px]">
+        <DialogContent
+          className="
+    hidden md:block sm:max-w-[450px]
+    bg-white
+    shadow-xl
+    data-[state=open]:animate-in
+  "
+        >
           <DialogHeader>
             <DialogTitle className="text-xl">
               🎄 CHRISTMAS MEGA SALE 🎄
@@ -61,10 +80,25 @@ export default function ChristmasDiscountEntry() {
                 Celebrate Christmas with pure, natural & healthy goodness 🌿
               </p>
 
-              <div className="bg-green-50 border border-green-200 rounded-md p-3">
-                <p className="font-semibold text-green-800">
-                  🎁 CHRISTMAS3
+              {/* Eligible products */}
+              <div>
+                <p className="text-xs font-semibold text-gray-700 mb-2">
+                  Eligible Products
                 </p>
+                <div className="flex flex-wrap gap-2">
+                  {ELIGIBLE_PRODUCTS.map((product) => (
+                    <span
+                      key={product}
+                      className="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-700 border"
+                    >
+                      {product}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              <div className="bg-green-50 border border-green-200 rounded-md p-3">
+                <p className="font-semibold text-green-800">🎁 CHRISTMAS3</p>
                 <p>
                   Buy any <strong>3 products</strong> for just{" "}
                   <strong>₹599</strong>
@@ -72,9 +106,7 @@ export default function ChristmasDiscountEntry() {
               </div>
 
               <div className="bg-green-50 border border-green-200 rounded-md p-3">
-                <p className="font-semibold text-green-800">
-                  🎁 CHRISTMAS4
-                </p>
+                <p className="font-semibold text-green-800">🎁 CHRISTMAS4</p>
                 <p>
                   Buy any <strong>4 products</strong> for just{" "}
                   <strong>₹699</strong>
@@ -114,17 +146,31 @@ export default function ChristmasDiscountEntry() {
             <DrawerDescription className="space-y-3 text-sm">
               <p>Stock up on healthy goodness this Christmas 🌿</p>
 
+              {/* Eligible products */}
+<div>
+  <p className="text-xs font-semibold text-gray-700 mb-2">
+    Eligible Products
+  </p>
+  <div className="flex flex-wrap gap-2">
+    {ELIGIBLE_PRODUCTS.map((product) => (
+      <span
+        key={product}
+        className="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-700 border"
+      >
+        {product}
+      </span>
+    ))}
+  </div>
+</div>
+
+
               <div className="bg-green-50 border border-green-200 rounded-md p-3">
-                <p className="font-semibold text-green-800">
-                  CHRISTMAS3
-                </p>
+                <p className="font-semibold text-green-800">CHRISTMAS3</p>
                 <p>Buy any 3 products for ₹599</p>
               </div>
 
               <div className="bg-green-50 border border-green-200 rounded-md p-3">
-                <p className="font-semibold text-green-800">
-                  CHRISTMAS4
-                </p>
+                <p className="font-semibold text-green-800">CHRISTMAS4</p>
                 <p>Buy any 4 products for ₹699</p>
               </div>
 
@@ -135,16 +181,10 @@ export default function ChristmasDiscountEntry() {
           </DrawerHeader>
 
           <div className="flex flex-col gap-2">
-            <Button
-              variant="outline"
-              onClick={() => copyCode("CHRISTMAS3")}
-            >
+            <Button variant="outline" onClick={() => copyCode("CHRISTMAS3")}>
               COPY CHRISTMAS3
             </Button>
-            <Button
-              variant="outline"
-              onClick={() => copyCode("CHRISTMAS4")}
-            >
+            <Button variant="outline" onClick={() => copyCode("CHRISTMAS4")}>
               COPY CHRISTMAS4
             </Button>
           </div>

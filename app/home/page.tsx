@@ -1,4 +1,3 @@
-// app/page.tsx (SERVER COMPONENT)
 
 import { Navbar } from "@/components/Navbar";
 import { ScrollingBanner } from "@/components/ScrollingBanner";
@@ -52,7 +51,7 @@ export default async function Home() {
       <HomeInstagramSection />
       <Certifications />
 
-      {/* 🎄 Client-side promo UI */}
+      {/* Client-side promo UI */}
       <ChristmasDiscountEntry />
     </div>
   );
