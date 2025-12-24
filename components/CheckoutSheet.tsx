@@ -191,7 +191,7 @@ export const CheckoutSheet = ({
         {
           code: promoCode,
           total: subtotal,
-          itemCount,        // 👈 NEW
+          itemCount,        
           userId: user._id,
         },
         {
