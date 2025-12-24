@@ -67,6 +67,7 @@ export default function ChristmasDiscountEntry() {
     bg-white
     shadow-xl
     data-[state=open]:animate-in
+    z-[999]
   "
         >
           <DialogHeader>
