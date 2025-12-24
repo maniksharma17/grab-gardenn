@@ -163,58 +163,77 @@ export const CheckoutSheet = ({
 
 
   const removePromoCode = () => {
-    setPromoCode("");
+  setPromoCode("");
+  setPromoName("");
+  setDiscount(0);
 
-    setFinalAmount(prev => prev + discount);
-    setDiscount(0);
-  }
+  const base =
+    subtotal >= 1000
+      ? subtotal
+      : subtotal + discountedDeliveryRate;
+
+  setFinalAmount(base);
+};
+
+
+  const itemCount = cartItems.reduce(
+  (sum, item) => sum + item.quantity,
+  0
+);
 
   useEffect(() => {
-    const reapplyPromo = async () => {
-      if (!promoCode) return;
+  const reapplyPromo = async () => {
+    if (!promoCode) return;
 
-      try {
-        const res = await axios.post(
-          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/promo-code/apply`,
-          {
-            code: promoCode,
-            total: subtotal,
-            userId: user._id,
+    try {
+      const res = await axios.post(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/promo-code/apply`,
+        {
+          code: promoCode,
+          total: subtotal,
+          itemCount,        // 👈 NEW
+          userId: user._id,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
           },
-          {
-            headers: {
-              Authorization: `Bearer ${user.token}`,
-            },
-          }
-        );
-
-        if(res.data.error) {
-          setPromoError(res.data.error);
-          setDiscount(0);
-          return;
         }
+      );
 
-        setDiscount(res.data.discountAmount);
-        setPromoName(res.data.code);
+      const { discountAmount, code } = res.data;
 
-        const amount = Math.max(subtotal - res.data.discountAmount, 0);
-        const final =
-          subtotal >= 1000 ? amount : amount + discountedDeliveryRate;
-        setFinalAmount(final);
+      setDiscount(discountAmount);
+      setPromoName(code);
 
-        setPromoError("");
-      } catch (error) {
-        console.log("Promo reapply error", error);
-        setDiscount(0);
-        const message =
-          (error as any)?.response?.data?.error ||
-          (error instanceof Error ? error.message : "Something went wrong");
-        setPromoError(message);
-      }
-    };
+      const discountedSubtotal = Math.max(subtotal - discountAmount, 0);
+      const final =
+        subtotal >= 1000
+          ? discountedSubtotal
+          : discountedSubtotal + discountedDeliveryRate;
 
-    reapplyPromo();
-  }, [subtotal, promoCode, discountedDeliveryRate, user]);
+      setFinalAmount(final);
+      setPromoError("");
+    } catch (error: any) {
+      setDiscount(0);
+
+      const message =
+        error?.response?.data?.error ||
+        "Failed to apply promo code";
+
+      setPromoError(message);
+    }
+  };
+
+  reapplyPromo();
+}, [
+  promoCode,
+  subtotal,
+  itemCount,
+  discountedDeliveryRate,
+  user,
+]);
+
 
   useEffect(() => {
     const fetchCart = async () => {
@@ -415,10 +434,15 @@ export const CheckoutSheet = ({
       }
     };
 
+    
+
     if (newAddress.zipCode.length === 6) {
       fetchLocation();
     }
   }, [newAddress.zipCode, toast]);
+
+  
+
 
   return (
     <Sheet open={open||checkoutOpen} onOpenChange={setOpen}>
@@ -560,7 +584,6 @@ export const CheckoutSheet = ({
             setPromoCode={setPromoCode}
             promoCode={promoCode}
             removePromoCode={removePromoCode}
-            promoError={promoError}
           />
 
           {promoError && (
@@ -752,59 +775,75 @@ export const CheckoutSheet = ({
   );
 };
 
-function PromoCodeSection({ promoCodes, promoCode, setPromoCode, setFinalPromoCode, removePromoCode, promoError }: any) {
-  const [showCoupons, setShowCoupons] = useState(true)
-
-  const handleApply = (code: string) => {
-    setPromoCode(code)
-    setFinalPromoCode(code)
-  }
-
+function PromoCodeSection({
+  promoCodes,
+  promoCode,
+  setPromoCode,
+  removePromoCode,
+}: {
+  promoCodes: any[];
+  promoCode: string;
+  setPromoCode: (code: string) => void;
+  removePromoCode: () => void;
+}) {
   return (
     <div className="w-full space-y-4">
+      <div className="grid grid-cols-1 gap-4">
+        {promoCodes.map((item) => {
+          const isApplied = promoCode === item.code;
 
-      {showCoupons && (
-        <div className="grid grid-cols-1 gap-4">
-          {promoCodes.map((item: any) => {
-            const isApplied = promoCode === item.code
+          return (
+            <Card
+              key={item._id}
+              className={`border ${
+                isApplied
+                  ? "border-green-400 bg-green-50"
+                  : "border-gray-300"
+              }`}
+            >
+              <CardContent className="py-4 px-5 flex justify-between items-start">
+                <div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm font-semibold">
+                      {item.code}
+                    </span>
 
-            return (
-              <Card key={item._id} className="border border-gray-300 shadow-sm">
-                <CardContent className="py-4 px-5 flex justify-between items-start">
-                  <div>
-                    <div className="flex items-center gap-2">
-                      <span className="text-sm font-semibold">{item.code}</span>
-                      {isApplied && promoError=="" && (
-                        <Badge variant="outline" className="text-green-600 border-green-600 flex items-center gap-1">
-                          <CheckCircle2 size={14} />
-                          Applied
-                        </Badge>
-                      )}
-                    </div>
-                    <p className="text-xs text-gray-500 mt-1">{item.description}</p>
-                  </div>
-
-                  <div className="ml-4 mt-1">
-                    {isApplied ? (
-                      <MinusCircle
-                        size={20}
-                        className="text-red-500 cursor-pointer hover:opacity-80"
-                        onClick={removePromoCode}
-                      />
-                    ) : (
-                      <PlusCircle
-                        size={20}
-                        className="text-primary cursor-pointer hover:opacity-80"
-                        onClick={() => handleApply(item.code)}
-                      />
+                    {isApplied && (
+                      <Badge
+                        variant="outline"
+                        className="text-green-600 border-green-600 flex items-center gap-1"
+                      >
+                        <CheckCircle2 size={14} />
+                        Applied
+                      </Badge>
                     )}
                   </div>
-                </CardContent>
-              </Card>
-            )
-          })}
-        </div>
-      )}
+
+                  <p className="text-xs text-gray-500 mt-1">
+                    {item.description}
+                  </p>
+                </div>
+
+                <div className="ml-4 mt-1">
+                  {isApplied ? (
+                    <MinusCircle
+                      size={20}
+                      className="text-red-500 cursor-pointer"
+                      onClick={removePromoCode}
+                    />
+                  ) : (
+                    <PlusCircle
+                      size={20}
+                      className="text-primary cursor-pointer"
+                      onClick={() => setPromoCode(item.code)}
+                    />
+                  )}
+                </div>
+              </CardContent>
+            </Card>
+          );
+        })}
+      </div>
     </div>
-  )
+  );
 }
