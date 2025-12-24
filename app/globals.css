@@ -125,6 +125,7 @@
   transform: scale(1.2);
 }
 
+/* Soften dialog overlay – keep page visible */
 [data-radix-dialog-overlay] {
-  background-color: rgba(0, 0, 0, 0.25); /* was ~0.8 */
+  background-color: transparent;
 }

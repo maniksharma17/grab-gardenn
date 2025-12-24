@@ -52,8 +52,7 @@ export default function ChristmasDiscountEntry() {
   const copyCode = (code: string) => {
     navigator.clipboard.writeText(code);
     toast({
-      title: "Copied 🎉",
-      description: `${code} copied to clipboard`,
+      title: `${code} Copied`,
     });
     setOpen(false);
   };
@@ -147,22 +146,21 @@ export default function ChristmasDiscountEntry() {
               <p>Stock up on healthy goodness this Christmas 🌿</p>
 
               {/* Eligible products */}
-<div>
-  <p className="text-xs font-semibold text-gray-700 mb-2">
-    Eligible Products
-  </p>
-  <div className="flex flex-wrap gap-2">
-    {ELIGIBLE_PRODUCTS.map((product) => (
-      <span
-        key={product}
-        className="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-700 border"
-      >
-        {product}
-      </span>
-    ))}
-  </div>
-</div>
-
+              <div>
+                <p className="text-xs font-semibold text-gray-700 mb-2">
+                  Eligible Products
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  {ELIGIBLE_PRODUCTS.map((product) => (
+                    <span
+                      key={product}
+                      className="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-700 border"
+                    >
+                      {product}
+                    </span>
+                  ))}
+                </div>
+              </div>
 
               <div className="bg-green-50 border border-green-200 rounded-md p-3">
                 <p className="font-semibold text-green-800">CHRISTMAS3</p>
