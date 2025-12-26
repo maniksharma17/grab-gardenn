@@ -52,7 +52,6 @@ export default async function Home() {
       <Certifications />
 
       {/* Client-side promo UI */}
-      <ChristmasDiscountEntry />
     </div>
   );
 }
